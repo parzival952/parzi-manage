@@ -7,9 +7,12 @@ import { redirect } from "next/navigation";
 const SUPABASE_URL = process.env.SUPABASE_URL;
 const ANON_KEY = process.env.SUPABASE_ANON_KEY;
 
-export const authEnabled = () => Boolean(SUPABASE_URL && ANON_KEY && process.env.DATABASE_URL);
+export const authEnabled = () => Boolean(SUPABASE_URL && ANON_KEY);
 
 export type SessionUser = { id: string; email: string };
+
+// UUID valide pour le mode démo (sans auth configurée) — compatible colonnes uuid Postgres.
+const DEMO_USER: SessionUser = { id: "00000000-0000-0000-0000-000000000000", email: "demo@parzi.local" };
 
 type AuthTokens = { access_token: string; refresh_token: string; user?: { id: string; email: string } };
 
@@ -57,27 +60,32 @@ async function storeSession(t: AuthTokens) {
 
 /** Utilisateur courant, ou null. Rafraîchit la session si le token a expiré. */
 export async function getUser(): Promise<SessionUser | null> {
-  if (!authEnabled()) return { id: "demo", email: "demo@parzi.local" };
-  const jar = await cookies();
-  const at = jar.get("pm_at")?.value;
-  if (at) {
-    const r = await fetch(`${AUTH()}/user`, { headers: { ...headers(), Authorization: `Bearer ${at}` } });
-    if (r.ok) {
-      const j = await r.json();
-      return { id: j.id, email: j.email };
+  if (!authEnabled()) return DEMO_USER;
+  try {
+    const jar = await cookies();
+    const at = jar.get("pm_at")?.value;
+    if (at) {
+      const r = await fetch(`${AUTH()}/user`, { headers: { ...headers(), Authorization: `Bearer ${at}` } });
+      if (r.ok) {
+        const j = await r.json();
+        return { id: j.id, email: j.email };
+      }
     }
+    // access token absent/expiré → tentative de refresh
+    const rt = jar.get("pm_rt")?.value;
+    if (!rt) return null;
+    const r = await fetch(`${AUTH()}/token?grant_type=refresh_token`, {
+      method: "POST", headers: headers(),
+      body: JSON.stringify({ refresh_token: rt }),
+    });
+    if (!r.ok) return null;
+    const j = (await r.json()) as AuthTokens;
+    await storeSession(j);
+    return j.user ? { id: j.user.id, email: j.user.email } : null;
+  } catch {
+    // Auth injoignable → considéré comme non connecté plutôt que page en erreur
+    return null;
   }
-  // access token absent/expiré → tentative de refresh
-  const rt = jar.get("pm_rt")?.value;
-  if (!rt) return null;
-  const r = await fetch(`${AUTH()}/token?grant_type=refresh_token`, {
-    method: "POST", headers: headers(),
-    body: JSON.stringify({ refresh_token: rt }),
-  });
-  if (!r.ok) return null;
-  const j = (await r.json()) as AuthTokens;
-  await storeSession(j);
-  return j.user ? { id: j.user.id, email: j.user.email } : null;
 }
 
 /** À appeler en tête de chaque page protégée. */
