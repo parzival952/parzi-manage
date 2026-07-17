@@ -14,6 +14,8 @@ export default async function ConnexionPage({ searchParams }: { searchParams: Pr
     "use server";
     const res = await signIn(String(formData.get("email")), String(formData.get("password")));
     if (!res.ok) redirect(`/connexion?erreur=${encodeURIComponent(res.error)}`);
+    const u = await getUser();
+    if (u) await ensureSeeded(u.id); // portefeuille démo aussi pour les comptes confirmés par e-mail
     redirect("/dashboard");
   }
 
