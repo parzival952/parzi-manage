@@ -1,13 +1,19 @@
 import Link from "next/link";
 import { redirect } from "next/navigation";
 import { revalidatePath } from "next/cache";
+import { requireUser } from "@/lib/auth";
 import { createPlayer } from "@/lib/queries";
 import { PlayerFields, playerFromForm } from "@/components/PlayerFields";
 
-export default function NouveauJoueurPage() {
+export const dynamic = "force-dynamic";
+
+export default async function NouveauJoueurPage() {
+  await requireUser();
+
   async function create(formData: FormData) {
     "use server";
-    await createPlayer(playerFromForm(formData));
+    const u = await requireUser();
+    await createPlayer(u.id, playerFromForm(formData));
     revalidatePath("/joueurs");
     revalidatePath("/dashboard");
     redirect("/joueurs");

@@ -1,10 +1,12 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import { requireUser } from "@/lib/auth";
 import { getPlayer } from "@/lib/queries";
 
 export default async function JoueurPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
-  const p = await getPlayer(Number(id));
+  const user = await requireUser();
+  const p = await getPlayer(user.id, Number(id));
   if (!p) notFound();
 
   const rows: [string, string][] = [

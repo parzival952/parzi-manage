@@ -1,5 +1,6 @@
 export const dynamic = "force-dynamic";
 import Link from "next/link";
+import { requireUser } from "@/lib/auth";
 import { getPlayers } from "@/lib/queries";
 
 const pill: Record<string, string> = {
@@ -9,7 +10,8 @@ const pill: Record<string, string> = {
 };
 
 export default async function JoueursPage() {
-  const players = await getPlayers();
+  const user = await requireUser();
+  const players = await getPlayers(user.id);
   return (
     <div>
       <div className="flex items-start justify-between">

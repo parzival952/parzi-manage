@@ -1,5 +1,6 @@
 export const dynamic = "force-dynamic";
 import { revalidatePath } from "next/cache";
+import { requireUser } from "@/lib/auth";
 import { createTask, getAlerts, getEvents, getKpis, getOpportunities, getTasks, toggleTask } from "@/lib/queries";
 
 const sevColor: Record<string, string> = {
@@ -16,27 +17,30 @@ const sevLabel: Record<string, string> = {
 };
 
 export default async function DashboardPage() {
+  const user = await requireUser();
   const [kpis, alerts, tasks, events, opps] = await Promise.all([
-    getKpis(), getAlerts(), getTasks(), getEvents(), getOpportunities(),
+    getKpis(user.id), getAlerts(user.id), getTasks(user.id), getEvents(user.id), getOpportunities(user.id),
   ]);
 
   async function toggle(formData: FormData) {
     "use server";
-    await toggleTask(Number(formData.get("id")));
+    const u = await requireUser();
+    await toggleTask(u.id, Number(formData.get("id")));
     revalidatePath("/dashboard");
   }
 
   async function addTask(formData: FormData) {
     "use server";
+    const u = await requireUser();
     const title = String(formData.get("title") ?? "").trim();
     if (!title) return;
-    await createTask(title, String(formData.get("due") ?? "").trim() || "—");
+    await createTask(u.id, title, String(formData.get("due") ?? "").trim() || "—");
     revalidatePath("/dashboard");
   }
 
   return (
     <div>
-      <h1 className="text-xl font-bold">Bonjour Alex 👋</h1>
+      <h1 className="text-xl font-bold">Bonjour 👋</h1>
       <p className="text-sm text-[#898781] mb-6">
         {new Date().toLocaleDateString("fr-FR", { weekday: "long", day: "numeric", month: "long", year: "numeric" })}
       </p>

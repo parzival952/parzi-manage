@@ -1,18 +1,21 @@
 import Link from "next/link";
 import { notFound, redirect } from "next/navigation";
 import { revalidatePath } from "next/cache";
+import { requireUser } from "@/lib/auth";
 import { getPlayer, updatePlayer, deletePlayer } from "@/lib/queries";
 import { PlayerFields, playerFromForm } from "@/components/PlayerFields";
 
 export default async function ModifierJoueurPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
   const playerId = Number(id);
-  const p = await getPlayer(playerId);
+  const user = await requireUser();
+  const p = await getPlayer(user.id, playerId);
   if (!p) notFound();
 
   async function update(formData: FormData) {
     "use server";
-    await updatePlayer(playerId, playerFromForm(formData));
+    const u = await requireUser();
+    await updatePlayer(u.id, playerId, playerFromForm(formData));
     revalidatePath("/joueurs");
     revalidatePath(`/joueurs/${playerId}`);
     revalidatePath("/dashboard");
@@ -21,7 +24,8 @@ export default async function ModifierJoueurPage({ params }: { params: Promise<{
 
   async function remove() {
     "use server";
-    await deletePlayer(playerId);
+    const u = await requireUser();
+    await deletePlayer(u.id, playerId);
     revalidatePath("/joueurs");
     revalidatePath("/dashboard");
     redirect("/joueurs");

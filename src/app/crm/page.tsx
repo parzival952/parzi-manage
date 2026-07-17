@@ -1,15 +1,18 @@
 export const dynamic = "force-dynamic";
 import { revalidatePath } from "next/cache";
+import { requireUser } from "@/lib/auth";
 import { createContact, getContacts } from "@/lib/queries";
 
 export default async function CrmPage() {
-  const contacts = await getContacts();
+  const user = await requireUser();
+  const contacts = await getContacts(user.id);
 
   async function addContact(formData: FormData) {
     "use server";
+    const u = await requireUser();
     const s = (k: string) => String(formData.get(k) ?? "").trim();
     if (!s("name")) return;
-    await createContact({ name: s("name"), role: s("role") || "—", org: s("org") || "—", last_exchange: s("last_exchange") || "Nouveau contact", next_step: s("next_step") || "—" });
+    await createContact(u.id, { name: s("name"), role: s("role") || "—", org: s("org") || "—", last_exchange: s("last_exchange") || "Nouveau contact", next_step: s("next_step") || "—" });
     revalidatePath("/crm");
   }
   return (

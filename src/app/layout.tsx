@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { redirect } from "next/navigation";
+import { getUser, signOut } from "@/lib/auth";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -13,7 +15,15 @@ const nav = [
   { href: "/crm", label: "CRM", icon: "👥" },
 ];
 
-export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
+export default async function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
+  const user = await getUser();
+
+  async function logout() {
+    "use server";
+    await signOut();
+    redirect("/connexion");
+  }
+
   return (
     <html lang="fr" className="h-full antialiased">
       <body className="min-h-full flex bg-[#f9f9f7] text-[#0b0b0b]">
@@ -38,14 +48,22 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
               </Link>
             ))}
           </nav>
-          <div className="mt-auto pt-3 border-t border-white/10 flex items-center gap-2.5 px-2">
-            <div className="w-7 h-7 rounded-full bg-[#2a78d6] grid place-items-center text-white text-xs font-semibold">
-              A
-            </div>
-            <div>
-              <div className="text-xs font-semibold text-white">Alex Martin</div>
-              <div className="text-[10px] text-[#7c828a]">Compte démo</div>
-            </div>
+          <div className="mt-auto pt-3 border-t border-white/10 px-2">
+            {user ? (
+              <div className="flex items-center gap-2.5">
+                <div className="w-7 h-7 rounded-full bg-[#2a78d6] grid place-items-center text-white text-xs font-semibold shrink-0">
+                  {(user.email[0] ?? "A").toUpperCase()}
+                </div>
+                <div className="min-w-0">
+                  <div className="text-xs font-semibold text-white truncate">{user.email}</div>
+                  <form action={logout}>
+                    <button type="submit" className="text-[10px] text-[#7c828a] hover:text-white">Se déconnecter</button>
+                  </form>
+                </div>
+              </div>
+            ) : (
+              <Link href="/connexion" className="text-xs text-[#7c828a] hover:text-white">Se connecter</Link>
+            )}
           </div>
         </aside>
         <main className="flex-1 p-8 max-w-6xl">{children}</main>
