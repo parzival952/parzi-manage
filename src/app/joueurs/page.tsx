@@ -9,7 +9,7 @@ const pill: Record<string, string> = {
 };
 
 export default async function JoueursPage() {
-  const players = getPlayers();
+  const players = await getPlayers();
   return (
     <div>
       <h1 className="text-xl font-bold mb-1">Joueurs</h1>

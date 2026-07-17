@@ -16,15 +16,13 @@ const sevLabel: Record<string, string> = {
 };
 
 export default async function DashboardPage() {
-  const kpis = getKpis();
-  const alerts = getAlerts();
-  const tasks = getTasks();
-  const events = getEvents();
-  const opps = getOpportunities();
+  const [kpis, alerts, tasks, events, opps] = await Promise.all([
+    getKpis(), getAlerts(), getTasks(), getEvents(), getOpportunities(),
+  ]);
 
   async function toggle(formData: FormData) {
     "use server";
-    toggleTask(Number(formData.get("id")));
+    await toggleTask(Number(formData.get("id")));
     revalidatePath("/dashboard");
   }
 

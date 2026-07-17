@@ -2,7 +2,7 @@ export const dynamic = "force-dynamic";
 import { getContacts } from "@/lib/queries";
 
 export default async function CrmPage() {
-  const contacts = getContacts();
+  const contacts = await getContacts();
   return (
     <div>
       <h1 className="text-xl font-bold mb-1">CRM</h1>

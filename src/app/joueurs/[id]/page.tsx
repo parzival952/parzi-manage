@@ -4,7 +4,7 @@ import { getPlayer } from "@/lib/queries";
 
 export default async function JoueurPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
-  const p = getPlayer(Number(id));
+  const p = await getPlayer(Number(id));
   if (!p) notFound();
 
   const rows: [string, string][] = [
