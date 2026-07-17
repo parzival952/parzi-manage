@@ -12,7 +12,10 @@ export const metadata: Metadata = {
 const nav = [
   { href: "/dashboard", label: "Dashboard", icon: "◧" },
   { href: "/joueurs", label: "Joueurs", icon: "⚽" },
+  { href: "/clubs", label: "Clubs", icon: "🏟" },
+  { href: "/scouting", label: "Scouting", icon: "🔭" },
   { href: "/crm", label: "CRM", icon: "👥" },
+  { href: "/calendrier", label: "Calendrier", icon: "📅" },
 ];
 
 export default async function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {

@@ -137,6 +137,71 @@ export async function createContact(uid: string, c: Omit<Contact, "id">): Promis
     .run(c.name, c.role, c.org, c.last_exchange, c.next_step);
 }
 
+// ---------- Clubs ----------
+
+export type Club = { id: number; name: string; league: string; need: string; budget: string; contact_name: string; notes: string };
+
+export async function getClubs(uid: string): Promise<Club[]> {
+  if (usePostgres()) return (await pg()`SELECT * FROM clubs WHERE user_id = ${uid} ORDER BY name`) as unknown as Club[];
+  return db().prepare("SELECT * FROM clubs ORDER BY name").all() as Club[];
+}
+
+export async function createClub(uid: string, c: Omit<Club, "id">): Promise<void> {
+  if (usePostgres()) {
+    await pg()`INSERT INTO clubs (user_id, name, league, need, budget, contact_name, notes)
+      VALUES (${uid}, ${c.name}, ${c.league}, ${c.need}, ${c.budget}, ${c.contact_name}, ${c.notes})`;
+    return;
+  }
+  db().prepare("INSERT INTO clubs (name, league, need, budget, contact_name, notes) VALUES (?,?,?,?,?,?)")
+    .run(c.name, c.league, c.need, c.budget, c.contact_name, c.notes);
+}
+
+export async function deleteClub(uid: string, id: number): Promise<void> {
+  if (usePostgres()) { await pg()`DELETE FROM clubs WHERE id=${id} AND user_id=${uid}`; return; }
+  db().prepare("DELETE FROM clubs WHERE id=?").run(id);
+}
+
+// ---------- Scouting (cibles) ----------
+
+export type Prospect = { id: number; name: string; position: string; age: number; club: string; league: string; contract_end: string; note: string };
+
+export async function getProspects(uid: string): Promise<Prospect[]> {
+  if (usePostgres()) return (await pg()`SELECT * FROM prospects WHERE user_id = ${uid} ORDER BY name`) as unknown as Prospect[];
+  return db().prepare("SELECT * FROM prospects ORDER BY name").all() as Prospect[];
+}
+
+export async function createProspect(uid: string, p: Omit<Prospect, "id">): Promise<void> {
+  if (usePostgres()) {
+    await pg()`INSERT INTO prospects (user_id, name, position, age, club, league, contract_end, note)
+      VALUES (${uid}, ${p.name}, ${p.position}, ${p.age}, ${p.club}, ${p.league}, ${p.contract_end}, ${p.note})`;
+    return;
+  }
+  db().prepare("INSERT INTO prospects (name, position, age, club, league, contract_end, note) VALUES (?,?,?,?,?,?,?)")
+    .run(p.name, p.position, p.age, p.club, p.league, p.contract_end, p.note);
+}
+
+export async function deleteProspect(uid: string, id: number): Promise<void> {
+  if (usePostgres()) { await pg()`DELETE FROM prospects WHERE id=${id} AND user_id=${uid}`; return; }
+  db().prepare("DELETE FROM prospects WHERE id=?").run(id);
+}
+
+// ---------- Événements (calendrier) ----------
+
+export async function createEvent(uid: string, e: Omit<Event, "id">): Promise<void> {
+  if (usePostgres()) {
+    await pg()`INSERT INTO events (user_id, day_label, time_label, title, location)
+      VALUES (${uid}, ${e.day_label}, ${e.time_label}, ${e.title}, ${e.location})`;
+    return;
+  }
+  db().prepare("INSERT INTO events (day_label, time_label, title, location) VALUES (?,?,?,?)")
+    .run(e.day_label, e.time_label, e.title, e.location);
+}
+
+export async function deleteEvent(uid: string, id: number): Promise<void> {
+  if (usePostgres()) { await pg()`DELETE FROM events WHERE id=${id} AND user_id=${uid}`; return; }
+  db().prepare("DELETE FROM events WHERE id=?").run(id);
+}
+
 // ---------- Seed du portefeuille de démonstration pour un nouveau compte ----------
 
 export async function ensureSeeded(uid: string): Promise<void> {

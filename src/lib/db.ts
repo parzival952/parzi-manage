@@ -77,6 +77,27 @@ function migrate(d: DatabaseSync) {
     last_exchange TEXT NOT NULL DEFAULT '',
     next_step TEXT NOT NULL DEFAULT ''
   );
+  CREATE TABLE IF NOT EXISTS clubs (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    name TEXT NOT NULL,
+    league TEXT NOT NULL DEFAULT '',
+    need TEXT NOT NULL DEFAULT '',
+    budget TEXT NOT NULL DEFAULT '',
+    contact_name TEXT NOT NULL DEFAULT '',
+    notes TEXT NOT NULL DEFAULT '',
+    sport TEXT NOT NULL DEFAULT 'football'
+  );
+  CREATE TABLE IF NOT EXISTS prospects (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    name TEXT NOT NULL,
+    position TEXT NOT NULL DEFAULT '',
+    age INTEGER NOT NULL DEFAULT 18,
+    club TEXT NOT NULL DEFAULT '',
+    league TEXT NOT NULL DEFAULT '',
+    contract_end TEXT NOT NULL DEFAULT '',
+    note TEXT NOT NULL DEFAULT '',
+    sport TEXT NOT NULL DEFAULT 'football'
+  );
   `);
 }
 
