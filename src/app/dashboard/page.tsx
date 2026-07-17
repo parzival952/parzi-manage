@@ -1,6 +1,8 @@
 export const dynamic = "force-dynamic";
 import { revalidatePath } from "next/cache";
+import Link from "next/link";
 import { requireUser } from "@/lib/auth";
+import { aiEnabled, generateTodayBrief, getTodayBrief } from "@/lib/ai";
 import { createTask, getAlerts, getEvents, getKpis, getOpportunities, getTasks, toggleTask } from "@/lib/queries";
 
 const sevColor: Record<string, string> = {
@@ -18,9 +20,17 @@ const sevLabel: Record<string, string> = {
 
 export default async function DashboardPage() {
   const user = await requireUser();
-  const [kpis, alerts, tasks, events, opps] = await Promise.all([
+  const [kpis, alerts, tasks, events, opps, brief] = await Promise.all([
     getKpis(user.id), getAlerts(user.id), getTasks(user.id), getEvents(user.id), getOpportunities(user.id),
+    aiEnabled() ? getTodayBrief(user.id) : Promise.resolve(null),
   ]);
+
+  async function makeBrief() {
+    "use server";
+    const u = await requireUser();
+    await generateTodayBrief(u.id);
+    revalidatePath("/dashboard");
+  }
 
   async function toggle(formData: FormData) {
     "use server";
@@ -58,6 +68,27 @@ export default async function DashboardPage() {
           </div>
         ))}
       </div>
+
+      {aiEnabled() && (
+        <section className="bg-white border-l-[3px] border-l-[#2a78d6] border border-black/10 rounded-xl p-4 mb-4">
+          <div className="flex items-center gap-2 mb-2">
+            <span className="text-[11px] font-bold text-[#2a78d6] bg-[#2a78d6]/10 rounded-full px-2.5 py-0.5">✦ Brief IA du jour</span>
+            <form action={makeBrief} className="ml-auto">
+              <button type="submit" className="text-[12px] text-[#2a78d6] hover:underline">
+                {brief ? "Régénérer" : "Générer mon brief"}
+              </button>
+            </form>
+          </div>
+          {brief ? (
+            <p className="text-[13.5px] leading-relaxed whitespace-pre-wrap">{brief}</p>
+          ) : (
+            <p className="text-[13px] text-[#898781]">
+              Clique sur « Générer mon brief » : ton copilote lit tes joueurs, tes échéances et ton agenda, et te donne ta journée en 30 secondes.
+              Tu peux aussi lui poser des questions dans l&apos;onglet <Link href="/assistant" className="text-[#2a78d6] hover:underline">Assistant ✦</Link>.
+            </p>
+          )}
+        </section>
+      )}
 
       <div className="grid grid-cols-5 gap-3.5 items-start">
         <div className="col-span-3 flex flex-col gap-3.5">

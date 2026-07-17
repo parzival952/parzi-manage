@@ -62,6 +62,56 @@ Règles importantes :
 - Pour toute estimation (salaire, valeur), donne une fourchette et rappelle que c'est indicatif.
 - Réponses courtes et structurées. Termine quand c'est utile par UNE action concrète que l'agent peut faire dans Parzi Manage.`;
 
+// ---------- Brief du jour ----------
+
+function todayStr(): string {
+  return new Date().toISOString().slice(0, 10);
+}
+
+export async function getTodayBrief(uid: string): Promise<string | null> {
+  const date = todayStr();
+  if (usePostgres()) {
+    const rows = (await pg()`SELECT content FROM daily_briefs WHERE user_id = ${uid} AND brief_date = ${date} ORDER BY id DESC LIMIT 1`) as unknown as { content: string }[];
+    return rows[0]?.content ?? null;
+  }
+  const row = db().prepare("SELECT content FROM daily_briefs WHERE brief_date = ? ORDER BY id DESC LIMIT 1").get(date) as { content: string } | undefined;
+  return row?.content ?? null;
+}
+
+export async function generateTodayBrief(uid: string): Promise<{ ok: boolean; error?: string }> {
+  if (!API_KEY) return { ok: false, error: "Clé API non configurée." };
+  const context = await buildContext(uid);
+  try {
+    const r = await fetch("https://api.anthropic.com/v1/messages", {
+      method: "POST",
+      headers: { "x-api-key": API_KEY, "anthropic-version": "2023-06-01", "content-type": "application/json" },
+      body: JSON.stringify({
+        model: MODEL,
+        max_tokens: 600,
+        system: `${SYSTEM}\n\n# Données actuelles de l'agent\n${context}`,
+        messages: [{
+          role: "user",
+          content: "Rédige mon brief du jour en 4-6 phrases maximum, sans titre ni liste : les 2-3 priorités absolues d'aujourd'hui (échéances, rendez-vous, urgences), puis une opportunité ou un point d'attention. Ton direct, dense, zéro blabla.",
+        }],
+      }),
+    });
+    const j = await r.json();
+    if (!r.ok) return { ok: false, error: j?.error?.message || "Erreur du service IA." };
+    const text = (j.content ?? []).filter((b: { type: string }) => b.type === "text").map((b: { text: string }) => b.text).join("\n") || "";
+    const date = todayStr();
+    if (usePostgres()) {
+      await pg()`DELETE FROM daily_briefs WHERE user_id = ${uid} AND brief_date = ${date}`;
+      await pg()`INSERT INTO daily_briefs (user_id, brief_date, content) VALUES (${uid}, ${date}, ${text})`;
+    } else {
+      db().prepare("DELETE FROM daily_briefs WHERE brief_date = ?").run(date);
+      db().prepare("INSERT INTO daily_briefs (brief_date, content) VALUES (?,?)").run(date, text);
+    }
+    return { ok: true };
+  } catch {
+    return { ok: false, error: "Service IA injoignable." };
+  }
+}
+
 export async function askAssistant(uid: string, question: string): Promise<{ ok: boolean; error?: string }> {
   if (!API_KEY) return { ok: false, error: "Clé API non configurée." };
   await addAiMessage(uid, "user", question);
