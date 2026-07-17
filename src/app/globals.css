@@ -75,3 +75,17 @@ body {
 .marquee-track:hover {
   animation-play-state: paused;
 }
+
+/* ---------- Impression (dossier joueur → PDF) ---------- */
+@media print {
+  body { background: #ffffff !important; }
+  aside, header, .no-print { display: none !important; }
+  main { padding: 0 !important; max-width: none !important; }
+  .glass-card {
+    background: #ffffff;
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+    box-shadow: none;
+    border: 1px solid #d8dde5;
+  }
+}

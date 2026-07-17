@@ -8,7 +8,7 @@ export type Player = {
   id: number; name: string; position: string; age: number; club: string;
   contract_end: string; est_value: string; status: "ok" | "soon" | "urgent";
   status_label: string; salary: string; mandate: string; strong_foot: string;
-  height: string; nationality: string; notes: string;
+  height: string; nationality: string; notes: string; pitch?: string;
 };
 export type Task = { id: number; title: string; due_label: string; is_late: boolean | number; is_done: boolean | number };
 export type Alert = { id: number; severity: "critical" | "serious" | "warning" | "good"; body: string; meta: string };

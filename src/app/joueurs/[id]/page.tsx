@@ -28,9 +28,14 @@ export default async function JoueurPage({ params }: { params: Promise<{ id: str
           <h1 className="text-2xl font-bold">{p.name}</h1>
           <p className="text-sm text-[#898781]">{p.position} · {p.club}</p>
         </div>
-        <Link href={`/joueurs/${p.id}/modifier`} className="border border-black/15 text-sm font-medium rounded-lg px-4 py-2 hover:border-[#2a78d6] hover:text-[#2a78d6]">
-          Modifier
-        </Link>
+        <div className="flex gap-2.5">
+          <Link href={`/joueurs/${p.id}/dossier`} className="bg-[#2a78d6] hover:bg-[#2266bb] text-white text-sm font-semibold rounded-lg px-4 py-2">
+            📄 Dossier
+          </Link>
+          <Link href={`/joueurs/${p.id}/modifier`} className="glass-input text-sm font-medium rounded-lg px-4 py-2 hover:border-[#2a78d6] hover:text-[#2a78d6]">
+            Modifier
+          </Link>
+        </div>
       </div>
 
       <div className="glass-card p-5 mb-4">

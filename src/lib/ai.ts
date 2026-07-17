@@ -112,6 +112,56 @@ export async function generateTodayBrief(uid: string): Promise<{ ok: boolean; er
   }
 }
 
+// ---------- Argumentaire du dossier joueur ----------
+
+export async function generatePitch(uid: string, playerId: number): Promise<{ ok: boolean; error?: string }> {
+  if (!API_KEY) return { ok: false, error: "Clé API non configurée." };
+  const { getPlayer } = await import("./queries");
+  const p = await getPlayer(uid, playerId);
+  if (!p) return { ok: false, error: "Joueur introuvable." };
+  try {
+    const r = await fetch("https://api.anthropic.com/v1/messages", {
+      method: "POST",
+      headers: { "x-api-key": API_KEY, "anthropic-version": "2023-06-01", "content-type": "application/json" },
+      body: JSON.stringify({
+        model: MODEL,
+        max_tokens: 500,
+        system: "Tu rédiges des argumentaires de présentation de joueurs de football pour des dossiers envoyés aux clubs. Ton professionnel, factuel, valorisant sans exagération. Tu n'inventes AUCUNE statistique ni performance : tu t'appuies uniquement sur les données fournies. Français impeccable. 120 à 170 mots, un seul bloc de texte sans titre.",
+        messages: [{
+          role: "user",
+          content: `Rédige l'argumentaire de présentation de ce joueur pour un club recruteur :\n${JSON.stringify({ nom: p.name, poste: p.position, age: p.age, club: p.club, fin_contrat: p.contract_end, valeur: p.est_value, pied: p.strong_foot, taille: p.height, nationalite: p.nationality, notes_agent: p.notes })}`,
+        }],
+      }),
+    });
+    const j = await r.json();
+    if (!r.ok) return { ok: false, error: j?.error?.message || "Erreur du service IA." };
+    const text = (j.content ?? []).filter((b: { type: string }) => b.type === "text").map((b: { text: string }) => b.text).join("\n").trim();
+    if (usePostgres()) {
+      await pg()`UPDATE players SET pitch = ${text} WHERE id = ${playerId} AND user_id = ${uid}`;
+    } else {
+      db().prepare("UPDATE players SET pitch = ? WHERE id = ?").run(text, playerId);
+    }
+    return { ok: true };
+  } catch {
+    return { ok: false, error: "Service IA injoignable." };
+  }
+}
+
+// ---------- Génération des briefs pour tous les comptes (cron du matin) ----------
+
+export async function generateAllBriefs(): Promise<{ generated: number; skipped: number }> {
+  if (!API_KEY || !usePostgres()) return { generated: 0, skipped: 0 };
+  const users = (await pg()`SELECT DISTINCT user_id FROM players WHERE user_id IS NOT NULL LIMIT 50`) as unknown as { user_id: string }[];
+  let generated = 0, skipped = 0;
+  for (const { user_id } of users) {
+    const existing = await getTodayBrief(user_id);
+    if (existing) { skipped++; continue; }
+    const res = await generateTodayBrief(user_id);
+    if (res.ok) generated++;
+  }
+  return { generated, skipped };
+}
+
 export async function askAssistant(uid: string, question: string): Promise<{ ok: boolean; error?: string }> {
   if (!API_KEY) return { ok: false, error: "Clé API non configurée." };
   await addAiMessage(uid, "user", question);
