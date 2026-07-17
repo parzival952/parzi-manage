@@ -3,6 +3,7 @@ import { revalidatePath } from "next/cache";
 import Link from "next/link";
 import { requireUser } from "@/lib/auth";
 import { aiEnabled, generateTodayBrief, getTodayBrief } from "@/lib/ai";
+import SubmitButton from "@/components/SubmitButton";
 import { createTask, getAlerts, getEvents, getKpis, getOpportunities, getTasks, toggleTask } from "@/lib/queries";
 
 const sevColor: Record<string, string> = {
@@ -74,9 +75,11 @@ export default async function DashboardPage() {
           <div className="flex items-center gap-2 mb-2">
             <span className="text-[11px] font-bold text-[#2a78d6] bg-[#2a78d6]/10 rounded-full px-2.5 py-0.5">✦ Brief IA du jour</span>
             <form action={makeBrief} className="ml-auto">
-              <button type="submit" className="text-[12px] text-[#2a78d6] hover:underline">
-                {brief ? "Régénérer" : "Générer mon brief"}
-              </button>
+              <SubmitButton
+                label={brief ? "Régénérer" : "Générer mon brief"}
+                pendingLabel="Ton copilote lit tes données…"
+                className="text-[12px] text-[#2a78d6] hover:underline"
+              />
             </form>
           </div>
           {brief ? (

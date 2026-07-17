@@ -5,6 +5,7 @@ import { requireUser } from "@/lib/auth";
 import { aiEnabled, generatePitch } from "@/lib/ai";
 import { getPlayer } from "@/lib/queries";
 import PrintButton from "@/components/PrintButton";
+import SubmitButton from "@/components/SubmitButton";
 
 export default async function DossierPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
@@ -38,9 +39,11 @@ export default async function DossierPage({ params }: { params: Promise<{ id: st
         <div className="ml-auto flex gap-2.5">
           {aiEnabled() && (
             <form action={makePitch}>
-              <button type="submit" className="glass-input rounded-lg text-[13.5px] font-medium px-4 py-2 hover:border-[#2a78d6] text-[#2a78d6]">
-                ✦ {p.pitch ? "Régénérer l'argumentaire IA" : "Générer l'argumentaire IA"}
-              </button>
+              <SubmitButton
+                label={p.pitch ? "✦ Régénérer l'argumentaire IA" : "✦ Générer l'argumentaire IA"}
+                pendingLabel="Rédaction en cours…"
+                className="glass-input rounded-lg text-[13.5px] font-medium px-4 py-2 hover:border-[#2a78d6] text-[#2a78d6]"
+              />
             </form>
           )}
           <PrintButton />

@@ -2,6 +2,7 @@ export const dynamic = "force-dynamic";
 import { revalidatePath } from "next/cache";
 import { requireUser } from "@/lib/auth";
 import { aiEnabled, askAssistant, clearAiMessages, getAiMessages } from "@/lib/ai";
+import SubmitButton from "@/components/SubmitButton";
 
 const SUGGESTIONS = [
   "Quelles sont mes priorités cette semaine ?",
@@ -91,9 +92,11 @@ export default async function AssistantPage() {
               placeholder="Pose ta question…"
               className="flex-1 glass-input rounded-xl px-4 py-3 text-[14px] bg-white/70 shadow-sm focus:outline-none focus:border-[#2a78d6]"
             />
-            <button type="submit" className="bg-[#2a78d6] text-white font-semibold text-[14px] rounded-xl px-5 hover:bg-[#2266bb]">
-              Envoyer
-            </button>
+            <SubmitButton
+              label="Envoyer"
+              pendingLabel="Réflexion…"
+              className="bg-[#2a78d6] text-white font-semibold text-[14px] rounded-xl px-5 hover:bg-[#2266bb]"
+            />
           </form>
           <p className="text-[11px] text-[#898781] mt-3">
             L&apos;assistant peut se tromper — vérifie les points importants, et fais valider tout sujet juridique par un avocat.

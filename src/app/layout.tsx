@@ -6,8 +6,19 @@ import NavLinks from "@/components/NavLinks";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "Parzi Manage",
-  description: "Le copilote IA des agents de football",
+  metadataBase: new URL("https://parzi-manage-parzi2.vercel.app"),
+  title: { default: "Parzi Manage — le copilote IA des agents de football", template: "%s · Parzi Manage" },
+  description:
+    "Joueurs, mandats, clubs, scouting, veille mercato : Parzi Manage centralise tout — et son assistant IA prépare chaque journée de l'agent. Gratuit en bêta.",
+  openGraph: {
+    title: "Parzi Manage — le copilote IA des agents de football",
+    description: "Gérez vos joueurs, trouvez vos cibles, et laissez l'IA préparer vos journées. Gratuit en bêta.",
+    url: "https://parzi-manage-parzi2.vercel.app",
+    siteName: "Parzi Manage",
+    locale: "fr_FR",
+    type: "website",
+  },
+  twitter: { card: "summary_large_image" },
 };
 
 const nav = [
