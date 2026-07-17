@@ -19,7 +19,7 @@ export default async function CrmPage() {
     <div>
       <h1 className="text-xl font-bold mb-1">CRM</h1>
       <p className="text-sm text-[#898781] mb-6">Contacts réseau — {contacts.length}</p>
-      <div className="bg-white border border-black/[0.06] rounded-2xl shadow-[0_1px_3px_rgba(16,24,40,0.06)] p-4 overflow-x-auto">
+      <div className="glass-card p-4 overflow-x-auto">
         <table className="w-full text-[13px]">
           <thead>
             <tr className="text-left text-[11px] uppercase tracking-wide text-[#898781]">
@@ -41,10 +41,10 @@ export default async function CrmPage() {
           </tbody>
         </table>
         <form action={addContact} className="flex gap-2 mt-4 flex-wrap">
-          <input name="name" required placeholder="Nom *" className="border border-black/15 rounded-lg px-3 py-1.5 text-[13px] w-40 focus:outline-none focus:border-[#2a78d6]" />
-          <input name="role" placeholder="Rôle" className="border border-black/15 rounded-lg px-3 py-1.5 text-[13px] w-40 focus:outline-none focus:border-[#2a78d6]" />
-          <input name="org" placeholder="Organisation" className="border border-black/15 rounded-lg px-3 py-1.5 text-[13px] w-44 focus:outline-none focus:border-[#2a78d6]" />
-          <input name="next_step" placeholder="Prochain pas" className="border border-black/15 rounded-lg px-3 py-1.5 text-[13px] w-44 focus:outline-none focus:border-[#2a78d6]" />
+          <input name="name" required placeholder="Nom *" className="glass-input rounded-lg px-3 py-1.5 text-[13px] w-40 focus:outline-none focus:border-[#2a78d6]" />
+          <input name="role" placeholder="Rôle" className="glass-input rounded-lg px-3 py-1.5 text-[13px] w-40 focus:outline-none focus:border-[#2a78d6]" />
+          <input name="org" placeholder="Organisation" className="glass-input rounded-lg px-3 py-1.5 text-[13px] w-44 focus:outline-none focus:border-[#2a78d6]" />
+          <input name="next_step" placeholder="Prochain pas" className="glass-input rounded-lg px-3 py-1.5 text-[13px] w-44 focus:outline-none focus:border-[#2a78d6]" />
           <button type="submit" className="bg-[#2a78d6] text-white text-[13px] font-semibold rounded-lg px-4">+ Ajouter</button>
         </form>
       </div>

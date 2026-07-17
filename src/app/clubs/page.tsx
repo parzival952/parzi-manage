@@ -3,7 +3,7 @@ import { revalidatePath } from "next/cache";
 import { requireUser } from "@/lib/auth";
 import { createClub, deleteClub, getClubs } from "@/lib/queries";
 
-const input = "border border-black/15 rounded-lg px-3 py-1.5 text-[13px] focus:outline-none focus:border-[#2a78d6]";
+const input = "glass-input rounded-lg px-3 py-1.5 text-[13px] focus:outline-none focus:border-[#2a78d6]";
 
 export default async function ClubsPage() {
   const user = await requireUser();
@@ -30,7 +30,7 @@ export default async function ClubsPage() {
       <h1 className="text-xl font-bold mb-1">Clubs</h1>
       <p className="text-sm text-[#898781] mb-6">Ton réseau de clubs — besoins, budgets, contacts · {clubs.length} club{clubs.length > 1 ? "s" : ""}</p>
 
-      <div className="bg-white border border-black/[0.06] rounded-2xl shadow-[0_1px_3px_rgba(16,24,40,0.06)] p-4">
+      <div className="glass-card p-4 overflow-x-auto">
         {clubs.length === 0 ? (
           <p className="text-[13px] text-[#898781] py-4 text-center">
             Aucun club pour l&apos;instant — ajoute les clubs avec qui tu travailles (ou que tu vises) avec le formulaire ci-dessous.

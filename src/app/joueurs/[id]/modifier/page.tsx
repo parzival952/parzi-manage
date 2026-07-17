@@ -35,7 +35,7 @@ export default async function ModifierJoueurPage({ params }: { params: Promise<{
     <div className="max-w-2xl">
       <Link href={`/joueurs/${playerId}`} className="text-[13px] text-[#2a78d6] hover:underline">← Retour à la fiche</Link>
       <h1 className="text-xl font-bold mt-3 mb-4">Modifier — {p.name}</h1>
-      <form action={update} className="bg-white border border-black/[0.06] rounded-2xl shadow-[0_1px_3px_rgba(16,24,40,0.06)] p-5">
+      <form action={update} className="glass-card p-5">
         <PlayerFields p={p} />
         <div className="mt-5 flex gap-3">
           <button type="submit" className="bg-[#2a78d6] text-white font-semibold text-sm rounded-lg px-5 py-2.5 hover:bg-[#2266bb]">

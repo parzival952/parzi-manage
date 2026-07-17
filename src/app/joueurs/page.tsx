@@ -23,7 +23,7 @@ export default async function JoueursPage() {
           + Ajouter un joueur
         </Link>
       </div>
-      <div className="bg-white border border-black/[0.06] rounded-2xl shadow-[0_1px_3px_rgba(16,24,40,0.06)] p-4 overflow-x-auto">
+      <div className="glass-card p-4 overflow-x-auto">
         <table className="w-full text-[13px]">
           <thead>
             <tr className="text-left text-[11px] uppercase tracking-wide text-[#898781]">

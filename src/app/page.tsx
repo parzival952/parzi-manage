@@ -2,6 +2,7 @@ export const dynamic = "force-dynamic";
 import Link from "next/link";
 import { redirect } from "next/navigation";
 import { getUser } from "@/lib/auth";
+import FeatureBanner from "@/components/FeatureBanner";
 
 const PAINS = [
   { emoji: "⏰", title: "Les échéances vous échappent", body: "Fins de mandats, contrats à 12 mois de l'échéance, fenêtres de mercato : tout est dans votre tête — et votre tête est déjà pleine." },
@@ -67,6 +68,9 @@ export default async function HomePage({ searchParams }: { searchParams: Promise
           <p className="text-[12px] text-[#7c828a] mt-4">Gratuit en bêta · Votre espace privé démarre avec un portefeuille de démonstration</p>
         </div>
       </section>
+
+      {/* Bannière des fonctionnalités */}
+      <FeatureBanner />
 
       {/* Pains */}
       <section className="bg-[#10141b] border-y border-white/10 px-6 py-16">

@@ -31,15 +31,16 @@ export default async function RootLayout({ children }: Readonly<{ children: Reac
 
   return (
     <html lang="fr" className="h-full antialiased">
-      <body className="min-h-full flex">
-        <aside className="w-56 shrink-0 bg-gradient-to-b from-[#0f1319] to-[#141a24] text-[#d6d9dd] sticky top-0 h-screen flex flex-col p-4 border-r border-white/5">
+      <body className="min-h-full md:flex">
+        {/* ---- Barre latérale (PC) : verre sombre ---- */}
+        <aside className="hidden md:flex w-56 shrink-0 bg-[#0e1420]/85 backdrop-blur-xl text-[#d6d9dd] sticky top-0 h-screen flex-col p-4 border-r border-white/10">
           <div className="flex items-center gap-2.5 px-2 pb-6">
-            <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-[#2a78d6] to-[#4a3aa7] grid place-items-center font-bold text-white">
+            <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-[#2a78d6] to-[#4a3aa7] grid place-items-center font-bold text-white shadow-lg shadow-[#2a78d6]/30">
               P
             </div>
             <div>
               <div className="font-bold text-white text-[15px] leading-tight">Parzi Manage</div>
-              <div className="text-[10px] uppercase tracking-widest text-[#7c828a]">Bêta · MVP</div>
+              <div className="text-[10px] uppercase tracking-widest text-[#8a93a3]">Bêta · MVP</div>
             </div>
           </div>
           <nav className="flex flex-col gap-0.5">
@@ -54,16 +55,36 @@ export default async function RootLayout({ children }: Readonly<{ children: Reac
                 <div className="min-w-0">
                   <div className="text-xs font-semibold text-white truncate">{user.email}</div>
                   <form action={logout}>
-                    <button type="submit" className="text-[10px] text-[#7c828a] hover:text-white">Se déconnecter</button>
+                    <button type="submit" className="text-[10px] text-[#8a93a3] hover:text-white">Se déconnecter</button>
                   </form>
                 </div>
               </div>
             ) : (
-              <Link href="/connexion" className="text-xs text-[#7c828a] hover:text-white">Se connecter</Link>
+              <Link href="/connexion" className="text-xs text-[#8a93a3] hover:text-white">Se connecter</Link>
             )}
           </div>
         </aside>
-        <main className="flex-1 p-8 max-w-6xl">{children}</main>
+
+        {/* ---- Colonne principale (mobile : barre du haut + nav défilante) ---- */}
+        <div className="flex-1 flex flex-col min-w-0">
+          <header className="md:hidden sticky top-0 z-40 bg-[#0e1420]/85 backdrop-blur-xl text-white border-b border-white/10">
+            <div className="flex items-center gap-2.5 px-4 pt-3 pb-2">
+              <div className="w-7 h-7 rounded-lg bg-gradient-to-br from-[#2a78d6] to-[#4a3aa7] grid place-items-center font-bold text-white text-sm">
+                P
+              </div>
+              <span className="font-bold text-[15px]">Parzi Manage</span>
+              {user && (
+                <form action={logout} className="ml-auto">
+                  <button type="submit" className="text-[11px] text-[#8a93a3]">Déconnexion</button>
+                </form>
+              )}
+            </div>
+            <nav className="flex gap-1 px-3 pb-2 overflow-x-auto whitespace-nowrap [&>a]:shrink-0">
+              <NavLinks items={nav} />
+            </nav>
+          </header>
+          <main className="flex-1 p-4 sm:p-6 md:p-8 max-w-6xl w-full">{children}</main>
+        </div>
       </body>
     </html>
   );

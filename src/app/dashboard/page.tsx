@@ -55,14 +55,14 @@ export default async function DashboardPage() {
         {new Date().toLocaleDateString("fr-FR", { weekday: "long", day: "numeric", month: "long", year: "numeric" })}
       </p>
 
-      <div className="grid grid-cols-4 gap-3.5 mb-4">
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-3.5 mb-4">
         {[
           { label: "Joueurs sous mandat", value: kpis.players },
           { label: "Contrats / mandats à surveiller", value: kpis.expiring },
           { label: "Événements à venir", value: kpis.events },
           { label: "Tâches ouvertes", value: kpis.openTasks },
         ].map((k) => (
-          <div key={k.label} className="bg-white border border-black/[0.06] rounded-2xl shadow-[0_1px_3px_rgba(16,24,40,0.06)] p-4">
+          <div key={k.label} className="glass-card p-4">
             <div className="text-xs text-[#52514e]">{k.label}</div>
             <div className="text-2xl font-semibold mt-1">{k.value}</div>
           </div>
@@ -70,7 +70,7 @@ export default async function DashboardPage() {
       </div>
 
       {aiEnabled() && (
-        <section className="bg-white border-l-[3px] border-l-[#2a78d6] border border-black/[0.06] rounded-2xl shadow-[0_1px_3px_rgba(16,24,40,0.06)] p-4 mb-4">
+        <section className="glass-card border-l-[3px] border-l-[#2a78d6] p-4 mb-4">
           <div className="flex items-center gap-2 mb-2">
             <span className="text-[11px] font-bold text-[#2a78d6] bg-[#2a78d6]/10 rounded-full px-2.5 py-0.5">✦ Brief IA du jour</span>
             <form action={makeBrief} className="ml-auto">
@@ -90,9 +90,9 @@ export default async function DashboardPage() {
         </section>
       )}
 
-      <div className="grid grid-cols-5 gap-3.5 items-start">
-        <div className="col-span-3 flex flex-col gap-3.5">
-          <section className="bg-white border border-black/[0.06] rounded-2xl shadow-[0_1px_3px_rgba(16,24,40,0.06)] p-4">
+      <div className="grid grid-cols-1 lg:grid-cols-5 gap-3.5 items-start">
+        <div className="lg:col-span-3 flex flex-col gap-3.5">
+          <section className="glass-card p-4">
             <h2 className="text-[13px] font-semibold text-[#52514e] mb-3">🔔 Alertes</h2>
             {alerts.map((a) => (
               <div key={a.id} className="flex gap-2.5 py-2 border-b border-[#eceae4] last:border-0 items-start">
@@ -108,7 +108,7 @@ export default async function DashboardPage() {
             ))}
           </section>
 
-          <section className="bg-white border border-black/[0.06] rounded-2xl shadow-[0_1px_3px_rgba(16,24,40,0.06)] p-4">
+          <section className="glass-card p-4">
             <h2 className="text-[13px] font-semibold text-[#52514e] mb-3">🎯 Opportunités détectées</h2>
             {opps.map((o) => (
               <div key={o.id} className="py-2 border-b border-[#eceae4] last:border-0">
@@ -122,8 +122,8 @@ export default async function DashboardPage() {
           </section>
         </div>
 
-        <div className="col-span-2 flex flex-col gap-3.5">
-          <section className="bg-white border border-black/[0.06] rounded-2xl shadow-[0_1px_3px_rgba(16,24,40,0.06)] p-4">
+        <div className="lg:col-span-2 flex flex-col gap-3.5">
+          <section className="glass-card p-4">
             <h2 className="text-[13px] font-semibold text-[#52514e] mb-3">
               ✅ Tâches <span className="text-[#2a78d6] font-medium">· {tasks.filter((t) => !t.is_done).length} restantes</span>
             </h2>
@@ -134,7 +134,7 @@ export default async function DashboardPage() {
                   type="submit"
                   aria-label={t.is_done ? "Marquer à faire" : "Marquer faite"}
                   className={`w-4 h-4 rounded border grid place-items-center text-[10px] ${
-                    t.is_done ? "bg-[#2a78d6] border-[#2a78d6] text-white" : "border-[#c3c2b7] bg-[#f9fafb]"
+                    t.is_done ? "bg-[#2a78d6] border-[#2a78d6] text-white" : "border-[#c3c2b7] bg-white/70"
                   }`}
                 >
                   {t.is_done ? "✓" : ""}
@@ -148,14 +148,14 @@ export default async function DashboardPage() {
             ))}
             <form action={addTask} className="flex gap-2 mt-3">
               <input name="title" placeholder="Nouvelle tâche…" required
-                className="flex-1 border border-black/15 rounded-lg px-3 py-1.5 text-[13px] focus:outline-none focus:border-[#2a78d6]" />
+                className="flex-1 glass-input rounded-lg px-3 py-1.5 text-[13px] focus:outline-none focus:border-[#2a78d6]" />
               <input name="due" placeholder="Quand ?"
-                className="w-20 border border-black/15 rounded-lg px-2 py-1.5 text-[12px] focus:outline-none focus:border-[#2a78d6]" />
+                className="w-20 glass-input rounded-lg px-2 py-1.5 text-[12px] focus:outline-none focus:border-[#2a78d6]" />
               <button type="submit" className="bg-[#2a78d6] text-white text-[13px] font-semibold rounded-lg px-3">+</button>
             </form>
           </section>
 
-          <section className="bg-white border border-black/[0.06] rounded-2xl shadow-[0_1px_3px_rgba(16,24,40,0.06)] p-4">
+          <section className="glass-card p-4">
             <h2 className="text-[13px] font-semibold text-[#52514e] mb-3">📅 Agenda</h2>
             {events.map((e) => (
               <div key={e.id} className="flex gap-3 py-1.5 border-b border-[#eceae4] last:border-0">
