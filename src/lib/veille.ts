@@ -11,8 +11,9 @@ export type NewsItem = {
 
 const FEEDS: { url: string; source: string }[] = [
   { url: "https://www.lequipe.fr/rss/actu_rss_Football.xml", source: "L'Équipe" },
-  { url: "https://rmcsport.bfmtv.com/rss/football/", source: "RMC Sport" },
-  { url: "https://www.footmercato.net/rss", source: "Foot Mercato" },
+  { url: "https://news.google.com/rss/search?q=football+mercato&hl=fr&gl=FR&ceid=FR:fr", source: "Actu mercato" },
+  { url: "https://news.google.com/rss/search?q=ligue+1+OR+ligue+2+football&hl=fr&gl=FR&ceid=FR:fr", source: "Ligue 1 & 2" },
+  { url: "https://news.google.com/rss/search?q=%22agent%20de%20joueurs%22%20OR%20%22fin%20de%20contrat%22%20football&hl=fr&gl=FR&ceid=FR:fr", source: "Marché des agents" },
   { url: "https://www.maxifoot.fr/rss.xml", source: "Maxifoot" },
 ];
 
