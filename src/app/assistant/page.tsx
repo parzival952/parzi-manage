@@ -5,6 +5,7 @@ import { aiEnabled, askAssistant, clearAiMessages, getAiMessages } from "@/lib/a
 import SubmitButton from "@/components/SubmitButton";
 
 const SUGGESTIONS = [
+  "Qu'est-ce que j'oublie ?",
   "Quelles sont mes priorités cette semaine ?",
   "Quels clubs de mon réseau correspondent à mes joueurs ?",
   "Prépare un message pour approcher une de mes cibles de scouting",

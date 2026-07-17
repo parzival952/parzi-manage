@@ -2,7 +2,7 @@ export const dynamic = "force-dynamic";
 import Link from "next/link";
 import { revalidatePath } from "next/cache";
 import { requireUser } from "@/lib/auth";
-import { aiEnabled, generateTodayBrief, getTodayBrief } from "@/lib/ai";
+import { aiEnabled, generateTodayBrief, getTodayBrief, getTodayRecommendations } from "@/lib/ai";
 import { createTask, getAlerts, getEvents, getKpis, getOpportunities, getPlayers, getTasks, toggleTask } from "@/lib/queries";
 import { getVeille, matchesPortfolio, portfolioKeywords } from "@/lib/veille";
 import SubmitButton from "@/components/SubmitButton";
@@ -21,10 +21,11 @@ function timeAgo(d: Date | null): string {
 
 export default async function DashboardPage() {
   const user = await requireUser();
-  const [kpis, alerts, tasks, events, opps, players, brief, veille] = await Promise.all([
+  const [kpis, alerts, tasks, events, opps, players, brief, recos, veille] = await Promise.all([
     getKpis(user.id), getAlerts(user.id), getTasks(user.id), getEvents(user.id),
     getOpportunities(user.id), getPlayers(user.id),
     aiEnabled() ? getTodayBrief(user.id) : Promise.resolve(null),
+    aiEnabled() ? getTodayRecommendations(user.id) : Promise.resolve([]),
     getVeille().catch(() => ({ items: [], sourcesOk: 0, sourcesTotal: 0 })),
   ]);
 
@@ -109,13 +110,39 @@ export default async function DashboardPage() {
             )}
           </div>
           {brief ? (
-            <p className="text-[14.5px] leading-relaxed whitespace-pre-wrap">{brief}</p>
+            <p className="text-[14px] leading-relaxed whitespace-pre-wrap">{brief}</p>
           ) : (
             <p className="text-[13.5px] text-[#475569] leading-relaxed">
               Ton copilote lit tes joueurs, tes échéances, ton agenda et le marché — puis t&apos;écrit ton plan de bataille du jour.
               {aiEnabled() ? " Clique sur « Générer » (et chaque matin à 8h, il sera prêt avant ton café)." : ""}
             </p>
           )}
+
+          {recos.length > 0 && (
+            <div className="mt-4 flex flex-col gap-2">
+              {recos.map((r, i) => {
+                const pc = r.priority >= 5 ? "#ef4444" : r.priority >= 4 ? "#f59e0b" : r.priority >= 3 ? "#2563eb" : "#94a3b8";
+                return (
+                  <div key={r.id ?? i} className="rounded-xl border border-[#eef1f5] bg-[#f8fafc] px-3.5 py-2.5">
+                    <div className="flex items-center gap-2.5">
+                      <span className="w-6 h-6 rounded-lg grid place-items-center text-white text-[11px] font-extrabold shrink-0" style={{ background: pc }}>
+                        {i + 1}
+                      </span>
+                      <span className="text-[13.5px] font-semibold leading-snug">{r.title}</span>
+                    </div>
+                    <div className="flex flex-wrap gap-x-3 gap-y-0.5 text-[11px] text-[#94a3b8] mt-1 ml-8.5 pl-0.5" style={{ marginLeft: 34 }}>
+                      {r.impact && <span>💰 {r.impact}</span>}
+                      {r.effort && <span>⏱ {r.effort}</span>}
+                      {r.probability && <span>🎯 réussite {r.probability}</span>}
+                    </div>
+                    {r.why && <div className="text-[12px] text-[#475569] mt-1" style={{ marginLeft: 34 }}>{r.why}</div>}
+                  </div>
+                );
+              })}
+              <p className="text-[10.5px] text-[#94a3b8]">Impacts financiers = estimations IA à partir de tes données — à valider par ton jugement.</p>
+            </div>
+          )}
+
           <a
             href="#taches"
             className="inline-block mt-4 bg-[#2563eb] hover:bg-[#1d4fd7] text-white font-semibold text-[13.5px] rounded-xl px-5 py-2.5 shadow-md shadow-[#2563eb]/25 transition-colors"

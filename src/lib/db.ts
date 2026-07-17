@@ -110,6 +110,16 @@ function migrate(d: DatabaseSync) {
     brief_date TEXT NOT NULL,
     content TEXT NOT NULL
   );
+  CREATE TABLE IF NOT EXISTS recommendations (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    rec_date TEXT NOT NULL,
+    title TEXT NOT NULL,
+    why TEXT NOT NULL DEFAULT '',
+    impact TEXT NOT NULL DEFAULT '',
+    effort TEXT NOT NULL DEFAULT '',
+    probability TEXT NOT NULL DEFAULT '',
+    priority INTEGER NOT NULL DEFAULT 3
+  );
   `);
 }
 

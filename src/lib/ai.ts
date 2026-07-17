@@ -78,6 +78,25 @@ export async function getTodayBrief(uid: string): Promise<string | null> {
   return row?.content ?? null;
 }
 
+export type Recommendation = {
+  id?: number;
+  title: string;
+  why: string;
+  impact: string;
+  effort: string;
+  probability: string;
+  priority: number;
+};
+
+export async function getTodayRecommendations(uid: string): Promise<Recommendation[]> {
+  const date = todayStr();
+  if (usePostgres()) {
+    return (await pg()`SELECT id, title, why, impact, effort, probability, priority FROM recommendations
+      WHERE user_id = ${uid} AND rec_date = ${date} ORDER BY priority DESC, id`) as unknown as Recommendation[];
+  }
+  return db().prepare("SELECT id, title, why, impact, effort, probability, priority FROM recommendations WHERE rec_date = ? ORDER BY priority DESC, id").all(date) as Recommendation[];
+}
+
 export async function generateTodayBrief(uid: string): Promise<{ ok: boolean; error?: string }> {
   if (!API_KEY) return { ok: false, error: "Clé API non configurée." };
   const context = await buildContext(uid);
@@ -87,24 +106,48 @@ export async function generateTodayBrief(uid: string): Promise<{ ok: boolean; er
       headers: { "x-api-key": API_KEY, "anthropic-version": "2023-06-01", "content-type": "application/json" },
       body: JSON.stringify({
         model: MODEL,
-        max_tokens: 600,
+        max_tokens: 1200,
         system: `${SYSTEM}\n\n# Données actuelles de l'agent\n${context}`,
         messages: [{
           role: "user",
-          content: "Rédige mon brief du jour en 4-6 phrases maximum, sans titre ni liste : les 2-3 priorités absolues d'aujourd'hui (échéances, rendez-vous, urgences), puis une opportunité ou un point d'attention. Ton direct, dense, zéro blabla.",
+          content: `Prépare mon plan du jour. Réponds UNIQUEMENT avec un JSON valide, sans texte autour, au format exact :
+{"brief":"3-4 phrases denses : la situation du jour, la priorité absolue, le point d'attention. Zéro blabla.",
+"actions":[{"title":"action concrète et courte","why":"pourquoi maintenant, en une phrase, basée sur mes données","impact":"impact estimé (ex: sécurise un mandat, ouvre une négociation, ~X K€ de commission potentielle — indique 'estimation' si tu chiffres)","effort":"temps nécessaire (ex: 15 min, 1 h)","probability":"probabilité de réussite: haute|moyenne|à tenter","priority":5}]}
+Règles : 3 à 5 actions MAXIMUM, classées par impact décroissant (priority 5 = critique, 1 = utile). Chaque action doit découler de MES données réelles (échéances, rendez-vous, opportunités, cibles). N'invente aucun fait.`,
         }],
       }),
     });
     const j = await r.json();
     if (!r.ok) return { ok: false, error: j?.error?.message || "Erreur du service IA." };
-    const text = (j.content ?? []).filter((b: { type: string }) => b.type === "text").map((b: { text: string }) => b.text).join("\n") || "";
+    const raw = (j.content ?? []).filter((b: { type: string }) => b.type === "text").map((b: { text: string }) => b.text).join("\n") || "";
+    const jsonStr = raw.slice(raw.indexOf("{"), raw.lastIndexOf("}") + 1);
+    let brief = raw;
+    let actions: Recommendation[] = [];
+    try {
+      const parsed = JSON.parse(jsonStr);
+      brief = String(parsed.brief ?? raw);
+      actions = (Array.isArray(parsed.actions) ? parsed.actions : []).slice(0, 5).map((a: Record<string, unknown>) => ({
+        title: String(a.title ?? ""), why: String(a.why ?? ""), impact: String(a.impact ?? ""),
+        effort: String(a.effort ?? ""), probability: String(a.probability ?? ""),
+        priority: Math.max(1, Math.min(5, Number(a.priority) || 3)),
+      })).filter((a: Recommendation) => a.title);
+    } catch { /* JSON invalide → on garde le texte brut comme brief */ }
+
     const date = todayStr();
     if (usePostgres()) {
       await pg()`DELETE FROM daily_briefs WHERE user_id = ${uid} AND brief_date = ${date}`;
-      await pg()`INSERT INTO daily_briefs (user_id, brief_date, content) VALUES (${uid}, ${date}, ${text})`;
+      await pg()`INSERT INTO daily_briefs (user_id, brief_date, content) VALUES (${uid}, ${date}, ${brief})`;
+      await pg()`DELETE FROM recommendations WHERE user_id = ${uid} AND rec_date = ${date}`;
+      for (const a of actions) {
+        await pg()`INSERT INTO recommendations (user_id, rec_date, title, why, impact, effort, probability, priority)
+          VALUES (${uid}, ${date}, ${a.title}, ${a.why}, ${a.impact}, ${a.effort}, ${a.probability}, ${a.priority})`;
+      }
     } else {
       db().prepare("DELETE FROM daily_briefs WHERE brief_date = ?").run(date);
-      db().prepare("INSERT INTO daily_briefs (brief_date, content) VALUES (?,?)").run(date, text);
+      db().prepare("INSERT INTO daily_briefs (brief_date, content) VALUES (?,?)").run(date, brief);
+      db().prepare("DELETE FROM recommendations WHERE rec_date = ?").run(date);
+      const ins = db().prepare("INSERT INTO recommendations (rec_date, title, why, impact, effort, probability, priority) VALUES (?,?,?,?,?,?,?)");
+      for (const a of actions) ins.run(date, a.title, a.why, a.impact, a.effort, a.probability, a.priority);
     }
     return { ok: true };
   } catch {
