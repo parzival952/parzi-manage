@@ -46,7 +46,7 @@ export default async function AssistantPage() {
       </div>
 
       {!enabled ? (
-        <div className="bg-[#f9fafb] border border-black/10 rounded-xl p-6 text-center text-[13.5px] text-[#52514e]">
+        <div className="bg-white border border-black/[0.06] rounded-2xl shadow-[0_1px_3px_rgba(16,24,40,0.06)] p-6 text-center text-[13.5px] text-[#52514e]">
           Le moteur IA n&apos;est pas encore configuré sur ce déploiement (variable <code className="text-[12px] bg-[#f0efec] px-1.5 py-0.5 rounded">ANTHROPIC_API_KEY</code> manquante).
         </div>
       ) : (
@@ -66,7 +66,7 @@ export default async function AssistantPage() {
 
           <div className="flex flex-col gap-3 mb-4">
             {messages.length === 0 && (
-              <div className="bg-[#f9fafb] border border-black/10 rounded-xl p-5 text-[13.5px] text-[#52514e]">
+              <div className="bg-white border border-black/[0.06] rounded-2xl shadow-[0_1px_3px_rgba(16,24,40,0.06)] p-5 text-[13.5px] text-[#52514e]">
                 Bonjour 👋 Pose-moi une question sur ton portefeuille, tes clubs ou tes cibles — ou choisis une suggestion ci-dessus.
                 Mes réponses s&apos;appuient sur <b>tes</b> données dans Parzi Manage.
               </div>
@@ -77,7 +77,7 @@ export default async function AssistantPage() {
                 className={
                   m.role === "user"
                     ? "self-end max-w-[80%] bg-[#2a78d6] text-white rounded-2xl rounded-br-md px-4 py-2.5 text-[13.5px] whitespace-pre-wrap"
-                    : "self-start max-w-[85%] bg-[#f9fafb] border border-black/10 rounded-2xl rounded-bl-md px-4 py-3 text-[13.5px] leading-relaxed whitespace-pre-wrap"
+                    : "self-start max-w-[85%] bg-white border border-black/[0.06] rounded-2xl shadow-[0_2px_8px_rgba(16,24,40,0.07)] rounded-bl-md px-4 py-3 text-[13.5px] leading-relaxed whitespace-pre-wrap"
                 }
               >
                 {m.content}

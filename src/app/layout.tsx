@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { redirect } from "next/navigation";
 import { getUser, signOut } from "@/lib/auth";
+import NavLinks from "@/components/NavLinks";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -30,8 +31,8 @@ export default async function RootLayout({ children }: Readonly<{ children: Reac
 
   return (
     <html lang="fr" className="h-full antialiased">
-      <body className="min-h-full flex bg-[#eceff3] text-[#0b0b0b]">
-        <aside className="w-56 shrink-0 bg-[#101418] text-[#d6d9dd] sticky top-0 h-screen flex flex-col p-4">
+      <body className="min-h-full flex">
+        <aside className="w-56 shrink-0 bg-gradient-to-b from-[#0f1319] to-[#141a24] text-[#d6d9dd] sticky top-0 h-screen flex flex-col p-4 border-r border-white/5">
           <div className="flex items-center gap-2.5 px-2 pb-6">
             <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-[#2a78d6] to-[#4a3aa7] grid place-items-center font-bold text-white">
               P
@@ -42,15 +43,7 @@ export default async function RootLayout({ children }: Readonly<{ children: Reac
             </div>
           </div>
           <nav className="flex flex-col gap-0.5">
-            {nav.map((n) => (
-              <Link
-                key={n.href}
-                href={n.href}
-                className="flex items-center gap-2.5 px-2.5 py-2 rounded-lg hover:bg-[#f9fafb]/5 text-sm"
-              >
-                <span className="w-5 text-center opacity-80">{n.icon}</span> {n.label}
-              </Link>
-            ))}
+            <NavLinks items={nav} />
           </nav>
           <div className="mt-auto pt-3 border-t border-white/10 px-2">
             {user ? (

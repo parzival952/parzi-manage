@@ -43,7 +43,7 @@ export default async function ScoutingPage({ searchParams }: { searchParams: Pro
         Tes cibles — les joueurs que tu suis avant de proposer un mandat · {prospects.length}/{all.length} affiché{all.length > 1 ? "s" : ""}
       </p>
 
-      <div className="bg-[#f9fafb] border border-black/10 rounded-xl p-4">
+      <div className="bg-white border border-black/[0.06] rounded-2xl shadow-[0_1px_3px_rgba(16,24,40,0.06)] p-4">
         <form method="GET" className="flex gap-2 mb-4 flex-wrap items-center">
           <select name="poste" defaultValue={poste ?? ""} className={input}>
             <option value="">Tous postes</option>

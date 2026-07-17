@@ -33,7 +33,7 @@ export default async function CalendrierPage() {
       <h1 className="text-xl font-bold mb-1">Calendrier</h1>
       <p className="text-sm text-[#898781] mb-6">Rendez-vous, matchs, échéances · {events.length} événement{events.length > 1 ? "s" : ""}</p>
 
-      <div className="bg-[#f9fafb] border border-black/10 rounded-xl p-4 mb-4">
+      <div className="bg-white border border-black/[0.06] rounded-2xl shadow-[0_1px_3px_rgba(16,24,40,0.06)] p-4 mb-4">
         <form action={add} className="flex gap-2 flex-wrap">
           <input name="day" placeholder="Jour (ex. Lundi 21 juil.)" className={`${input} w-44`} />
           <input name="time" placeholder="Heure" className={`${input} w-24`} />
@@ -43,7 +43,7 @@ export default async function CalendrierPage() {
         </form>
       </div>
 
-      <div className="bg-[#f9fafb] border border-black/10 rounded-xl p-4">
+      <div className="bg-white border border-black/[0.06] rounded-2xl shadow-[0_1px_3px_rgba(16,24,40,0.06)] p-4">
         {events.length === 0 ? (
           <p className="text-[13px] text-[#898781] py-4 text-center">Aucun événement — ajoute ton premier rendez-vous ci-dessus.</p>
         ) : (

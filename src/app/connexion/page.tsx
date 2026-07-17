@@ -41,7 +41,7 @@ export default async function ConnexionPage({ searchParams }: { searchParams: Pr
           </div>
         </div>
 
-        <div className="bg-[#f9fafb] border border-black/10 rounded-2xl p-6 shadow-sm">
+        <div className="bg-white border border-black/[0.06] rounded-2xl shadow-[0_2px_8px_rgba(16,24,40,0.07)] p-6 shadow-sm">
           <h1 className="font-bold text-[16px] mb-1">{isSignup ? "Créer ton compte agent" : "Connexion"}</h1>
           <p className="text-[12.5px] text-[#898781] mb-4">
             {isSignup ? "Ton espace démarre avec un portefeuille de démonstration." : "Retrouve ton portefeuille et tes alertes."}

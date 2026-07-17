@@ -1,26 +1,32 @@
 @import "tailwindcss";
 
+/* Thème Parzi Manage — épuré premium, maîtrisé.
+   Pas de basculement automatique clair/sombre : le rendu est identique
+   quel que soit le réglage du système. */
+
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  color-scheme: light;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+html {
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background:
+    radial-gradient(1100px 420px at 85% -10%, rgba(42, 120, 214, 0.055), transparent 60%),
+    #f1f2f5;
+  color: #101318;
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+}
+
+::selection {
+  background: rgba(42, 120, 214, 0.18);
+}
+
+/* Barres de défilement discrètes */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: #c9cdd4 transparent;
 }
