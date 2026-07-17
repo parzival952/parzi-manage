@@ -1,7 +1,10 @@
 // Couche de données Parzi Manage — SQLite (node:sqlite) en dev.
 // Le schéma est écrit pour être portable vers Postgres/Supabase en production
 // (types simples, snake_case, pas de spécificités SQLite).
-import { DatabaseSync } from "node:sqlite";
+// Import de TYPE uniquement (effacé à la compilation) : le module node:sqlite
+// n'est chargé qu'à l'exécution, et seulement si le mode SQLite est utilisé —
+// jamais en production Vercel (où DATABASE_URL est définie).
+import type { DatabaseSync } from "node:sqlite";
 import fs from "node:fs";
 import path from "node:path";
 
@@ -12,8 +15,9 @@ let _db: DatabaseSync | null = null;
 
 export function db(): DatabaseSync {
   if (_db) return _db;
+  const sqlite = process.getBuiltinModule("node:sqlite") as typeof import("node:sqlite");
   fs.mkdirSync(DATA_DIR, { recursive: true });
-  _db = new DatabaseSync(DB_PATH);
+  _db = new sqlite.DatabaseSync(DB_PATH);
   _db.exec("PRAGMA journal_mode = WAL;");
   migrate(_db);
   seedIfEmpty(_db);
