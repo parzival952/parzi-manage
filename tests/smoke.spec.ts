@@ -2,11 +2,13 @@ import { test, expect } from "@playwright/test";
 
 // Smoke tests — mode démo (SQLite, sans auth ni IA). Vérifie les parcours clés.
 
-test("le dashboard s'affiche avec les données de démo", async ({ page }) => {
+test("le dashboard Command Center s'affiche avec les données de démo", async ({ page }) => {
   await page.goto("/dashboard");
-  await expect(page.getByText("Joueurs sous mandat")).toBeVisible();
-  await expect(page.getByText("Alertes")).toBeVisible();
-  await expect(page.getByText("Agenda")).toBeVisible();
+  await expect(page.getByText("MISSION DU JOUR")).toBeVisible();
+  await expect(page.getByText("Agency Health")).toBeVisible();
+  await expect(page.getByText("Timeline live")).toBeVisible();
+  await expect(page.getByText("Plan d'action")).toBeVisible();
+  await expect(page.getByText("Joueurs prioritaires")).toBeVisible();
 });
 
 test("ajout puis suppression d'un joueur", async ({ page }) => {
