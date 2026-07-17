@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { redirect } from "next/navigation";
 import { getUser, signOut } from "@/lib/auth";
-import NavLinks from "@/components/NavLinks";
+import NavLinks, { BottomNav } from "@/components/NavLinks";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -44,59 +44,73 @@ export default async function RootLayout({ children }: Readonly<{ children: Reac
   return (
     <html lang="fr" className="h-full antialiased">
       <body className="min-h-full md:flex">
-        {/* ---- Barre latérale (PC) : verre sombre ---- */}
-        <aside className="hidden md:flex w-56 shrink-0 bg-[#0e1420]/85 backdrop-blur-xl text-[#d6d9dd] sticky top-0 h-screen flex-col p-4 border-r border-white/10">
+        {/* ---- Barre latérale (PC) — claire, façon Linear ---- */}
+        <aside className="hidden md:flex w-56 shrink-0 bg-white/70 backdrop-blur-xl sticky top-0 h-screen flex-col p-4 border-r border-[#e8ebf0]">
           <div className="flex items-center gap-2.5 px-2 pb-6">
-            <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-[#2a78d6] to-[#4a3aa7] grid place-items-center font-bold text-white shadow-lg shadow-[#2a78d6]/30">
+            <div className="w-8 h-8 rounded-[10px] bg-gradient-to-br from-[#2563eb] to-[#4a3aa7] grid place-items-center font-bold text-white shadow-md shadow-[#2563eb]/25">
               P
             </div>
             <div>
-              <div className="font-bold text-white text-[15px] leading-tight">Parzi Manage</div>
-              <div className="text-[10px] uppercase tracking-widest text-[#8a93a3]">Bêta · MVP</div>
+              <div className="font-bold text-[#0f172a] text-[15px] leading-tight tracking-tight">Parzi Manage</div>
+              <div className="text-[9.5px] uppercase tracking-widest text-[#94a3b8]">Command Center</div>
             </div>
           </div>
           <nav className="flex flex-col gap-0.5">
             <NavLinks items={nav} />
           </nav>
-          <div className="mt-auto pt-3 border-t border-white/10 px-2">
+          <div className="mt-auto pt-3 border-t border-[#e8ebf0] px-2">
             {user ? (
               <div className="flex items-center gap-2.5">
-                <div className="w-7 h-7 rounded-full bg-[#2a78d6] grid place-items-center text-white text-xs font-semibold shrink-0">
+                <div className="w-7 h-7 rounded-full bg-gradient-to-br from-[#2563eb] to-[#4a3aa7] grid place-items-center text-white text-xs font-semibold shrink-0">
                   {(user.email[0] ?? "A").toUpperCase()}
                 </div>
                 <div className="min-w-0">
-                  <div className="text-xs font-semibold text-white truncate">{user.email}</div>
+                  <div className="text-xs font-semibold text-[#0f172a] truncate">{user.email}</div>
                   <form action={logout}>
-                    <button type="submit" className="text-[10px] text-[#8a93a3] hover:text-white">Se déconnecter</button>
+                    <button type="submit" className="text-[10px] text-[#94a3b8] hover:text-[#0f172a]">Se déconnecter</button>
                   </form>
                 </div>
               </div>
             ) : (
-              <Link href="/connexion" className="text-xs text-[#8a93a3] hover:text-white">Se connecter</Link>
+              <Link href="/connexion" className="text-xs text-[#94a3b8] hover:text-[#0f172a]">Se connecter</Link>
             )}
           </div>
         </aside>
 
-        {/* ---- Colonne principale (mobile : barre du haut + nav défilante) ---- */}
+        {/* ---- Colonne principale ---- */}
         <div className="flex-1 flex flex-col min-w-0">
-          <header className="md:hidden sticky top-0 z-40 bg-[#0e1420]/85 backdrop-blur-xl text-white border-b border-white/10">
-            <div className="flex items-center gap-2.5 px-4 pt-3 pb-2">
-              <div className="w-7 h-7 rounded-lg bg-gradient-to-br from-[#2a78d6] to-[#4a3aa7] grid place-items-center font-bold text-white text-sm">
+          {/* Barre du haut (mobile) — fine, logo seul */}
+          <header className="md:hidden sticky top-0 z-40 bg-white/85 backdrop-blur-xl border-b border-[#e8ebf0]">
+            <div className="flex items-center gap-2.5 px-4 py-2.5">
+              <div className="w-7 h-7 rounded-lg bg-gradient-to-br from-[#2563eb] to-[#4a3aa7] grid place-items-center font-bold text-white text-sm">
                 P
               </div>
-              <span className="font-bold text-[15px]">Parzi Manage</span>
+              <span className="font-bold text-[15px] tracking-tight">Parzi Manage</span>
               {user && (
                 <form action={logout} className="ml-auto">
-                  <button type="submit" className="text-[11px] text-[#8a93a3]">Déconnexion</button>
+                  <button type="submit" className="text-[11px] text-[#94a3b8]">Déconnexion</button>
                 </form>
               )}
             </div>
-            <nav className="flex gap-1 px-3 pb-2 overflow-x-auto whitespace-nowrap [&>a]:shrink-0">
-              <NavLinks items={nav} />
-            </nav>
           </header>
-          <main className="flex-1 p-4 sm:p-6 md:p-8 max-w-6xl w-full">{children}</main>
+
+          <main className="flex-1 p-4 sm:p-6 md:p-8 max-w-6xl w-full pb-28 md:pb-8">{children}</main>
         </div>
+
+        {/* ---- Assistant IA flottant ---- */}
+        {user && (
+          <Link
+            href="/assistant"
+            title="Parler à ton copilote IA"
+            className="ai-float ai-bubble fixed bottom-24 md:bottom-6 right-5 z-50 w-13 h-13 md:w-14 md:h-14 rounded-full bg-gradient-to-br from-[#2563eb] to-[#4a3aa7] text-white grid place-items-center text-[22px] shadow-xl shadow-[#2563eb]/30 hover:scale-105 transition-transform"
+            style={{ width: 52, height: 52 }}
+          >
+            ✦
+          </Link>
+        )}
+
+        {/* ---- Navigation mobile (5 onglets) ---- */}
+        {user && <BottomNav />}
       </body>
     </html>
   );
