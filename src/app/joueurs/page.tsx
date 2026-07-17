@@ -12,8 +12,15 @@ export default async function JoueursPage() {
   const players = await getPlayers();
   return (
     <div>
-      <h1 className="text-xl font-bold mb-1">Joueurs</h1>
-      <p className="text-sm text-[#898781] mb-6">Portefeuille — {players.length} joueurs sous mandat</p>
+      <div className="flex items-start justify-between">
+        <div>
+          <h1 className="text-xl font-bold mb-1">Joueurs</h1>
+          <p className="text-sm text-[#898781] mb-6">Portefeuille — {players.length} joueurs sous mandat</p>
+        </div>
+        <Link href="/joueurs/nouveau" className="bg-[#2a78d6] text-white font-semibold text-sm rounded-lg px-4 py-2 hover:bg-[#2266bb]">
+          + Ajouter un joueur
+        </Link>
+      </div>
       <div className="bg-white border border-black/10 rounded-xl p-4 overflow-x-auto">
         <table className="w-full text-[13px]">
           <thead>

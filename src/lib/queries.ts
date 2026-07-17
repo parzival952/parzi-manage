@@ -69,6 +69,60 @@ export async function getContacts(): Promise<Contact[]> {
   return db().prepare("SELECT * FROM contacts ORDER BY name").all() as Contact[];
 }
 
+// ---------- Mutations ----------
+
+export type PlayerInput = Omit<Player, "id">;
+
+export async function createPlayer(p: PlayerInput): Promise<void> {
+  if (usePostgres()) {
+    await pg()`INSERT INTO players (name, position, age, club, contract_end, est_value, status, status_label, salary, mandate, strong_foot, height, nationality, notes)
+      VALUES (${p.name}, ${p.position}, ${p.age}, ${p.club}, ${p.contract_end}, ${p.est_value}, ${p.status}, ${p.status_label}, ${p.salary}, ${p.mandate}, ${p.strong_foot}, ${p.height}, ${p.nationality}, ${p.notes})`;
+    return;
+  }
+  db().prepare(`INSERT INTO players (name, position, age, club, contract_end, est_value, status, status_label, salary, mandate, strong_foot, height, nationality, notes)
+    VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?)`)
+    .run(p.name, p.position, p.age, p.club, p.contract_end, p.est_value, p.status, p.status_label, p.salary, p.mandate, p.strong_foot, p.height, p.nationality, p.notes);
+}
+
+export async function updatePlayer(id: number, p: PlayerInput): Promise<void> {
+  if (usePostgres()) {
+    await pg()`UPDATE players SET name=${p.name}, position=${p.position}, age=${p.age}, club=${p.club},
+      contract_end=${p.contract_end}, est_value=${p.est_value}, status=${p.status}, status_label=${p.status_label},
+      salary=${p.salary}, mandate=${p.mandate}, strong_foot=${p.strong_foot}, height=${p.height},
+      nationality=${p.nationality}, notes=${p.notes} WHERE id=${id}`;
+    return;
+  }
+  db().prepare(`UPDATE players SET name=?, position=?, age=?, club=?, contract_end=?, est_value=?, status=?, status_label=?,
+    salary=?, mandate=?, strong_foot=?, height=?, nationality=?, notes=? WHERE id=?`)
+    .run(p.name, p.position, p.age, p.club, p.contract_end, p.est_value, p.status, p.status_label, p.salary, p.mandate, p.strong_foot, p.height, p.nationality, p.notes, id);
+}
+
+export async function deletePlayer(id: number): Promise<void> {
+  if (usePostgres()) {
+    await pg()`DELETE FROM players WHERE id=${id}`;
+    return;
+  }
+  db().prepare("DELETE FROM players WHERE id=?").run(id);
+}
+
+export async function createTask(title: string, due_label: string): Promise<void> {
+  if (usePostgres()) {
+    await pg()`INSERT INTO tasks (title, due_label, is_late, is_done) VALUES (${title}, ${due_label}, false, false)`;
+    return;
+  }
+  db().prepare("INSERT INTO tasks (title, due_label, is_late, is_done) VALUES (?,?,0,0)").run(title, due_label);
+}
+
+export async function createContact(c: Omit<Contact, "id">): Promise<void> {
+  if (usePostgres()) {
+    await pg()`INSERT INTO contacts (name, role, org, last_exchange, next_step)
+      VALUES (${c.name}, ${c.role}, ${c.org}, ${c.last_exchange}, ${c.next_step})`;
+    return;
+  }
+  db().prepare("INSERT INTO contacts (name, role, org, last_exchange, next_step) VALUES (?,?,?,?,?)")
+    .run(c.name, c.role, c.org, c.last_exchange, c.next_step);
+}
+
 export async function getKpis() {
   if (usePostgres()) {
     const sql = pg();

@@ -1,6 +1,6 @@
 export const dynamic = "force-dynamic";
 import { revalidatePath } from "next/cache";
-import { getAlerts, getEvents, getKpis, getOpportunities, getTasks, toggleTask } from "@/lib/queries";
+import { createTask, getAlerts, getEvents, getKpis, getOpportunities, getTasks, toggleTask } from "@/lib/queries";
 
 const sevColor: Record<string, string> = {
   critical: "bg-[#d03b3b]",
@@ -23,6 +23,14 @@ export default async function DashboardPage() {
   async function toggle(formData: FormData) {
     "use server";
     await toggleTask(Number(formData.get("id")));
+    revalidatePath("/dashboard");
+  }
+
+  async function addTask(formData: FormData) {
+    "use server";
+    const title = String(formData.get("title") ?? "").trim();
+    if (!title) return;
+    await createTask(title, String(formData.get("due") ?? "").trim() || "—");
     revalidatePath("/dashboard");
   }
 
@@ -103,6 +111,13 @@ export default async function DashboardPage() {
                 </span>
               </form>
             ))}
+            <form action={addTask} className="flex gap-2 mt-3">
+              <input name="title" placeholder="Nouvelle tâche…" required
+                className="flex-1 border border-black/15 rounded-lg px-3 py-1.5 text-[13px] focus:outline-none focus:border-[#2a78d6]" />
+              <input name="due" placeholder="Quand ?"
+                className="w-20 border border-black/15 rounded-lg px-2 py-1.5 text-[12px] focus:outline-none focus:border-[#2a78d6]" />
+              <button type="submit" className="bg-[#2a78d6] text-white text-[13px] font-semibold rounded-lg px-3">+</button>
+            </form>
           </section>
 
           <section className="bg-white border border-black/10 rounded-xl p-4">

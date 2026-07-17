@@ -1,8 +1,17 @@
 export const dynamic = "force-dynamic";
-import { getContacts } from "@/lib/queries";
+import { revalidatePath } from "next/cache";
+import { createContact, getContacts } from "@/lib/queries";
 
 export default async function CrmPage() {
   const contacts = await getContacts();
+
+  async function addContact(formData: FormData) {
+    "use server";
+    const s = (k: string) => String(formData.get(k) ?? "").trim();
+    if (!s("name")) return;
+    await createContact({ name: s("name"), role: s("role") || "—", org: s("org") || "—", last_exchange: s("last_exchange") || "Nouveau contact", next_step: s("next_step") || "—" });
+    revalidatePath("/crm");
+  }
   return (
     <div>
       <h1 className="text-xl font-bold mb-1">CRM</h1>
@@ -28,6 +37,13 @@ export default async function CrmPage() {
             ))}
           </tbody>
         </table>
+        <form action={addContact} className="flex gap-2 mt-4 flex-wrap">
+          <input name="name" required placeholder="Nom *" className="border border-black/15 rounded-lg px-3 py-1.5 text-[13px] w-40 focus:outline-none focus:border-[#2a78d6]" />
+          <input name="role" placeholder="Rôle" className="border border-black/15 rounded-lg px-3 py-1.5 text-[13px] w-40 focus:outline-none focus:border-[#2a78d6]" />
+          <input name="org" placeholder="Organisation" className="border border-black/15 rounded-lg px-3 py-1.5 text-[13px] w-44 focus:outline-none focus:border-[#2a78d6]" />
+          <input name="next_step" placeholder="Prochain pas" className="border border-black/15 rounded-lg px-3 py-1.5 text-[13px] w-44 focus:outline-none focus:border-[#2a78d6]" />
+          <button type="submit" className="bg-[#2a78d6] text-white text-[13px] font-semibold rounded-lg px-4">+ Ajouter</button>
+        </form>
       </div>
     </div>
   );
