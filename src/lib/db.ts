@@ -98,6 +98,12 @@ function migrate(d: DatabaseSync) {
     note TEXT NOT NULL DEFAULT '',
     sport TEXT NOT NULL DEFAULT 'football'
   );
+  CREATE TABLE IF NOT EXISTS ai_messages (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    role TEXT NOT NULL CHECK (role IN ('user','assistant')),
+    content TEXT NOT NULL,
+    created_at TEXT NOT NULL DEFAULT (datetime('now'))
+  );
   `);
 }
 

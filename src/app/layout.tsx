@@ -11,6 +11,7 @@ export const metadata: Metadata = {
 
 const nav = [
   { href: "/dashboard", label: "Dashboard", icon: "◧" },
+  { href: "/assistant", label: "Assistant ✦", icon: "🤖" },
   { href: "/joueurs", label: "Joueurs", icon: "⚽" },
   { href: "/clubs", label: "Clubs", icon: "🏟" },
   { href: "/scouting", label: "Scouting", icon: "🔭" },
