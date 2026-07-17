@@ -30,7 +30,7 @@ export default async function RootLayout({ children }: Readonly<{ children: Reac
 
   return (
     <html lang="fr" className="h-full antialiased">
-      <body className="min-h-full flex bg-[#f9f9f7] text-[#0b0b0b]">
+      <body className="min-h-full flex bg-[#eceff3] text-[#0b0b0b]">
         <aside className="w-56 shrink-0 bg-[#101418] text-[#d6d9dd] sticky top-0 h-screen flex flex-col p-4">
           <div className="flex items-center gap-2.5 px-2 pb-6">
             <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-[#2a78d6] to-[#4a3aa7] grid place-items-center font-bold text-white">
@@ -46,7 +46,7 @@ export default async function RootLayout({ children }: Readonly<{ children: Reac
               <Link
                 key={n.href}
                 href={n.href}
-                className="flex items-center gap-2.5 px-2.5 py-2 rounded-lg hover:bg-white/5 text-sm"
+                className="flex items-center gap-2.5 px-2.5 py-2 rounded-lg hover:bg-[#f9fafb]/5 text-sm"
               >
                 <span className="w-5 text-center opacity-80">{n.icon}</span> {n.label}
               </Link>

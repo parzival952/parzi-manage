@@ -33,7 +33,7 @@ export default async function JoueurPage({ params }: { params: Promise<{ id: str
         </Link>
       </div>
 
-      <div className="bg-white border border-black/10 rounded-xl p-5 mb-4">
+      <div className="bg-[#f9fafb] border border-black/10 rounded-xl p-5 mb-4">
         <dl className="grid grid-cols-[140px_1fr] gap-y-2 gap-x-4 text-[13.5px]">
           {rows.map(([k, v]) => (
             <div key={k} className="contents">
@@ -44,7 +44,7 @@ export default async function JoueurPage({ params }: { params: Promise<{ id: str
         </dl>
       </div>
 
-      <div className="bg-white border border-black/10 rounded-xl p-5">
+      <div className="bg-[#f9fafb] border border-black/10 rounded-xl p-5">
         <h2 className="text-[11px] font-bold uppercase tracking-wide text-[#898781] mb-2">Notes internes</h2>
         <p className="text-[13.5px] text-[#52514e] leading-relaxed">{p.notes}</p>
       </div>

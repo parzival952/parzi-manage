@@ -28,10 +28,10 @@ export default async function ConnexionPage({ searchParams }: { searchParams: Pr
     redirect("/dashboard");
   }
 
-  const input = "w-full border border-black/15 rounded-lg px-3.5 py-2.5 text-[14px] bg-white focus:outline-none focus:border-[#2a78d6]";
+  const input = "w-full border border-black/15 rounded-lg px-3.5 py-2.5 text-[14px] bg-[#f9fafb] focus:outline-none focus:border-[#2a78d6]";
 
   return (
-    <div className="min-h-screen w-full grid place-items-center bg-[#f9f9f7] fixed inset-0 z-50">
+    <div className="min-h-screen w-full grid place-items-center bg-[#eceff3] fixed inset-0 z-50">
       <div className="w-full max-w-sm">
         <div className="flex items-center gap-3 justify-center mb-6">
           <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-[#2a78d6] to-[#4a3aa7] grid place-items-center font-bold text-white text-lg">P</div>
@@ -41,7 +41,7 @@ export default async function ConnexionPage({ searchParams }: { searchParams: Pr
           </div>
         </div>
 
-        <div className="bg-white border border-black/10 rounded-2xl p-6 shadow-sm">
+        <div className="bg-[#f9fafb] border border-black/10 rounded-2xl p-6 shadow-sm">
           <h1 className="font-bold text-[16px] mb-1">{isSignup ? "Créer ton compte agent" : "Connexion"}</h1>
           <p className="text-[12.5px] text-[#898781] mb-4">
             {isSignup ? "Ton espace démarre avec un portefeuille de démonstration." : "Retrouve ton portefeuille et tes alertes."}

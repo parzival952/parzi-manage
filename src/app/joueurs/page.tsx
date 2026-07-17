@@ -23,7 +23,7 @@ export default async function JoueursPage() {
           + Ajouter un joueur
         </Link>
       </div>
-      <div className="bg-white border border-black/10 rounded-xl p-4 overflow-x-auto">
+      <div className="bg-[#f9fafb] border border-black/10 rounded-xl p-4 overflow-x-auto">
         <table className="w-full text-[13px]">
           <thead>
             <tr className="text-left text-[11px] uppercase tracking-wide text-[#898781]">

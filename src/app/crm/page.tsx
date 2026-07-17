@@ -19,7 +19,7 @@ export default async function CrmPage() {
     <div>
       <h1 className="text-xl font-bold mb-1">CRM</h1>
       <p className="text-sm text-[#898781] mb-6">Contacts réseau — {contacts.length}</p>
-      <div className="bg-white border border-black/10 rounded-xl p-4 overflow-x-auto">
+      <div className="bg-[#f9fafb] border border-black/10 rounded-xl p-4 overflow-x-auto">
         <table className="w-full text-[13px]">
           <thead>
             <tr className="text-left text-[11px] uppercase tracking-wide text-[#898781]">

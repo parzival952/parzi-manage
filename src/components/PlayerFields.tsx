@@ -7,7 +7,7 @@ const POSITIONS = [
 ];
 
 const input =
-  "w-full border border-black/15 rounded-lg px-3 py-2 text-[13.5px] bg-white focus:outline-none focus:border-[#2a78d6]";
+  "w-full border border-black/15 rounded-lg px-3 py-2 text-[13.5px] bg-[#f9fafb] focus:outline-none focus:border-[#2a78d6]";
 const label = "block text-[11px] font-semibold uppercase tracking-wide text-[#898781] mb-1 mt-3";
 
 export function PlayerFields({ p }: { p?: Player }) {

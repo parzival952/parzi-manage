@@ -8,7 +8,7 @@ const POSITIONS = [
   "Milieu défensif", "Milieu central", "Milieu offensif",
   "Ailier droit", "Ailier gauche", "Avant-centre", "Attaquant",
 ];
-const input = "border border-black/15 rounded-lg px-3 py-1.5 text-[13px] bg-white focus:outline-none focus:border-[#2a78d6]";
+const input = "border border-black/15 rounded-lg px-3 py-1.5 text-[13px] bg-[#f9fafb] focus:outline-none focus:border-[#2a78d6]";
 
 export default async function ScoutingPage({ searchParams }: { searchParams: Promise<{ poste?: string; age?: string }> }) {
   const { poste, age } = await searchParams;
@@ -43,7 +43,7 @@ export default async function ScoutingPage({ searchParams }: { searchParams: Pro
         Tes cibles — les joueurs que tu suis avant de proposer un mandat · {prospects.length}/{all.length} affiché{all.length > 1 ? "s" : ""}
       </p>
 
-      <div className="bg-white border border-black/10 rounded-xl p-4">
+      <div className="bg-[#f9fafb] border border-black/10 rounded-xl p-4">
         <form method="GET" className="flex gap-2 mb-4 flex-wrap items-center">
           <select name="poste" defaultValue={poste ?? ""} className={input}>
             <option value="">Tous postes</option>
