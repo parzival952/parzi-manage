@@ -35,7 +35,7 @@ test("le dossier joueur s'affiche", async ({ page }) => {
 });
 
 test("clubs, scouting, CRM, calendrier et réglages répondent", async ({ page }) => {
-  for (const path of ["/clubs", "/scouting", "/crm", "/calendrier", "/parametres"]) {
+  for (const path of ["/clubs", "/scouting", "/crm", "/calendrier", "/parametres", "/competitions"]) {
     const res = await page.goto(path);
     expect(res?.status()).toBe(200);
   }

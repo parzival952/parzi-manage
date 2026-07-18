@@ -30,6 +30,7 @@ const nav = [
   { href: "/scouting", label: "Scouting", icon: "🔭" },
   { href: "/crm", label: "CRM", icon: "👥" },
   { href: "/veille", label: "Veille", icon: "📡" },
+  { href: "/competitions", label: "Compétitions", icon: "🏆" },
   { href: "/calendrier", label: "Calendrier", icon: "📅" },
   { href: "/parametres", label: "Réglages", icon: "⚙" },
 ];
