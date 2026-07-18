@@ -168,8 +168,8 @@ export async function generatePitch(uid: string, playerId: number): Promise<{ ok
       headers: { "x-api-key": API_KEY, "anthropic-version": "2023-06-01", "content-type": "application/json" },
       body: JSON.stringify({
         model: MODEL,
-        max_tokens: 500,
-        system: "Tu rédiges des argumentaires de présentation de joueurs de football pour des dossiers envoyés aux clubs. Ton professionnel, factuel, valorisant sans exagération. Tu n'inventes AUCUNE statistique ni performance : tu t'appuies uniquement sur les données fournies. Français impeccable. 120 à 170 mots, un seul bloc de texte sans titre.",
+        max_tokens: 900,
+        system: "Tu rédiges des argumentaires de présentation de joueurs de football pour des dossiers envoyés aux clubs. Ton professionnel, factuel, valorisant sans exagération. Tu n'inventes AUCUNE statistique ni performance : tu t'appuies uniquement sur les données fournies. Français impeccable. 120 à 150 mots MAXIMUM, un seul bloc de texte sans titre, et termine toujours par une phrase complète.",
         messages: [{
           role: "user",
           content: `Rédige l'argumentaire de présentation de ce joueur pour un club recruteur :\n${JSON.stringify({ nom: p.name, poste: p.position, age: p.age, club: p.club, fin_contrat: p.contract_end, valeur: p.est_value, pied: p.strong_foot, taille: p.height, nationalite: p.nationality, notes_agent: p.notes })}`,
