@@ -202,6 +202,49 @@ export async function deleteEvent(uid: string, id: number): Promise<void> {
   db().prepare("DELETE FROM events WHERE id=?").run(id);
 }
 
+// ---------- Profils (e-mail + préférences de notification) ----------
+
+export type Profile = { user_id: string; email: string; notify_brief: boolean | number; last_brief_sent: string | null };
+
+export async function getProfile(uid: string): Promise<Profile | undefined> {
+  if (usePostgres()) {
+    const rows = (await pg()`SELECT * FROM profiles WHERE user_id = ${uid}`) as unknown as Profile[];
+    return rows[0];
+  }
+  return db().prepare("SELECT * FROM profiles WHERE user_id = ?").get(uid) as Profile | undefined;
+}
+
+/** Mémorise l'e-mail du compte (appelé à chaque connexion/inscription). */
+export async function upsertProfile(uid: string, email: string): Promise<void> {
+  if (usePostgres()) {
+    await pg()`INSERT INTO profiles (user_id, email) VALUES (${uid}, ${email})
+      ON CONFLICT (user_id) DO UPDATE SET email = EXCLUDED.email`;
+    return;
+  }
+  db().prepare(`INSERT INTO profiles (user_id, email) VALUES (?,?)
+    ON CONFLICT (user_id) DO UPDATE SET email = excluded.email`).run(uid, email);
+}
+
+export async function setNotifyBrief(uid: string, on: boolean): Promise<void> {
+  if (usePostgres()) { await pg()`UPDATE profiles SET notify_brief = ${on} WHERE user_id = ${uid}`; return; }
+  db().prepare("UPDATE profiles SET notify_brief = ? WHERE user_id = ?").run(on ? 1 : 0, uid);
+}
+
+export async function markBriefSent(uid: string, date: string): Promise<void> {
+  if (usePostgres()) { await pg()`UPDATE profiles SET last_brief_sent = ${date} WHERE user_id = ${uid}`; return; }
+  db().prepare("UPDATE profiles SET last_brief_sent = ? WHERE user_id = ?").run(date, uid);
+}
+
+/** Profils à notifier aujourd'hui (opt-in, e-mail connu, pas encore envoyé ce jour). */
+export async function getNotifiableProfiles(date: string): Promise<Profile[]> {
+  if (usePostgres()) {
+    return (await pg()`SELECT * FROM profiles
+      WHERE notify_brief AND email <> '' AND (last_brief_sent IS NULL OR last_brief_sent <> ${date}::date)
+      LIMIT 100`) as unknown as Profile[];
+  }
+  return db().prepare("SELECT * FROM profiles WHERE notify_brief = 1 AND email <> '' AND last_brief_sent <> ?").all(date) as Profile[];
+}
+
 // ---------- Seed du portefeuille de démonstration pour un nouveau compte ----------
 
 export async function ensureSeeded(uid: string): Promise<void> {

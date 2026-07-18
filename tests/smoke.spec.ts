@@ -34,11 +34,16 @@ test("le dossier joueur s'affiche", async ({ page }) => {
   await expect(page.getByRole("button", { name: /Imprimer/ })).toBeVisible();
 });
 
-test("clubs, scouting, CRM et calendrier répondent", async ({ page }) => {
-  for (const path of ["/clubs", "/scouting", "/crm", "/calendrier"]) {
+test("clubs, scouting, CRM, calendrier et réglages répondent", async ({ page }) => {
+  for (const path of ["/clubs", "/scouting", "/crm", "/calendrier", "/parametres"]) {
     const res = await page.goto(path);
     expect(res?.status()).toBe(200);
   }
+});
+
+test("le réglage de notification s'affiche", async ({ page }) => {
+  await page.goto("/parametres");
+  await expect(page.getByText("Brief du matin par e-mail")).toBeVisible();
 });
 
 test("l'accueil public s'affiche pour un visiteur (aperçu)", async ({ page }) => {

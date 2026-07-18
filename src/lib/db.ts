@@ -120,6 +120,12 @@ function migrate(d: DatabaseSync) {
     probability TEXT NOT NULL DEFAULT '',
     priority INTEGER NOT NULL DEFAULT 3
   );
+  CREATE TABLE IF NOT EXISTS profiles (
+    user_id TEXT PRIMARY KEY,
+    email TEXT NOT NULL DEFAULT '',
+    notify_brief INTEGER NOT NULL DEFAULT 1,
+    last_brief_sent TEXT NOT NULL DEFAULT ''
+  );
   `);
 }
 

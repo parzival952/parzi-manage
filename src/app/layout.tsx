@@ -30,6 +30,7 @@ const nav = [
   { href: "/crm", label: "CRM", icon: "👥" },
   { href: "/veille", label: "Veille", icon: "📡" },
   { href: "/calendrier", label: "Calendrier", icon: "📅" },
+  { href: "/parametres", label: "Réglages", icon: "⚙" },
 ];
 
 export default async function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {

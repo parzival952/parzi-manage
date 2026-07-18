@@ -3,6 +3,7 @@
 // Vercel l'envoie automatiquement en Authorization: Bearer.
 import { NextResponse } from "next/server";
 import { generateAllBriefs } from "@/lib/ai";
+import { sendMorningEmails } from "@/lib/email";
 
 export const maxDuration = 300;
 
@@ -20,5 +21,6 @@ export async function GET(req: Request) {
     }
   }
   const result = await generateAllBriefs();
-  return NextResponse.json({ ok: true, ...result });
+  const mail = await sendMorningEmails();
+  return NextResponse.json({ ok: true, ...result, ...mail });
 }

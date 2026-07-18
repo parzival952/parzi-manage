@@ -1,6 +1,6 @@
 import { redirect } from "next/navigation";
 import { getUser, signIn, signUp } from "@/lib/auth";
-import { ensureSeeded } from "@/lib/queries";
+import { ensureSeeded, upsertProfile } from "@/lib/queries";
 
 export const dynamic = "force-dynamic";
 
@@ -15,7 +15,7 @@ export default async function ConnexionPage({ searchParams }: { searchParams: Pr
     const res = await signIn(String(formData.get("email")), String(formData.get("password")));
     if (!res.ok) redirect(`/connexion?erreur=${encodeURIComponent(res.error)}`);
     const u = await getUser();
-    if (u) await ensureSeeded(u.id); // portefeuille démo aussi pour les comptes confirmés par e-mail
+    if (u) { await ensureSeeded(u.id); await upsertProfile(u.id, u.email); } // portefeuille démo aussi pour les comptes confirmés par e-mail
     redirect("/dashboard");
   }
 
@@ -24,7 +24,7 @@ export default async function ConnexionPage({ searchParams }: { searchParams: Pr
     const res = await signUp(String(formData.get("email")), String(formData.get("password")));
     if (!res.ok) redirect(`/connexion?mode=inscription&erreur=${encodeURIComponent(res.error)}`);
     const u = await getUser();
-    if (u) await ensureSeeded(u.id);
+    if (u) { await ensureSeeded(u.id); await upsertProfile(u.id, u.email); }
     redirect("/dashboard");
   }
 
