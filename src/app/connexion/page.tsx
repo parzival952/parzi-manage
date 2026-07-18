@@ -1,8 +1,15 @@
+import Link from "next/link";
 import { redirect } from "next/navigation";
 import { getUser, signIn, signUp } from "@/lib/auth";
 import { ensureSeeded, upsertProfile } from "@/lib/queries";
 
 export const dynamic = "force-dynamic";
+
+const POINTS = [
+  ["✦", "Ton copilote IA lit tes données et prépare ta journée"],
+  ["⚽", "Joueurs, mandats, clubs, scouting — tout au même endroit"],
+  ["📡", "Veille mercato filtrée sur TON portefeuille"],
+];
 
 export default async function ConnexionPage({ searchParams }: { searchParams: Promise<{ erreur?: string; mode?: string }> }) {
   const { erreur, mode } = await searchParams;
@@ -28,43 +35,83 @@ export default async function ConnexionPage({ searchParams }: { searchParams: Pr
     redirect("/dashboard");
   }
 
-  const input = "w-full glass-input rounded-lg px-3.5 py-2.5 text-[14px] bg-white/70 focus:outline-none focus:border-[#2a78d6]";
+  const input =
+    "w-full rounded-xl px-4 py-3 text-[14.5px] bg-white border border-black/10 focus:outline-none focus:border-[#2a78d6] focus:ring-4 focus:ring-[#2a78d6]/10 transition-shadow";
 
   return (
-    <div className="min-h-screen w-full grid place-items-center fixed inset-0 z-50 px-4">
-      <div className="w-full max-w-sm">
-        <div className="flex items-center gap-3 justify-center mb-6">
-          <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-[#2a78d6] to-[#4a3aa7] grid place-items-center font-bold text-white text-lg">P</div>
-          <div>
-            <div className="font-bold text-[17px] leading-tight">Parzi Manage</div>
-            <div className="text-[11px] text-[#898781]">Le copilote des agents de football</div>
-          </div>
+    <div className="fixed inset-0 z-50 overflow-y-auto bg-[#0f0e0b] lg:grid lg:grid-cols-[1.05fr_1fr]">
+      {/* ---- Panneau de marque (graphite & or) ---- */}
+      <div className="relative flex flex-col items-center justify-center text-center px-8 py-10 lg:py-0 lg:min-h-screen overflow-hidden">
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_50%_35%,rgba(201,164,92,0.14),transparent_60%)] pointer-events-none" />
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img
+          src="/brand/parzi-gold.webp"
+          alt="PARZI — Global Football Intelligence"
+          className="relative w-full max-w-[300px] sm:max-w-[420px] lg:max-w-[520px] rounded-2xl shadow-2xl shadow-black/50"
+        />
+        <p className="relative mt-6 text-[11px] tracking-[0.28em] uppercase text-[#c9a45c]/90 font-semibold">
+          Global Football Intelligence
+        </p>
+        <div className="relative mt-8 hidden lg:flex flex-col gap-3 text-left">
+          {POINTS.map(([icon, txt]) => (
+            <div key={txt} className="flex items-center gap-3 text-[13.5px] text-[#d8d3c8]">
+              <span className="w-7 h-7 rounded-lg bg-white/5 border border-[#c9a45c]/25 grid place-items-center text-[13px]">{icon}</span>
+              {txt}
+            </div>
+          ))}
         </div>
+      </div>
 
-        <div className="bg-white border border-black/[0.06] rounded-2xl shadow-[0_2px_8px_rgba(16,24,40,0.07)] p-6 shadow-sm">
-          <h1 className="font-bold text-[16px] mb-1">{isSignup ? "Créer ton compte agent" : "Connexion"}</h1>
-          <p className="text-[12.5px] text-[#898781] mb-4">
-            {isSignup ? "Ton espace démarre avec un portefeuille de démonstration." : "Retrouve ton portefeuille et tes alertes."}
+      {/* ---- Panneau formulaire (clair) ---- */}
+      <div className="bg-[#f6f7f9] lg:min-h-screen flex items-center justify-center px-5 py-10 rounded-t-3xl lg:rounded-none">
+        <div className="w-full max-w-sm">
+          <div className="flex items-center gap-2.5 mb-6">
+            <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-[#2563eb] to-[#4a3aa7] grid place-items-center font-bold text-white">P</div>
+            <div>
+              <div className="font-bold text-[16px] leading-tight text-[#0f172a]">Parzi Manage</div>
+              <div className="text-[10px] uppercase tracking-widest text-[#94a3b8]">Command Center</div>
+            </div>
+          </div>
+
+          <h1 className="font-bold text-[22px] tracking-tight text-[#0f172a] mb-1">
+            {isSignup ? "Crée ton espace agent" : "Bon retour 👋"}
+          </h1>
+          <p className="text-[13.5px] text-[#64748b] mb-6">
+            {isSignup
+              ? "Gratuit en bêta — ton espace démarre avec un portefeuille de démonstration."
+              : "Retrouve ton portefeuille, tes alertes et ta mission du jour."}
           </p>
+
           {erreur && (
-            <div className="text-[12.5px] text-[#d03b3b] bg-[#d03b3b]/8 border border-[#d03b3b]/25 rounded-lg px-3 py-2 mb-3">{erreur}</div>
+            <div className="text-[13px] text-[#b91c1c] bg-[#ef4444]/8 border border-[#ef4444]/25 rounded-xl px-3.5 py-2.5 mb-4">{erreur}</div>
           )}
-          <form action={isSignup ? register : login} className="flex flex-col gap-2.5">
-            <input name="email" type="email" required placeholder="ton@email.com" className={input} />
-            <input name="password" type="password" required minLength={6} placeholder="Mot de passe (6 caractères min.)" className={input} />
-            <button type="submit" className="bg-[#2a78d6] text-white font-semibold text-[14px] rounded-lg py-2.5 mt-1 hover:bg-[#2266bb]">
-              {isSignup ? "Créer mon compte" : "Se connecter"}
+
+          <form action={isSignup ? register : login} className="flex flex-col gap-3">
+            <input name="email" type="email" required placeholder="ton@email.com" autoComplete="email" className={input} />
+            <input
+              name="password" type="password" required minLength={6} autoComplete={isSignup ? "new-password" : "current-password"}
+              placeholder="Mot de passe (6 caractères min.)" className={input}
+            />
+            <button
+              type="submit"
+              className="bg-[#2563eb] hover:bg-[#1d4fd8] text-white font-semibold text-[14.5px] rounded-xl py-3 mt-1 shadow-lg shadow-[#2563eb]/25 transition-colors"
+            >
+              {isSignup ? "Créer mon compte →" : "Se connecter →"}
             </button>
           </form>
-        </div>
 
-        <p className="text-center text-[13px] text-[#52514e] mt-4">
-          {isSignup ? (
-            <>Déjà un compte ? <a href="/connexion" className="text-[#2a78d6] font-medium hover:underline">Se connecter</a></>
-          ) : (
-            <>Nouveau sur Parzi Manage ? <a href="/connexion?mode=inscription" className="text-[#2a78d6] font-medium hover:underline">Créer un compte</a></>
-          )}
-        </p>
+          <p className="text-[13.5px] text-[#64748b] mt-5">
+            {isSignup ? (
+              <>Déjà un compte ? <Link href="/connexion" className="text-[#2563eb] font-semibold hover:underline">Se connecter</Link></>
+            ) : (
+              <>Nouveau sur Parzi Manage ? <Link href="/connexion?mode=inscription" className="text-[#2563eb] font-semibold hover:underline">Créer un compte gratuit</Link></>
+            )}
+          </p>
+
+          <p className="text-[11.5px] text-[#94a3b8] mt-8">
+            <Link href="/?apercu=1" className="hover:text-[#64748b]">← Découvrir Parzi Manage</Link>
+          </p>
+        </div>
       </div>
     </div>
   );

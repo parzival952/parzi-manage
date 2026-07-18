@@ -121,6 +121,25 @@ export default async function HomePage({ searchParams }: { searchParams: Promise
         </div>
       </section>
 
+      {/* Univers PARZI */}
+      <section className="px-6 py-20 relative overflow-hidden">
+        <div className="absolute inset-x-0 bottom-0 h-72 bg-[radial-gradient(ellipse_at_50%_100%,rgba(201,164,92,0.12),transparent_65%)] pointer-events-none" />
+        <div className="relative max-w-3xl mx-auto text-center">
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src="/brand/parzi-gold.webp"
+            alt="PARZI — Global Football Intelligence"
+            className="w-full max-w-xl mx-auto rounded-2xl border border-[#c9a45c]/20 shadow-2xl shadow-black/40"
+            loading="lazy"
+          />
+          <p className="text-[11px] tracking-[0.28em] uppercase text-[#c9a45c]/90 font-semibold mt-7">Global Football Intelligence</p>
+          <p className="text-[#b6bcc8] mt-3 text-[14.5px] max-w-lg mx-auto">
+            Parzi Manage est le premier produit de l&apos;univers <b className="text-[#f4f5f7]">PARZI</b> — l&apos;infrastructure
+            d&apos;intelligence qui rend le football plus lisible, plus juste et plus rapide à décider.
+          </p>
+        </div>
+      </section>
+
       {/* Footer */}
       <footer className="px-6 py-8">
         <div className="max-w-5xl mx-auto flex items-center gap-3 text-[12.5px] text-[#7c828a] flex-wrap">
