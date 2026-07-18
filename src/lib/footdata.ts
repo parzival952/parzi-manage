@@ -66,11 +66,17 @@ export async function getResults(code: string, limit = 10): Promise<Match[] | nu
   return [...j.matches].sort((a, b) => b.utcDate.localeCompare(a.utcDate)).slice(0, limit);
 }
 
-/** Prochains matchs (les plus proches d'abord). */
+/** Prochains matchs (les plus proches d'abord) — fenêtre de 45 jours pour couvrir
+ *  tous les statuts à venir (SCHEDULED et TIMED). */
 export async function getUpcoming(code: string, limit = 10): Promise<Match[] | null> {
-  const j = await call<{ matches?: Match[] }>(`/competitions/${code}/matches?status=SCHEDULED`);
+  const from = new Date().toISOString().slice(0, 10);
+  const to = new Date(Date.now() + 45 * 86400000).toISOString().slice(0, 10);
+  const j = await call<{ matches?: Match[] }>(`/competitions/${code}/matches?dateFrom=${from}&dateTo=${to}`);
   if (!j?.matches) return null;
-  return [...j.matches].sort((a, b) => a.utcDate.localeCompare(b.utcDate)).slice(0, limit);
+  return j.matches
+    .filter((m) => m.status !== "FINISHED")
+    .sort((a, b) => a.utcDate.localeCompare(b.utcDate))
+    .slice(0, limit);
 }
 
 export async function getScorers(code: string, limit = 10): Promise<Scorer[] | null> {

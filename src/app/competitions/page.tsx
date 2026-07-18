@@ -92,9 +92,9 @@ export default async function CompetitionsPage({ searchParams }: { searchParams:
                     </tr>
                   </thead>
                   <tbody>
-                    {standings.map((r) => (
-                      <tr key={r.position} className="border-t border-[#eef0f4]">
-                        <td className="py-1.5 text-[#94a3b8]">{r.position}</td>
+                    {standings.map((r, i) => (
+                      <tr key={r.team.name} className="border-t border-[#eef0f4]">
+                        <td className="py-1.5 text-[#94a3b8]">{r.position || i + 1}</td>
                         <td className="py-1.5 font-medium flex items-center gap-2">
                           {/* eslint-disable-next-line @next/next/no-img-element */}
                           {r.team.crest && <img src={r.team.crest} alt="" className="w-4 h-4 object-contain" loading="lazy" />}
