@@ -1,10 +1,13 @@
 export const dynamic = "force-dynamic";
 import { revalidatePath } from "next/cache";
+import { redirect } from "next/navigation";
 import { requireUser } from "@/lib/auth";
-import { emailEnabled } from "@/lib/email";
+import { briefEmailHtml, emailEnabled, sendEmail } from "@/lib/email";
+import { getTodayBrief, getTodayRecommendations } from "@/lib/ai";
 import { getProfile, setNotifyBrief, upsertProfile } from "@/lib/queries";
 
-export default async function ParametresPage() {
+export default async function ParametresPage({ searchParams }: { searchParams: Promise<{ envoi?: string }> }) {
+  const { envoi } = await searchParams;
   const user = await requireUser();
   let profile = await getProfile(user.id);
   if (!profile) {
@@ -20,6 +23,17 @@ export default async function ParametresPage() {
     const p = await getProfile(u.id);
     await setNotifyBrief(u.id, !p?.notify_brief);
     revalidatePath("/parametres");
+  }
+
+  async function sendTestBrief() {
+    "use server";
+    const u = await requireUser();
+    const brief = await getTodayBrief(u.id);
+    if (!brief) redirect("/parametres?envoi=aucun-brief");
+    const actions = await getTodayRecommendations(u.id);
+    const dateLabel = new Date().toLocaleDateString("fr-FR", { weekday: "long", day: "numeric", month: "long" });
+    const ok = await sendEmail(u.email, `☀️ Ton plan du jour — ${actions.length ? actions.length + " actions" : "brief"} Parzi`, briefEmailHtml(brief, actions, dateLabel));
+    redirect(ok ? "/parametres?envoi=ok" : "/parametres?envoi=erreur");
   }
 
   return (
@@ -54,10 +68,21 @@ export default async function ParametresPage() {
             </button>
           </form>
         </div>
-        {!mailReady && (
+        {!mailReady ? (
           <p className="text-[12px] text-[#94a3b8] mt-3 border-t border-[#e8ebf0] pt-3">
             L&apos;envoi d&apos;e-mails n&apos;est pas encore activé sur ce déploiement — ta préférence est enregistrée et prendra effet dès l&apos;activation.
           </p>
+        ) : (
+          <div className="mt-3 border-t border-[#e8ebf0] pt-3">
+            <form action={sendTestBrief}>
+              <button type="submit" className="text-[12.5px] text-[#2563eb] font-medium hover:underline">
+                ✉️ M&apos;envoyer mon brief maintenant (test)
+              </button>
+            </form>
+            {envoi === "ok" && <p className="text-[12px] text-[#10b981] mt-2">✓ E-mail envoyé — vérifie ta boîte (et les spams la première fois).</p>}
+            {envoi === "erreur" && <p className="text-[12px] text-[#ef4444] mt-2">L&apos;envoi a échoué. Vérifie la clé Resend — et note qu&apos;avec l&apos;expéditeur de test, Resend n&apos;envoie qu&apos;à l&apos;adresse du compte Resend.</p>}
+            {envoi === "aucun-brief" && <p className="text-[12px] text-[#f59e0b] mt-2">Génère d&apos;abord ton brief du jour sur le Dashboard, puis reviens tester l&apos;envoi.</p>}
+          </div>
         )}
       </div>
     </div>
