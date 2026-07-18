@@ -3,6 +3,7 @@ import Link from "next/link";
 import { redirect } from "next/navigation";
 import { getUser, signOut } from "@/lib/auth";
 import NavLinks, { BottomNav } from "@/components/NavLinks";
+import Analytics from "@/components/Analytics";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -112,6 +113,8 @@ export default async function RootLayout({ children }: Readonly<{ children: Reac
 
         {/* ---- Navigation mobile (5 onglets) ---- */}
         {user && <BottomNav />}
+
+        <Analytics email={user?.email} />
       </body>
     </html>
   );
