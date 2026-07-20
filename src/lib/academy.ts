@@ -121,6 +121,38 @@ export function findLesson(lessonId: string): { chapter: Chapter; lesson: Lesson
   return { ...ALL_LESSONS[idx], index: idx };
 }
 
+// ---------- Attributs de la carte agent (OVR) ----------
+// Chaque leçon nourrit un domaine de compétence. Les scores partent d'un socle
+// et montent avec les leçons validées + le niveau. Rien d'inventé : tout dérive
+// de l'activité réelle. De nouveaux cours enrichiront chaque domaine.
+
+export type AttrKey = "SCO" | "NEG" | "JUR" | "BUS" | "IA" | "MGT";
+export const ATTR_DEFS: { key: AttrKey; label: string }[] = [
+  { key: "SCO", label: "Scouting" },
+  { key: "NEG", label: "Négociation" },
+  { key: "JUR", label: "Juridique" },
+  { key: "BUS", label: "Business" },
+  { key: "IA", label: "IA" },
+  { key: "MGT", label: "Management" },
+];
+const LESSON_ATTR: Record<string, AttrKey> = {
+  role: "MGT", licence: "JUR", mandat: "JUR", approche: "SCO", negociation: "NEG",
+};
+
+export type AttrScore = { key: AttrKey; label: string; score: number };
+const clamp = (n: number, lo: number, hi: number) => Math.max(lo, Math.min(hi, n));
+
+export function computeAttributes(done: Set<string>, level: number): { ovr: number; attrs: AttrScore[] } {
+  const counts: Record<string, number> = {};
+  for (const id of done) { const a = LESSON_ATTR[id]; if (a) counts[a] = (counts[a] ?? 0) + 1; }
+  const attrs: AttrScore[] = ATTR_DEFS.map(({ key, label }) => ({
+    key, label,
+    score: clamp(40 + (counts[key] ?? 0) * 10 + Math.floor(level / 4), 40, 99),
+  }));
+  const ovr = Math.round(attrs.reduce((s, a) => s + a.score, 0) / attrs.length);
+  return { ovr, attrs };
+}
+
 // ---------- Progression persistée (dual-mode) ----------
 
 export type Progress = {
