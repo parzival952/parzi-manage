@@ -1,0 +1,27 @@
+{
+  "common": {
+    "language": "Langue",
+    "quit": "Quitter"
+  },
+  "welcome": {
+    "title": "Bienvenue dans PARZI",
+    "subtitle": "Une question pour t'emmener au bon endroit. Tu pourras changer plus tard.",
+    "aspirant": {
+      "pre": "Je veux",
+      "em": "devenir",
+      "post": "agent",
+      "desc": "Forme-toi avec PARZI Academy : leçons, quiz, progression et rangs. Prépare l'examen et construis ta réputation."
+    },
+    "agent": {
+      "pre": "Je suis",
+      "em": "déjà",
+      "post": "agent licencié",
+      "desc": "Accède à Parzi Manage : ton cockpit pro — joueurs, mandats, clubs, veille, IA copilote. L'outil des agents confirmés."
+    },
+    "footer": "Un seul compte PARZI relie les deux — ta progression te suit partout."
+  },
+  "settings": {
+    "language_title": "LANGUE",
+    "language_hint": "Choisis la langue de l'interface."
+  }
+}

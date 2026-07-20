@@ -5,6 +5,10 @@ import { requireUser } from "@/lib/auth";
 import { briefEmailHtml, emailEnabled, sendEmail } from "@/lib/email";
 import { getTodayBrief, getTodayRecommendations } from "@/lib/ai";
 import { getProfile, setNotifyBrief, upsertProfile } from "@/lib/queries";
+import { cookies } from "next/headers";
+import { getServerT, LOCALE_COOKIE } from "@/lib/i18n-server";
+import { isLocale } from "@/lib/i18n";
+import LocaleSwitcher from "@/components/LocaleSwitcher";
 
 export default async function ParametresPage({ searchParams }: { searchParams: Promise<{ envoi?: string }> }) {
   const { envoi } = await searchParams;
@@ -16,6 +20,7 @@ export default async function ParametresPage({ searchParams }: { searchParams: P
   }
   const notifyOn = Boolean(profile?.notify_brief);
   const mailReady = emailEnabled();
+  const { locale, t } = await getServerT();
 
   async function toggleNotify() {
     "use server";
@@ -23,6 +28,17 @@ export default async function ParametresPage({ searchParams }: { searchParams: P
     const p = await getProfile(u.id);
     await setNotifyBrief(u.id, !p?.notify_brief);
     revalidatePath("/parametres");
+  }
+
+  async function changeLocale(formData: FormData) {
+    "use server";
+    await requireUser();
+    const l = String(formData.get("locale"));
+    if (isLocale(l)) {
+      const jar = await cookies();
+      jar.set(LOCALE_COOKIE, l, { path: "/", maxAge: 60 * 60 * 24 * 365 });
+    }
+    redirect("/parametres");
   }
 
   async function sendTestBrief() {
@@ -44,6 +60,12 @@ export default async function ParametresPage({ searchParams }: { searchParams: P
       <div className="glass-card p-5 mb-4">
         <div className="text-[11px] font-bold tracking-wider text-[#2563eb] mb-3">COMPTE</div>
         <div className="text-[14px]"><span className="text-[#64748b]">E-mail :</span> <b>{user.email}</b></div>
+      </div>
+
+      <div className="glass-card p-5 mb-4">
+        <div className="text-[11px] font-bold tracking-wider text-[#2563eb] mb-3">{t("settings.language_title")}</div>
+        <p className="text-[12.5px] text-[#64748b] mb-3">{t("settings.language_hint")}</p>
+        <LocaleSwitcher current={locale} action={changeLocale} />
       </div>
 
       <div className="glass-card p-5">

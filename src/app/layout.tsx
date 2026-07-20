@@ -4,6 +4,9 @@ import { redirect } from "next/navigation";
 import { getUser, signOut } from "@/lib/auth";
 import NavLinks, { BottomNav } from "@/components/NavLinks";
 import Analytics from "@/components/Analytics";
+import { I18nProvider } from "@/components/I18nProvider";
+import { getLocale } from "@/lib/i18n-server";
+import { dirFor } from "@/lib/i18n";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -38,6 +41,7 @@ const nav = [
 
 export default async function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   const user = await getUser();
+  const locale = await getLocale();
 
   async function logout() {
     "use server";
@@ -46,8 +50,9 @@ export default async function RootLayout({ children }: Readonly<{ children: Reac
   }
 
   return (
-    <html lang="fr" className="h-full antialiased">
+    <html lang={locale} dir={dirFor(locale)} className="h-full antialiased">
       <body className="min-h-full md:flex">
+        <I18nProvider locale={locale}>
         {/* ---- Barre latérale (PC) — claire, façon Linear ---- */}
         <aside className="hidden md:flex w-56 shrink-0 bg-white/70 backdrop-blur-xl sticky top-0 h-screen flex-col p-4 border-r border-[#e8ebf0]">
           <div className="flex items-center gap-2.5 px-2 pb-6">
@@ -117,6 +122,7 @@ export default async function RootLayout({ children }: Readonly<{ children: Reac
         {user && <BottomNav />}
 
         <Analytics email={user?.email} />
+        </I18nProvider>
       </body>
     </html>
   );
