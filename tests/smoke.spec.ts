@@ -52,6 +52,29 @@ test("l'accueil public s'affiche pour un visiteur (aperçu)", async ({ page }) =
   await expect(page.getByRole("link", { name: "Créer mon compte" })).toBeVisible();
 });
 
+test("PARZI Academy : parcours et flux de leçon", async ({ page }) => {
+  await page.goto("/academy");
+  await expect(page.getByText("Devenir agent de joueur")).toBeVisible();
+  await expect(page.getByText(/Niveau/).first()).toBeVisible();
+
+  // Ouvre la première leçon et déroule le quiz
+  await page.getByRole("link", { name: /Le rôle réel d'un agent/ }).click();
+  await page.waitForURL("**/academy/lecon/role");
+  await expect(page.getByText(/QUIZ/)).toBeVisible();
+  // Répond à chaque question : un choix débloque le bouton d'avancement.
+  for (let i = 0; i < 2; i++) {
+    await page.locator("button.pz-opt").first().click();
+    await page.getByRole("button", { name: /Question suivante|Terminer la leçon/ }).click();
+  }
+  await expect(page.getByText(/XP gagnée|Leçon révisée|Niveau|validée/).first()).toBeVisible({ timeout: 10000 });
+});
+
+test("PARZI Academy : profil et rangs", async ({ page }) => {
+  await page.goto("/academy/profil");
+  await expect(page.getByText("LES 12 RANGS PARZI")).toBeVisible();
+  await expect(page.getByText("PARZI ICON")).toBeVisible();
+});
+
 test("le cron des briefs est protégé", async ({ request }) => {
   const res = await request.get("/api/cron/briefs");
   expect(res.status()).toBe(401);

@@ -32,6 +32,7 @@ const nav = [
   { href: "/veille", label: "Veille", icon: "📡" },
   { href: "/competitions", label: "Compétitions", icon: "🏆" },
   { href: "/calendrier", label: "Calendrier", icon: "📅" },
+  { href: "/academy", label: "Academy", icon: "🎓" },
   { href: "/parametres", label: "Réglages", icon: "⚙" },
 ];
 

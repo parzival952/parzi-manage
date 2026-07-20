@@ -126,6 +126,20 @@ function migrate(d: DatabaseSync) {
     notify_brief INTEGER NOT NULL DEFAULT 1,
     last_brief_sent TEXT NOT NULL DEFAULT ''
   );
+  CREATE TABLE IF NOT EXISTS academy_progress (
+    user_id TEXT PRIMARY KEY,
+    xp INTEGER NOT NULL DEFAULT 0,
+    streak INTEGER NOT NULL DEFAULT 0,
+    best_streak INTEGER NOT NULL DEFAULT 0,
+    last_active TEXT NOT NULL DEFAULT ''
+  );
+  CREATE TABLE IF NOT EXISTS academy_done (
+    user_id TEXT NOT NULL,
+    lesson_id TEXT NOT NULL,
+    score INTEGER NOT NULL DEFAULT 0,
+    created_at TEXT NOT NULL DEFAULT (datetime('now')),
+    PRIMARY KEY (user_id, lesson_id)
+  );
   `);
 }
 
