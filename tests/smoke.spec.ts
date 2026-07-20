@@ -75,6 +75,13 @@ test("PARZI Academy : profil et rangs", async ({ page }) => {
   await expect(page.getByText("PARZI ICON")).toBeVisible();
 });
 
+test("l'aiguillage de bienvenue propose les deux parcours", async ({ page }) => {
+  await page.goto("/bienvenue");
+  await expect(page.getByText("Bienvenue dans PARZI")).toBeVisible();
+  await expect(page.getByText(/devenir.*agent/i)).toBeVisible();
+  await expect(page.getByText(/déjà.*agent licencié/i)).toBeVisible();
+});
+
 test("le cron des briefs est protégé", async ({ request }) => {
   const res = await request.get("/api/cron/briefs");
   expect(res.status()).toBe(401);

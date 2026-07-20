@@ -2,6 +2,7 @@ export const dynamic = "force-dynamic";
 import Link from "next/link";
 import { redirect } from "next/navigation";
 import { getUser } from "@/lib/auth";
+import { getProfile } from "@/lib/queries";
 import FeatureBanner from "@/components/FeatureBanner";
 
 const PAINS = [
@@ -22,8 +23,13 @@ const FEATURES = [
 export default async function HomePage({ searchParams }: { searchParams: Promise<{ apercu?: string }> }) {
   const { apercu } = await searchParams;
   const user = await getUser();
-  // Connecté (ou mode démo local sans auth) → application. ?apercu=1 force l'affichage de la page publique.
-  if (user && !apercu) redirect("/dashboard");
+  // Connecté → on aiguille selon le parcours. ?apercu=1 force la page publique.
+  if (user && !apercu) {
+    const profile = await getProfile(user.id);
+    const path = profile?.path ?? "";
+    if (!path) redirect("/bienvenue");
+    redirect(path === "agent" ? "/dashboard" : "/academy");
+  }
 
   return (
     <div className="fixed inset-0 z-50 overflow-y-auto bg-[#0b0e13] text-[#f4f5f7]">

@@ -124,7 +124,8 @@ function migrate(d: DatabaseSync) {
     user_id TEXT PRIMARY KEY,
     email TEXT NOT NULL DEFAULT '',
     notify_brief INTEGER NOT NULL DEFAULT 1,
-    last_brief_sent TEXT NOT NULL DEFAULT ''
+    last_brief_sent TEXT NOT NULL DEFAULT '',
+    path TEXT NOT NULL DEFAULT ''
   );
   CREATE TABLE IF NOT EXISTS academy_progress (
     user_id TEXT PRIMARY KEY,

@@ -23,7 +23,7 @@ export default async function ConnexionPage({ searchParams }: { searchParams: Pr
     if (!res.ok) redirect(`/connexion?erreur=${encodeURIComponent(res.error)}`);
     const u = await getUser();
     if (u) { await ensureSeeded(u.id); await upsertProfile(u.id, u.email); } // portefeuille démo aussi pour les comptes confirmés par e-mail
-    redirect("/dashboard");
+    redirect("/");
   }
 
   async function register(formData: FormData) {
@@ -32,7 +32,7 @@ export default async function ConnexionPage({ searchParams }: { searchParams: Pr
     if (!res.ok) redirect(`/connexion?mode=inscription&erreur=${encodeURIComponent(res.error)}`);
     const u = await getUser();
     if (u) { await ensureSeeded(u.id); await upsertProfile(u.id, u.email); }
-    redirect("/dashboard");
+    redirect("/");
   }
 
   const input =

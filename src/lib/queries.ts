@@ -204,7 +204,7 @@ export async function deleteEvent(uid: string, id: number): Promise<void> {
 
 // ---------- Profils (e-mail + préférences de notification) ----------
 
-export type Profile = { user_id: string; email: string; notify_brief: boolean | number; last_brief_sent: string | null };
+export type Profile = { user_id: string; email: string; notify_brief: boolean | number; last_brief_sent: string | null; path: string };
 
 export async function getProfile(uid: string): Promise<Profile | undefined> {
   if (usePostgres()) {
@@ -223,6 +223,17 @@ export async function upsertProfile(uid: string, email: string): Promise<void> {
   }
   db().prepare(`INSERT INTO profiles (user_id, email) VALUES (?,?)
     ON CONFLICT (user_id) DO UPDATE SET email = excluded.email`).run(uid, email);
+}
+
+/** Parcours choisi à l'inscription : 'aspirant' (Academy) ou 'agent' (Manage). */
+export async function setPath(uid: string, path: "aspirant" | "agent"): Promise<void> {
+  if (usePostgres()) {
+    await pg()`INSERT INTO profiles (user_id, path) VALUES (${uid}, ${path})
+      ON CONFLICT (user_id) DO UPDATE SET path = ${path}`;
+    return;
+  }
+  db().prepare(`INSERT INTO profiles (user_id, path) VALUES (?,?)
+    ON CONFLICT(user_id) DO UPDATE SET path = excluded.path`).run(uid, path);
 }
 
 export async function setNotifyBrief(uid: string, on: boolean): Promise<void> {
