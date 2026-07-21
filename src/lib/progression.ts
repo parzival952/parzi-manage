@@ -62,6 +62,23 @@ export function levelInfo(xp: number): LevelInfo {
   };
 }
 
+// Ligues (bandes de niveau) — la division compétitive de l'apprenant.
+export type League = { name: string; tone: string; min: number };
+export const LEAGUES: League[] = [
+  { name: "Bois", tone: "#8A8F98", min: 1 },
+  { name: "Bronze", tone: "#b08d57", min: 10 },
+  { name: "Argent", tone: "#c9ccd1", min: 20 },
+  { name: "Or", tone: "#E9C36A", min: 35 },
+  { name: "Rubis", tone: "#E4002B", min: 50 },
+  { name: "Diamant", tone: "#7fd4ff", min: 70 },
+  { name: "Légende", tone: "#9a6bff", min: 90 },
+];
+export function leagueFromLevel(level: number): League {
+  let l = LEAGUES[0];
+  for (const x of LEAGUES) if (level >= x.min) l = x;
+  return l;
+}
+
 // Barème XP (academy doc §1).
 export const XP = {
   lessonBase: 15,

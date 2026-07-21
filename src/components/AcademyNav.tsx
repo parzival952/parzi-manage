@@ -4,6 +4,7 @@ import { usePathname } from "next/navigation";
 
 const TABS = [
   { href: "/academy", label: "Parcours", icon: "◈" },
+  { href: "/academy/classement", label: "Classement", icon: "🏆" },
   { href: "/academy/profil", label: "Profil", icon: "◆" },
   { href: "/dashboard", label: "Manage", icon: "▤" },
 ];
@@ -12,7 +13,7 @@ export default function AcademyNav() {
   const path = usePathname();
   return (
     <nav className="pz-nav">
-      <div className="max-w-2xl mx-auto grid grid-cols-3">
+      <div className="max-w-2xl mx-auto grid grid-cols-4">
         {TABS.map((t) => {
           const active = t.href === "/academy" ? path === "/academy" : path.startsWith(t.href);
           return (

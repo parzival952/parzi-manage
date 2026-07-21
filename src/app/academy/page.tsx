@@ -61,8 +61,10 @@ export default async function AcademyHome() {
         </section>
       ))}
 
-      <div className="pz-card p-5 text-center pz-rise pz-d5">
-        <div className="text-[13.5px] pz-muted">Bientôt : ligues hebdomadaires, badges, trophées, simulations de négociation.</div>
+      <div className="grid grid-cols-3 gap-3 pz-rise pz-d5">
+        <Link href="/academy/classement" className="pz-card p-4 text-center card-hover"><div className="text-[20px]">🏆</div><div className="text-[12px] font-semibold mt-1">Classement</div></Link>
+        <Link href="/academy/badges" className="pz-card p-4 text-center card-hover"><div className="text-[20px]">🎖️</div><div className="text-[12px] font-semibold mt-1">Badges</div></Link>
+        <Link href="/academy/trophees" className="pz-card p-4 text-center card-hover"><div className="text-[20px]">🏅</div><div className="text-[12px] font-semibold mt-1">Trophées</div></Link>
       </div>
     </div>
   );

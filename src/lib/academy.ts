@@ -2,7 +2,7 @@
 // Le contenu est du code (versionné, pas de CMS en v1) ; la progression est en base (dual-mode).
 import { db } from "./db";
 import { pg, usePostgres } from "./pg";
-import { levelInfo, lessonXp, nextStreak, type LevelInfo } from "./progression";
+import { levelFromXp, levelInfo, lessonXp, nextStreak, type LevelInfo } from "./progression";
 
 // ---------- Contenu ----------
 
@@ -182,6 +182,49 @@ export async function getProgress(uid: string): Promise<Progress> {
     for (const r of d) { done.add(r.lesson_id); if (r.score >= 100) perfect++; }
   }
   return { xp, streak, best_streak: best, last_active: last, done, perfect, info: levelInfo(xp) };
+}
+
+// ---------- Hall of Fame / Classement ----------
+
+export type HofRow = { user_id: string; name: string; xp: number; level: number };
+export type HofWeek = { user_id: string; name: string; wxp: number };
+export type HallOfFame = { general: HofRow[]; weekly: HofWeek[]; myRank: number; totalUsers: number };
+
+const nameOf = (email: string) => (email ? email.split("@")[0] : "Agent");
+// XP d'une leçon selon le score, reproduit en SQL pour agréger la semaine.
+const WEEK_XP_SQL = "SUM(15 + CASE WHEN score >= 70 THEN 30 ELSE 0 END + CASE WHEN score >= 100 THEN 15 ELSE 0 END)";
+
+export async function getHallOfFame(uid: string): Promise<HallOfFame> {
+  if (usePostgres()) {
+    const sql = pg();
+    const gen = (await sql`SELECT ap.user_id, ap.xp, COALESCE(p.email,'') AS email
+      FROM academy_progress ap LEFT JOIN profiles p ON p.user_id = ap.user_id
+      ORDER BY ap.xp DESC, ap.user_id LIMIT 20`) as unknown as { user_id: string; xp: number; email: string }[];
+    const wk = (await sql.unsafe(`SELECT ad.user_id, COALESCE(p.email,'') AS email, ${WEEK_XP_SQL} AS wxp
+      FROM academy_done ad LEFT JOIN profiles p ON p.user_id = ad.user_id
+      WHERE ad.created_at >= now() - interval '7 days'
+      GROUP BY ad.user_id, p.email ORDER BY wxp DESC LIMIT 20`)) as unknown as { user_id: string; email: string; wxp: number }[];
+    const tot = (await sql`SELECT COUNT(*)::int AS n FROM academy_progress`) as unknown as { n: number }[];
+    const mine = (await sql`SELECT xp FROM academy_progress WHERE user_id = ${uid}`) as unknown as { xp: number }[];
+    const myXp = mine[0]?.xp ?? 0;
+    const rk = (await sql`SELECT COUNT(*)::int AS n FROM academy_progress WHERE xp > ${myXp}`) as unknown as { n: number }[];
+    return {
+      general: gen.map((r) => ({ user_id: r.user_id, name: nameOf(r.email), xp: r.xp, level: levelFromXp(r.xp) })),
+      weekly: wk.map((r) => ({ user_id: r.user_id, name: nameOf(r.email), wxp: Number(r.wxp) })),
+      myRank: (rk[0]?.n ?? 0) + 1, totalUsers: tot[0]?.n ?? 0,
+    };
+  }
+  const d = db();
+  const gen = d.prepare("SELECT ap.user_id, ap.xp, COALESCE(p.email,'') AS email FROM academy_progress ap LEFT JOIN profiles p ON p.user_id = ap.user_id ORDER BY ap.xp DESC LIMIT 20").all() as { user_id: string; xp: number; email: string }[];
+  const wk = d.prepare(`SELECT ad.user_id, COALESCE(p.email,'') AS email, ${WEEK_XP_SQL} AS wxp FROM academy_done ad LEFT JOIN profiles p ON p.user_id = ad.user_id WHERE ad.created_at >= datetime('now','-7 days') GROUP BY ad.user_id ORDER BY wxp DESC LIMIT 20`).all() as { user_id: string; email: string; wxp: number }[];
+  const tot = (d.prepare("SELECT COUNT(*) AS n FROM academy_progress").get() as { n: number }).n;
+  const myXp = (d.prepare("SELECT xp FROM academy_progress WHERE user_id = ?").get(uid) as { xp: number } | undefined)?.xp ?? 0;
+  const rk = (d.prepare("SELECT COUNT(*) AS n FROM academy_progress WHERE xp > ?").get(myXp) as { n: number }).n;
+  return {
+    general: gen.map((r) => ({ user_id: r.user_id, name: nameOf(r.email), xp: r.xp, level: levelFromXp(r.xp) })),
+    weekly: wk.map((r) => ({ user_id: r.user_id, name: nameOf(r.email), wxp: Number(r.wxp) })),
+    myRank: rk + 1, totalUsers: tot,
+  };
 }
 
 export type CompletionResult = {

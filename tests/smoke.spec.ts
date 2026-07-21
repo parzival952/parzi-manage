@@ -89,6 +89,13 @@ test("PARZI Academy : page trophées (dont secrets)", async ({ page }) => {
   await expect(page.getByText("Trophée secret").first()).toBeVisible();
 });
 
+test("PARZI Academy : classement / Hall of Fame", async ({ page }) => {
+  await page.goto("/academy/classement");
+  await expect(page.getByText("Hall of Fame")).toBeVisible();
+  await expect(page.getByText("Ta ligue")).toBeVisible();
+  await expect(page.getByText("Cette semaine")).toBeVisible();
+});
+
 test("l'aiguillage de bienvenue propose les deux parcours", async ({ page }) => {
   await page.goto("/bienvenue");
   await expect(page.getByText("Bienvenue dans PARZI")).toBeVisible();
