@@ -205,7 +205,14 @@ export async function deleteEvent(uid: string, id: number): Promise<void> {
 
 // ---------- Profils (e-mail + préférences de notification) ----------
 
-export type Profile = { user_id: string; email: string; notify_brief: boolean | number; last_brief_sent: string | null; path: string };
+/** Statut de vérification agent — première brique de Parzi ID (identité vérifiée). */
+export type AgentStatus = "none" | "pending" | "verified" | "rejected";
+
+export type Profile = {
+  user_id: string; email: string; notify_brief: boolean | number; last_brief_sent: string | null; path: string;
+  agent_status: AgentStatus; full_name: string; license_number: string; license_country: string;
+  license_submitted_at: string; verified_at: string; verify_note: string;
+};
 
 export async function getProfile(uid: string): Promise<Profile | undefined> {
   if (usePostgres()) {
@@ -255,6 +262,58 @@ export async function getNotifiableProfiles(date: string): Promise<Profile[]> {
       LIMIT 100`) as unknown as Profile[];
   }
   return db().prepare("SELECT * FROM profiles WHERE notify_brief = 1 AND email <> '' AND last_brief_sent <> ?").all(date) as Profile[];
+}
+
+// ---------- Vérification agent (Parzi ID — accès aux fonctions de contact) ----------
+
+/** L'agent soumet son n° de licence FFF/FIFA → passe en attente de validation. */
+export async function submitLicense(
+  uid: string,
+  data: { full_name: string; license_number: string; license_country: string },
+): Promise<void> {
+  const now = new Date().toISOString();
+  const { full_name, license_number, license_country } = data;
+  if (usePostgres()) {
+    await pg()`INSERT INTO profiles (user_id, agent_status, full_name, license_number, license_country, license_submitted_at, verify_note)
+      VALUES (${uid}, 'pending', ${full_name}, ${license_number}, ${license_country}, ${now}, '')
+      ON CONFLICT (user_id) DO UPDATE SET
+        agent_status = 'pending', full_name = ${full_name}, license_number = ${license_number},
+        license_country = ${license_country}, license_submitted_at = ${now}, verify_note = ''`;
+    return;
+  }
+  db().prepare(`INSERT INTO profiles (user_id, agent_status, full_name, license_number, license_country, license_submitted_at, verify_note)
+    VALUES (?, 'pending', ?, ?, ?, ?, '')
+    ON CONFLICT(user_id) DO UPDATE SET
+      agent_status = 'pending', full_name = excluded.full_name, license_number = excluded.license_number,
+      license_country = excluded.license_country, license_submitted_at = excluded.license_submitted_at, verify_note = ''`)
+    .run(uid, full_name, license_number, license_country, now);
+}
+
+/** Décision de l'admin : valide, refuse (avec motif) ou remet à zéro un dossier. */
+export async function setAgentStatus(uid: string, status: AgentStatus, note = ""): Promise<void> {
+  const verifiedAt = status === "verified" ? new Date().toISOString() : "";
+  if (usePostgres()) {
+    await pg()`UPDATE profiles SET agent_status = ${status}, verified_at = ${verifiedAt}, verify_note = ${note} WHERE user_id = ${uid}`;
+    return;
+  }
+  db().prepare("UPDATE profiles SET agent_status = ?, verified_at = ?, verify_note = ? WHERE user_id = ?")
+    .run(status, verifiedAt, note, uid);
+}
+
+/** Dossiers de vérification pour la console admin (les « pending » d'abord, puis traités). */
+export async function listVerifications(): Promise<Profile[]> {
+  if (usePostgres()) {
+    return (await pg()`SELECT * FROM profiles
+      WHERE agent_status <> 'none' OR license_number <> ''
+      ORDER BY CASE agent_status WHEN 'pending' THEN 0 WHEN 'verified' THEN 1 WHEN 'rejected' THEN 2 ELSE 3 END,
+        license_submitted_at DESC
+      LIMIT 200`) as unknown as Profile[];
+  }
+  return db().prepare(`SELECT * FROM profiles
+    WHERE agent_status <> 'none' OR license_number <> ''
+    ORDER BY CASE agent_status WHEN 'pending' THEN 0 WHEN 'verified' THEN 1 WHEN 'rejected' THEN 2 ELSE 3 END,
+      license_submitted_at DESC
+    LIMIT 200`).all() as Profile[];
 }
 
 // ---------- Seed du portefeuille de démonstration pour un nouveau compte ----------

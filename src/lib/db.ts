@@ -126,7 +126,14 @@ function migrate(d: DatabaseSync) {
     email TEXT NOT NULL DEFAULT '',
     notify_brief INTEGER NOT NULL DEFAULT 1,
     last_brief_sent TEXT NOT NULL DEFAULT '',
-    path TEXT NOT NULL DEFAULT ''
+    path TEXT NOT NULL DEFAULT '',
+    agent_status TEXT NOT NULL DEFAULT 'none',
+    full_name TEXT NOT NULL DEFAULT '',
+    license_number TEXT NOT NULL DEFAULT '',
+    license_country TEXT NOT NULL DEFAULT '',
+    license_submitted_at TEXT NOT NULL DEFAULT '',
+    verified_at TEXT NOT NULL DEFAULT '',
+    verify_note TEXT NOT NULL DEFAULT ''
   );
   CREATE TABLE IF NOT EXISTS academy_progress (
     user_id TEXT PRIMARY KEY,

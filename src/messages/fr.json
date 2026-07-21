@@ -23,5 +23,81 @@
   "settings": {
     "language_title": "LANGUE",
     "language_hint": "Choisis la langue de l'interface."
+  },
+  "verify": {
+    "title": "Vérification agent",
+    "subtitle": "Fais vérifier ta licence FFF/FIFA pour débloquer les fonctions de contact et afficher ton badge « agent vérifié ».",
+    "badge": {
+      "verified": "Agent vérifié",
+      "pending": "En cours de vérification",
+      "rejected": "Non validé",
+      "none": "Non vérifié"
+    },
+    "verified": {
+      "title": "Ta licence est vérifiée",
+      "body": "Ton compte affiche le badge « agent vérifié » et tu as accès à toutes les fonctions de contact : CRM, réseau de clubs et démarchage."
+    },
+    "pending": {
+      "title": "Vérification en cours",
+      "body": "On contrôle ton numéro de licence. L'accès aux fonctions de contact s'ouvre dès la validation — en général sous 48 h pendant la bêta."
+    },
+    "rejected": {
+      "title": "Ta demande n'a pas été validée",
+      "body": "Le numéro fourni n'a pas pu être confirmé. Vérifie-le et renvoie ta demande."
+    },
+    "why": {
+      "title": "Pourquoi cette étape ?",
+      "body": "En droit français, seul un agent licencié peut mettre en relation un joueur et un club. La vérification protège l'écosystème et te donne un gage de confiance vis-à-vis des joueurs et des clubs."
+    },
+    "form": {
+      "name": "Nom complet",
+      "name_ph": "Prénom NOM (comme sur la licence)",
+      "country": "Autorité de délivrance",
+      "number": "Numéro de licence",
+      "number_ph": "Ex. 2024-FFF-01234",
+      "number_hint": "Ton numéro de licence figure sur le registre public des agents — ce n'est pas une donnée secrète.",
+      "submit": "Envoyer pour vérification"
+    },
+    "country": {
+      "FR": "France (FFF)",
+      "FIFA": "International (FIFA)",
+      "OTHER": "Autre fédération"
+    },
+    "footer": "Une seule vérification suffit.",
+    "back": "Retour au tableau de bord"
+  },
+  "gate": {
+    "title": "{feature} — réservé aux agents vérifiés",
+    "body": "Cette fonction sert à contacter joueurs et clubs. Elle est réservée aux agents dont la licence est vérifiée. Fais vérifier ta licence, c'est rapide.",
+    "body_pending": "Ta vérification est en cours. Dès qu'elle est validée, cette fonction se débloque automatiquement.",
+    "cta": "Vérifier ma licence",
+    "see_status": "Voir mon statut",
+    "legal": "En droit français, la mise en relation contre rémunération relève de l'agent licencié. Cette étape protège tout le monde.",
+    "feature": {
+      "crm": "CRM",
+      "clubs": "Clubs"
+    }
+  },
+  "admin": {
+    "verif": {
+      "title": "Vérifications agent",
+      "subtitle": "Valide ou refuse les demandes de vérification de licence.",
+      "pending_count": "{n} en attente",
+      "empty": "Aucune demande de vérification pour l'instant.",
+      "col": {
+        "name": "Agent",
+        "email": "E-mail",
+        "country": "Autorité",
+        "number": "N° licence",
+        "submitted": "Soumis le",
+        "status": "Statut",
+        "actions": "Actions"
+      },
+      "approve": "Valider",
+      "reject": "Refuser",
+      "note_ph": "Motif (optionnel)",
+      "done": "Vérifié",
+      "note_beta": "Pendant la bêta, la validation est manuelle. Elle sera automatisée plus tard contre le registre public FFF/FIFA."
+    }
   }
 }

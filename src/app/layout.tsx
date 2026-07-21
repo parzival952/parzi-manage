@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { redirect } from "next/navigation";
 import { getUser, signOut } from "@/lib/auth";
+import { isAdmin } from "@/lib/verification";
 import NavLinks, { BottomNav } from "@/components/NavLinks";
 import Analytics from "@/components/Analytics";
 import { I18nProvider } from "@/components/I18nProvider";
@@ -36,12 +37,16 @@ const nav = [
   { href: "/competitions", label: "Compétitions", icon: "🏆" },
   { href: "/calendrier", label: "Calendrier", icon: "📅" },
   { href: "/academy", label: "Academy", icon: "🎓" },
+  { href: "/verification", label: "Vérification", icon: "🪪" },
   { href: "/parametres", label: "Réglages", icon: "⚙" },
 ];
 
 export default async function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   const user = await getUser();
   const locale = await getLocale();
+  const navItems = isAdmin(user?.email)
+    ? [...nav, { href: "/admin/verifications", label: "Admin", icon: "🛡" }]
+    : nav;
 
   async function logout() {
     "use server";
@@ -65,7 +70,7 @@ export default async function RootLayout({ children }: Readonly<{ children: Reac
             </div>
           </div>
           <nav className="flex flex-col gap-0.5">
-            <NavLinks items={nav} />
+            <NavLinks items={navItems} />
           </nav>
           <div className="mt-auto pt-3 border-t border-[#e8ebf0] px-2">
             {user ? (

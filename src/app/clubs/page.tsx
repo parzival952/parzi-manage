@@ -2,11 +2,19 @@ export const dynamic = "force-dynamic";
 import { revalidatePath } from "next/cache";
 import { requireUser } from "@/lib/auth";
 import { createClub, deleteClub, getClubs } from "@/lib/queries";
+import { getAgentStatus } from "@/lib/verification";
+import VerificationGate from "@/components/VerificationGate";
+import { getServerT } from "@/lib/i18n-server";
 
 const input = "glass-input rounded-lg px-3 py-1.5 text-[13px] focus:outline-none focus:border-[#2a78d6]";
 
 export default async function ClubsPage() {
   const user = await requireUser();
+  const status = await getAgentStatus(user.id);
+  if (status !== "verified") {
+    const { t } = await getServerT();
+    return <VerificationGate status={status} feature={t("gate.feature.clubs")} />;
+  }
   const clubs = await getClubs(user.id);
 
   async function add(formData: FormData) {

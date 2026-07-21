@@ -112,6 +112,18 @@ test("l'aiguillage de bienvenue propose les deux parcours", async ({ page }) => 
   await expect(page.getByText(/déjà.*agent licencié/i)).toBeVisible();
 });
 
+test("la page de vérification agent s'affiche", async ({ page }) => {
+  await page.goto("/verification");
+  await expect(page.getByRole("heading", { name: "Vérification agent" })).toBeVisible();
+  // En démo (sans auth), l'utilisateur est considéré vérifié → carte « licence vérifiée ».
+  await expect(page.getByText("Ta licence est vérifiée")).toBeVisible();
+});
+
+test("la console admin de vérification s'affiche", async ({ page }) => {
+  await page.goto("/admin/verifications");
+  await expect(page.getByRole("heading", { name: "Vérifications agent" })).toBeVisible();
+});
+
 test("le cron des briefs est protégé", async ({ request }) => {
   const res = await request.get("/api/cron/briefs");
   expect(res.status()).toBe(401);

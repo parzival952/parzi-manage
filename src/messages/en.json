@@ -23,5 +23,81 @@
   "settings": {
     "language_title": "LANGUAGE",
     "language_hint": "Choose the interface language."
+  },
+  "verify": {
+    "title": "Agent verification",
+    "subtitle": "Get your FFF/FIFA licence verified to unlock contact features and display your “verified agent” badge.",
+    "badge": {
+      "verified": "Verified agent",
+      "pending": "Verification pending",
+      "rejected": "Not approved",
+      "none": "Not verified"
+    },
+    "verified": {
+      "title": "Your licence is verified",
+      "body": "Your account shows the “verified agent” badge and you have access to all contact features: CRM, club network and outreach."
+    },
+    "pending": {
+      "title": "Verification in progress",
+      "body": "We're checking your licence number. Access to contact features opens as soon as it's approved — usually within 48h during the beta."
+    },
+    "rejected": {
+      "title": "Your request wasn't approved",
+      "body": "The number provided couldn't be confirmed. Check it and resubmit your request."
+    },
+    "why": {
+      "title": "Why this step?",
+      "body": "Under French law, only a licensed agent may connect a player and a club. Verification protects the ecosystem and gives players and clubs a mark of trust in you."
+    },
+    "form": {
+      "name": "Full name",
+      "name_ph": "First LAST (as on the licence)",
+      "country": "Issuing authority",
+      "number": "Licence number",
+      "number_ph": "e.g. 2024-FFF-01234",
+      "number_hint": "Your licence number is on the public agents register — it is not secret data.",
+      "submit": "Submit for verification"
+    },
+    "country": {
+      "FR": "France (FFF)",
+      "FIFA": "International (FIFA)",
+      "OTHER": "Other federation"
+    },
+    "footer": "A single verification is enough.",
+    "back": "Back to dashboard"
+  },
+  "gate": {
+    "title": "{feature} — verified agents only",
+    "body": "This feature is used to contact players and clubs. It's reserved for agents whose licence is verified. Get your licence verified — it's quick.",
+    "body_pending": "Your verification is in progress. As soon as it's approved, this feature unlocks automatically.",
+    "cta": "Verify my licence",
+    "see_status": "See my status",
+    "legal": "Under French law, paid introductions are the domain of the licensed agent. This step protects everyone.",
+    "feature": {
+      "crm": "CRM",
+      "clubs": "Clubs"
+    }
+  },
+  "admin": {
+    "verif": {
+      "title": "Agent verifications",
+      "subtitle": "Approve or reject licence verification requests.",
+      "pending_count": "{n} pending",
+      "empty": "No verification requests yet.",
+      "col": {
+        "name": "Agent",
+        "email": "Email",
+        "country": "Authority",
+        "number": "Licence no.",
+        "submitted": "Submitted",
+        "status": "Status",
+        "actions": "Actions"
+      },
+      "approve": "Approve",
+      "reject": "Reject",
+      "note_ph": "Reason (optional)",
+      "done": "Verified",
+      "note_beta": "During the beta, approval is manual. It will later be automated against the public FFF/FIFA register."
+    }
   }
 }
