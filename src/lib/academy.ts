@@ -232,6 +232,17 @@ export type CompletionResult = {
   newLevel: number; info: LevelInfo; streak: number;
 };
 
+/** Activité du jour (pour les défis quotidiens) : leçons validées et 100 % aujourd'hui. */
+export async function getTodayActivity(uid: string): Promise<{ lessons: number; perfect: number }> {
+  if (usePostgres()) {
+    const rows = (await pg()`SELECT COUNT(*)::int AS lessons, COUNT(*) FILTER (WHERE score >= 100)::int AS perfect
+      FROM academy_done WHERE user_id = ${uid} AND created_at::date = current_date`) as unknown as { lessons: number; perfect: number }[];
+    return { lessons: rows[0]?.lessons ?? 0, perfect: rows[0]?.perfect ?? 0 };
+  }
+  const row = db().prepare("SELECT COUNT(*) AS lessons, SUM(CASE WHEN score >= 100 THEN 1 ELSE 0 END) AS perfect FROM academy_done WHERE user_id = ? AND date(created_at) = date('now')").get(uid) as { lessons: number; perfect: number | null } | undefined;
+  return { lessons: row?.lessons ?? 0, perfect: Number(row?.perfect ?? 0) };
+}
+
 /** Valide une leçon : idempotent (pas d'XP en double), met à jour XP + streak. */
 export async function completeLesson(uid: string, lessonId: string, score: number): Promise<CompletionResult> {
   const before = await getProgress(uid);

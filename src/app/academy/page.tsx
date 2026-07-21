@@ -1,20 +1,50 @@
 export const dynamic = "force-dynamic";
 import Link from "next/link";
 import { requireUser } from "@/lib/auth";
-import { COURSE, LESSON_COUNT, ALL_LESSONS, getProgress } from "@/lib/academy";
+import { COURSE, LESSON_COUNT, ALL_LESSONS, getProgress, getTodayActivity } from "@/lib/academy";
 import AcademyProgressHeader from "@/components/AcademyProgressHeader";
 
 export default async function AcademyHome() {
   const user = await requireUser();
-  const progress = await getProgress(user.id);
+  const [progress, today] = await Promise.all([getProgress(user.id), getTodayActivity(user.id)]);
   const doneCount = progress.done.size;
 
   // Leçon "courante" = première non terminée.
   const currentId = ALL_LESSONS.find((x) => !progress.done.has(x.lesson.id))?.lesson.id;
 
+  // Défis du jour (calculés sur l'activité réelle du jour).
+  const defis = [
+    { label: "Valide une leçon aujourd'hui", done: today.lessons >= 1, icon: "📘" },
+    { label: "Enchaîne 2 leçons", done: today.lessons >= 2, icon: "⚡" },
+    { label: "Décroche un quiz à 100 %", done: today.perfect >= 1, icon: "🎯" },
+  ];
+  const defisDone = defis.filter((d) => d.done).length;
+
   return (
     <div className="flex flex-col gap-6">
       <AcademyProgressHeader progress={progress} doneCount={doneCount} total={LESSON_COUNT} />
+
+      {/* Défis du jour */}
+      <div className="pz-card p-5 pz-rise pz-d1" style={{ borderColor: defisDone === defis.length ? "rgba(37,194,110,.35)" : undefined }}>
+        <div className="flex items-center justify-between mb-3">
+          <div className="text-[11px] font-bold tracking-wider pz-red">✦ DÉFIS DU JOUR</div>
+          <span className="text-[12px] pz-muted">{defisDone}/{defis.length}</span>
+        </div>
+        <div className="flex flex-col gap-2">
+          {defis.map((d) => (
+            <div key={d.label} className="flex items-center gap-3">
+              <span className="grid place-items-center w-6 h-6 rounded-full text-[12px] shrink-0"
+                style={{ background: d.done ? "var(--vert)" : "rgba(255,255,255,.06)", color: d.done ? "#06210f" : "var(--gris2)", border: d.done ? "none" : "1px solid var(--ligne)" }}>
+                {d.done ? "✓" : ""}
+              </span>
+              <span className="text-[13.5px]" style={{ color: d.done ? "var(--gris)" : "var(--blanc)", textDecoration: d.done ? "line-through" : "none" }}>
+                {d.icon} {d.label}
+              </span>
+            </div>
+          ))}
+        </div>
+        {defisDone === defis.length && <p className="text-[12px] mt-3" style={{ color: "var(--vert)" }}>🔥 Tous les défis du jour relevés — reviens demain pour la suite !</p>}
+      </div>
 
       <div className="pz-rise pz-d1">
         <div className="flex items-baseline justify-between">

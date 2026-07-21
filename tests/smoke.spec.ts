@@ -57,6 +57,8 @@ test("PARZI Academy : parcours et flux de leçon", async ({ page }) => {
   await expect(page.getByText("Devenir agent de joueur")).toBeVisible();
   await expect(page.getByText(/Niveau/).first()).toBeVisible();
 
+  await expect(page.getByText("DÉFIS DU JOUR")).toBeVisible();
+
   // Ouvre la première leçon et déroule le quiz
   await page.getByRole("link", { name: /Le rôle réel d'un agent/ }).click();
   await page.waitForURL("**/academy/lecon/role");
