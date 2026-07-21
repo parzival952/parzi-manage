@@ -42,7 +42,8 @@ function migrate(d: DatabaseSync) {
     height TEXT NOT NULL,
     nationality TEXT NOT NULL,
     notes TEXT NOT NULL DEFAULT '',
-    pitch TEXT NOT NULL DEFAULT ''
+    pitch TEXT NOT NULL DEFAULT '',
+    transfermarkt_url TEXT NOT NULL DEFAULT ''
   );
   CREATE TABLE IF NOT EXISTS tasks (
     id INTEGER PRIMARY KEY AUTOINCREMENT,

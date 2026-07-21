@@ -107,6 +107,22 @@ export default async function JoueurPage({ params }: { params: Promise<{ id: str
         </dl>
       </div>
 
+      {p.transfermarkt_url && (
+        <a
+          href={p.transfermarkt_url}
+          target="_blank"
+          rel="noopener noreferrer nofollow"
+          className="glass-card anim-rise d3 p-4 flex items-center gap-3 hover:border-[#00b2a9]/50 card-hover"
+        >
+          <span className="w-9 h-9 rounded-lg grid place-items-center text-white text-[15px] font-bold" style={{ background: "#00b2a9" }}>TM</span>
+          <div className="flex-1">
+            <div className="text-[13.5px] font-semibold text-[#0f172a]">Voir sur Transfermarkt</div>
+            <div className="text-[11.5px] text-[#94a3b8] truncate">Fiche de référence · valeur, historique, transferts</div>
+          </div>
+          <span className="text-[#94a3b8]">↗</span>
+        </a>
+      )}
+
       <div className="glass-card anim-rise d3 p-5">
         <h2 className="text-[11px] font-bold uppercase tracking-widest text-[#94a3b8] mb-2">Notes internes</h2>
         <p className="text-[13.5px] text-[#475569] leading-relaxed">{p.notes || "—"}</p>

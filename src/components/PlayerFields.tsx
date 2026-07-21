@@ -75,6 +75,11 @@ export function PlayerFields({ p }: { p?: Player }) {
           <input name="nationality" defaultValue={p?.nationality} placeholder="France / Mali" className={input} />
         </div>
         <div className="col-span-2">
+          <label className={label}>Lien Transfermarkt</label>
+          <input name="transfermarkt_url" type="url" defaultValue={p?.transfermarkt_url} placeholder="https://www.transfermarkt.fr/…" className={input} />
+          <p className="text-[10.5px] text-[#898781] mt-1">La fiche du joueur sur Transfermarkt — pour garder ta référence à portée de clic.</p>
+        </div>
+        <div className="col-span-2">
           <label className={label}>Notes internes</label>
           <textarea name="notes" rows={3} defaultValue={p?.notes} placeholder="Contexte, objectifs, négociations en cours…" className={input} />
         </div>
@@ -94,5 +99,6 @@ export function playerFromForm(fd: FormData) {
     salary: s("salary") || "—", mandate: s("mandate") || "—",
     strong_foot: s("strong_foot") || "Droit", height: s("height") || "—",
     nationality: s("nationality") || "—", notes: s("notes"),
+    transfermarkt_url: s("transfermarkt_url"),
   };
 }

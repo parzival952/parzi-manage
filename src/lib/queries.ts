@@ -9,6 +9,7 @@ export type Player = {
   contract_end: string; est_value: string; status: "ok" | "soon" | "urgent";
   status_label: string; salary: string; mandate: string; strong_foot: string;
   height: string; nationality: string; notes: string; pitch?: string;
+  transfermarkt_url: string;
 };
 export type Task = { id: number; title: string; due_label: string; is_late: boolean | number; is_done: boolean | number };
 export type Alert = { id: number; severity: "critical" | "serious" | "warning" | "good"; body: string; meta: string };
@@ -87,13 +88,13 @@ export async function getKpis(uid: string) {
 
 export async function createPlayer(uid: string, p: PlayerInput): Promise<void> {
   if (usePostgres()) {
-    await pg()`INSERT INTO players (user_id, name, position, age, club, contract_end, est_value, status, status_label, salary, mandate, strong_foot, height, nationality, notes)
-      VALUES (${uid}, ${p.name}, ${p.position}, ${p.age}, ${p.club}, ${p.contract_end}, ${p.est_value}, ${p.status}, ${p.status_label}, ${p.salary}, ${p.mandate}, ${p.strong_foot}, ${p.height}, ${p.nationality}, ${p.notes})`;
+    await pg()`INSERT INTO players (user_id, name, position, age, club, contract_end, est_value, status, status_label, salary, mandate, strong_foot, height, nationality, notes, transfermarkt_url)
+      VALUES (${uid}, ${p.name}, ${p.position}, ${p.age}, ${p.club}, ${p.contract_end}, ${p.est_value}, ${p.status}, ${p.status_label}, ${p.salary}, ${p.mandate}, ${p.strong_foot}, ${p.height}, ${p.nationality}, ${p.notes}, ${p.transfermarkt_url})`;
     return;
   }
-  db().prepare(`INSERT INTO players (name, position, age, club, contract_end, est_value, status, status_label, salary, mandate, strong_foot, height, nationality, notes)
-    VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?)`)
-    .run(p.name, p.position, p.age, p.club, p.contract_end, p.est_value, p.status, p.status_label, p.salary, p.mandate, p.strong_foot, p.height, p.nationality, p.notes);
+  db().prepare(`INSERT INTO players (name, position, age, club, contract_end, est_value, status, status_label, salary, mandate, strong_foot, height, nationality, notes, transfermarkt_url)
+    VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)`)
+    .run(p.name, p.position, p.age, p.club, p.contract_end, p.est_value, p.status, p.status_label, p.salary, p.mandate, p.strong_foot, p.height, p.nationality, p.notes, p.transfermarkt_url);
 }
 
 export async function updatePlayer(uid: string, id: number, p: PlayerInput): Promise<void> {
@@ -101,12 +102,12 @@ export async function updatePlayer(uid: string, id: number, p: PlayerInput): Pro
     await pg()`UPDATE players SET name=${p.name}, position=${p.position}, age=${p.age}, club=${p.club},
       contract_end=${p.contract_end}, est_value=${p.est_value}, status=${p.status}, status_label=${p.status_label},
       salary=${p.salary}, mandate=${p.mandate}, strong_foot=${p.strong_foot}, height=${p.height},
-      nationality=${p.nationality}, notes=${p.notes} WHERE id=${id} AND user_id=${uid}`;
+      nationality=${p.nationality}, notes=${p.notes}, transfermarkt_url=${p.transfermarkt_url} WHERE id=${id} AND user_id=${uid}`;
     return;
   }
   db().prepare(`UPDATE players SET name=?, position=?, age=?, club=?, contract_end=?, est_value=?, status=?, status_label=?,
-    salary=?, mandate=?, strong_foot=?, height=?, nationality=?, notes=? WHERE id=?`)
-    .run(p.name, p.position, p.age, p.club, p.contract_end, p.est_value, p.status, p.status_label, p.salary, p.mandate, p.strong_foot, p.height, p.nationality, p.notes, id);
+    salary=?, mandate=?, strong_foot=?, height=?, nationality=?, notes=?, transfermarkt_url=? WHERE id=?`)
+    .run(p.name, p.position, p.age, p.club, p.contract_end, p.est_value, p.status, p.status_label, p.salary, p.mandate, p.strong_foot, p.height, p.nationality, p.notes, p.transfermarkt_url, id);
 }
 
 export async function deletePlayer(uid: string, id: number): Promise<void> {
