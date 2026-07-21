@@ -3,6 +3,7 @@ import Link from "next/link";
 import { requireUser } from "@/lib/auth";
 import { chaptersCompleted, computeAttributes, getProgress, LESSON_COUNT } from "@/lib/academy";
 import { evaluateBadges, sortBadges, TIER_TONE, type BadgeStats } from "@/lib/badges";
+import { evaluateTrophies, RARITY_TONE, type TrophyStats } from "@/lib/trophies";
 import { RANKS } from "@/lib/progression";
 import AcademyProgressHeader from "@/components/AcademyProgressHeader";
 
@@ -25,6 +26,11 @@ export default async function AcademyProfil() {
   const badges = sortBadges(evaluateBadges(stats));
   const earnedCount = badges.filter((b) => b.earned).length;
   const showcase = badges.slice(0, 6);
+
+  const trophyStats: TrophyStats = { ...stats, totalLessons: LESSON_COUNT };
+  const trophies = evaluateTrophies(trophyStats);
+  const trophyEarned = trophies.filter((t) => t.earned);
+  const trophyShowcase = [...trophyEarned].slice(0, 5);
 
   return (
     <div className="flex flex-col gap-6">
@@ -98,6 +104,26 @@ export default async function AcademyProfil() {
             ? "Valide des leçons, garde ta série, réussis des quiz — tes badges se débloquent tout seuls."
             : "Chaque badge est gagné par ton travail réel. Continue pour les faire briller."}
         </p>
+      </div>
+
+      {/* Trophées */}
+      <div className="pz-rise pz-d2">
+        <div className="flex items-center justify-between mb-3">
+          <div className="text-[11px] font-bold tracking-wider pz-red">TROPHÉES · {trophyEarned.length}/{trophies.length}</div>
+          <Link href="/academy/trophees" className="text-[11.5px] pz-muted hover:text-white">Tout voir →</Link>
+        </div>
+        {trophyShowcase.length > 0 ? (
+          <div className="flex gap-2.5 flex-wrap">
+            {trophyShowcase.map((t) => (
+              <div key={t.id} className="pzc-badge" title={`${t.name} — ${t.desc}`}
+                style={{ borderColor: RARITY_TONE[t.rarity] + "aa", boxShadow: `0 0 14px ${RARITY_TONE[t.rarity]}44` }}>
+                {t.icon}
+              </div>
+            ))}
+          </div>
+        ) : (
+          <p className="text-[12px] pz-muted">Aucun trophée encore — les plus beaux se méritent. Certains sont secrets 🤫</p>
+        )}
       </div>
 
       {/* Échelle des rangs */}
