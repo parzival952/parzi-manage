@@ -157,26 +157,31 @@ export function computeAttributes(done: Set<string>, level: number): { ovr: numb
 
 export type Progress = {
   xp: number; streak: number; best_streak: number; last_active: string;
-  done: Set<string>; info: LevelInfo;
+  done: Set<string>; perfect: number; info: LevelInfo;
 };
 
 const todayStr = () => new Date().toISOString().slice(0, 10);
 
+/** Nombre de chapitres entièrement complétés (toutes leurs leçons validées). */
+export function chaptersCompleted(done: Set<string>): number {
+  return COURSE.chapters.filter((c) => c.lessons.every((l) => done.has(l.id))).length;
+}
+
 export async function getProgress(uid: string): Promise<Progress> {
-  let xp = 0, streak = 0, best = 0, last = "";
+  let xp = 0, streak = 0, best = 0, last = "", perfect = 0;
   const done = new Set<string>();
   if (usePostgres()) {
     const rows = (await pg()`SELECT xp, streak, best_streak, last_active FROM academy_progress WHERE user_id = ${uid}`) as unknown as { xp: number; streak: number; best_streak: number; last_active: string | null }[];
     if (rows[0]) { xp = rows[0].xp; streak = rows[0].streak; best = rows[0].best_streak; last = rows[0].last_active ?? ""; }
-    const d = (await pg()`SELECT lesson_id FROM academy_done WHERE user_id = ${uid}`) as unknown as { lesson_id: string }[];
-    for (const r of d) done.add(r.lesson_id);
+    const d = (await pg()`SELECT lesson_id, score FROM academy_done WHERE user_id = ${uid}`) as unknown as { lesson_id: string; score: number }[];
+    for (const r of d) { done.add(r.lesson_id); if (r.score >= 100) perfect++; }
   } else {
     const row = db().prepare("SELECT xp, streak, best_streak, last_active FROM academy_progress WHERE user_id = ?").get(uid) as { xp: number; streak: number; best_streak: number; last_active: string } | undefined;
     if (row) { xp = row.xp; streak = row.streak; best = row.best_streak; last = row.last_active ?? ""; }
-    const d = db().prepare("SELECT lesson_id FROM academy_done WHERE user_id = ?").all(uid) as { lesson_id: string }[];
-    for (const r of d) done.add(r.lesson_id);
+    const d = db().prepare("SELECT lesson_id, score FROM academy_done WHERE user_id = ?").all(uid) as { lesson_id: string; score: number }[];
+    for (const r of d) { done.add(r.lesson_id); if (r.score >= 100) perfect++; }
   }
-  return { xp, streak, best_streak: best, last_active: last, done, info: levelInfo(xp) };
+  return { xp, streak, best_streak: best, last_active: last, done, perfect, info: levelInfo(xp) };
 }
 
 export type CompletionResult = {

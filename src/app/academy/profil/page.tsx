@@ -1,6 +1,8 @@
 export const dynamic = "force-dynamic";
+import Link from "next/link";
 import { requireUser } from "@/lib/auth";
-import { computeAttributes, getProgress, LESSON_COUNT } from "@/lib/academy";
+import { chaptersCompleted, computeAttributes, getProgress, LESSON_COUNT } from "@/lib/academy";
+import { evaluateBadges, sortBadges, TIER_TONE, type BadgeStats } from "@/lib/badges";
 import { RANKS } from "@/lib/progression";
 import AcademyProgressHeader from "@/components/AcademyProgressHeader";
 
@@ -14,6 +16,15 @@ export default async function AcademyProfil() {
 
   // Les 2 meilleurs attributs sont mis en avant.
   const topTwo = [...attrs].sort((a, b) => b.score - a.score).slice(0, 2).map((a) => a.key);
+
+  // Badges réels
+  const stats: BadgeStats = {
+    level: info.level, xp: info.xp, streak: progress.streak, best: progress.best_streak,
+    lessons: progress.done.size, chapters: chaptersCompleted(progress.done), perfect: progress.perfect,
+  };
+  const badges = sortBadges(evaluateBadges(stats));
+  const earnedCount = badges.filter((b) => b.earned).length;
+  const showcase = badges.slice(0, 6);
 
   return (
     <div className="flex flex-col gap-6">
@@ -59,17 +70,34 @@ export default async function AcademyProfil() {
         </div>
       </div>
 
-      {/* Badges récents (catégorie validée — visuels à enrichir) */}
+      {/* Badges réels */}
       <div className="pz-rise pz-d2">
-        <div className="text-[11px] font-bold tracking-wider pz-red mb-3">BADGES RÉCENTS</div>
-        <div className="flex gap-2.5">
-          <div className="pzc-badge lock">🎯</div>
-          <div className="pzc-badge lock">🏆</div>
-          <div className="pzc-badge lock">🧠</div>
-          <div className="pzc-badge lock">📄</div>
-          <div className="pzc-badge lock">🔒</div>
+        <div className="flex items-center justify-between mb-3">
+          <div className="text-[11px] font-bold tracking-wider pz-red">BADGES · {earnedCount}/{badges.length}</div>
+          <Link href="/academy/badges" className="text-[11.5px] pz-muted hover:text-white">Tout voir →</Link>
         </div>
-        <p className="text-[12px] pz-muted mt-2.5">Débloque tes premiers badges en validant des leçons — ils s&apos;afficheront ici.</p>
+        <div className="flex gap-2.5 flex-wrap">
+          {showcase.map((b) => (
+            <div
+              key={b.id}
+              className="pzc-badge"
+              title={`${b.name} — ${b.desc}`}
+              style={{
+                filter: b.earned ? "none" : "grayscale(1)",
+                opacity: b.earned ? 1 : 0.4,
+                borderColor: b.earned ? TIER_TONE[b.tier] + "88" : undefined,
+                boxShadow: b.earned ? `0 0 12px ${TIER_TONE[b.tier]}33` : "none",
+              }}
+            >
+              {b.icon}
+            </div>
+          ))}
+        </div>
+        <p className="text-[12px] pz-muted mt-2.5">
+          {earnedCount === 0
+            ? "Valide des leçons, garde ta série, réussis des quiz — tes badges se débloquent tout seuls."
+            : "Chaque badge est gagné par ton travail réel. Continue pour les faire briller."}
+        </p>
       </div>
 
       {/* Échelle des rangs */}

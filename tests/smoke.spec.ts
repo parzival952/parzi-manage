@@ -75,6 +75,13 @@ test("PARZI Academy : profil et rangs", async ({ page }) => {
   await expect(page.getByText("PARZI ICON")).toBeVisible();
 });
 
+test("PARZI Academy : page badges", async ({ page }) => {
+  await page.goto("/academy/badges");
+  await expect(page.getByText("Badges & trophées")).toBeVisible();
+  await expect(page.getByText("Premier Pas")).toBeVisible();
+  await expect(page.getByText("Légende").first()).toBeVisible();
+});
+
 test("l'aiguillage de bienvenue propose les deux parcours", async ({ page }) => {
   await page.goto("/bienvenue");
   await expect(page.getByText("Bienvenue dans PARZI")).toBeVisible();
