@@ -232,6 +232,16 @@ export type CompletionResult = {
   newLevel: number; info: LevelInfo; streak: number;
 };
 
+/** Ajoute un bonus d'XP (certification, défi…). Upsert sur academy_progress. */
+export async function addBonusXp(uid: string, amount: number): Promise<void> {
+  if (usePostgres()) {
+    await pg()`INSERT INTO academy_progress (user_id, xp) VALUES (${uid}, ${amount})
+      ON CONFLICT (user_id) DO UPDATE SET xp = academy_progress.xp + ${amount}`;
+    return;
+  }
+  db().prepare("INSERT INTO academy_progress (user_id, xp) VALUES (?,?) ON CONFLICT(user_id) DO UPDATE SET xp = xp + ?").run(uid, amount, amount);
+}
+
 /** Activité du jour (pour les défis quotidiens) : leçons validées et 100 % aujourd'hui. */
 export async function getTodayActivity(uid: string): Promise<{ lessons: number; perfect: number }> {
   if (usePostgres()) {

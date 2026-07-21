@@ -91,6 +91,15 @@ export default async function AcademyHome() {
         </section>
       ))}
 
+      <Link href="/academy/certifications" className="pz-card p-5 pz-rise pz-d5 flex items-center gap-4" style={{ borderColor: "rgba(233,195,106,.35)" }}>
+        <div className="text-[26px]">🎓</div>
+        <div className="flex-1">
+          <div className="font-bold text-[15px]">Certifications &amp; diplômes</div>
+          <div className="text-[12.5px] pz-muted">Prouve tes compétences et décroche ton diplôme « Agent Ready ».</div>
+        </div>
+        <div className="text-[18px] pz-muted">→</div>
+      </Link>
+
       <div className="grid grid-cols-3 gap-3 pz-rise pz-d5">
         <Link href="/academy/classement" className="pz-card p-4 text-center card-hover"><div className="text-[20px]">🏆</div><div className="text-[12px] font-semibold mt-1">Classement</div></Link>
         <Link href="/academy/badges" className="pz-card p-4 text-center card-hover"><div className="text-[20px]">🎖️</div><div className="text-[12px] font-semibold mt-1">Badges</div></Link>

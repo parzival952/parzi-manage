@@ -105,6 +105,14 @@
   .parzi *, .pz-rise, .pz-xpfill, .pzc-sheen { animation: none !important; transition: none !important; }
 }
 
+@media print {
+  .parzi { position: static !important; background: #fff !important; }
+  .parzi > .min-h-full > header, .pz-nav, .no-print { display: none !important; }
+  .parzi, .parzi * { animation: none !important; }
+  #diplome { box-shadow: none !important; }
+  #diplome, #diplome * { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+}
+
 /* ---------- Carte agent collector (profil) ---------- */
 .pzc-wrap { position: relative; width: 100%; max-width: 360px; margin: 0 auto; }
 .pzc-sheen { position: absolute; inset: -34px; border-radius: 40px; z-index: 0;

@@ -98,6 +98,13 @@ test("PARZI Academy : classement / Hall of Fame", async ({ page }) => {
   await expect(page.getByText("Cette semaine")).toBeVisible();
 });
 
+test("PARZI Academy : certification Agent Ready (examen → diplôme)", async ({ page }) => {
+  // En démo, les leçons de départ ne sont pas toutes faites → certif verrouillée ou dispo selon seed.
+  await page.goto("/academy/certifications");
+  await expect(page.getByText("Agent Ready")).toBeVisible();
+  await expect(page.getByText(/diplôme numérique vérifiable/)).toBeVisible();
+});
+
 test("l'aiguillage de bienvenue propose les deux parcours", async ({ page }) => {
   await page.goto("/bienvenue");
   await expect(page.getByText("Bienvenue dans PARZI")).toBeVisible();

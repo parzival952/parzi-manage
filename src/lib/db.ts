@@ -141,6 +141,15 @@ function migrate(d: DatabaseSync) {
     created_at TEXT NOT NULL DEFAULT (datetime('now')),
     PRIMARY KEY (user_id, lesson_id)
   );
+  CREATE TABLE IF NOT EXISTS certifications (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    user_id TEXT NOT NULL,
+    cert_id TEXT NOT NULL,
+    score INTEGER NOT NULL,
+    code TEXT NOT NULL,
+    created_at TEXT NOT NULL DEFAULT (datetime('now')),
+    UNIQUE (user_id, cert_id)
+  );
   `);
 }
 
