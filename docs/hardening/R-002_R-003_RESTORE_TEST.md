@@ -70,4 +70,4 @@ Les tables `clubs` et `certifications`, créées par les migrations mais absente
 
 - Le volet restauration hors production de R-002 est **VALIDÉ**.
 - La reproductibilité du schéma demandée par R-003 est **VALIDÉE**.
-- R-002 reste globalement **PARTIELLEMENT VALIDÉ** jusqu'à la clôture de ses contrôles d'exploitation restants.
+- R-002 est globalement **VALIDÉ AVEC LIMITES** après l'inventaire Vercel consigné dans `docs/hardening/R-002_VERCEL_ENV_INVENTORY.md`.

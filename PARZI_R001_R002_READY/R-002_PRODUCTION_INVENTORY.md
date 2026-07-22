@@ -51,12 +51,14 @@ Total calculé : **61 lignes**.
 - [x] Agrégats non sensibles calculés.
 - [x] Projet et version PostgreSQL inventoriés.
 - [x] Déploiement Vercel de référence inventorié.
-- [ ] Sauvegarde automatique Supabase confirmée par capture du tableau Backups.
-- [ ] Noms des variables Vercel vérifiés par environnement.
+- [x] Sauvegarde automatique Supabase inventoriée : aucune incluse dans le plan Free observé.
+- [x] Noms des variables Vercel vérifiés par environnement, sans lecture des valeurs.
 - [x] Restauration testée sur environnement non productif.
 - [x] Temps de restauration mesuré.
 - [x] Comparaison post-restauration réussie.
 
 ## Décision
 
-Le volet restauration hors production est **VALIDÉ**. R-002 reste **PARTIELLEMENT VALIDÉ** tant que les contrôles d'exploitation restants ne sont pas clôturés.
+R-002 est **VALIDÉ AVEC LIMITES** : la restauration hors production et les inventaires sont concluants, mais le plan Free ne fournit aucune sauvegarde automatique et l'export ne contient pas Supabase Auth.
+
+L'inventaire Vercel et les écarts de séparation entre preview et production sont consignés dans `docs/hardening/R-002_VERCEL_ENV_INVENTORY.md`.
