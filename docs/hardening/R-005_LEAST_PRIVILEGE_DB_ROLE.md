@@ -1,10 +1,10 @@
 # R-005 — Rôle PostgreSQL serveur à privilèges minimaux
 
-- Statut : **VALIDÉ SUR PREVIEW — NON ACTIVÉ DANS VERCEL**
+- Statut : **ACTIVÉ ET DÉPLOYÉ EN PREVIEW — PRODUCTION NON ACTIVÉE**
 - Branche : `hardening/tome-lxxvii-v0`
 - Base Supabase : migrations `001` à `014` appliquées uniquement sur `parzi-manage-preview`
 - Production Supabase : aucune modification effectuée
-- Variables Vercel : aucune modification effectuée
+- Variables Vercel : `DATABASE_URL` séparée entre Production et Preview ; valeur Preview dédiée et sensible
 
 ## Objectif
 
@@ -100,7 +100,12 @@ La production ne peut être basculée qu'après une période d'observation réus
 
 Le projet Supabase Free distinct `parzi-manage-preview` a été créé dans la même région que la production. Il contient le schéma issu des migrations `001` à `013` et les rôles préparés par la migration `014`. La production n'a pas été utilisée pendant cette validation.
 
-L'inventaire R-002 montre toujours que Vercel partage une configuration `DATABASE_URL` entre preview et production. La prochaine étape doit donc créer une variable limitée à l'environnement Preview avant tout test applicatif. La variable Production ne doit pas être modifiée.
+La configuration Vercel contient désormais deux entrées sensibles distinctes :
+
+- la valeur historique, limitée à Production et laissée inchangée ;
+- une valeur limitée à Preview, utilisant `parzi_app_preview` et le pooler transactionnel Supavisor.
+
+Le rôle `parzi_app_production` reste `NOLOGIN`. Aucun secret n'est consigné dans Git ou dans cette preuve.
 
 ## Validation attendue
 
@@ -128,9 +133,9 @@ Cette validation prouve le comportement PostgreSQL du script. La validation Supa
 
 ## Rollback
 
-1. restaurer uniquement l'ancienne variable Preview `DATABASE_URL` depuis le gestionnaire de secrets ;
-2. redéployer la preview et confirmer son retour à l'état précédent ;
-3. exécuter `ALTER ROLE parzi_app_preview NOLOGIN;` ;
+1. exécuter `ALTER ROLE parzi_app_preview NOLOGIN;` ;
+2. supprimer uniquement l'entrée Vercel `DATABASE_URL` limitée à Preview ;
+3. redéployer la preview et confirmer que la production reste inchangée ;
 4. conserver les rôles désactivés pendant le diagnostic ;
 5. ne supprimer les rôles qu'après vérification de l'absence de connexion active.
 
@@ -148,4 +153,8 @@ Test exécuté le 22 juillet 2026 sur le projet `parzi-manage-preview` :
 - aucun objet de test ni changement temporaire conservé ;
 - conseillers Supabase : aucune alerte bloquante ; alertes informatives attendues sur l'absence de politiques RLS et les index encore inutilisés dans cette base vide.
 
-R-005 est validé au niveau PostgreSQL sur la base de preview. L'activation du LOGIN, la création du secret, la séparation de `DATABASE_URL` dans Vercel et les tests applicatifs restent à effectuer avant toute considération de production.
+Le rôle de preview a ensuite été activé avec un secret dédié, immédiatement tourné avant utilisation définitive. La valeur Vercel historique a été limitée à Production sans être lue ni remplacée, puis une seconde `DATABASE_URL` sensible a été créée uniquement pour Preview.
+
+Le commit de redéploiement `ca46d00` a produit une preview Vercel `READY` pour la branche `hardening/tome-lxxvii-v0`. Le contrôle HTTP de `/dashboard` a répondu correctement avec la redirection d'authentification attendue et aucune erreur d'exécution Vercel n'a été détectée. `build-and-test` et Vercel ont réussi.
+
+R-005 est validé au niveau PostgreSQL et activé dans l'environnement Preview. Les parcours applicatifs authentifiés et l'observation des connexions attribuées au rôle restent à exécuter avant toute considération de production.
