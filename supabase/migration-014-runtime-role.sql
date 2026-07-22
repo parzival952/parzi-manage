@@ -45,10 +45,41 @@ begin
 end
 $$;
 
--- Réaffirme les attributs attendus si les rôles existaient déjà.
-alter role parzi_app_runtime nologin inherit nosuperuser nocreatedb nocreaterole noreplication nobypassrls;
-alter role parzi_app_preview nologin inherit nosuperuser nocreatedb nocreaterole noreplication bypassrls connection limit 5;
-alter role parzi_app_production nologin inherit nosuperuser nocreatedb nocreaterole noreplication bypassrls connection limit 10;
+-- Supabase autorise ces attributs sensibles lors du CREATE ROLE, mais son rôle
+-- postgres managé ne peut pas les réaffirmer ensuite avec ALTER ROLE. Les
+-- attributs modifiables sont donc normalisés, puis les autres sont contrôlés.
+alter role parzi_app_runtime nologin inherit connection limit -1;
+alter role parzi_app_preview nologin inherit connection limit 5;
+alter role parzi_app_production nologin inherit connection limit 10;
+
+do $$
+declare
+  invalid_role text;
+begin
+  select rolname
+    into invalid_role
+    from pg_roles
+   where rolname in ('parzi_app_runtime', 'parzi_app_preview', 'parzi_app_production')
+     and (rolsuper or rolcreatedb or rolcreaterole or rolreplication or rolcanlogin or not rolinherit)
+   limit 1;
+
+  if invalid_role is not null then
+    raise exception '% possède des attributs incompatibles avec R-005', invalid_role;
+  end if;
+
+  if (select rolbypassrls from pg_roles where rolname = 'parzi_app_runtime') then
+    raise exception 'parzi_app_runtime possède BYPASSRLS';
+  end if;
+
+  if not (select rolbypassrls from pg_roles where rolname = 'parzi_app_preview') then
+    raise exception 'parzi_app_preview ne possède pas BYPASSRLS';
+  end if;
+
+  if not (select rolbypassrls from pg_roles where rolname = 'parzi_app_production') then
+    raise exception 'parzi_app_production ne possède pas BYPASSRLS';
+  end if;
+end
+$$;
 
 grant parzi_app_runtime to parzi_app_preview;
 grant parzi_app_runtime to parzi_app_production;

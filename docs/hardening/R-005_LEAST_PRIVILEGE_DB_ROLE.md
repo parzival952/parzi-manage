@@ -1,8 +1,9 @@
 # R-005 — Rôle PostgreSQL serveur à privilèges minimaux
 
-- Statut : **PRÉPARÉ — NON EXÉCUTÉ**
+- Statut : **VALIDÉ SUR PREVIEW — NON ACTIVÉ DANS VERCEL**
 - Branche : `hardening/tome-lxxvii-v0`
-- Base Supabase : aucune modification effectuée
+- Base Supabase : migrations `001` à `014` appliquées uniquement sur `parzi-manage-preview`
+- Production Supabase : aucune modification effectuée
 - Variables Vercel : aucune modification effectuée
 
 ## Objectif
@@ -95,9 +96,11 @@ Le mot de passe doit être généré dans un gestionnaire de mots de passe, enco
 
 La production ne peut être basculée qu'après une période d'observation réussie en preview et une décision explicite. Elle utilise un mot de passe différent avec `parzi_app_production`.
 
-## Bloqueur actuel
+## Séparation de la preview
 
-L'inventaire R-002 montre que Vercel partage aujourd'hui une configuration `DATABASE_URL` unique entre preview et production. Une preview distincte doit d'abord disposer de sa propre base ou branche autorisée. Tant que ce point n'est pas résolu, aucune activation de rôle ni modification de `DATABASE_URL` ne doit être effectuée.
+Le projet Supabase Free distinct `parzi-manage-preview` a été créé dans la même région que la production. Il contient le schéma issu des migrations `001` à `013` et les rôles préparés par la migration `014`. La production n'a pas été utilisée pendant cette validation.
+
+L'inventaire R-002 montre toujours que Vercel partage une configuration `DATABASE_URL` entre preview et production. La prochaine étape doit donc créer une variable limitée à l'environnement Preview avant tout test applicatif. La variable Production ne doit pas être modifiée.
 
 ## Validation attendue
 
@@ -121,7 +124,7 @@ Test exécuté le 22 juillet 2026 sur PostgreSQL 17.10, dans une base locale vid
 - accès aux schémas de test `auth` et `storage` : refusé ;
 - limites de connexion : 5 pour preview, 10 pour production.
 
-Cette validation prouve le comportement PostgreSQL du script, pas sa compatibilité opérationnelle avec le pooler du projet Supabase. La validation Supavisor reste obligatoire avant toute activation.
+Cette validation prouve le comportement PostgreSQL du script. La validation Supavisor avec une identité de connexion dédiée reste obligatoire avant toute activation dans Vercel.
 
 ## Rollback
 
@@ -131,4 +134,18 @@ Cette validation prouve le comportement PostgreSQL du script, pas sa compatibili
 4. conserver les rôles désactivés pendant le diagnostic ;
 5. ne supprimer les rôles qu'après vérification de l'absence de connexion active.
 
-R-005 reste **PRÉPARÉ**, mais non appliqué et non validé.
+## Validation Supabase preview
+
+Test exécuté le 22 juillet 2026 sur le projet `parzi-manage-preview` :
+
+- chaîne `001 → 014` présente dans l'historique des migrations ;
+- migration `014` adaptée au rôle `postgres` managé de Supabase : les attributs sensibles sont fixés à la création puis vérifiés, sans `ALTER ROLE` réservé au superutilisateur ;
+- trois rôles confirmés `NOLOGIN`, non-superuser, sans création de base, création de rôle ni réplication ;
+- `BYPASSRLS` confirmé uniquement pour `parzi_app_preview` et `parzi_app_production` ;
+- limites de connexion confirmées à 5 pour preview et 10 pour production ;
+- lecture de `public.players` réussie en assumant temporairement le rôle de preview dans une transaction annulée ;
+- CREATE dans `public`, TRUNCATE, DELETE sur `tasks` et lecture de `auth.users` refusés ;
+- aucun objet de test ni changement temporaire conservé ;
+- conseillers Supabase : aucune alerte bloquante ; alertes informatives attendues sur l'absence de politiques RLS et les index encore inutilisés dans cette base vide.
+
+R-005 est validé au niveau PostgreSQL sur la base de preview. L'activation du LOGIN, la création du secret, la séparation de `DATABASE_URL` dans Vercel et les tests applicatifs restent à effectuer avant toute considération de production.
