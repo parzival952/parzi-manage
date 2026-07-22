@@ -1,6 +1,6 @@
 # R-006 — Propriété utilisateur et règles de suppression
 
-- Statut : **EN COURS — PRÉCHECK PREVIEW BLOQUANT**
+- Statut : **VALIDÉ EN PREVIEW — PRODUCTION NON MODIFIÉE**
 - Branche : `hardening/tome-lxxvii-v0`
 - Migration préparée : `supabase/migration-015-user-ownership-constraints.sql`
 - Production : aucune modification effectuée
@@ -55,6 +55,25 @@ La configuration Preview doit utiliser le même projet Supabase pour Auth et Pos
 6. exécuter les conseillers Supabase et la CI.
 
 Aucune de ces actions n'autorise une modification de production.
+
+## Résolution et validation Preview
+
+Validation exécutée le 22 juillet 2026 après autorisation explicite :
+
+- les valeurs Vercel historiques `SUPABASE_URL` et `SUPABASE_ANON_KEY` ont été limitées à Production sans être lues ni remplacées ;
+- deux valeurs dédiées au projet `parzi-manage-preview` ont été ajoutées uniquement à l'environnement Vercel Preview ;
+- un utilisateur a été créé dans Supabase Auth Preview, sans nouveau portefeuille applicatif ;
+- les 15 lignes existantes ont été réattribuées de leur unique propriétaire orphelin à cet unique utilisateur Auth Preview ;
+- aucune ligne n'a été supprimée pendant la réattribution ;
+- le contrôle après transaction a confirmé zéro propriétaire nul ou orphelin ;
+- la migration `015` a été appliquée uniquement sur `parzi-manage-preview` ;
+- 15 clés étrangères vers `auth.users(id)` sont présentes et validées ;
+- les 15 clés étrangères utilisent `ON DELETE CASCADE` ;
+- les 15 colonnes `user_id` sont `NOT NULL` ;
+- la suppression du compte de test a supprimé les 15 lignes liées dans une transaction de contrôle ;
+- la transaction a été annulée et le contrôle final a confirmé le retour intact de l'utilisateur et des 15 lignes.
+
+Les conseillers Supabase n'ont signalé aucune nouvelle erreur liée à R-006. Les informations sur l'absence de politiques RLS restent attendues avec l'architecture serveur temporaire décrite dans R-005. La protection contre les mots de passe compromis reste un avertissement Auth à traiter dans R-009. L'index encore inutilisé est attendu dans cette base de Preview presque vide.
 
 ## Rollback
 
