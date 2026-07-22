@@ -57,8 +57,8 @@ Ces améliorations doivent être traitées dans les tickets ultérieurs, princip
 - [x] SQL de chaque migration contrôlé.
 - [x] Correspondance de `academy_progression` avec migration 009 établie.
 - [x] Trois migrations absentes reconstituées fidèlement.
-- [ ] Fichiers ajoutés à la branche GitHub.
-- [ ] CI et Preview Vercel validées après commit.
-- [ ] Reconstruction 001 → 013 testée sur une base vide hors production.
+- [x] Fichiers ajoutés à la branche GitHub.
+- [x] CI et Preview Vercel validées après commit.
+- [x] Reconstruction 001 → 013 testée sur une base vide hors production.
 
-R-003 est **PRÊT À COMMITTER**, mais pas encore validé.
+R-003 est **VALIDÉ** pour la réconciliation et la reconstruction du schéma hors production. La preuve d'exécution est consignée dans `docs/hardening/R-002_R-003_RESTORE_TEST.md`.

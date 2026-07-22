@@ -41,7 +41,7 @@ Total calculé : **61 lignes**.
 
 - La sauvegarde ne contient pas les utilisateurs Supabase Auth.
 - Elle dépend de migrations `001..013`, alors que le dépôt audité n’en versionnait que `001..010`.
-- Elle ne prouve pas encore qu’une restauration complète aboutit.
+- La restauration locale hors production du 22 juillet 2026 a abouti ; voir `docs/hardening/R-002_R-003_RESTORE_TEST.md`.
 - Elle contient des données personnelles et ne doit pas être déposée dans GitHub, Vercel ou une conversation externe.
 
 ## Critères R-002
@@ -53,10 +53,10 @@ Total calculé : **61 lignes**.
 - [x] Déploiement Vercel de référence inventorié.
 - [ ] Sauvegarde automatique Supabase confirmée par capture du tableau Backups.
 - [ ] Noms des variables Vercel vérifiés par environnement.
-- [ ] Restauration testée sur environnement non productif.
-- [ ] Temps de restauration mesuré.
-- [ ] Comparaison post-restauration réussie.
+- [x] Restauration testée sur environnement non productif.
+- [x] Temps de restauration mesuré.
+- [x] Comparaison post-restauration réussie.
 
 ## Décision
 
-R-002 reste **PARTIELLEMENT VALIDÉ** tant qu’une restauration hors production n’a pas été exécutée et comparée.
+Le volet restauration hors production est **VALIDÉ**. R-002 reste **PARTIELLEMENT VALIDÉ** tant que les contrôles d'exploitation restants ne sont pas clôturés.
