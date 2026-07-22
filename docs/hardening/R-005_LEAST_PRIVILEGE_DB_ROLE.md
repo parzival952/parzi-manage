@@ -157,4 +157,15 @@ Le rôle de preview a ensuite été activé avec un secret dédié, immédiateme
 
 Le commit de redéploiement `ca46d00` a produit une preview Vercel `READY` pour la branche `hardening/tome-lxxvii-v0`. Le contrôle HTTP de `/dashboard` a répondu correctement avec la redirection d'authentification attendue et aucune erreur d'exécution Vercel n'a été détectée. `build-and-test` et Vercel ont réussi.
 
-R-005 est validé au niveau PostgreSQL et activé dans l'environnement Preview. Les parcours applicatifs authentifiés et l'observation des connexions attribuées au rôle restent à exécuter avant toute considération de production.
+## Validation applicative authentifiée
+
+Test exécuté le 22 juillet 2026 sur la preview Vercel de la branche `hardening/tome-lxxvii-v0` :
+
+- création de session réussie et arrivée sur `/bienvenue` avec l'action de déconnexion disponible ;
+- accès authentifié direct à `/dashboard` réussi ;
+- chargement complet du tableau de bord et de ses données réussi ;
+- navigation authentifiée disponible ;
+- aucune erreur détectée dans la console du navigateur pendant le parcours ;
+- aucune action d'écriture déclenchée pendant ce contrôle.
+
+R-005 est validé au niveau PostgreSQL et le parcours applicatif authentifié est opérationnel dans l'environnement Preview. L'observation d'une connexion attribuée à `parzi_app_preview` dans `pg_stat_activity`, ainsi que les tests applicatifs contrôlés d'écriture et de refus, restent requis avant toute considération de production.
