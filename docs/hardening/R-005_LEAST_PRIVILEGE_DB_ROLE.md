@@ -1,6 +1,6 @@
 # R-005 — Rôle PostgreSQL serveur à privilèges minimaux
 
-- Statut : **ACTIVÉ ET DÉPLOYÉ EN PREVIEW — PRODUCTION NON ACTIVÉE**
+- Statut : **VALIDÉ EN PREVIEW — PRODUCTION NON ACTIVÉE**
 - Branche : `hardening/tome-lxxvii-v0`
 - Base Supabase : migrations `001` à `014` appliquées uniquement sur `parzi-manage-preview`
 - Production Supabase : aucune modification effectuée
@@ -168,4 +168,23 @@ Test exécuté le 22 juillet 2026 sur la preview Vercel de la branche `hardening
 - aucune erreur détectée dans la console du navigateur pendant le parcours ;
 - aucune action d'écriture déclenchée pendant ce contrôle.
 
-R-005 est validé au niveau PostgreSQL et le parcours applicatif authentifié est opérationnel dans l'environnement Preview. L'observation d'une connexion attribuée à `parzi_app_preview` dans `pg_stat_activity`, ainsi que les tests applicatifs contrôlés d'écriture et de refus, restent requis avant toute considération de production.
+R-005 est validé au niveau PostgreSQL et le parcours applicatif authentifié est opérationnel dans l'environnement Preview. Les derniers contrôles d'attribution, d'écriture et de refus sont consignés ci-dessous.
+
+## Validation finale des privilèges en Preview
+
+Contrôles exécutés le 22 juillet 2026, uniquement sur `parzi-manage-preview` :
+
+- `pg_stat_activity` a attribué cinq connexions inactives à `parzi_app_preview`, avec `Supavisor` comme application ;
+- aucune connexion n'a été observée pour `parzi_app_production` ;
+- création d'un joueur temporaire réussie depuis le parcours applicatif authentifié ;
+- lecture du joueur temporaire réussie dans le portefeuille ;
+- suppression du même joueur réussie depuis le parcours applicatif ;
+- absence de l'enregistrement temporaire confirmée ensuite directement en base ;
+- `INSERT` et `DELETE` sur `players` confirmés accordés au rôle de Preview ;
+- `DELETE` et `TRUNCATE` sur `tasks` confirmés refusés ;
+- création d'objet dans le schéma `public` confirmée refusée ;
+- usage du schéma `auth` et lecture de `auth.users` confirmés refusés ;
+- `parzi_app_preview` confirmé avec `LOGIN` ;
+- `parzi_app_production` confirmé avec `NOLOGIN`.
+
+R-005 est désormais validé dans l'environnement Preview. Cette validation n'autorise pas le basculement de la production : celui-ci reste soumis à une décision explicite et à une procédure distincte.
