@@ -1,9 +1,15 @@
+import { cookies } from "next/headers";
 import { NextResponse } from "next/server";
+
 import {
   DIAGNOSTIC_SECTION_LABELS,
   DIAGNOSTIC_SECTION_ORDER,
   loadPrivateDiagnosticQuestions,
 } from "@/lib/academy-diagnostic";
+import {
+  saveDiagnosticCompletion,
+} from "@/lib/academy-diagnostic-store";
+import { getUser } from "@/lib/auth";
 
 type SubmittedAnswer = {
   questionId?: string;
@@ -40,6 +46,18 @@ function arraysMatch(
 
 export async function POST(request: Request) {
   try {
+    const user = await getUser();
+
+    if (!user) {
+      return NextResponse.json(
+        {
+          error:
+            "Ta session a expiré. Reconnecte-toi.",
+        },
+        { status: 401 },
+      );
+    }
+
     const body = (await request.json()) as
       SubmitBody;
 
@@ -183,14 +201,43 @@ export async function POST(request: Request) {
         },
       );
 
+    const scorePercent =
+      pointsPossible > 0
+        ? Math.round(
+            (pointsEarned / pointsPossible) *
+              100,
+          )
+        : 0;
+
+    const cookieStore = await cookies();
+    const accessToken =
+      cookieStore.get("pm_at")?.value;
+
+    const persistence = accessToken
+      ? await saveDiagnosticCompletion({
+          accessToken,
+          scorePercent,
+          correctCount,
+          questionCount: questions.length,
+          pointsEarned,
+          pointsPossible,
+          elapsedSeconds,
+          overconfidenceErrors,
+          slowAnswers,
+          unansweredQuestions,
+          sectionResults,
+          answers: body.answers,
+        })
+      : {
+          persisted: false,
+          attemptId: null,
+          xpAwarded: 0,
+          totalXp: null,
+          trophyUnlocked: null,
+        };
+
     return NextResponse.json({
-      scorePercent:
-        pointsPossible > 0
-          ? Math.round(
-              (pointsEarned / pointsPossible) *
-                100,
-            )
-          : 0,
+      scorePercent,
       correctCount,
       questionCount: questions.length,
       pointsEarned,
@@ -201,12 +248,20 @@ export async function POST(request: Request) {
       unansweredQuestions,
       sectionResults,
       generatedAt: new Date().toISOString(),
+      ...persistence,
     });
-  } catch {
+  } catch (error) {
+    console.error(
+      "academy diagnostic submission:",
+      error,
+    );
+
     return NextResponse.json(
       {
         error:
-          "La correction du diagnostic a échoué.",
+          error instanceof Error
+            ? error.message
+            : "La correction du diagnostic a échoué.",
       },
       { status: 500 },
     );

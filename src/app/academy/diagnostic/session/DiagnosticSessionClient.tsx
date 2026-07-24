@@ -41,6 +41,11 @@ type DiagnosticResult = {
   unansweredQuestions: number;
   sectionResults: SectionResult[];
   generatedAt: string;
+  persisted: boolean;
+  attemptId: string | null;
+  xpAwarded: number;
+  totalXp: number | null;
+  trophyUnlocked: string | null;
 };
 
 type SavedDiagnostic = {
@@ -409,6 +414,34 @@ export default function DiagnosticSessionClient({
     }
   }
 
+  function fillDevelopmentTest() {
+    const testAttempts: AttemptsByQuestion = {};
+
+    for (const question of questions) {
+      const firstOptionId =
+        question.options[0]?.id;
+
+      testAttempts[question.id] = {
+        selectedAnswerIds: firstOptionId
+          ? [firstOptionId]
+          : [],
+        confidence: 3,
+        elapsedSeconds: 5,
+      };
+    }
+
+    setAttempts(testAttempts);
+    setCurrentIndex(
+      Math.max(questions.length - 1, 0),
+    );
+    setErrorMessage("");
+
+    window.scrollTo({
+      top: document.body.scrollHeight,
+      behavior: "smooth",
+    });
+  }
+
   function restartDiagnostic() {
     const confirmed = window.confirm(
       "Recommencer le diagnostic depuis la première question ?",
@@ -486,10 +519,108 @@ export default function DiagnosticSessionClient({
           </h1>
 
           <p className="pz-muted text-[13px] leading-6 mt-3">
-            Cette correction vient directement de tes
-            réponses. Le rapport détaillé et l’attribution
-            réelle des XP seront connectés ensuite.
+            {result.persisted
+              ? "Ta tentative a été enregistrée dans ton profil PARZI Academy."
+              : "Ton résultat a été calculé. La sauvegarde Supabase est inactive dans ce mode local."}
           </p>
+        </section>
+
+        <section
+          className="pz-card p-5"
+          style={{
+            background:
+              "linear-gradient(135deg, rgba(213,172,73,.11), rgba(37,194,110,.07)), var(--carte)",
+          }}
+        >
+          <div className="text-[10px] font-extrabold uppercase tracking-[0.15em]"
+            style={{ color: "#e4c264" }}
+          >
+            RÉCOMPENSE DU DIAGNOSTIC
+          </div>
+
+          {result.persisted ? (
+            <div className="mt-4">
+              <div className="flex items-center justify-between gap-4">
+                <div>
+                  <h2 className="text-[18px] font-black">
+                    {result.xpAwarded > 0
+                      ? `+${result.xpAwarded} XP obtenus`
+                      : "Récompense déjà obtenue"}
+                  </h2>
+
+                  <p className="pz-muted text-[11px] mt-1">
+                    {result.xpAwarded > 0
+                      ? "Ces XP ont été ajoutés une seule fois à ton profil."
+                      : "Tu peux refaire le diagnostic, mais les 100 XP ne sont pas attribués deux fois."}
+                  </p>
+                </div>
+
+                <div
+                  className="rounded-2xl px-4 py-3 text-center"
+                  style={{
+                    background:
+                      "rgba(213,172,73,.12)",
+                    border:
+                      "1px solid rgba(213,172,73,.22)",
+                  }}
+                >
+                  <strong className="block text-[19px]">
+                    {result.totalXp ?? 0}
+                  </strong>
+
+                  <span className="text-[9px] pz-muted">
+                    XP total
+                  </span>
+                </div>
+              </div>
+
+              <div
+                className="rounded-2xl p-4 mt-4 flex items-center gap-3"
+                style={{
+                  background:
+                    "rgba(255,255,255,.035)",
+                  border:
+                    "1px solid var(--ligne)",
+                }}
+              >
+                <span className="text-[24px]">
+                  🏆
+                </span>
+
+                <div>
+                  <strong className="text-[13px]">
+                    {result.trophyUnlocked
+                      ? "Trophée débloqué : Point de départ"
+                      : "Trophée Point de départ déjà débloqué"}
+                  </strong>
+
+                  <p className="pz-muted text-[10px] mt-1">
+                    Preuve de réalisation complète du
+                    diagnostic initial.
+                  </p>
+                </div>
+              </div>
+            </div>
+          ) : (
+            <div
+              className="rounded-2xl p-4 mt-4"
+              style={{
+                background:
+                  "rgba(240,179,92,.07)",
+                border:
+                  "1px solid rgba(240,179,92,.2)",
+              }}
+            >
+              <strong className="text-[12px]">
+                Mode local ou utilisateur de démonstration
+              </strong>
+
+              <p className="pz-muted text-[10px] mt-1">
+                Aucun XP réel et aucun trophée n’ont été
+                enregistrés.
+              </p>
+            </div>
+          )}
         </section>
 
         <section className="grid grid-cols-2 gap-3">
@@ -867,6 +998,23 @@ export default function DiagnosticSessionClient({
           <span className="text-right">Certain</span>
         </div>
       </section>
+
+      {process.env.NODE_ENV === "development" ? (
+        <button
+          type="button"
+          onClick={fillDevelopmentTest}
+          className="min-h-[48px] rounded-2xl text-[11px] font-bold"
+          style={{
+            color: "#f0c56c",
+            background:
+              "rgba(213,172,73,.06)",
+            border:
+              "1px dashed rgba(213,172,73,.28)",
+          }}
+        >
+          ⚙️ Remplir automatiquement les 40 questions
+        </button>
+      ) : null}
 
       {errorMessage ? (
         <div
