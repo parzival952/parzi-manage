@@ -189,6 +189,24 @@ export default function DiagnosticResultsPage() {
   const trophies = report.trophies?.unlocked ?? [];
   const studyDays = report.studyPlan?.days ?? [];
 
+  const totalCorrectAnswers = competencies.reduce(
+    (total, competency) =>
+      total + competency.correctCount,
+    0,
+  );
+
+  const totalQuestions = competencies.reduce(
+    (total, competency) =>
+      total + competency.questionCount,
+    0,
+  );
+
+  const hasCompetencies = competencies.length > 0;
+  const hasStrengths = strengths.length > 0;
+  const hasPriorities = priorities.length > 0;
+  const hasTrophies = trophies.length > 0;
+  const hasStudyDays = studyDays.length > 0;
+
   return (
     <main className={styles.page}>
       <div className={styles.backgroundGlow} />
@@ -196,6 +214,11 @@ export default function DiagnosticResultsPage() {
       <div className={styles.container}>
         <header className={styles.header}>
           <div>
+            <div className={styles.demoBadge}>
+              <span className={styles.demoDot} />
+              Aperçu de démonstration
+            </div>
+
             <p className={styles.eyebrow}>
               PARZI ACADEMY · MODULE 0
             </p>
@@ -259,6 +282,10 @@ export default function DiagnosticResultsPage() {
             </div>
 
             <div className={styles.scoreDetails}>
+              <span>
+                {totalCorrectAnswers} / {totalQuestions} bonnes réponses
+              </span>
+
               <span>
                 {report.summary.pointsEarned} /{" "}
                 {report.summary.pointsPossible} points
@@ -371,75 +398,82 @@ export default function DiagnosticResultsPage() {
             </p>
           </div>
 
-          <div className={styles.competencyGrid}>
-            {competencies.map((competency) => {
-              const competencyScore = clampPercentage(
-                competency.score,
-              );
+          {hasCompetencies ? (
+            <div className={styles.competencyGrid}>
+              {competencies.map((competency) => {
+                const competencyScore = clampPercentage(
+                  competency.score,
+                );
 
-              return (
-                <article
-                  key={competency.id}
-                  className={styles.competencyCard}
-                >
-                  <div className={styles.competencyHeader}>
-                    <h3>{competency.label}</h3>
-
-                    <span
-                      className={`${styles.statusBadge} ${getStatusClass(
-                        competency.status.id,
-                      )}`}
-                    >
-                      {competency.status.label}
-                    </span>
-                  </div>
-
-                  <div className={styles.competencyScore}>
-                    <strong>{competencyScore}%</strong>
-
-                    <span>
-                      {competency.correctCount} bonne
-                      {competency.correctCount > 1
-                        ? "s"
-                        : ""}{" "}
-                      réponse
-                      {competency.correctCount > 1
-                        ? "s"
-                        : ""}
-                    </span>
-                  </div>
-
-                  <div
-                    className={styles.smallProgressTrack}
-                    role="progressbar"
-                    aria-label={`Score en ${competency.label}`}
-                    aria-valuemin={0}
-                    aria-valuemax={100}
-                    aria-valuenow={competencyScore}
+                return (
+                  <article
+                    key={competency.id}
+                    className={styles.competencyCard}
                   >
+                    <div className={styles.competencyHeader}>
+                      <h3>{competency.label}</h3>
+
+                      <span
+                        className={`${styles.statusBadge} ${getStatusClass(
+                          competency.status.id,
+                        )}`}
+                      >
+                        {competency.status.label}
+                      </span>
+                    </div>
+
+                    <div className={styles.competencyScore}>
+                      <strong>{competencyScore}%</strong>
+
+                      <span>
+                        {competency.correctCount} bonne
+                        {competency.correctCount > 1
+                          ? "s"
+                          : ""}{" "}
+                        réponse
+                        {competency.correctCount > 1
+                          ? "s"
+                          : ""}
+                      </span>
+                    </div>
+
                     <div
-                      className={styles.smallProgressFill}
-                      style={{
-                        width: `${competencyScore}%`,
-                      }}
-                    />
-                  </div>
+                      className={styles.smallProgressTrack}
+                      role="progressbar"
+                      aria-label={`Score en ${competency.label}`}
+                      aria-valuemin={0}
+                      aria-valuemax={100}
+                      aria-valuenow={competencyScore}
+                    >
+                      <div
+                        className={styles.smallProgressFill}
+                        style={{
+                          width: `${competencyScore}%`,
+                        }}
+                      />
+                    </div>
 
-                  <div className={styles.competencyFooter}>
-                    <span>
-                      {competency.earnedPoints} /{" "}
-                      {competency.possiblePoints} points
-                    </span>
+                    <div className={styles.competencyFooter}>
+                      <span>
+                        {competency.earnedPoints} /{" "}
+                        {competency.possiblePoints} points
+                      </span>
 
-                    <span>
-                      {competency.answeredCount} /{" "}
-                      {competency.questionCount} traitées
-                    </span>
-                  </div>
-                </article>
-              );
-            })}
-          </div>
+                      <span>
+                        {competency.answeredCount} /{" "}
+                        {competency.questionCount} traitées
+                      </span>
+                    </div>
+                  </article>
+                );
+              })}
+            </div>
+          ) : (
+            <div className={styles.emptyState}>
+              Les données de compétences seront affichées ici
+              une fois le diagnostic complété.
+            </div>
+          )}
         </section>
 
         <section className={styles.twoColumns}>
@@ -455,25 +489,31 @@ export default function DiagnosticResultsPage() {
               </div>
             </div>
 
-            <div className={styles.rankingList}>
-              {strengths.map((strength) => (
-                <div
-                  key={strength.sectionId}
-                  className={styles.rankingItem}
-                >
-                  <span className={styles.rankingNumber}>
-                    {strength.rank}
-                  </span>
+            {hasStrengths ? (
+              <div className={styles.rankingList}>
+                {strengths.map((strength) => (
+                  <div
+                    key={strength.sectionId}
+                    className={styles.rankingItem}
+                  >
+                    <span className={styles.rankingNumber}>
+                      {strength.rank}
+                    </span>
 
-                  <div>
-                    <strong>{strength.label}</strong>
-                    <span>{strength.status}</span>
+                    <div>
+                      <strong>{strength.label}</strong>
+                      <span>{strength.status}</span>
+                    </div>
+
+                    <b>{strength.score}%</b>
                   </div>
-
-                  <b>{strength.score}%</b>
-                </div>
-              ))}
-            </div>
+                ))}
+              </div>
+            ) : (
+              <div className={styles.emptyState}>
+                Aucun point fort n’a encore été identifié.
+              </div>
+            )}
           </article>
 
           <article className={styles.panel}>
@@ -488,25 +528,31 @@ export default function DiagnosticResultsPage() {
               </div>
             </div>
 
-            <div className={styles.priorityList}>
-              {priorities.map((priority) => (
-                <div
-                  key={priority.sectionId}
-                  className={styles.priorityItem}
-                >
-                  <div className={styles.priorityTop}>
-                    <span>
-                      Priorité {priority.rank}
-                    </span>
+            {hasPriorities ? (
+              <div className={styles.priorityList}>
+                {priorities.map((priority) => (
+                  <div
+                    key={priority.sectionId}
+                    className={styles.priorityItem}
+                  >
+                    <div className={styles.priorityTop}>
+                      <span>
+                        Priorité {priority.rank}
+                      </span>
 
-                    <strong>{priority.score}%</strong>
+                      <strong>{priority.score}%</strong>
+                    </div>
+
+                    <h3>{priority.label}</h3>
+                    <p>{priority.reason}</p>
                   </div>
-
-                  <h3>{priority.label}</h3>
-                  <p>{priority.reason}</p>
-                </div>
-              ))}
-            </div>
+                ))}
+              </div>
+            ) : (
+              <div className={styles.emptyState}>
+                Les priorités de progression apparaîtront ici.
+              </div>
+            )}
           </article>
         </section>
 
@@ -622,25 +668,31 @@ export default function DiagnosticResultsPage() {
             </p>
           </div>
 
-          <div className={styles.trophiesGrid}>
-            {trophies.map((trophy) => (
-              <article
-                key={trophy.id}
-                className={styles.fullTrophyCard}
-              >
-                <div className={styles.fullTrophyIcon}>🏅</div>
+          {hasTrophies ? (
+            <div className={styles.trophiesGrid}>
+              {trophies.map((trophy) => (
+                <article
+                  key={trophy.id}
+                  className={styles.fullTrophyCard}
+                >
+                  <div className={styles.fullTrophyIcon}>🏅</div>
 
-                <div>
-                  <span className={styles.rarity}>
-                    {trophy.rarity}
-                  </span>
+                  <div>
+                    <span className={styles.rarity}>
+                      {trophy.rarity}
+                    </span>
 
-                  <h3>{trophy.name}</h3>
-                  <p>{trophy.description}</p>
-                </div>
-              </article>
-            ))}
-          </div>
+                    <h3>{trophy.name}</h3>
+                    <p>{trophy.description}</p>
+                  </div>
+                </article>
+              ))}
+            </div>
+          ) : (
+            <div className={styles.emptyState}>
+              Aucune récompense n’a encore été débloquée.
+            </div>
+          )}
         </section>
 
         <section
@@ -667,28 +719,35 @@ export default function DiagnosticResultsPage() {
             </p>
           </div>
 
-          <div className={styles.studyPlan}>
-            {studyDays.map((studyDay) => (
-              <article
-                key={studyDay.day}
-                className={styles.studyDay}
-              >
-                <div className={styles.dayNumber}>
-                  <span>Jour</span>
-                  <strong>{studyDay.day}</strong>
-                </div>
+          {hasStudyDays ? (
+            <div className={styles.studyPlan}>
+              {studyDays.map((studyDay) => (
+                <article
+                  key={studyDay.day}
+                  className={styles.studyDay}
+                >
+                  <div className={styles.dayNumber}>
+                    <span>Jour</span>
+                    <strong>{studyDay.day}</strong>
+                  </div>
 
-                <div className={styles.dayContent}>
-                  <h3>{studyDay.focus}</h3>
-                  <p>{studyDay.activity}</p>
-                </div>
+                  <div className={styles.dayContent}>
+                    <h3>{studyDay.focus}</h3>
+                    <p>{studyDay.activity}</p>
+                  </div>
 
-                <span className={styles.dayStatus}>
-                  À faire
-                </span>
-              </article>
-            ))}
-          </div>
+                  <span className={styles.dayStatus}>
+                    À faire
+                  </span>
+                </article>
+              ))}
+            </div>
+          ) : (
+            <div className={styles.emptyState}>
+              Le plan de révision sera généré à partir des
+              résultats du diagnostic.
+            </div>
+          )}
 
           <div className={styles.finalCallout}>
             <div>

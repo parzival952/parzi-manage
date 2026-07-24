@@ -49,6 +49,31 @@
   backdrop-filter: blur(18px);
 }
 
+.demoBadge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 18px;
+  padding: 8px 12px;
+  border: 1px solid rgba(217, 172, 73, 0.24);
+  border-radius: 999px;
+  background: rgba(217, 172, 73, 0.08);
+  color: #efd080;
+  font-size: 0.68rem;
+  font-weight: 900;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.demoDot {
+  width: 7px;
+  height: 7px;
+  flex-shrink: 0;
+  border-radius: 50%;
+  background: #edc65f;
+  box-shadow: 0 0 12px rgba(237, 198, 95, 0.75);
+}
+
 .eyebrow,
 .cardLabel {
   margin: 0 0 10px;
@@ -187,10 +212,23 @@
 
 .scoreDetails {
   display: flex;
-  gap: 14px;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 8px 14px;
   margin-top: 20px;
   color: #8b9a92;
   font-size: 0.75rem;
+  text-align: center;
+}
+
+.scoreDetails span {
+  position: relative;
+}
+
+.scoreDetails span:not(:last-child)::after {
+  content: "•";
+  margin-left: 14px;
+  color: rgba(255, 255, 255, 0.2);
 }
 
 .levelBadge {
@@ -757,6 +795,9 @@
   .container {
     width: min(100% - 24px, 1440px);
     padding-top: 20px;
+    padding-bottom: calc(
+      170px + env(safe-area-inset-bottom)
+    );
   }
 
   .header,
@@ -822,4 +863,16 @@
     grid-column: 1 / -1;
     grid-row: 2;
   }
+  .scoreDetails {
+    max-width: 290px;
+  }
+
+  .scoreDetails span {
+    width: 100%;
+  }
+
+  .scoreDetails span:not(:last-child)::after {
+    display: none;
+  }
+
 }
