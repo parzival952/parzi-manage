@@ -7,6 +7,10 @@ import {
   loadLatestDiagnosticReport,
 } from "@/lib/academy-diagnostic-report";
 import {
+  academyStateToProgress,
+  loadAcademyState,
+} from "@/lib/academy-state";
+import {
   loadAcademyStudyPlan,
 } from "@/lib/academy-study-plan";
 import {
@@ -14,8 +18,6 @@ import {
   COURSE,
   LESSON_COUNT,
   findLesson,
-  getProgress,
-  getTodayActivity,
 } from "@/lib/academy";
 import { requireUser } from "@/lib/auth";
 import { levelInfo } from "@/lib/progression";
@@ -46,33 +48,39 @@ function getScoreTone(score: number): string {
 }
 
 export default async function AcademyHome() {
-  const user = await requireUser();
+  await requireUser();
 
   const [
-    storedProgress,
-    today,
+    academyState,
     diagnosticReport,
     studyPlan,
   ] = await Promise.all([
-    getProgress(user.id),
-    getTodayActivity(user.id),
+    loadAcademyState(),
     loadLatestDiagnosticReport(),
     loadAcademyStudyPlan(),
   ]);
 
-  const synchronizedXp = Math.max(
-    storedProgress.xp,
-    diagnosticReport?.progression.xpEarned ?? 0,
-  );
+  const fallbackXp =
+    diagnosticReport?.progression.xpEarned ?? 0;
 
-  const progress =
-    synchronizedXp === storedProgress.xp
-      ? storedProgress
-      : {
-          ...storedProgress,
-          xp: synchronizedXp,
-          info: levelInfo(synchronizedXp),
-        };
+  const progress = academyState
+    ? academyStateToProgress(academyState)
+    : {
+        xp: fallbackXp,
+        streak: 0,
+        best_streak: 0,
+        last_active: "",
+        done: new Set<string>(),
+        perfect: 0,
+        info: levelInfo(fallbackXp),
+      };
+
+  const synchronizedXp = progress.xp;
+
+  const today = {
+    lessons: academyState?.todayLessons ?? 0,
+    perfect: academyState?.todayPerfect ?? 0,
+  };
 
   const doneCount = progress.done.size;
 
