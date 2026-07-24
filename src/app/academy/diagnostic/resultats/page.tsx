@@ -1,8 +1,10 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import fs from "node:fs";
-import path from "node:path";
+import { redirect } from "next/navigation";
 
+import {
+  loadLatestDiagnosticReport,
+} from "@/lib/academy-diagnostic-report";
 import styles from "./resultats.module.css";
 
 export const metadata: Metadata = {
@@ -10,130 +12,6 @@ export const metadata: Metadata = {
   description:
     "Rapport personnalisé du diagnostic initial PARZI Academy.",
 };
-
-type Competency = {
-  id: string;
-  label: string;
-  questionCount: number;
-  answeredCount: number;
-  correctCount: number;
-  earnedPoints: number;
-  possiblePoints: number;
-  score: number;
-  status: {
-    id: string;
-    label: string;
-  };
-};
-
-type Strength = {
-  rank: number;
-  sectionId: string;
-  label: string;
-  score: number;
-  status: string;
-};
-
-type Priority = {
-  rank: number;
-  sectionId: string;
-  label: string;
-  score: number;
-  status: string;
-  reason: string;
-};
-
-type RiskSignal = {
-  id: string;
-  label: string;
-  value: number;
-  severity: string;
-};
-
-type ErrorProfileItem = {
-  id: string;
-  label: string;
-  count: number;
-};
-
-type Trophy = {
-  id: string;
-  name: string;
-  description: string;
-  rarity: string;
-  visibility: string;
-};
-
-type StudyDay = {
-  day: number;
-  focus: string;
-  activity: string;
-};
-
-type DiagnosticReport = {
-  reportId: string;
-  version: string;
-  generatedAt: string;
-  summary: {
-    scorePercent: number;
-    pointsEarned: number;
-    pointsPossible: number;
-    completionRatePercent: number;
-    initialLevel: {
-      id: string;
-      label: string;
-    };
-  };
-  competencies: Competency[];
-  strengths: Strength[];
-  priorities: Priority[];
-  riskSignals: {
-    overconfidenceErrors: number;
-    slowAnswers: number;
-    unansweredQuestions: number;
-    highRiskSignals: RiskSignal[];
-  };
-  errorProfile: ErrorProfileItem[];
-  progression: {
-    xpEarned: number;
-    maximumModuleXp: number;
-    level: number;
-    levelName: string;
-    xpRequiredForNextLevel: number;
-    progressToNextLevelPercent: number;
-    levelUpReady: boolean;
-  };
-  trophies: {
-    unlockedCount: number;
-    unlocked: Trophy[];
-  };
-  studyPlan: {
-    durationDays: number;
-    recommendedSessionMinutes: number;
-    sessionsPerWeek: number;
-    days: StudyDay[];
-  };
-};
-
-function readDiagnosticReport(): DiagnosticReport {
-  const reportPath = path.join(
-    process.cwd(),
-    "content",
-    "academy",
-    "module-00-diagnostic",
-    "report-preview.json",
-  );
-
-  if (!fs.existsSync(reportPath)) {
-    throw new Error(
-      "Le rapport de diagnostic est introuvable. Exécute le générateur de rapport avant d’ouvrir cette page.",
-    );
-  }
-
-  return JSON.parse(
-    fs.readFileSync(reportPath, "utf8"),
-  ) as DiagnosticReport;
-}
 
 function clampPercentage(value: number): number {
   if (!Number.isFinite(value)) {
@@ -169,8 +47,13 @@ function formatGenerationDate(date: string): string {
   }).format(parsedDate);
 }
 
-export default function DiagnosticResultsPage() {
-  const report = readDiagnosticReport();
+export default async function DiagnosticResultsPage() {
+  const report =
+    await loadLatestDiagnosticReport();
+
+  if (!report) {
+    redirect("/academy/diagnostic");
+  }
 
   const score = clampPercentage(
     report.summary.scorePercent,
@@ -216,7 +99,7 @@ export default function DiagnosticResultsPage() {
           <div>
             <div className={styles.demoBadge}>
               <span className={styles.demoDot} />
-              Aperçu de démonstration
+              Rapport personnel vérifié
             </div>
 
             <p className={styles.eyebrow}>
