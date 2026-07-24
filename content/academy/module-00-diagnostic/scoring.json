@@ -1,0 +1,42 @@
+{
+  "module": "academy-module-00",
+  "maxScore": 100,
+  "gradingModel": "weighted_sections",
+  "criteria": [
+    {
+      "id": "legal-reading",
+      "label": "Lecture et compréhension juridique",
+      "weight": 20
+    },
+    {
+      "id": "contracts",
+      "label": "Droit des contrats",
+      "weight": 20
+    },
+    {
+      "id": "sport-environment",
+      "label": "Environnement sportif",
+      "weight": 15
+    },
+    {
+      "id": "football-regulations",
+      "label": "Réglementation du football",
+      "weight": 20
+    },
+    {
+      "id": "practical-cases",
+      "label": "Cas pratiques",
+      "weight": 15
+    },
+    {
+      "id": "exam-method",
+      "label": "Méthode et gestion du temps",
+      "weight": 10
+    }
+  ],
+  "confidenceAdjustment": {
+    "enabled": true,
+    "weight": 5,
+    "description": "Un bonus ou une pénalité peut être appliqué selon la cohérence entre la réponse et le niveau de confiance déclaré."
+  }
+}

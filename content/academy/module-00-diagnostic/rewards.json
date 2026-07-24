@@ -1,0 +1,140 @@
+{
+  "moduleId": "academy-module-00",
+  "version": "1.0.0",
+  "xpRules": [
+    {
+      "action": "start_diagnostic",
+      "xp": 10,
+      "repeatable": false
+    },
+    {
+      "action": "complete_positioning_form",
+      "xp": 25,
+      "repeatable": false
+    },
+    {
+      "action": "complete_diagnostic",
+      "xp": 100,
+      "repeatable": false
+    },
+    {
+      "action": "review_results",
+      "xp": 40,
+      "repeatable": false
+    },
+    {
+      "action": "classify_errors",
+      "xp": 50,
+      "repeatable": false
+    },
+    {
+      "action": "create_first_study_plan",
+      "xp": 75,
+      "repeatable": false
+    }
+  ],
+  "trophies": [
+    {
+      "id": "starting-point",
+      "name": "Point de départ",
+      "description": "Terminer honnêtement son diagnostic initial.",
+      "rarity": "common",
+      "visibility": "private",
+      "condition": "diagnostic_completed"
+    },
+    {
+      "id": "honest-candidate",
+      "name": "Candidat lucide",
+      "description": "Analyser et classer ses premières erreurs.",
+      "rarity": "uncommon",
+      "visibility": "private",
+      "condition": "first_error_review_completed"
+    }
+  ],
+  "startingLevel": {
+    "level": 1,
+    "name": "Découverte",
+    "xpRequiredForNextLevel": 300
+  },
+  "rewards": [
+    {
+      "id": "reward-diagnostic-badge",
+      "name": "Badge de diagnostic",
+      "description": "Débloque un premier repère de progression dans l'académie.",
+      "type": "badge"
+    },
+    {
+      "id": "reward-first-report",
+      "name": "Rapport de profil",
+      "description": "Offre un premier retour personnalisé sur les forces, faiblesses et priorités de progression.",
+      "type": "report"
+    }
+  ],
+  "masteryLevels": [
+    {
+      "minimum": 0,
+      "maximum": 39,
+      "label": "Fondations à construire"
+    },
+    {
+      "minimum": 40,
+      "maximum": 59,
+      "label": "Niveau fragile"
+    },
+    {
+      "minimum": 60,
+      "maximum": 74,
+      "label": "En progression"
+    },
+    {
+      "minimum": 75,
+      "maximum": 84,
+      "label": "Niveau intermédiaire"
+    },
+    {
+      "minimum": 85,
+      "maximum": 94,
+      "label": "Niveau solide"
+    },
+    {
+      "minimum": 95,
+      "maximum": 100,
+      "label": "Maîtrise avancée"
+    }
+  ],
+  "errorTypes": [
+    {
+      "id": "knowledge",
+      "label": "Erreur de connaissance"
+    },
+    {
+      "id": "comprehension",
+      "label": "Erreur de compréhension"
+    },
+    {
+      "id": "method",
+      "label": "Erreur de méthode"
+    },
+    {
+      "id": "source",
+      "label": "Mauvaise source"
+    },
+    {
+      "id": "attention",
+      "label": "Erreur d’inattention"
+    },
+    {
+      "id": "time",
+      "label": "Erreur de gestion du temps"
+    },
+    {
+      "id": "overconfidence",
+      "label": "Fausse certitude"
+    }
+  ],
+  "criticalSignals": {
+    "wrongAnswerWithConfidence5": "high",
+    "unfinishedQuestionRateAbove20Percent": "high",
+    "practicalCaseScoreBelow40Percent": "high"
+  }
+}
