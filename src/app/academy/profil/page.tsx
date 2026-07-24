@@ -1,7 +1,17 @@
 export const dynamic = "force-dynamic";
 import Link from "next/link";
+import { redirect } from "next/navigation";
+
+import {
+  academyStateToProgress,
+  loadAcademyState,
+} from "@/lib/academy-state";
 import { requireUser } from "@/lib/auth";
-import { chaptersCompleted, computeAttributes, getProgress, LESSON_COUNT } from "@/lib/academy";
+import {
+  chaptersCompleted,
+  computeAttributes,
+  LESSON_COUNT,
+} from "@/lib/academy";
 import { evaluateBadges, sortBadges, TIER_TONE, type BadgeStats } from "@/lib/badges";
 import { evaluateTrophies, RARITY_TONE, type TrophyStats } from "@/lib/trophies";
 import { RANKS } from "@/lib/progression";
@@ -9,7 +19,15 @@ import AcademyProgressHeader from "@/components/AcademyProgressHeader";
 
 export default async function AcademyProfil() {
   const user = await requireUser();
-  const progress = await getProgress(user.id);
+  const academyState = await loadAcademyState();
+
+  if (!academyState) {
+    redirect("/academy");
+  }
+
+  const progress =
+    academyStateToProgress(academyState);
+
   const { info } = progress;
   const initial = (user.email[0] ?? "P").toUpperCase();
   const displayName = user.email.split("@")[0];

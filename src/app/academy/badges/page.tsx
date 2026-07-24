@@ -1,14 +1,29 @@
 export const dynamic = "force-dynamic";
 import Link from "next/link";
+import { redirect } from "next/navigation";
+
+import {
+  academyStateToProgress,
+  loadAcademyState,
+} from "@/lib/academy-state";
+import { chaptersCompleted } from "@/lib/academy";
 import { requireUser } from "@/lib/auth";
-import { chaptersCompleted, getProgress } from "@/lib/academy";
 import { evaluateBadges, sortBadges, TIER_TONE, type BadgeStats } from "@/lib/badges";
 
 export const metadata = { title: "Badges" };
 
 export default async function BadgesPage() {
-  const user = await requireUser();
-  const p = await getProgress(user.id);
+  await requireUser();
+
+  const academyState = await loadAcademyState();
+
+  if (!academyState) {
+    redirect("/academy");
+  }
+
+  const p = academyStateToProgress(
+    academyState,
+  );
   const stats: BadgeStats = {
     level: p.info.level, xp: p.xp, streak: p.streak, best: p.best_streak,
     lessons: p.done.size, chapters: chaptersCompleted(p.done), perfect: p.perfect,
