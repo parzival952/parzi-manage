@@ -7,6 +7,9 @@ import {
   loadLatestDiagnosticReport,
 } from "@/lib/academy-diagnostic-report";
 import {
+  loadAcademyStudyPlan,
+} from "@/lib/academy-study-plan";
+import {
   ALL_LESSONS,
   COURSE,
   LESSON_COUNT,
@@ -49,10 +52,12 @@ export default async function AcademyHome() {
     storedProgress,
     today,
     diagnosticReport,
+    studyPlan,
   ] = await Promise.all([
     getProgress(user.id),
     getTodayActivity(user.id),
     loadLatestDiagnosticReport(),
+    loadAcademyStudyPlan(),
   ]);
 
   const synchronizedXp = Math.max(
@@ -81,7 +86,13 @@ export default async function AcademyHome() {
   const firstPriority =
     diagnosticReport?.priorities[0] ?? null;
 
+  const planCurrentDay =
+    studyPlan?.days.find(
+      (day) => day.isCurrent,
+    ) ?? null;
+
   const recommendedLessonId =
+    planCurrentDay?.recommendedLessonId ??
     (firstPriority
       ? RECOMMENDED_LESSONS[
           firstPriority.sectionId
@@ -94,7 +105,19 @@ export default async function AcademyHome() {
     findLesson(recommendedLessonId);
 
   const firstMission =
-    diagnosticReport?.studyPlan.days[0] ?? null;
+    planCurrentDay ??
+    diagnosticReport?.studyPlan.days[0] ??
+    null;
+
+  const missionFocus =
+    planCurrentDay?.focus ??
+    firstPriority?.label ??
+    null;
+
+  const missionDescription =
+    planCurrentDay?.activity ??
+    firstPriority?.reason ??
+    null;
 
   const diagnosticScore =
     diagnosticReport?.summary.scorePercent ?? 0;
@@ -261,6 +284,13 @@ export default async function AcademyHome() {
           >
             Voir mon rapport personnalisé →
           </Link>
+
+          <Link
+            href="/academy/plan"
+            className="pz-btn w-full mt-3"
+          >
+            Voir mon plan de 14 jours →
+          </Link>
         </section>
       ) : (
         <section
@@ -302,8 +332,8 @@ export default async function AcademyHome() {
       )}
 
       {diagnosticReport &&
-      firstPriority &&
-      recommendedLesson ? (
+       missionFocus &&
+       recommendedLesson ? (
         <section
           className="pz-card p-5 pz-rise pz-d2"
           style={{
@@ -316,15 +346,15 @@ export default async function AcademyHome() {
           <div className="flex items-start justify-between gap-4">
             <div>
               <div className="text-[10px] font-extrabold uppercase tracking-[0.16em] pz-red">
-                🎯 PRIORITÉ NUMÉRO 1
+                🎯 MISSION ACTUELLE
               </div>
 
               <h2 className="text-[19px] font-black mt-2">
-                {firstPriority.label}
+                {missionFocus}
               </h2>
 
               <p className="text-[12px] leading-5 pz-muted mt-2">
-                {firstPriority.reason}
+                {missionDescription}
               </p>
             </div>
 
@@ -339,11 +369,11 @@ export default async function AcademyHome() {
               }}
             >
               <strong className="block text-[17px]">
-                {firstPriority.score}%
+                J{firstMission?.day ?? 1}
               </strong>
 
               <span className="text-[8px]">
-                actuel
+                du plan
               </span>
             </div>
           </div>
@@ -357,7 +387,7 @@ export default async function AcademyHome() {
             }}
           >
             <div className="text-[9px] font-bold uppercase tracking-[0.13em] pz-muted">
-              PREMIÈRE MISSION RECOMMANDÉE
+              MISSION À VALIDER
             </div>
 
             <h3 className="text-[15px] font-extrabold mt-2">
@@ -395,7 +425,7 @@ export default async function AcademyHome() {
                 "0 14px 35px rgba(228,0,43,.2)",
             }}
           >
-            Commencer ma première mission →
+            Continuer ma mission du jour →
           </Link>
         </section>
       ) : null}
