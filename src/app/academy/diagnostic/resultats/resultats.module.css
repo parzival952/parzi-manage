@@ -1,0 +1,825 @@
+.page {
+  position: relative;
+  min-height: 100vh;
+  overflow: hidden;
+  background:
+    radial-gradient(
+      circle at 10% 0%,
+      rgba(37, 196, 116, 0.14),
+      transparent 30%
+    ),
+    radial-gradient(
+      circle at 90% 10%,
+      rgba(217, 172, 73, 0.12),
+      transparent 32%
+    ),
+    #080d0b;
+  color: #f7faf8;
+}
+
+.backgroundGlow {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background-image:
+    linear-gradient(rgba(255, 255, 255, 0.018) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.018) 1px, transparent 1px);
+  background-size: 48px 48px;
+  mask-image: linear-gradient(to bottom, black, transparent 70%);
+}
+
+.container {
+  position: relative;
+  z-index: 1;
+  width: min(1440px, calc(100% - 40px));
+  margin: 0 auto;
+  padding: 52px 0 100px;
+}
+
+.header {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 40px;
+  padding: 32px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 28px;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.07), rgba(255, 255, 255, 0.025));
+  box-shadow: 0 30px 80px rgba(0, 0, 0, 0.34);
+  backdrop-filter: blur(18px);
+}
+
+.eyebrow,
+.cardLabel {
+  margin: 0 0 10px;
+  color: #56d992;
+  font-size: 0.73rem;
+  font-weight: 800;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+}
+
+.title {
+  max-width: 760px;
+  margin: 0;
+  font-size: clamp(2.4rem, 6vw, 5.2rem);
+  line-height: 0.98;
+  letter-spacing: -0.055em;
+}
+
+.subtitle {
+  max-width: 720px;
+  margin: 22px 0 0;
+  color: #abb8b1;
+  font-size: 1.06rem;
+  line-height: 1.75;
+}
+
+.generatedAt {
+  margin: 16px 0 0;
+  color: #708078;
+  font-size: 0.83rem;
+}
+
+.headerActions {
+  display: flex;
+  flex-shrink: 0;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.primaryButton,
+.secondaryButton {
+  display: inline-flex;
+  min-height: 50px;
+  align-items: center;
+  justify-content: center;
+  padding: 0 22px;
+  border-radius: 14px;
+  font-size: 0.9rem;
+  font-weight: 800;
+  text-decoration: none;
+  transition: transform 160ms ease, background 160ms ease, border-color 160ms ease;
+}
+
+.primaryButton {
+  background: linear-gradient(135deg, #39d681, #1ead62);
+  color: #03140a;
+  box-shadow: 0 15px 35px rgba(43, 204, 119, 0.2);
+}
+
+.secondaryButton {
+  border: 1px solid rgba(255, 255, 255, 0.11);
+  background: rgba(255, 255, 255, 0.04);
+  color: #eff7f2;
+}
+
+.primaryButton:hover,
+.secondaryButton:hover {
+  transform: translateY(-2px);
+}
+
+.heroGrid {
+  display: grid;
+  grid-template-columns: 0.85fr 1.45fr 0.85fr;
+  gap: 18px;
+  margin-top: 22px;
+}
+
+.scoreCard,
+.xpCard,
+.trophyCard,
+.panel,
+.competencyCard,
+.fullTrophyCard,
+.studyDay,
+.finalCallout {
+  border: 1px solid rgba(255, 255, 255, 0.075);
+  background: rgba(15, 24, 20, 0.86);
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.24);
+}
+
+.scoreCard,
+.xpCard,
+.trophyCard {
+  min-height: 310px;
+  border-radius: 24px;
+}
+
+.scoreCard {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.scoreRing {
+  display: grid;
+  width: 166px;
+  height: 166px;
+  place-items: center;
+  border-radius: 50%;
+  padding: 10px;
+  box-shadow: 0 0 55px rgba(53, 208, 127, 0.15);
+}
+
+.scoreRingInner {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  border-radius: inherit;
+  background: #0d1511;
+}
+
+.scoreRingInner strong {
+  font-size: 2.7rem;
+  letter-spacing: -0.06em;
+}
+
+.scoreRingInner span {
+  margin-top: 2px;
+  color: #8e9d95;
+  font-size: 0.77rem;
+}
+
+.scoreDetails {
+  display: flex;
+  gap: 14px;
+  margin-top: 20px;
+  color: #8b9a92;
+  font-size: 0.75rem;
+}
+
+.levelBadge {
+  margin-top: 16px;
+  padding: 8px 12px;
+  border: 1px solid rgba(53, 208, 127, 0.2);
+  border-radius: 999px;
+  background: rgba(53, 208, 127, 0.08);
+  color: #58dc96;
+  font-size: 0.75rem;
+  font-weight: 800;
+}
+
+.xpCard {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 34px;
+  background: radial-gradient(circle at 100% 0%, rgba(217, 172, 73, 0.12), transparent 38%), rgba(15, 24, 20, 0.86);
+}
+
+.cardTop {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+.cardTop h2,
+.panelHeading h2,
+.sectionHeading h2,
+.finalCallout h2 {
+  margin: 0;
+  letter-spacing: -0.035em;
+}
+
+.xpAmount {
+  flex-shrink: 0;
+  padding: 9px 12px;
+  border-radius: 12px;
+  background: rgba(217, 172, 73, 0.12);
+  color: #f0c869;
+  font-weight: 900;
+}
+
+.progressTrack,
+.smallProgressTrack {
+  overflow: hidden;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.07);
+}
+
+.progressTrack {
+  height: 13px;
+  margin-top: 32px;
+}
+
+.progressFill,
+.smallProgressFill {
+  height: 100%;
+  border-radius: inherit;
+  background: linear-gradient(90deg, #26bd6c, #58e59c);
+}
+
+.progressFooter {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 10px;
+  color: #89988f;
+  font-size: 0.77rem;
+}
+
+.xpRule {
+  margin-top: 26px;
+  padding: 14px 16px;
+  border-left: 3px solid #d9ac49;
+  border-radius: 0 10px 10px 0;
+  background: rgba(217, 172, 73, 0.06);
+  color: #b7b19f;
+  font-size: 0.8rem;
+  line-height: 1.55;
+}
+
+.trophyCard {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 28px;
+  text-align: center;
+}
+
+.trophyIcon {
+  display: grid;
+  width: 64px;
+  height: 64px;
+  place-items: center;
+  border-radius: 20px;
+  background: rgba(217, 172, 73, 0.11);
+  font-size: 1.8rem;
+}
+
+.trophyCount {
+  margin-top: 4px;
+  font-size: 3.2rem;
+  letter-spacing: -0.06em;
+}
+
+.trophyText {
+  color: #8e9d95;
+  font-size: 0.8rem;
+}
+
+.trophyMiniList {
+  display: grid;
+  width: 100%;
+  gap: 8px;
+  margin-top: 20px;
+}
+
+.trophyMini {
+  display: flex;
+  flex-direction: column;
+  padding: 10px;
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.035);
+}
+
+.trophyMini strong {
+  color: #efd080;
+  font-size: 0.76rem;
+}
+
+.trophyMini span {
+  margin-top: 3px;
+  color: #76867d;
+  font-size: 0.68rem;
+}
+
+.section {
+  margin-top: 70px;
+}
+
+.sectionHeading {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 32px;
+  margin-bottom: 24px;
+}
+
+.sectionHeading p:last-child {
+  max-width: 530px;
+  margin: 0;
+  color: #819087;
+  font-size: 0.84rem;
+  line-height: 1.65;
+}
+
+.competencyGrid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.competencyCard {
+  padding: 22px;
+  border-radius: 20px;
+}
+
+.competencyHeader {
+  display: flex;
+  min-height: 54px;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 14px;
+}
+
+.competencyHeader h3 {
+  margin: 0;
+  font-size: 0.95rem;
+  line-height: 1.4;
+}
+
+.statusBadge {
+  flex-shrink: 0;
+  padding: 6px 8px;
+  border-radius: 999px;
+  font-size: 0.62rem;
+  font-weight: 800;
+  text-transform: uppercase;
+}
+
+.statusCritical {
+  background: rgba(255, 79, 79, 0.12);
+  color: #ff8989;
+}
+
+.statusFragile {
+  background: rgba(242, 142, 62, 0.12);
+  color: #f8a865;
+}
+
+.statusProgressing {
+  background: rgba(240, 196, 80, 0.12);
+  color: #f2cc69;
+}
+
+.statusOperational {
+  background: rgba(83, 164, 255, 0.12);
+  color: #79b7ff;
+}
+
+.statusMastered,
+.statusAdvanced {
+  background: rgba(53, 208, 127, 0.12);
+  color: #66e5a3;
+}
+
+.competencyScore {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  margin-top: 28px;
+}
+
+.competencyScore strong {
+  font-size: 2rem;
+}
+
+.competencyScore span {
+  color: #7d8d84;
+  font-size: 0.72rem;
+}
+
+.smallProgressTrack {
+  height: 7px;
+  margin-top: 12px;
+}
+
+.competencyFooter {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 12px;
+  color: #718178;
+  font-size: 0.67rem;
+}
+
+.twoColumns {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 18px;
+  margin-top: 70px;
+}
+
+.panel {
+  padding: 28px;
+  border-radius: 24px;
+}
+
+.panelHeading {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.panelIcon {
+  display: grid;
+  width: 46px;
+  height: 46px;
+  flex-shrink: 0;
+  place-items: center;
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.055);
+  font-size: 1.25rem;
+}
+
+.rankingList,
+.priorityList,
+.alertList,
+.errorList {
+  display: grid;
+  gap: 12px;
+  margin-top: 24px;
+}
+
+.rankingItem {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: 14px;
+  padding: 15px;
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.033);
+}
+
+.rankingNumber {
+  display: grid;
+  width: 32px;
+  height: 32px;
+  place-items: center;
+  border-radius: 10px;
+  background: rgba(53, 208, 127, 0.11);
+  color: #65dfa1;
+  font-weight: 900;
+}
+
+.rankingItem div {
+  display: flex;
+  flex-direction: column;
+}
+
+.rankingItem div span {
+  margin-top: 3px;
+  color: #75857c;
+  font-size: 0.72rem;
+}
+
+.rankingItem b {
+  color: #62dda0;
+}
+
+.priorityItem {
+  padding: 16px;
+  border: 1px solid rgba(240, 196, 80, 0.09);
+  border-radius: 15px;
+  background: rgba(240, 196, 80, 0.035);
+}
+
+.priorityTop {
+  display: flex;
+  justify-content: space-between;
+  color: #d5b75c;
+  font-size: 0.7rem;
+  font-weight: 800;
+  text-transform: uppercase;
+}
+
+.priorityItem h3 {
+  margin: 9px 0 5px;
+  font-size: 0.95rem;
+}
+
+.priorityItem p {
+  margin: 0;
+  color: #839188;
+  font-size: 0.77rem;
+  line-height: 1.55;
+}
+
+.alertItem {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 15px;
+  border-left: 3px solid #f28e3e;
+  border-radius: 0 12px 12px 0;
+  background: rgba(242, 142, 62, 0.055);
+}
+
+.alertItem div {
+  display: flex;
+  flex-direction: column;
+}
+
+.alertItem span {
+  margin-top: 4px;
+  color: #8a938d;
+  font-size: 0.7rem;
+}
+
+.alertItem b {
+  font-size: 1.4rem;
+}
+
+.emptyState {
+  margin-top: 24px;
+  padding: 18px;
+  border-radius: 14px;
+  background: rgba(53, 208, 127, 0.06);
+  color: #6bdd9f;
+}
+
+.riskStats {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+  margin-top: 18px;
+}
+
+.riskStats div {
+  display: flex;
+  flex-direction: column;
+  padding: 13px 8px;
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.03);
+  text-align: center;
+}
+
+.riskStats strong {
+  font-size: 1.25rem;
+}
+
+.riskStats span {
+  margin-top: 3px;
+  color: #728078;
+  font-size: 0.62rem;
+}
+
+.errorItem {
+  display: grid;
+  grid-template-columns: 1.2fr 1fr auto;
+  align-items: center;
+  gap: 12px;
+  font-size: 0.76rem;
+}
+
+.errorItem > div {
+  height: 7px;
+  overflow: hidden;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.06);
+}
+
+.errorBar {
+  height: 100%;
+  border-radius: inherit;
+  background: linear-gradient(90deg, #e4aa49, #f1ce77);
+}
+
+.trophiesGrid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.fullTrophyCard {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  padding: 22px;
+  border-radius: 20px;
+}
+
+.fullTrophyIcon {
+  display: grid;
+  width: 62px;
+  height: 62px;
+  flex-shrink: 0;
+  place-items: center;
+  border-radius: 18px;
+  background: linear-gradient(145deg, rgba(217, 172, 73, 0.18), rgba(217, 172, 73, 0.04));
+  font-size: 1.65rem;
+}
+
+.rarity {
+  color: #d9b95d;
+  font-size: 0.65rem;
+  font-weight: 900;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.fullTrophyCard h3 {
+  margin: 5px 0;
+}
+
+.fullTrophyCard p {
+  margin: 0;
+  color: #819087;
+  font-size: 0.77rem;
+  line-height: 1.55;
+}
+
+.studyPlan {
+  display: grid;
+  gap: 10px;
+}
+
+.studyDay {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: 18px;
+  padding: 17px;
+  border-radius: 16px;
+}
+
+.dayNumber {
+  display: flex;
+  width: 58px;
+  height: 58px;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  border-radius: 16px;
+  background: rgba(53, 208, 127, 0.075);
+}
+
+.dayNumber span {
+  color: #7e9085;
+  font-size: 0.58rem;
+  text-transform: uppercase;
+}
+
+.dayNumber strong {
+  color: #61dfa0;
+  font-size: 1.3rem;
+}
+
+.dayContent h3 {
+  margin: 0;
+  font-size: 0.9rem;
+}
+
+.dayContent p {
+  margin: 5px 0 0;
+  color: #7e8d84;
+  font-size: 0.75rem;
+  line-height: 1.5;
+}
+
+.dayStatus {
+  padding: 7px 10px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.045);
+  color: #829188;
+  font-size: 0.65rem;
+  font-weight: 800;
+}
+
+.finalCallout {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 30px;
+  margin-top: 28px;
+  padding: 28px;
+  border-radius: 22px;
+  background: linear-gradient(135deg, rgba(53, 208, 127, 0.1), rgba(217, 172, 73, 0.07)), rgba(15, 24, 20, 0.9);
+}
+
+.finalCallout p:last-child {
+  margin: 8px 0 0;
+  color: #8a9990;
+}
+
+@media (max-width: 1100px) {
+  .heroGrid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .xpCard {
+    grid-column: span 2;
+    grid-row: 1;
+  }
+
+  .competencyGrid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 760px) {
+  .container {
+    width: min(100% - 24px, 1440px);
+    padding-top: 20px;
+  }
+
+  .header,
+  .sectionHeading,
+  .finalCallout {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .header {
+    padding: 24px;
+  }
+
+  .headerActions {
+    width: 100%;
+  }
+
+  .heroGrid,
+  .twoColumns,
+  .competencyGrid,
+  .trophiesGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .xpCard {
+    grid-column: auto;
+    grid-row: auto;
+  }
+
+  .scoreCard,
+  .xpCard,
+  .trophyCard {
+    min-height: auto;
+    padding: 26px 20px;
+  }
+
+  .section {
+    margin-top: 50px;
+  }
+
+  .sectionHeading {
+    gap: 12px;
+  }
+
+  .studyDay {
+    grid-template-columns: auto 1fr;
+  }
+
+  .dayStatus {
+    grid-column: 2;
+    justify-self: start;
+  }
+
+  .riskStats {
+    grid-template-columns: 1fr;
+  }
+
+  .errorItem {
+    grid-template-columns: 1fr auto;
+  }
+
+  .errorItem > div {
+    grid-column: 1 / -1;
+    grid-row: 2;
+  }
+}
