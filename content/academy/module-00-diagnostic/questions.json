@@ -1139,6 +1139,394 @@
       "points": 2,
       "estimatedSeconds": 90,
       "confidenceRequired": true
+    },
+    {
+      "id": "diag-031",
+      "section": "contracts",
+      "skill": "identifier-clause-ambigue",
+      "difficulty": "hard",
+      "type": "single_choice",
+      "title": "Détecter une clause imprécise",
+      "statement": "Un contrat indique qu’une partie doit transmettre les documents nécessaires « rapidement », sans préciser de délai ni définir les documents concernés. Quelle analyse est la plus professionnelle ?",
+      "options": [
+        {
+          "id": "a",
+          "text": "La clause est parfaitement précise et ne nécessite aucune vérification."
+        },
+        {
+          "id": "b",
+          "text": "Il faut identifier les documents concernés et clarifier le délai attendu afin de réduire le risque de désaccord."
+        },
+        {
+          "id": "c",
+          "text": "La partie peut décider seule de ne jamais transmettre les documents."
+        },
+        {
+          "id": "d",
+          "text": "Le mot « rapidement » signifie toujours exactement vingt-quatre heures."
+        }
+      ],
+      "correctAnswerIds": [
+        "b"
+      ],
+      "explanation": "Une obligation imprécise peut provoquer un désaccord sur son contenu ou son délai d’exécution. Une analyse sérieuse recherche les éléments manquants et recommande de les clarifier.",
+      "trap": "Inventer une définition précise qui n’apparaît pas dans le contrat.",
+      "errorTypeIfWrong": "comprehension",
+      "points": 2,
+      "estimatedSeconds": 90,
+      "confidenceRequired": true
+    },
+    {
+      "id": "diag-032",
+      "section": "sport-environment",
+      "skill": "verifier-opportunite",
+      "difficulty": "medium",
+      "type": "multiple_choice",
+      "title": "Vérifier une opportunité sportive",
+      "statement": "Un joueur reçoit une proposition présentée comme urgente par une personne inconnue. Quelles vérifications sont prioritaires avant de transmettre des documents ou d’accepter une démarche ?",
+      "options": [
+        {
+          "id": "a",
+          "text": "L’identité et la fonction réelle de l’interlocuteur."
+        },
+        {
+          "id": "b",
+          "text": "L’existence de l’organisation ou du club mentionné."
+        },
+        {
+          "id": "c",
+          "text": "Les conditions précises de la proposition."
+        },
+        {
+          "id": "d",
+          "text": "La légitimité de la demande de documents ou de paiement."
+        },
+        {
+          "id": "e",
+          "text": "Le nombre d’émojis utilisés dans le message."
+        }
+      ],
+      "correctAnswerIds": [
+        "a",
+        "b",
+        "c",
+        "d"
+      ],
+      "explanation": "L’urgence ne dispense jamais de vérifier l’identité de l’interlocuteur, la réalité de l’organisation, les conditions proposées et la légitimité des demandes formulées.",
+      "trap": "Confondre pression temporelle et crédibilité professionnelle.",
+      "errorTypeIfWrong": "method",
+      "points": 2,
+      "estimatedSeconds": 90,
+      "confidenceRequired": true
+    },
+    {
+      "id": "diag-033",
+      "section": "football-regulations",
+      "skill": "identifier-autorite-competente",
+      "difficulty": "medium",
+      "type": "single_choice",
+      "title": "Identifier l’autorité compétente",
+      "statement": "Une situation concerne l’enregistrement d’un joueur dans une compétition déterminée. Quelle doit être la première recherche réglementaire ?",
+      "options": [
+        {
+          "id": "a",
+          "text": "Identifier l’autorité et les règlements compétents pour cette compétition et cette opération."
+        },
+        {
+          "id": "b",
+          "text": "Utiliser automatiquement n’importe quel règlement trouvé en ligne."
+        },
+        {
+          "id": "c",
+          "text": "Appliquer uniquement les habitudes d’un autre sport."
+        },
+        {
+          "id": "d",
+          "text": "Choisir la règle la plus avantageuse sans vérifier son origine."
+        }
+      ],
+      "correctAnswerIds": [
+        "a"
+      ],
+      "explanation": "Avant d’appliquer une règle, il faut déterminer quelle autorité organise ou contrôle l’opération et quels textes sont applicables à la compétition concernée.",
+      "trap": "Utiliser un texte officiel mais provenant d’une autorité qui n’est pas compétente pour la situation.",
+      "errorTypeIfWrong": "source",
+      "points": 1,
+      "estimatedSeconds": 60,
+      "confidenceRequired": true
+    },
+    {
+      "id": "diag-034",
+      "section": "football-regulations",
+      "skill": "mettre-a-jour-connaissances",
+      "difficulty": "medium",
+      "type": "multiple_choice",
+      "title": "Mise à jour réglementaire",
+      "statement": "Une nouvelle version d’un règlement est publiée avant une session d’examen. Quelle méthode de révision est la plus fiable ?",
+      "options": [
+        {
+          "id": "a",
+          "text": "Comparer la nouvelle version avec la précédente."
+        },
+        {
+          "id": "b",
+          "text": "Identifier les articles modifiés, ajoutés ou supprimés."
+        },
+        {
+          "id": "c",
+          "text": "Vérifier la date d’entrée en vigueur."
+        },
+        {
+          "id": "d",
+          "text": "Mettre à jour les fiches, questions et corrections concernées."
+        },
+        {
+          "id": "e",
+          "text": "Continuer à apprendre uniquement l’ancienne version."
+        }
+      ],
+      "correctAnswerIds": [
+        "a",
+        "b",
+        "c",
+        "d"
+      ],
+      "explanation": "Une mise à jour sérieuse exige de comparer les versions, repérer les changements, vérifier leur entrée en vigueur et actualiser les supports pédagogiques associés.",
+      "trap": "Supposer qu’un cours déjà appris reste automatiquement valable après la publication d’un nouveau texte.",
+      "errorTypeIfWrong": "source",
+      "points": 2,
+      "estimatedSeconds": 90,
+      "confidenceRequired": true
+    },
+    {
+      "id": "diag-035",
+      "section": "football-regulations",
+      "skill": "proteger-joueur-mineur",
+      "difficulty": "hard",
+      "type": "single_choice",
+      "title": "Situation impliquant un joueur mineur",
+      "statement": "Une opération concerne un joueur mineur. Quelle attitude méthodologique doit être adoptée avant toute conclusion ?",
+      "options": [
+        {
+          "id": "a",
+          "text": "Traiter automatiquement le mineur comme un joueur majeur."
+        },
+        {
+          "id": "b",
+          "text": "Vérifier les règles particulières applicables aux mineurs, les autorisations nécessaires et le rôle des représentants légaux."
+        },
+        {
+          "id": "c",
+          "text": "Ignorer l’âge du joueur si l’opération paraît avantageuse."
+        },
+        {
+          "id": "d",
+          "text": "Considérer qu’aucune règle sportive ne peut concerner les mineurs."
+        }
+      ],
+      "correctAnswerIds": [
+        "b"
+      ],
+      "explanation": "L’âge du joueur peut déclencher des règles et protections particulières. Le candidat doit les identifier avant d’appliquer les règles générales.",
+      "trap": "Appliquer immédiatement le régime général sans rechercher les dispositions spécifiques aux mineurs.",
+      "errorTypeIfWrong": "method",
+      "points": 2,
+      "estimatedSeconds": 90,
+      "confidenceRequired": true
+    },
+    {
+      "id": "diag-036",
+      "section": "practical-cases",
+      "skill": "selectionner-faits-utiles",
+      "difficulty": "medium",
+      "type": "multiple_choice",
+      "title": "Sélectionner les faits pertinents",
+      "statement": "Dans un cas pratique, quels faits doivent être retenus en priorité ?",
+      "options": [
+        {
+          "id": "a",
+          "text": "Les faits qui influencent la règle applicable."
+        },
+        {
+          "id": "b",
+          "text": "Les dates importantes."
+        },
+        {
+          "id": "c",
+          "text": "L’identité et la qualité des personnes concernées."
+        },
+        {
+          "id": "d",
+          "text": "Les actions, documents et engagements liés au problème."
+        },
+        {
+          "id": "e",
+          "text": "Tous les détails décoratifs sans rapport avec la question."
+        }
+      ],
+      "correctAnswerIds": [
+        "a",
+        "b",
+        "c",
+        "d"
+      ],
+      "explanation": "Les faits pertinents sont ceux qui permettent de déterminer la règle applicable, son champ d’application et les conséquences possibles.",
+      "trap": "Recopier l’intégralité du cas sans distinguer les faits utiles des informations secondaires.",
+      "errorTypeIfWrong": "method",
+      "points": 2,
+      "estimatedSeconds": 90,
+      "confidenceRequired": true
+    },
+    {
+      "id": "diag-037",
+      "section": "practical-cases",
+      "skill": "appliquer-regle-aux-faits",
+      "difficulty": "hard",
+      "type": "single_choice",
+      "title": "Appliquer la règle",
+      "statement": "Après avoir identifié la règle applicable, que doit faire le candidat avant de conclure ?",
+      "options": [
+        {
+          "id": "a",
+          "text": "Expliquer précisément comment les conditions de la règle correspondent ou non aux faits du cas."
+        },
+        {
+          "id": "b",
+          "text": "Recopier la règle sans jamais parler des faits."
+        },
+        {
+          "id": "c",
+          "text": "Donner uniquement son opinion personnelle."
+        },
+        {
+          "id": "d",
+          "text": "Changer les faits afin qu’ils correspondent à la réponse souhaitée."
+        }
+      ],
+      "correctAnswerIds": [
+        "a"
+      ],
+      "explanation": "L’application constitue le lien entre la règle et les faits. Le candidat doit vérifier chaque condition pertinente avant de formuler sa conclusion.",
+      "trap": "Présenter une règle correcte mais ne jamais démontrer pourquoi elle conduit à la réponse choisie.",
+      "errorTypeIfWrong": "method",
+      "points": 2,
+      "estimatedSeconds": 90,
+      "confidenceRequired": true
+    },
+    {
+      "id": "diag-038",
+      "section": "practical-cases",
+      "skill": "gerer-incertitude",
+      "difficulty": "hard",
+      "type": "single_choice",
+      "title": "Cas pratique incomplet",
+      "statement": "Le cas ne précise pas une information indispensable pour donner une réponse certaine. Quelle méthode est la plus rigoureuse ?",
+      "options": [
+        {
+          "id": "a",
+          "text": "Inventer l’information manquante sans le signaler."
+        },
+        {
+          "id": "b",
+          "text": "Identifier l’information manquante et présenter les conclusions possibles selon les différentes hypothèses."
+        },
+        {
+          "id": "c",
+          "text": "Refuser systématiquement de répondre à tout le cas."
+        },
+        {
+          "id": "d",
+          "text": "Choisir la conclusion la plus avantageuse."
+        }
+      ],
+      "correctAnswerIds": [
+        "b"
+      ],
+      "explanation": "Lorsqu’un fait déterminant manque, le candidat doit le signaler et raisonner sous plusieurs hypothèses au lieu de présenter une certitude artificielle.",
+      "trap": "Transformer une hypothèse personnelle en fait établi.",
+      "errorTypeIfWrong": "method",
+      "points": 2,
+      "estimatedSeconds": 90,
+      "confidenceRequired": true
+    },
+    {
+      "id": "diag-039",
+      "section": "exam-method",
+      "skill": "relire-reponses",
+      "difficulty": "medium",
+      "type": "multiple_choice",
+      "title": "Utiliser le temps de relecture",
+      "statement": "Pendant la relecture finale d’un QCM, quelles vérifications sont prioritaires ?",
+      "options": [
+        {
+          "id": "a",
+          "text": "Les questions restées sans réponse."
+        },
+        {
+          "id": "b",
+          "text": "Les négations et formulations absolues."
+        },
+        {
+          "id": "c",
+          "text": "Le nombre de réponses attendues."
+        },
+        {
+          "id": "d",
+          "text": "Les réponses données avec une faible confiance."
+        },
+        {
+          "id": "e",
+          "text": "Changer toutes les réponses correctes uniquement par nervosité."
+        }
+      ],
+      "correctAnswerIds": [
+        "a",
+        "b",
+        "c",
+        "d"
+      ],
+      "explanation": "La relecture doit cibler les risques identifiables : omissions, négations, réponses multiples et décisions prises avec une forte incertitude.",
+      "trap": "Modifier ses réponses sans raison précise uniquement parce que le temps restant provoque du doute.",
+      "errorTypeIfWrong": "attention",
+      "points": 2,
+      "estimatedSeconds": 75,
+      "confidenceRequired": true
+    },
+    {
+      "id": "diag-040",
+      "section": "exam-method",
+      "skill": "decider-sous-incertitude",
+      "difficulty": "hard",
+      "type": "single_choice",
+      "title": "Décider sous incertitude",
+      "statement": "Après analyse, un candidat hésite encore entre deux réponses. Quelle démarche est la plus efficace ?",
+      "options": [
+        {
+          "id": "a",
+          "text": "Comparer chaque réponse aux conditions exactes de la question et éliminer celle qui contient une incompatibilité."
+        },
+        {
+          "id": "b",
+          "text": "Choisir automatiquement la première réponse."
+        },
+        {
+          "id": "c",
+          "text": "Choisir celle qui utilise le vocabulaire le plus compliqué."
+        },
+        {
+          "id": "d",
+          "text": "Quitter l’examen."
+        }
+      ],
+      "correctAnswerIds": [
+        "a"
+      ],
+      "explanation": "Lorsque deux options paraissent possibles, le candidat doit revenir aux faits, aux conditions de la règle et aux mots exacts de la consigne pour rechercher une incompatibilité.",
+      "trap": "Remplacer le raisonnement par une règle artificielle liée à la longueur ou à la position de la réponse.",
+      "errorTypeIfWrong": "method",
+      "points": 2,
+      "estimatedSeconds": 90,
+      "confidenceRequired": true
     }
   ]
 }
