@@ -1,0 +1,387 @@
+{
+  "id": "academy-diagnostic-batch-03",
+  "version": "1.0.0",
+  "questions": [
+    {
+      "id": "diag-021",
+      "section": "legal-reading",
+      "skill": "identifier-conditions-alternatives",
+      "difficulty": "medium",
+      "type": "single_choice",
+      "title": "Conditions alternatives",
+      "statement": "Une règle prévoit qu’une demande peut être acceptée lorsqu’elle est accompagnée d’une autorisation écrite ou d’une décision officielle équivalente. Le candidat possède uniquement la décision officielle équivalente. Quelle analyse est correcte ?",
+      "options": [
+        {
+          "id": "a",
+          "text": "La demande ne peut jamais être acceptée sans les deux documents."
+        },
+        {
+          "id": "b",
+          "text": "La condition peut être remplie car le texte prévoit deux possibilités alternatives."
+        },
+        {
+          "id": "c",
+          "text": "Le mot « ou » signifie que le candidat ne doit fournir aucun document."
+        },
+        {
+          "id": "d",
+          "text": "La décision officielle n’a aucune valeur."
+        }
+      ],
+      "correctAnswerIds": [
+        "b"
+      ],
+      "explanation": "Le mot « ou » indique ici que l’une des deux possibilités peut suffire. Il faut distinguer les conditions alternatives des conditions cumulatives introduites par « et ».",
+      "trap": "Interpréter le mot « ou » comme si les deux conditions étaient obligatoires.",
+      "errorTypeIfWrong": "comprehension",
+      "points": 1,
+      "estimatedSeconds": 60,
+      "confidenceRequired": true
+    },
+    {
+      "id": "diag-022",
+      "section": "legal-reading",
+      "skill": "analyser-delai",
+      "difficulty": "medium",
+      "type": "single_choice",
+      "title": "Comprendre une date limite",
+      "statement": "Un texte impose la transmission d’un document « au plus tard le 15 septembre ». Le document est transmis le 16 septembre. Quelle conclusion est la plus logique ?",
+      "options": [
+        {
+          "id": "a",
+          "text": "Le délai est respecté car un seul jour de retard est toujours accepté."
+        },
+        {
+          "id": "b",
+          "text": "Le délai n’est pas respecté, sauf si une règle particulière prévoit une tolérance ou une prorogation."
+        },
+        {
+          "id": "c",
+          "text": "La date n’a aucune importance."
+        },
+        {
+          "id": "d",
+          "text": "Le délai est automatiquement prolongé jusqu’à la fin du mois."
+        }
+      ],
+      "correctAnswerIds": [
+        "b"
+      ],
+      "explanation": "L’expression « au plus tard » fixe une limite. Un dépassement ne peut être considéré comme acceptable que si un texte applicable prévoit une exception, une prorogation ou une règle particulière.",
+      "trap": "Inventer une tolérance qui n’est pas mentionnée dans la règle.",
+      "errorTypeIfWrong": "comprehension",
+      "points": 1,
+      "estimatedSeconds": 60,
+      "confidenceRequired": true
+    },
+    {
+      "id": "diag-023",
+      "section": "legal-reading",
+      "skill": "distinguer-obligation-faculte",
+      "difficulty": "medium",
+      "type": "single_choice",
+      "title": "Obligation ou possibilité",
+      "statement": "Un règlement indique qu’une personne « peut demander un réexamen ». Quelle interprétation est correcte ?",
+      "options": [
+        {
+          "id": "a",
+          "text": "La personne est obligée de demander un réexamen."
+        },
+        {
+          "id": "b",
+          "text": "La personne dispose d’une possibilité, mais elle n’est pas nécessairement obligée de l’utiliser."
+        },
+        {
+          "id": "c",
+          "text": "Le réexamen est automatiquement accordé."
+        },
+        {
+          "id": "d",
+          "text": "Le mot « peut » signifie que la demande est interdite."
+        }
+      ],
+      "correctAnswerIds": [
+        "b"
+      ],
+      "explanation": "Le verbe « peut » exprime généralement une faculté ou une possibilité. Il doit être distingué des formulations obligatoires telles que « doit » ou « est tenu de ».",
+      "trap": "Confondre une possibilité ouverte par le texte avec une obligation.",
+      "errorTypeIfWrong": "comprehension",
+      "points": 1,
+      "estimatedSeconds": 45,
+      "confidenceRequired": true
+    },
+    {
+      "id": "diag-024",
+      "section": "legal-reading",
+      "skill": "identifier-champ-application",
+      "difficulty": "hard",
+      "type": "multiple_choice",
+      "title": "Vérifier le champ d’application",
+      "statement": "Avant d’appliquer une règle à une situation, quels éléments faut-il vérifier ?",
+      "options": [
+        {
+          "id": "a",
+          "text": "Les personnes auxquelles la règle s’applique."
+        },
+        {
+          "id": "b",
+          "text": "Le territoire concerné."
+        },
+        {
+          "id": "c",
+          "text": "La période ou la date d’application."
+        },
+        {
+          "id": "d",
+          "text": "La nature de l’activité ou de l’opération."
+        },
+        {
+          "id": "e",
+          "text": "La réponse qui paraît la plus populaire."
+        }
+      ],
+      "correctAnswerIds": [
+        "a",
+        "b",
+        "c",
+        "d"
+      ],
+      "explanation": "Le champ d’application d’une règle peut dépendre des personnes, du territoire, de la période et de la nature de l’activité concernée.",
+      "trap": "Appliquer une règle correcte à une situation qui ne relève pas de son champ d’application.",
+      "errorTypeIfWrong": "method",
+      "points": 2,
+      "estimatedSeconds": 90,
+      "confidenceRequired": true
+    },
+    {
+      "id": "diag-025",
+      "section": "legal-reading",
+      "skill": "resoudre-contradiction-textes",
+      "difficulty": "hard",
+      "type": "single_choice",
+      "title": "Deux textes semblent se contredire",
+      "statement": "Deux documents semblent apporter des réponses différentes à une même situation. Quelle méthode est la plus sérieuse ?",
+      "options": [
+        {
+          "id": "a",
+          "text": "Choisir le texte le plus court."
+        },
+        {
+          "id": "b",
+          "text": "Comparer leur autorité, leur champ d’application, leur date et leur version."
+        },
+        {
+          "id": "c",
+          "text": "Choisir automatiquement le document le plus ancien."
+        },
+        {
+          "id": "d",
+          "text": "Ignorer les deux textes et répondre selon son intuition."
+        }
+      ],
+      "correctAnswerIds": [
+        "b"
+      ],
+      "explanation": "Une contradiction apparente peut être résolue en vérifiant l’autorité des textes, leur spécialité, leur date, leur version et leur champ d’application.",
+      "trap": "Choisir une règle uniquement parce qu’elle paraît plus simple ou plus avantageuse.",
+      "errorTypeIfWrong": "method",
+      "points": 2,
+      "estimatedSeconds": 90,
+      "confidenceRequired": true
+    },
+    {
+      "id": "diag-026",
+      "section": "contracts",
+      "skill": "identifier-parties",
+      "difficulty": "easy",
+      "type": "single_choice",
+      "title": "Identifier les parties au contrat",
+      "statement": "Pourquoi faut-il identifier précisément les parties signataires d’un contrat ?",
+      "options": [
+        {
+          "id": "a",
+          "text": "Pour savoir quelles personnes ou organisations sont engagées par les obligations prévues."
+        },
+        {
+          "id": "b",
+          "text": "Uniquement pour choisir la police d’écriture."
+        },
+        {
+          "id": "c",
+          "text": "Parce que toutes les personnes citées dans le document deviennent automatiquement parties."
+        },
+        {
+          "id": "d",
+          "text": "Cela n’a aucune conséquence juridique."
+        }
+      ],
+      "correctAnswerIds": [
+        "a"
+      ],
+      "explanation": "L’identification des parties permet de déterminer qui possède des droits, qui supporte des obligations et qui peut être responsable en cas de non-respect.",
+      "trap": "Confondre une personne simplement mentionnée avec une partie juridiquement engagée.",
+      "errorTypeIfWrong": "knowledge",
+      "points": 1,
+      "estimatedSeconds": 45,
+      "confidenceRequired": true
+    },
+    {
+      "id": "diag-027",
+      "section": "contracts",
+      "skill": "analyser-duree",
+      "difficulty": "medium",
+      "type": "multiple_choice",
+      "title": "Analyser la durée d’un contrat",
+      "statement": "Quels éléments doivent être recherchés pour comprendre la durée d’un contrat ?",
+      "options": [
+        {
+          "id": "a",
+          "text": "La date de début."
+        },
+        {
+          "id": "b",
+          "text": "La date de fin ou la durée prévue."
+        },
+        {
+          "id": "c",
+          "text": "Les conditions de renouvellement."
+        },
+        {
+          "id": "d",
+          "text": "Les possibilités de résiliation anticipée."
+        },
+        {
+          "id": "e",
+          "text": "La longueur physique du document."
+        }
+      ],
+      "correctAnswerIds": [
+        "a",
+        "b",
+        "c",
+        "d"
+      ],
+      "explanation": "La durée d’un contrat ne se limite pas à une date de fin. Il faut également vérifier son commencement, son renouvellement et les conditions permettant d’y mettre fin avant son terme.",
+      "trap": "Lire uniquement la date de signature et supposer qu’elle correspond nécessairement au début ou à la fin du contrat.",
+      "errorTypeIfWrong": "method",
+      "points": 2,
+      "estimatedSeconds": 90,
+      "confidenceRequired": true
+    },
+    {
+      "id": "diag-028",
+      "section": "contracts",
+      "skill": "identifier-obligations-reciproques",
+      "difficulty": "medium",
+      "type": "single_choice",
+      "title": "Obligations réciproques",
+      "statement": "Dans un contrat, chaque partie possède des obligations. Quelle méthode est la plus correcte ?",
+      "options": [
+        {
+          "id": "a",
+          "text": "Analyser uniquement les obligations de l’autre partie."
+        },
+        {
+          "id": "b",
+          "text": "Établir séparément les obligations, droits, délais et risques de chaque partie."
+        },
+        {
+          "id": "c",
+          "text": "Supposer que toutes les obligations sont identiques."
+        },
+        {
+          "id": "d",
+          "text": "Ignorer les obligations qui ne sont pas financières."
+        }
+      ],
+      "correctAnswerIds": [
+        "b"
+      ],
+      "explanation": "Une analyse complète distingue les engagements de chaque partie. Les obligations peuvent porter sur des paiements, des documents, des comportements, des délais ou des résultats précisément définis.",
+      "trap": "Examiner uniquement ce que l’autre partie doit faire et oublier les obligations de son propre client.",
+      "errorTypeIfWrong": "method",
+      "points": 1,
+      "estimatedSeconds": 60,
+      "confidenceRequired": true
+    },
+    {
+      "id": "diag-029",
+      "section": "contracts",
+      "skill": "verifier-resiliation",
+      "difficulty": "hard",
+      "type": "single_choice",
+      "title": "Résiliation d’un contrat",
+      "statement": "Une partie souhaite mettre fin immédiatement à un contrat. Quelle doit être la première étape d’analyse ?",
+      "options": [
+        {
+          "id": "a",
+          "text": "Annoncer publiquement la fin du contrat."
+        },
+        {
+          "id": "b",
+          "text": "Vérifier les clauses de résiliation, les motifs possibles, la procédure et les délais."
+        },
+        {
+          "id": "c",
+          "text": "Considérer que tout contrat peut être interrompu librement et sans conséquence."
+        },
+        {
+          "id": "d",
+          "text": "Supprimer toutes les copies du contrat."
+        }
+      ],
+      "correctAnswerIds": [
+        "b"
+      ],
+      "explanation": "La résiliation peut dépendre de motifs, d’un préavis, d’une notification formelle ou de conséquences financières. Le contrat et les règles applicables doivent être analysés avant d’agir.",
+      "trap": "Confondre la volonté de mettre fin au contrat avec le droit de le faire immédiatement et sans conséquence.",
+      "errorTypeIfWrong": "method",
+      "points": 2,
+      "estimatedSeconds": 90,
+      "confidenceRequired": true
+    },
+    {
+      "id": "diag-030",
+      "section": "contracts",
+      "skill": "conserver-preuves",
+      "difficulty": "medium",
+      "type": "multiple_choice",
+      "title": "Conserver les preuves d’un engagement",
+      "statement": "Quels éléments peuvent être importants pour démontrer l’existence ou l’exécution d’un engagement ?",
+      "options": [
+        {
+          "id": "a",
+          "text": "Le contrat signé."
+        },
+        {
+          "id": "b",
+          "text": "Les échanges professionnels pertinents."
+        },
+        {
+          "id": "c",
+          "text": "Les confirmations de transmission ou de réception."
+        },
+        {
+          "id": "d",
+          "text": "Les documents attestant les actions réalisées."
+        },
+        {
+          "id": "e",
+          "text": "Une rumeur non vérifiable."
+        }
+      ],
+      "correctAnswerIds": [
+        "a",
+        "b",
+        "c",
+        "d"
+      ],
+      "explanation": "La traçabilité permet de démontrer les engagements pris, les informations transmises, les délais respectés et les actions effectivement réalisées.",
+      "trap": "Considérer que la signature suffit toujours à prouver toutes les actions effectuées après la conclusion du contrat.",
+      "errorTypeIfWrong": "knowledge",
+      "points": 2,
+      "estimatedSeconds": 90,
+      "confidenceRequired": true
+    }
+  ]
+}
