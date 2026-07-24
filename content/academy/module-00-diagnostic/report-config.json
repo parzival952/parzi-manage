@@ -1,0 +1,82 @@
+{
+  "reportId": "academy-module-00-diagnostic",
+  "version": "1.0.0",
+  "moduleId": "module-00-diagnostic",
+  "title": "Diagnostic Parzi Academy",
+  "sectionLabels": {
+    "legal-reading": "Lecture et compréhension juridique",
+    "contracts": "Droit des contrats",
+    "sport-environment": "Environnement sportif",
+    "football-regulations": "Réglementation du football",
+    "practical-cases": "Cas pratiques",
+    "exam-method": "Méthode et gestion du temps"
+  },
+  "sectionStatuses": [
+    {
+      "id": "foundation",
+      "label": "Fondations à construire",
+      "minimum": 0,
+      "maximum": 39
+    },
+    {
+      "id": "fragile",
+      "label": "Niveau fragile",
+      "minimum": 40,
+      "maximum": 59
+    },
+    {
+      "id": "progressing",
+      "label": "En progression",
+      "minimum": 60,
+      "maximum": 74
+    },
+    {
+      "id": "intermediate",
+      "label": "Niveau intermédiaire",
+      "minimum": 75,
+      "maximum": 84
+    },
+    {
+      "id": "solid",
+      "label": "Niveau solide",
+      "minimum": 85,
+      "maximum": 94
+    },
+    {
+      "id": "advanced",
+      "label": "Maîtrise avancée",
+      "minimum": 95,
+      "maximum": 100
+    }
+  ],
+  "riskRules": {
+    "slowAnswerMultiplier": 1.35,
+    "overconfidenceMinimum": 4,
+    "maximumPriorities": 3,
+    "criticalSectionScoreBelow": 40,
+    "fragileSectionScoreBelow": 60
+  },
+  "errorLabels": {
+    "knowledge": "Erreur de connaissance",
+    "comprehension": "Erreur de compréhension",
+    "method": "Erreur de méthode",
+    "source": "Mauvaise source",
+    "attention": "Erreur d’inattention",
+    "time": "Erreur de gestion du temps",
+    "overconfidence": "Fausse certitude"
+  },
+  "studyPlan": {
+    "durationDays": 14,
+    "recommendedSessionMinutes": 45,
+    "sessionsPerWeek": 5,
+    "activities": {
+      "understand": "Lecture et reformulation des notions clés",
+      "apply": "Application sur 3 exercices guidés",
+      "correct": "Correction détaillée des erreurs",
+      "timed": "Exercice chronométré",
+      "case": "Analyse d’un cas pratique complet",
+      "review": "Revue du carnet d’erreurs",
+      "retest": "Retest partiel du diagnostic"
+    }
+  }
+}
