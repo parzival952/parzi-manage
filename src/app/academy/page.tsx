@@ -299,6 +299,19 @@ export default async function AcademyHome() {
           >
             Voir mon plan de 14 jours →
           </Link>
+
+          <Link
+            href="/academy/historique"
+            className="min-h-[48px] rounded-2xl mt-3 flex items-center justify-center text-[12px] font-bold"
+            style={{
+              background:
+                "rgba(255,255,255,.035)",
+              border:
+                "1px solid var(--ligne)",
+            }}
+          >
+            Voir mon historique Academy →
+          </Link>
         </section>
       ) : (
         <section
