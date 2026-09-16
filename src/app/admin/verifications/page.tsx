@@ -1,6 +1,6 @@
 export const dynamic = "force-dynamic";
 import { revalidatePath } from "next/cache";
-import { requireAdmin } from "@/lib/verification";
+import { requireAdminRole } from "@/lib/authorization";
 import { listVerifications, setAgentStatus, type AgentStatus } from "@/lib/queries";
 import { getServerT } from "@/lib/i18n-server";
 
@@ -12,7 +12,7 @@ const TONE: Record<AgentStatus, { c: string; bg: string }> = {
 };
 
 export default async function AdminVerificationsPage() {
-  await requireAdmin();
+  await requireAdminRole();
   const { t, locale } = await getServerT();
   const rows = await listVerifications();
   const pending = rows.filter((r) => r.agent_status === "pending").length;
@@ -25,13 +25,13 @@ export default async function AdminVerificationsPage() {
 
   async function approve(formData: FormData) {
     "use server";
-    await requireAdmin();
+    await requireAdminRole();
     await setAgentStatus(String(formData.get("uid")), "verified");
     revalidatePath("/admin/verifications");
   }
   async function reject(formData: FormData) {
     "use server";
-    await requireAdmin();
+    await requireAdminRole();
     await setAgentStatus(String(formData.get("uid")), "rejected", String(formData.get("note") ?? "").trim());
     revalidatePath("/admin/verifications");
   }

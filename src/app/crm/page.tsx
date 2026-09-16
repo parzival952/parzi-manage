@@ -1,6 +1,7 @@
 export const dynamic = "force-dynamic";
 import { revalidatePath } from "next/cache";
 import { requireUser } from "@/lib/auth";
+import { requireVerifiedAgent } from "@/lib/authorization";
 import { createContact, getContacts } from "@/lib/queries";
 import { getAgentStatus } from "@/lib/verification";
 import VerificationGate from "@/components/VerificationGate";
@@ -17,7 +18,7 @@ export default async function CrmPage() {
 
   async function addContact(formData: FormData) {
     "use server";
-    const u = await requireUser();
+    const u = await requireVerifiedAgent();
     const s = (k: string) => String(formData.get(k) ?? "").trim();
     if (!s("name")) return;
     await createContact(u.id, { name: s("name"), role: s("role") || "—", org: s("org") || "—", last_exchange: s("last_exchange") || "Nouveau contact", next_step: s("next_step") || "—" });

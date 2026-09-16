@@ -1,0 +1,50 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="1100" viewBox="0 0 1200 1100" role="img" aria-labelledby="title desc">
+  <title id="title">Tests des supports documentaires PARZI Manage v0.1</title>
+  <desc id="desc">En-tête interne, carte institutionnelle et signature monochrome, tous marqués comme prototypes.</desc>
+  <defs>
+    <path id="mark-v02" fill-rule="evenodd" d="M12 12H60C75 12 84 21 84 36C84 51 75 60 60 60H42L36 84H12V12ZM30 24H66V36L48 48H66V54H30V48L48 36H30V24Z" />
+    <g id="wordmark-v02">
+      <path fill-rule="evenodd" d="M0 8H19C29 8 35 13 35 22C35 31 29 36 19 36H9V56H0V8ZM9 20L15 16H20L26 20V24L20 28H15L9 24V20Z" />
+      <path fill-rule="evenodd" d="M43 56L59 8H70L86 56H76L72 44H57L53 56H43ZM59 36H70L66 20H63L59 36Z" />
+      <path fill-rule="evenodd" d="M96 8H115C125 8 131 13 131 22C131 29 127 33 121 35L135 56H124L111 36H105V56H96V8ZM105 20L111 16H116L122 20V24L116 28H111L105 24V20Z" />
+      <path d="M143 8H181V17L157 47H181V56H143V47L167 17H143V8Z" />
+      <path d="M194 8H214L218 12V16H211V48H218V56H198L194 52V48H201V16H194V8Z" />
+    </g>
+    <g id="manage-horizontal">
+      <g transform="scale(0.84)"><use href="#mark-v02" /></g>
+      <g transform="translate(96 0) scale(1.25)"><use href="#wordmark-v02" /></g>
+      <path d="M396 12V68" stroke="currentColor" stroke-opacity="0.45" stroke-width="3" />
+      <text x="424" y="58" fill="currentColor" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif" font-size="38" font-weight="600">Manage</text>
+    </g>
+  </defs>
+
+  <rect width="1200" height="1100" fill="#F8F5EF" />
+  <g font-family="system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif">
+    <text x="72" y="62" fill="#171717" font-size="28" font-weight="700">PARZI Manage — tests de supports documentaires</text>
+    <text x="72" y="94" fill="#666158" font-size="16">Maquettes internes uniquement — aucun actif public ou applicatif.</text>
+
+    <rect x="72" y="132" width="1056" height="300" rx="16" fill="#E7E3DC" />
+    <text x="104" y="174" fill="#666158" font-size="15" font-weight="700">1 — EN-TÊTE DE NOTE INTERNE</text>
+    <rect x="136" y="196" width="928" height="202" fill="#FFFFFF" />
+    <g transform="translate(176 224) scale(0.62)" color="#171717" fill="#171717"><use href="#manage-horizontal" /></g>
+    <text x="176" y="326" fill="#171717" font-size="25" font-weight="700">Note interne</text>
+    <text x="176" y="354" fill="#666158" font-size="14">Prototype documentaire — ne pas publier</text>
+    <path d="M742 242H1024" stroke="#D7D2C8" stroke-width="2" />
+    <text x="1024" y="270" fill="#666158" font-size="13" text-anchor="end">Référence : PARZI-DOC-V01</text>
+
+    <rect x="72" y="460" width="1056" height="292" rx="16" fill="#171717" />
+    <text x="104" y="502" fill="#BDB6AA" font-size="15" font-weight="700">2 — CARTE DE PRÉSENTATION INSTITUTIONNELLE</text>
+    <g transform="translate(156 548) scale(0.78)" color="#FFFFFF" fill="#FFFFFF"><use href="#manage-horizontal" /></g>
+    <text x="156" y="668" fill="#FFFFFF" font-size="24" font-weight="600">Présentation institutionnelle</text>
+    <text x="156" y="700" fill="#BDB6AA" font-size="14">Contenu de démonstration — aucun claim public</text>
+    <g transform="translate(930 556) scale(1.15)" fill="#FFFFFF"><use href="#mark-v02" /></g>
+
+    <rect x="72" y="780" width="1056" height="250" rx="16" fill="#FFFFFF" stroke="#D7D2C8" />
+    <text x="104" y="824" fill="#666158" font-size="15" font-weight="700">3 — SIGNATURE MONOCHROME</text>
+    <g transform="translate(150 866) scale(0.55)" color="#171717" fill="#171717"><use href="#manage-horizontal" /></g>
+    <path d="M150 954H620" stroke="#D7D2C8" stroke-width="2" />
+    <text x="150" y="982" fill="#666158" font-size="13">Document interne · prototype de marque · ne pas diffuser</text>
+    <g transform="translate(930 862) scale(0.72)" fill="#171717"><use href="#mark-v02" /></g>
+    <text x="72" y="1080" fill="#666158" font-size="14">Les textes servent uniquement à tester la hiérarchie ; ils ne constituent ni slogan ni preuve produit.</text>
+  </g>
+</svg>

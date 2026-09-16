@@ -1,6 +1,7 @@
 export const dynamic = "force-dynamic";
 import { revalidatePath } from "next/cache";
 import { requireUser } from "@/lib/auth";
+import { requireOwnedMutation, requireVerifiedAgent } from "@/lib/authorization";
 import { createClub, deleteClub, getClubs } from "@/lib/queries";
 import { getAgentStatus } from "@/lib/verification";
 import VerificationGate from "@/components/VerificationGate";
@@ -19,7 +20,7 @@ export default async function ClubsPage() {
 
   async function add(formData: FormData) {
     "use server";
-    const u = await requireUser();
+    const u = await requireVerifiedAgent();
     const s = (k: string) => String(formData.get(k) ?? "").trim();
     if (!s("name")) return;
     await createClub(u.id, { name: s("name"), league: s("league"), need: s("need"), budget: s("budget"), contact_name: s("contact_name"), notes: s("notes") });
@@ -28,8 +29,8 @@ export default async function ClubsPage() {
 
   async function remove(formData: FormData) {
     "use server";
-    const u = await requireUser();
-    await deleteClub(u.id, Number(formData.get("id")));
+    const u = await requireVerifiedAgent();
+    requireOwnedMutation(await deleteClub(u.id, Number(formData.get("id"))));
     revalidatePath("/clubs");
   }
 

@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="96" height="96" viewBox="0 0 96 96" role="img" aria-labelledby="title desc">
+  <title id="title">Prototype vectoriel PZ A v0.2</title>
+  <desc id="desc">Monogramme monochrome PZ corrigé optiquement pour une grille de 16 pixels.</desc>
+  <path
+    fill="currentColor"
+    fill-rule="evenodd"
+    d="M12 12H60C75 12 84 21 84 36C84 51 75 60 60 60H42L36 84H12V12ZM30 24H66V36L48 48H66V54H30V48L48 36H30V24Z"
+  />
+</svg>

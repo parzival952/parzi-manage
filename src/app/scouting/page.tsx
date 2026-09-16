@@ -1,6 +1,7 @@
 export const dynamic = "force-dynamic";
 import { revalidatePath } from "next/cache";
 import { requireUser } from "@/lib/auth";
+import { requireOwnedMutation } from "@/lib/authorization";
 import { createProspect, deleteProspect, getProspects } from "@/lib/queries";
 
 const POSITIONS = [
@@ -32,7 +33,7 @@ export default async function ScoutingPage({ searchParams }: { searchParams: Pro
   async function remove(formData: FormData) {
     "use server";
     const u = await requireUser();
-    await deleteProspect(u.id, Number(formData.get("id")));
+    requireOwnedMutation(await deleteProspect(u.id, Number(formData.get("id"))));
     revalidatePath("/scouting");
   }
 

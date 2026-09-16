@@ -1,0 +1,38 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="820" viewBox="0 0 1200 820" role="img" aria-labelledby="title desc">
+  <title id="title">Lockups PARZI PZ A v0.2 et wordmark v0.1</title>
+  <desc id="desc">Planche de recherche présentant le wordmark seul et les compositions horizontale et verticale.</desc>
+  <defs>
+    <path id="mark-v02" fill-rule="evenodd" d="M12 12H60C75 12 84 21 84 36C84 51 75 60 60 60H42L36 84H12V12ZM30 24H66V36L48 48H66V54H30V48L48 36H30V24Z" />
+    <g id="wordmark">
+      <path fill-rule="evenodd" d="M0 8H19C29 8 35 13 35 22C35 31 29 36 19 36H9V56H0V8ZM9 16V28H18C23 28 26 26 26 22C26 18 23 16 18 16H9Z" />
+      <path fill-rule="evenodd" d="M43 56L59 8H70L86 56H76L72 44H57L53 56H43ZM60 36H69L64 20L60 36Z" />
+      <path fill-rule="evenodd" d="M96 8H115C125 8 131 13 131 22C131 29 127 33 121 35L135 56H124L111 36H105V56H96V8ZM105 16V28H114C119 28 122 26 122 22C122 18 119 16 114 16H105Z" />
+      <path d="M143 8H181V16L156 48H181V56H143V48L168 16H143V8Z" />
+      <path d="M194 8H218V16H211V48H218V56H194V48H201V16H194V8Z" />
+    </g>
+  </defs>
+
+  <rect width="1200" height="820" fill="#F8F5EF" />
+  <g font-family="Arial, Helvetica, sans-serif">
+    <text x="72" y="62" fill="#171717" font-size="28" font-weight="700">PARZI — premiers lockups vectoriels</text>
+    <text x="72" y="94" fill="#666158" font-size="16">PZ A v0.2 + wordmark dessiné v0.1 — prototypes sans police externe</text>
+
+    <rect x="72" y="132" width="1056" height="220" rx="16" fill="#FFFFFF" stroke="#D7D2C8" />
+    <text x="104" y="176" fill="#666158" font-size="16" font-weight="700">WORDMARK SEUL</text>
+    <g transform="translate(350 194) scale(2.3)" fill="#171717"><use href="#wordmark" /></g>
+
+    <rect x="72" y="380" width="640" height="250" rx="16" fill="#FFFFFF" stroke="#D7D2C8" />
+    <text x="104" y="424" fill="#666158" font-size="16" font-weight="700">LOCKUP HORIZONTAL</text>
+    <g transform="translate(126 460)">
+      <g transform="scale(1.25)" fill="#171717"><use href="#mark-v02" /></g>
+      <g transform="translate(150 28) scale(1.65)" fill="#171717"><use href="#wordmark" /></g>
+    </g>
+
+    <rect x="740" y="380" width="388" height="368" rx="16" fill="#171717" />
+    <text x="772" y="424" fill="#BDB6AA" font-size="16" font-weight="700">LOCKUP VERTICAL INVERSÉ</text>
+    <g transform="translate(884 452) scale(1.05)" fill="#FFFFFF"><use href="#mark-v02" /></g>
+    <g transform="translate(798 590) scale(1.25)" fill="#FFFFFF"><use href="#wordmark" /></g>
+
+    <text x="72" y="790" fill="#666158" font-size="15">Étude documentaire — tracking, corrections optiques et droits encore non validés.</text>
+  </g>
+</svg>

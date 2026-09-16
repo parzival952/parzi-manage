@@ -1,0 +1,91 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="210mm" height="297mm" viewBox="0 0 793.7 1122.52" role="img" aria-labelledby="title desc">
+  <title id="title">Fiche de validation d'impression PARZI v0.1</title>
+  <desc id="desc">Formulaire A4 pour consigner les tests laser et jet d'encre du symbole et du lockup PARZI Manage.</desc>
+  <defs>
+    <path id="mark-v02" fill-rule="evenodd" d="M12 12H60C75 12 84 21 84 36C84 51 75 60 60 60H42L36 84H12V12ZM30 24H66V36L48 48H66V54H30V48L48 36H30V24Z" />
+    <g id="wordmark-v02">
+      <path fill-rule="evenodd" d="M0 8H19C29 8 35 13 35 22C35 31 29 36 19 36H9V56H0V8ZM9 20L15 16H20L26 20V24L20 28H15L9 24V20Z" />
+      <path fill-rule="evenodd" d="M43 56L59 8H70L86 56H76L72 44H57L53 56H43ZM59 36H70L66 20H63L59 36Z" />
+      <path fill-rule="evenodd" d="M96 8H115C125 8 131 13 131 22C131 29 127 33 121 35L135 56H124L111 36H105V56H96V8ZM105 20L111 16H116L122 20V24L116 28H111L105 24V20Z" />
+      <path d="M143 8H181V17L157 47H181V56H143V47L167 17H143V8Z" />
+      <path d="M194 8H214L218 12V16H211V48H218V56H198L194 52V48H201V16H194V8Z" />
+    </g>
+  </defs>
+
+  <rect width="793.7" height="1122.52" fill="#FFFFFF" />
+  <g font-family="system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif">
+    <g transform="translate(48 34)" fill="#171717">
+      <g transform="scale(0.48)"><use href="#mark-v02" /></g>
+      <g transform="translate(54 0) scale(0.72)"><use href="#wordmark-v02" /></g>
+    </g>
+    <text x="48" y="108" fill="#171717" font-size="24" font-weight="700">Fiche de validation d’impression physique</text>
+    <text x="48" y="132" fill="#666158" font-size="12">Prototype interne — Tome III — aucun actif public autorisé</text>
+
+    <rect x="48" y="156" width="697.7" height="174" rx="10" fill="#F5F3EF" stroke="#D7D2C8" />
+    <text x="68" y="184" fill="#171717" font-size="15" font-weight="700">1. CONDITIONS DU TEST</text>
+    <g fill="#4F4B45" font-size="12">
+      <text x="68" y="214">Date :</text><path d="M110 218H260" stroke="#9B958C" />
+      <text x="292" y="214">Observateur :</text><path d="M380 218H710" stroke="#9B958C" />
+      <text x="68" y="246">Imprimante / modèle :</text><path d="M200 250H710" stroke="#9B958C" />
+      <text x="68" y="278">Technologie :</text>
+      <rect x="154" y="267" width="13" height="13" fill="#FFFFFF" stroke="#666158" /><text x="176" y="278">Laser</text>
+      <rect x="238" y="267" width="13" height="13" fill="#FFFFFF" stroke="#666158" /><text x="260" y="278">Jet d’encre</text>
+      <rect x="366" y="267" width="13" height="13" fill="#FFFFFF" stroke="#666158" /><text x="388" y="278">Autre :</text><path d="M435 282H548" stroke="#9B958C" />
+      <text x="570" y="278">Papier :</text><path d="M620 282H710" stroke="#9B958C" />
+      <text x="68" y="310">Échelle demandée : 100 %</text>
+      <text x="274" y="310">Étalon mesuré :</text><path d="M378 314H444" stroke="#9B958C" /><text x="450" y="310">mm</text>
+      <rect x="500" y="299" width="13" height="13" fill="#FFFFFF" stroke="#666158" /><text x="522" y="310">Valide (99,5–100,5 mm)</text>
+    </g>
+
+    <text x="48" y="370" fill="#171717" font-size="15" font-weight="700">2. OBSERVATION DES SPÉCIMENS</text>
+    <text x="48" y="392" fill="#666158" font-size="11">Noter chaque critère : 2 = net, 1 = limite, 0 = échec. Verdict : P = passe, C = conditionnel, R = rejet.</text>
+
+    <g fill="none" stroke="#B9B4AB" stroke-width="1">
+      <rect x="48" y="410" width="697.7" height="330" />
+      <path d="M48 446H745.7M48 482H745.7M48 518H745.7M48 554H745.7M48 590H745.7M48 626H745.7M48 662H745.7M48 698H745.7" />
+      <path d="M168 410V740M238 410V740M308 410V740M390 410V740M470 410V740M540 410V740" />
+    </g>
+    <g fill="#171717" font-size="10" font-weight="700">
+      <text x="58" y="432">SPÉCIMEN</text>
+      <text x="178" y="432">SILHOUETTE</text>
+      <text x="251" y="432">Z OUVERT</text>
+      <text x="318" y="432">TEXTE</text>
+      <text x="401" y="432">BORDS</text>
+      <text x="480" y="432">VERDICT</text>
+      <text x="550" y="432">NOTES</text>
+    </g>
+    <g fill="#4F4B45" font-size="11">
+      <text x="58" y="469">Lockup 60 mm</text>
+      <text x="58" y="505">Lockup 40 mm</text>
+      <text x="58" y="541">Lockup 25 mm</text>
+      <text x="58" y="577">Symbole 12 mm</text>
+      <text x="58" y="613">Symbole 8 mm</text>
+      <text x="58" y="649">Symbole 6 mm</text>
+      <text x="58" y="685">Inversion 60 mm</text>
+      <text x="58" y="721">Inversion 40 mm</text>
+    </g>
+
+    <rect x="48" y="772" width="697.7" height="116" rx="10" fill="#F5F3EF" stroke="#D7D2C8" />
+    <text x="68" y="800" fill="#171717" font-size="15" font-weight="700">3. DISTANCE ET CONDITIONS D’OBSERVATION</text>
+    <g fill="#4F4B45" font-size="12">
+      <rect x="68" y="820" width="13" height="13" fill="#FFFFFF" stroke="#666158" /><text x="90" y="831">30 cm</text>
+      <rect x="156" y="820" width="13" height="13" fill="#FFFFFF" stroke="#666158" /><text x="178" y="831">60 cm</text>
+      <rect x="244" y="820" width="13" height="13" fill="#FFFFFF" stroke="#666158" /><text x="266" y="831">1 m</text>
+      <text x="330" y="831">Éclairage :</text><path d="M397 835H710" stroke="#9B958C" />
+      <text x="68" y="864">Défauts observés :</text><path d="M178 868H710" stroke="#9B958C" />
+    </g>
+
+    <rect x="48" y="914" width="697.7" height="154" rx="10" fill="#171717" />
+    <text x="68" y="944" fill="#FFFFFF" font-size="15" font-weight="700">4. DÉCISION</text>
+    <g fill="#FFFFFF" font-size="12">
+      <rect x="68" y="964" width="13" height="13" fill="none" stroke="#FFFFFF" /><text x="90" y="975">PASSE — conserver 40 mm / 8 mm comme minimums</text>
+      <rect x="68" y="992" width="13" height="13" fill="none" stroke="#FFFFFF" /><text x="90" y="1003">CONDITIONNEL — relever les minimums à :</text>
+      <text x="370" y="1003">lockup</text><path d="M420 1007H465" stroke="#FFFFFF" /><text x="470" y="1003">mm</text>
+      <text x="520" y="1003">symbole</text><path d="M580 1007H625" stroke="#FFFFFF" /><text x="630" y="1003">mm</text>
+      <rect x="68" y="1020" width="13" height="13" fill="none" stroke="#FFFFFF" /><text x="90" y="1031">REJET — corriger la géométrie avant nouveau test</text>
+      <text x="68" y="1054">Signature / validation :</text><path d="M196 1058H480" stroke="#FFFFFF" /><text x="500" y="1054">Date :</text><path d="M540 1058H710" stroke="#FFFFFF" />
+    </g>
+
+    <text x="48" y="1104" fill="#666158" font-size="10">Conserver cette fiche avec l’épreuve imprimée ou sa photographie. Aucun résultat ne vaut contrôle juridique ou sélection finale du logo.</text>
+  </g>
+</svg>

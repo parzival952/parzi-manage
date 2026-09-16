@@ -1,0 +1,64 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="297mm" height="210mm" viewBox="0 0 1122.52 793.7" role="img" aria-labelledby="title desc">
+  <title id="title">Épreuve d'impression monochrome PARZI Manage v0.1</title>
+  <desc id="desc">Planche A4 paysage avec lockups de 60, 40 et 25 millimètres et symboles de 12, 8 et 6 millimètres.</desc>
+  <defs>
+    <path id="mark-v02" fill-rule="evenodd" d="M12 12H60C75 12 84 21 84 36C84 51 75 60 60 60H42L36 84H12V12ZM30 24H66V36L48 48H66V54H30V48L48 36H30V24Z" />
+    <g id="wordmark-v02">
+      <path fill-rule="evenodd" d="M0 8H19C29 8 35 13 35 22C35 31 29 36 19 36H9V56H0V8ZM9 20L15 16H20L26 20V24L20 28H15L9 24V20Z" />
+      <path fill-rule="evenodd" d="M43 56L59 8H70L86 56H76L72 44H57L53 56H43ZM59 36H70L66 20H63L59 36Z" />
+      <path fill-rule="evenodd" d="M96 8H115C125 8 131 13 131 22C131 29 127 33 121 35L135 56H124L111 36H105V56H96V8ZM105 20L111 16H116L122 20V24L116 28H111L105 24V20Z" />
+      <path d="M143 8H181V17L157 47H181V56H143V47L167 17H143V8Z" />
+      <path d="M194 8H214L218 12V16H211V48H218V56H198L194 52V48H201V16H194V8Z" />
+    </g>
+    <g id="manage-horizontal">
+      <g transform="scale(0.84)"><use href="#mark-v02" /></g>
+      <g transform="translate(96 0) scale(1.25)"><use href="#wordmark-v02" /></g>
+      <path d="M396 12V68" stroke="currentColor" stroke-opacity="0.45" stroke-width="3" />
+      <text x="424" y="58" fill="currentColor" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif" font-size="38" font-weight="600">Manage</text>
+    </g>
+  </defs>
+
+  <rect width="1122.52" height="793.7" fill="#FFFFFF" />
+  <g font-family="system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif">
+    <text x="56" y="54" fill="#171717" font-size="26" font-weight="700">PARZI Manage — épreuve monochrome A4</text>
+    <text x="56" y="80" fill="#666158" font-size="14">Imprimer à 100 % pour évaluer les dimensions physiques indiquées.</text>
+
+    <text x="56" y="138" fill="#666158" font-size="14" font-weight="700">LOCKUP 60 MM — USAGE DOCUMENTAIRE CONFORTABLE</text>
+    <svg x="56" y="154" width="60mm" height="9.23mm" viewBox="0 0 650 100" color="#171717"><use href="#manage-horizontal" fill="#171717" /></svg>
+
+    <text x="56" y="244" fill="#666158" font-size="14" font-weight="700">LOCKUP 40 MM — MINIMUM DE TRAVAIL</text>
+    <svg x="56" y="260" width="40mm" height="6.15mm" viewBox="0 0 650 100" color="#171717"><use href="#manage-horizontal" fill="#171717" /></svg>
+
+    <text x="56" y="336" fill="#666158" font-size="14" font-weight="700">LOCKUP 25 MM — À ÉVITER, DESCRIPTEUR TROP FRAGILE</text>
+    <svg x="56" y="352" width="25mm" height="3.85mm" viewBox="0 0 650 100" color="#171717"><use href="#manage-horizontal" fill="#171717" /></svg>
+
+    <rect x="560" y="118" width="506" height="314" rx="14" fill="#171717" />
+    <text x="594" y="160" fill="#BDB6AA" font-size="14" font-weight="700">INVERSION UNE COULEUR</text>
+    <svg x="594" y="196" width="60mm" height="9.23mm" viewBox="0 0 650 100" color="#FFFFFF"><use href="#manage-horizontal" fill="#FFFFFF" /></svg>
+    <svg x="594" y="290" width="40mm" height="6.15mm" viewBox="0 0 650 100" color="#FFFFFF"><use href="#manage-horizontal" fill="#FFFFFF" /></svg>
+    <text x="594" y="390" fill="#BDB6AA" font-size="13">Symbole et wordmark fonctionnent avec une seule encre.</text>
+
+    <path d="M56 468H1066" stroke="#D7D2C8" stroke-width="2" />
+    <text x="56" y="512" fill="#171717" font-size="18" font-weight="700">SYMBOLE SEUL — TESTS PHYSIQUES</text>
+
+    <text x="80" y="568" fill="#666158" font-size="13">12 mm</text>
+    <svg x="82" y="586" width="12mm" height="12mm" viewBox="0 0 96 96"><use href="#mark-v02" fill="#171717" /></svg>
+    <text x="260" y="568" fill="#666158" font-size="13">8 mm</text>
+    <svg x="262" y="586" width="8mm" height="8mm" viewBox="0 0 96 96"><use href="#mark-v02" fill="#171717" /></svg>
+    <text x="420" y="568" fill="#666158" font-size="13">6 mm</text>
+    <svg x="422" y="586" width="6mm" height="6mm" viewBox="0 0 96 96"><use href="#mark-v02" fill="#171717" /></svg>
+
+    <rect x="560" y="526" width="506" height="158" rx="14" fill="#F1EFEA" />
+    <text x="594" y="568" fill="#171717" font-size="15" font-weight="700">VERDICT DOCUMENTAIRE</text>
+    <text x="594" y="604" fill="#4F4B45" font-size="14">• lockup complet : viser 40 mm ou plus</text>
+    <text x="594" y="632" fill="#4F4B45" font-size="14">• symbole seul : viser 8 mm ou plus</text>
+    <text x="594" y="660" fill="#4F4B45" font-size="14">• confirmer par une impression réelle avant charte</text>
+
+    <text x="650" y="704" fill="#171717" font-size="12" font-weight="700">ÉTALON 100 MM — MESURER APRÈS IMPRESSION</text>
+    <path d="M650 718H1027.95M650 709V727M687.795 713V723M725.59 713V723M763.385 713V723M801.18 713V723M838.975 709V727M876.77 713V723M914.565 713V723M952.36 713V723M990.155 713V723M1027.95 709V727" fill="none" stroke="#171717" stroke-width="1.5" />
+    <text x="650" y="740" fill="#666158" font-size="11">0</text>
+    <text x="1027.95" y="740" fill="#666158" font-size="11" text-anchor="end">100 mm</text>
+
+    <text x="56" y="772" fill="#666158" font-size="13">Prototype documentaire — ne pas publier — dimensions non validées pour broderie, gravure ou découpe.</text>
+  </g>
+</svg>
