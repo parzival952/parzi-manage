@@ -12,16 +12,8 @@ import {
   completeSecureLesson,
 } from "@/lib/academy-lesson-store";
 import { findLesson } from "@/lib/academy";
+import { primaryLessonForSection } from "@/lib/academy-recommendations";
 import { requireUser } from "@/lib/auth";
-
-const RECOMMENDED_LESSONS: Record<string, string> = {
-  "legal-reading": "licence",
-  contracts: "mandat",
-  "sport-environment": "role",
-  "football-regulations": "licence",
-  "practical-cases": "mandat",
-  "exam-method": "role",
-};
 
 export default async function LessonPage({
   params,
@@ -47,7 +39,7 @@ export default async function LessonPage({
     report?.priorities[0] ?? null;
 
   const recommendedLessonId = priority
-    ? RECOMMENDED_LESSONS[priority.sectionId]
+    ? primaryLessonForSection(priority.sectionId)
     : null;
 
   const isMission =

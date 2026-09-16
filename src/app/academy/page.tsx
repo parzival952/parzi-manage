@@ -21,15 +21,7 @@ import {
 } from "@/lib/academy";
 import { requireUser } from "@/lib/auth";
 import { levelInfo } from "@/lib/progression";
-
-const RECOMMENDED_LESSONS: Record<string, string> = {
-  "legal-reading": "licence",
-  contracts: "mandat",
-  "sport-environment": "role",
-  "football-regulations": "licence",
-  "practical-cases": "mandat",
-  "exam-method": "role",
-};
+import { primaryLessonForSection } from "@/lib/academy-recommendations";
 
 function getScoreTone(score: number): string {
   if (score < 25) {
@@ -102,9 +94,9 @@ export default async function AcademyHome() {
   const recommendedLessonId =
     planCurrentDay?.recommendedLessonId ??
     (firstPriority
-      ? RECOMMENDED_LESSONS[
-          firstPriority.sectionId
-        ]
+      ? primaryLessonForSection(
+          firstPriority.sectionId,
+        )
       : null) ??
     currentId ??
     "role";

@@ -5,6 +5,8 @@ import { redirect } from "next/navigation";
 import {
   loadLatestDiagnosticReport,
 } from "@/lib/academy-diagnostic-report";
+import { findLesson } from "@/lib/academy";
+import { lessonsForSection } from "@/lib/academy-recommendations";
 import styles from "./resultats.module.css";
 
 export const metadata: Metadata = {
@@ -428,6 +430,59 @@ export default async function DiagnosticResultsPage() {
 
                     <h3>{priority.label}</h3>
                     <p>{priority.reason}</p>
+
+                    {(() => {
+                      const recs = lessonsForSection(
+                        priority.sectionId,
+                      )
+                        .map((lessonId) =>
+                          findLesson(lessonId),
+                        )
+                        .filter(
+                          (
+                            found,
+                          ): found is NonNullable<
+                            typeof found
+                          > => found !== null,
+                        )
+                        .slice(0, 3);
+
+                      if (recs.length === 0) {
+                        return null;
+                      }
+
+                      return (
+                        <div
+                          style={{
+                            marginTop: 12,
+                            display: "flex",
+                            flexWrap: "wrap",
+                            gap: 8,
+                          }}
+                        >
+                          {recs.map((found) => (
+                            <Link
+                              key={found.lesson.id}
+                              href={`/academy/lecon/${found.lesson.id}`}
+                              style={{
+                                fontSize: 12,
+                                fontWeight: 600,
+                                padding: "6px 11px",
+                                borderRadius: 999,
+                                border:
+                                  "1px solid rgba(228,0,43,.35)",
+                                color: "#fff",
+                                background:
+                                  "rgba(228,0,43,.10)",
+                                textDecoration: "none",
+                              }}
+                            >
+                              ▸ {found.lesson.title}
+                            </Link>
+                          ))}
+                        </div>
+                      );
+                    })()}
                   </div>
                 ))}
               </div>
