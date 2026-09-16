@@ -21,7 +21,7 @@ import {
 } from "@/lib/academy";
 import { requireUser } from "@/lib/auth";
 import { levelInfo } from "@/lib/progression";
-import { primaryLessonForSection } from "@/lib/academy-recommendations";
+import { lessonForSectionByDay, primaryLessonForSection } from "@/lib/academy-recommendations";
 
 function getScoreTone(score: number): string {
   if (score < 25) {
@@ -92,12 +92,18 @@ export default async function AcademyHome() {
     ) ?? null;
 
   const recommendedLessonId =
-    planCurrentDay?.recommendedLessonId ??
+    (planCurrentDay?.focusSectionId
+      ? lessonForSectionByDay(
+          planCurrentDay.focusSectionId,
+          planCurrentDay.day,
+        )
+      : null) ??
     (firstPriority
       ? primaryLessonForSection(
           firstPriority.sectionId,
         )
       : null) ??
+    planCurrentDay?.recommendedLessonId ??
     currentId ??
     "role";
 

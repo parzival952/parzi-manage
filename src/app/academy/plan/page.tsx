@@ -7,6 +7,7 @@ import {
   loadAcademyStudyPlan,
 } from "@/lib/academy-study-plan";
 import { findLesson } from "@/lib/academy";
+import { lessonForSectionByDay } from "@/lib/academy-recommendations";
 import { requireUser } from "@/lib/auth";
 
 function formatDate(value: string): string {
@@ -42,7 +43,10 @@ export default async function AcademyPlanPage() {
 
   const currentLesson = currentDay
     ? findLesson(
-        currentDay.recommendedLessonId,
+        lessonForSectionByDay(
+          currentDay.focusSectionId,
+          currentDay.day,
+        ),
       )
     : null;
 
@@ -268,7 +272,10 @@ export default async function AcademyPlanPage() {
 
         {plan.days.map((day) => {
           const lesson = findLesson(
-            day.recommendedLessonId,
+            lessonForSectionByDay(
+              day.focusSectionId,
+              day.day,
+            ),
           );
 
           const completed =

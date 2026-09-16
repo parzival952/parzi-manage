@@ -30,3 +30,11 @@ export function lessonsForSection(sectionId: string): string[] {
 export function primaryLessonForSection(sectionId: string): string {
   return lessonsForSection(sectionId)[0];
 }
+
+/** Leçon d'un jour de plan : parcourt la liste de la section (le plan de 14 jours
+ *  traverse ainsi le programme au lieu de répéter la même leçon). */
+export function lessonForSectionByDay(sectionId: string, dayNumber: number): string {
+  const lessons = lessonsForSection(sectionId);
+  const index = Math.max(0, dayNumber - 1) % lessons.length;
+  return lessons[index];
+}
