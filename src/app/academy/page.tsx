@@ -13,6 +13,7 @@ import {
 import {
   loadAcademyStudyPlan,
 } from "@/lib/academy-study-plan";
+import { loadAcademyLearningState } from "@/lib/academy-learning";
 import {
   ALL_LESSONS,
   COURSE,
@@ -46,10 +47,12 @@ export default async function AcademyHome() {
     academyState,
     diagnosticReport,
     studyPlan,
+    learningState,
   ] = await Promise.all([
     loadAcademyState(),
     loadLatestDiagnosticReport(),
     loadAcademyStudyPlan(),
+    loadAcademyLearningState(),
   ]);
 
   const fallbackXp =
@@ -694,6 +697,36 @@ export default async function AcademyHome() {
           <div className="text-[12.5px] pz-muted">
             Prouve tes compétences et décroche ton diplôme
             « Agent Ready ».
+          </div>
+        </div>
+
+        <div className="text-[18px] pz-muted">
+          →
+        </div>
+      </Link>
+
+      <Link
+        href="/academy/revision"
+        className="pz-card p-5 pz-rise pz-d5 flex items-center gap-4"
+        style={{
+          borderColor: "rgba(37,194,110,.30)",
+        }}
+      >
+        <div className="text-[26px]">🧠</div>
+
+        <div className="flex-1">
+          <div className="font-bold text-[15px]">
+            Révision intelligente
+          </div>
+
+          <div className="text-[12.5px] pz-muted">
+            {learningState &&
+            (learningState.dueReviewCount > 0 ||
+              learningState.openErrorCount > 0)
+              ? `${learningState.dueReviewCount} à réviser · ${learningState.openErrorCount} erreur${
+                  learningState.openErrorCount > 1 ? "s" : ""
+                } à corriger`
+              : "Carnet d’erreurs, maîtrise par compétence et révisions espacées."}
           </div>
         </div>
 
