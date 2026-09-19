@@ -754,3 +754,14 @@ export function computeAttributes(done: Set<string>, level: number): { ovr: numb
   const ovr = Math.round(attrs.reduce((s, a) => s + a.score, 0) / attrs.length);
   return { ovr, attrs };
 }
+
+/** Leçons rattachées à un domaine de compétence (pour orienter les révisions). */
+export function lessonsForAttr(key: AttrKey): { id: string; title: string }[] {
+  const out: { id: string; title: string }[] = [];
+  for (const id of Object.keys(LESSON_ATTR)) {
+    if (LESSON_ATTR[id] !== key) continue;
+    const f = findLesson(id);
+    if (f) out.push({ id, title: f.lesson.title });
+  }
+  return out;
+}

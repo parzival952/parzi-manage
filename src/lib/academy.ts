@@ -14,6 +14,7 @@ export {
   chaptersCompleted,
   ATTR_DEFS,
   computeAttributes,
+  lessonsForAttr,
 } from "./academy-course";
 export type { QuizQuestion, Lesson, Chapter, AttrKey, AttrScore } from "./academy-course";
 

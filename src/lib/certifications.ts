@@ -15,7 +15,7 @@
 // COMPÉTENCE (gradeExam) qui dit à l'apprenant quoi réviser.
 import { db } from "./db";
 import { pg, usePostgres } from "./pg";
-import { addBonusXp, chaptersCompleted, COURSE, getProgress, ATTR_DEFS } from "./academy";
+import { addBonusXp, chaptersCompleted, COURSE, getProgress, ATTR_DEFS, lessonsForAttr } from "./academy";
 import type { AttrKey } from "./academy";
 
 export type CertQuestion = { q: string; options: string[]; answer: number; domain?: AttrKey };
@@ -24,7 +24,7 @@ export type CertQuestion = { q: string; options: string[]; answer: number; domai
 export type CertCtx = { chapters: number; lessons: number; level: number; earned: Set<string> };
 
 /** Score obtenu sur une compétence lors d'un examen (pour le bilan). */
-export type DomainScore = { key: AttrKey; label: string; correct: number; total: number; pct: number };
+export type DomainScore = { key: AttrKey; label: string; correct: number; total: number; pct: number; lessons?: { id: string; title: string }[] };
 
 export type Cert = {
   id: string; name: string; subtitle: string; desc: string;
@@ -160,7 +160,10 @@ export function gradeExam(cert: Cert, answers: number[]): { score: number; corre
     .filter(({ key }) => per[key])
     .map(({ key, label }) => {
       const d = per[key]!;
-      return { key, label, correct: d.correct, total: d.total, pct: Math.round((d.correct / d.total) * 100) };
+      const pct = Math.round((d.correct / d.total) * 100);
+      const item: DomainScore = { key, label, correct: d.correct, total: d.total, pct };
+      if (pct < 70) item.lessons = lessonsForAttr(key).slice(0, 3);
+      return item;
     });
   return { score, correct, breakdown };
 }

@@ -3,7 +3,7 @@ import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 
 type Q = { q: string; options: string[] };
-type Domain = { key: string; label: string; correct: number; total: number; pct: number };
+type Domain = { key: string; label: string; correct: number; total: number; pct: number; lessons?: { id: string; title: string }[] };
 type Result = { pass: boolean; already: boolean; score: number; code?: string; bonusXp?: number; breakdown?: Domain[] };
 
 function Breakdown({ items }: { items?: Domain[] }) {
@@ -21,6 +21,17 @@ function Breakdown({ items }: { items?: Domain[] }) {
             <div className="h-1.5 rounded-full mt-1" style={{ background: "rgba(255,255,255,.08)" }}>
               <div className="h-full rounded-full" style={{ width: `${d.pct}%`, background: d.pct >= 70 ? "var(--vert)" : d.pct >= 40 ? "var(--or,#E9C36A)" : "var(--rouge)" }} />
             </div>
+            {d.lessons && d.lessons.length > 0 ? (
+              <div className="mt-1.5 text-[11px] pz-muted">
+                Réviser :{" "}
+                {d.lessons.map((l, i) => (
+                  <span key={l.id}>
+                    {i > 0 ? " · " : ""}
+                    <Link href={`/academy/lecon/${l.id}`} className="pz-red hover:underline">{l.title}</Link>
+                  </span>
+                ))}
+              </div>
+            ) : null}
           </div>
         ))}
       </div>
