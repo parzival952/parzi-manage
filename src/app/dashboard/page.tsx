@@ -2,6 +2,7 @@ export const dynamic = "force-dynamic";
 import Link from "next/link";
 import { revalidatePath } from "next/cache";
 import { requireUser } from "@/lib/auth";
+import { requireOwnedMutation } from "@/lib/authorization";
 import { aiEnabled, generateTodayBrief, getTodayBrief, getTodayRecommendations } from "@/lib/ai";
 import { createTask, getAlerts, getEvents, getKpis, getOpportunities, getPlayers, getTasks, toggleTask } from "@/lib/queries";
 import { getVeille, matchesPortfolio, portfolioKeywords } from "@/lib/veille";
@@ -49,7 +50,7 @@ export default async function DashboardPage() {
   async function toggle(formData: FormData) {
     "use server";
     const u = await requireUser();
-    await toggleTask(u.id, Number(formData.get("id")));
+    requireOwnedMutation(await toggleTask(u.id, Number(formData.get("id"))));
     revalidatePath("/dashboard");
   }
   async function addTask(formData: FormData) {

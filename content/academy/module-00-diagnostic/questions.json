@@ -1,0 +1,1532 @@
+{
+  "id": "academy-diagnostic-questions-v1",
+  "version": "1.0.0",
+  "title": "Questions du diagnostic initial PARZI Academy",
+  "instructions": {
+    "searchAllowed": false,
+    "documentsAllowed": false,
+    "confidenceRequired": true,
+    "showCorrectionImmediately": false,
+    "randomizeQuestions": false,
+    "randomizeOptions": true
+  },
+  "questions": [
+    {
+      "id": "diag-001",
+      "section": "legal-reading",
+      "skill": "identifier-conditions",
+      "difficulty": "easy",
+      "type": "single_choice",
+      "title": "Identifier des conditions cumulatives",
+      "statement": "Une règle indique : « La demande est recevable si elle est déposée dans les délais et accompagnée de toutes les pièces obligatoires. » La demande est déposée dans les délais, mais une pièce obligatoire manque. Quelle conclusion est la plus logique ?",
+      "options": [
+        {
+          "id": "a",
+          "text": "La demande est automatiquement recevable."
+        },
+        {
+          "id": "b",
+          "text": "La demande n’est pas recevable car les deux conditions doivent être remplies."
+        },
+        {
+          "id": "c",
+          "text": "La pièce manquante n’a aucune importance."
+        },
+        {
+          "id": "d",
+          "text": "La demande est recevable si le candidat est de bonne foi."
+        }
+      ],
+      "correctAnswerIds": [
+        "b"
+      ],
+      "explanation": "Le mot « et » indique que les deux conditions sont cumulatives. Respecter seulement le délai ne suffit pas lorsque toutes les pièces sont également exigées.",
+      "trap": "Se concentrer uniquement sur la première condition remplie.",
+      "errorTypeIfWrong": "comprehension",
+      "points": 1,
+      "estimatedSeconds": 60,
+      "confidenceRequired": true
+    },
+    {
+      "id": "diag-002",
+      "section": "legal-reading",
+      "skill": "identifier-exception",
+      "difficulty": "easy",
+      "type": "single_choice",
+      "title": "Reconnaître une exception",
+      "statement": "Quel mot annonce le plus souvent une exception à une règle générale ?",
+      "options": [
+        {
+          "id": "a",
+          "text": "Toujours"
+        },
+        {
+          "id": "b",
+          "text": "Sauf"
+        },
+        {
+          "id": "c",
+          "text": "Donc"
+        },
+        {
+          "id": "d",
+          "text": "Également"
+        }
+      ],
+      "correctAnswerIds": [
+        "b"
+      ],
+      "explanation": "Le mot « sauf » introduit généralement une exception. Lorsqu’il apparaît, le candidat doit vérifier si la situation étudiée entre dans cette exception.",
+      "trap": "Lire trop rapidement et appliquer la règle générale sans examiner l’exception.",
+      "errorTypeIfWrong": "attention",
+      "points": 1,
+      "estimatedSeconds": 30,
+      "confidenceRequired": true
+    },
+    {
+      "id": "diag-003",
+      "section": "legal-reading",
+      "skill": "distinguer-principe-exception",
+      "difficulty": "medium",
+      "type": "single_choice",
+      "title": "Principe et exception",
+      "statement": "Un texte indique : « L’accès est interdit aux personnes non autorisées, sauf lorsqu’elles sont accompagnées par un responsable habilité. » Une personne non autorisée est accompagnée par un responsable habilité. Quelle analyse est correcte ?",
+      "options": [
+        {
+          "id": "a",
+          "text": "L’accès reste interdit dans tous les cas."
+        },
+        {
+          "id": "b",
+          "text": "La personne entre dans l’exception prévue par le texte."
+        },
+        {
+          "id": "c",
+          "text": "Le responsable habilité devient une personne non autorisée."
+        },
+        {
+          "id": "d",
+          "text": "Le texte est impossible à appliquer."
+        }
+      ],
+      "correctAnswerIds": [
+        "b"
+      ],
+      "explanation": "Le principe interdit l’accès aux personnes non autorisées. Cependant, le texte prévoit expressément une exception lorsqu’elles sont accompagnées par un responsable habilité.",
+      "trap": "Retenir uniquement le début de la phrase et ignorer la partie introduite par « sauf ».",
+      "errorTypeIfWrong": "comprehension",
+      "points": 1,
+      "estimatedSeconds": 60,
+      "confidenceRequired": true
+    },
+    {
+      "id": "diag-004",
+      "section": "contracts",
+      "skill": "identifier-obligation",
+      "difficulty": "easy",
+      "type": "single_choice",
+      "title": "Identifier une obligation contractuelle",
+      "statement": "Un contrat prévoit qu’une partie doit transmettre un document avant le 30 juin. Quel élément constitue l’obligation principale ?",
+      "options": [
+        {
+          "id": "a",
+          "text": "Le nom du contrat"
+        },
+        {
+          "id": "b",
+          "text": "La transmission du document avant le 30 juin"
+        },
+        {
+          "id": "c",
+          "text": "La date de signature uniquement"
+        },
+        {
+          "id": "d",
+          "text": "L’opinion personnelle des parties"
+        }
+      ],
+      "correctAnswerIds": [
+        "b"
+      ],
+      "explanation": "L’obligation combine ici une action précise, transmettre le document, et une échéance, avant le 30 juin.",
+      "trap": "Repérer une date sans identifier l’action à accomplir.",
+      "errorTypeIfWrong": "knowledge",
+      "points": 1,
+      "estimatedSeconds": 45,
+      "confidenceRequired": true
+    },
+    {
+      "id": "diag-005",
+      "section": "contracts",
+      "skill": "analyser-engagement",
+      "difficulty": "medium",
+      "type": "multiple_choice",
+      "title": "Analyser un engagement",
+      "statement": "Pour comprendre correctement une obligation dans un contrat, quels éléments faut-il rechercher ?",
+      "options": [
+        {
+          "id": "a",
+          "text": "La personne qui doit agir"
+        },
+        {
+          "id": "b",
+          "text": "L’action à accomplir"
+        },
+        {
+          "id": "c",
+          "text": "Le délai éventuel"
+        },
+        {
+          "id": "d",
+          "text": "Les conséquences possibles en cas de non-respect"
+        },
+        {
+          "id": "e",
+          "text": "La couleur du document"
+        }
+      ],
+      "correctAnswerIds": [
+        "a",
+        "b",
+        "c",
+        "d"
+      ],
+      "explanation": "Une obligation doit être analysée en identifiant son débiteur, son contenu, son délai et les conséquences éventuelles de son non-respect.",
+      "trap": "Choisir uniquement l’action sans examiner les autres conditions de l’engagement.",
+      "errorTypeIfWrong": "method",
+      "points": 2,
+      "estimatedSeconds": 75,
+      "confidenceRequired": true
+    },
+    {
+      "id": "diag-006",
+      "section": "practical-cases",
+      "skill": "identifier-probleme",
+      "difficulty": "medium",
+      "type": "single_choice",
+      "title": "Première étape d’un cas pratique",
+      "statement": "Face à un cas pratique contenant beaucoup d’informations, quelle doit être la première réaction du candidat ?",
+      "options": [
+        {
+          "id": "a",
+          "text": "Rédiger immédiatement une conclusion."
+        },
+        {
+          "id": "b",
+          "text": "Identifier les faits utiles et la question à résoudre."
+        },
+        {
+          "id": "c",
+          "text": "Recopier l’intégralité du cas."
+        },
+        {
+          "id": "d",
+          "text": "Choisir la réponse la plus longue."
+        }
+      ],
+      "correctAnswerIds": [
+        "b"
+      ],
+      "explanation": "Avant de rechercher une règle ou de conclure, il faut isoler les faits pertinents et formuler précisément le problème.",
+      "trap": "Chercher une règle avant même d’avoir compris la question.",
+      "errorTypeIfWrong": "method",
+      "points": 1,
+      "estimatedSeconds": 45,
+      "confidenceRequired": true
+    },
+    {
+      "id": "diag-007",
+      "section": "practical-cases",
+      "skill": "raisonnement-juridique",
+      "difficulty": "medium",
+      "type": "single_choice",
+      "title": "Ordre du raisonnement",
+      "statement": "Quel ordre représente le mieux une réponse structurée à un cas pratique ?",
+      "options": [
+        {
+          "id": "a",
+          "text": "Conclusion, faits, règle, question"
+        },
+        {
+          "id": "b",
+          "text": "Question, règle, application aux faits, conclusion"
+        },
+        {
+          "id": "c",
+          "text": "Opinion personnelle, conclusion, règle"
+        },
+        {
+          "id": "d",
+          "text": "Règle, nouvelle question, absence de conclusion"
+        }
+      ],
+      "correctAnswerIds": [
+        "b"
+      ],
+      "explanation": "Le candidat identifie le problème, présente la règle, l’applique aux faits puis formule une conclusion.",
+      "trap": "Donner une conclusion sans montrer le raisonnement.",
+      "errorTypeIfWrong": "method",
+      "points": 1,
+      "estimatedSeconds": 45,
+      "confidenceRequired": true
+    },
+    {
+      "id": "diag-008",
+      "section": "exam-method",
+      "skill": "gerer-temps",
+      "difficulty": "easy",
+      "type": "single_choice",
+      "title": "Gestion d’une question bloquante",
+      "statement": "Un candidat reste bloqué plusieurs minutes sur une question difficile alors que d’autres questions restent sans réponse. Quelle stratégie est la plus efficace ?",
+      "options": [
+        {
+          "id": "a",
+          "text": "Continuer jusqu’à trouver, quel que soit le temps utilisé."
+        },
+        {
+          "id": "b",
+          "text": "Marquer la question, avancer puis y revenir si le temps le permet."
+        },
+        {
+          "id": "c",
+          "text": "Abandonner tout le questionnaire."
+        },
+        {
+          "id": "d",
+          "text": "Répondre au hasard et ne jamais revenir."
+        }
+      ],
+      "correctAnswerIds": [
+        "b"
+      ],
+      "explanation": "Une question ne doit pas consommer une part disproportionnée du temps. La marquer permet de préserver les chances de répondre aux autres questions.",
+      "trap": "Confondre persévérance et mauvaise gestion du temps.",
+      "errorTypeIfWrong": "time",
+      "points": 1,
+      "estimatedSeconds": 45,
+      "confidenceRequired": true
+    },
+    {
+      "id": "diag-009",
+      "section": "exam-method",
+      "skill": "evaluer-confiance",
+      "difficulty": "medium",
+      "type": "single_choice",
+      "title": "Fausse certitude",
+      "statement": "Un candidat choisit une mauvaise réponse et indique un niveau de confiance maximal. Pourquoi cette erreur est-elle particulièrement importante ?",
+      "options": [
+        {
+          "id": "a",
+          "text": "Parce qu’elle révèle seulement un manque de vitesse."
+        },
+        {
+          "id": "b",
+          "text": "Parce qu’il ne sait probablement pas qu’il doit corriger son raisonnement."
+        },
+        {
+          "id": "c",
+          "text": "Parce que toute réponse fausse est définitive."
+        },
+        {
+          "id": "d",
+          "text": "Parce que le niveau de confiance ne sert à rien."
+        }
+      ],
+      "correctAnswerIds": [
+        "b"
+      ],
+      "explanation": "Une réponse fausse donnée avec une confiance maximale révèle une croyance erronée profondément installée. Elle doit être corrigée en priorité.",
+      "trap": "Considérer toutes les erreurs comme identiques.",
+      "errorTypeIfWrong": "overconfidence",
+      "points": 1,
+      "estimatedSeconds": 60,
+      "confidenceRequired": true
+    },
+    {
+      "id": "diag-010",
+      "section": "exam-method",
+      "skill": "analyser-qcm",
+      "difficulty": "medium",
+      "type": "multiple_choice",
+      "title": "Méthode face à un QCM",
+      "statement": "Quelles actions améliorent la qualité d’une réponse à un QCM ?",
+      "options": [
+        {
+          "id": "a",
+          "text": "Lire attentivement la consigne."
+        },
+        {
+          "id": "b",
+          "text": "Vérifier si plusieurs réponses sont possibles."
+        },
+        {
+          "id": "c",
+          "text": "Repérer les négations et les mots absolus."
+        },
+        {
+          "id": "d",
+          "text": "Éliminer les réponses manifestement incompatibles avec la question."
+        },
+        {
+          "id": "e",
+          "text": "Choisir systématiquement la réponse la plus longue."
+        }
+      ],
+      "correctAnswerIds": [
+        "a",
+        "b",
+        "c",
+        "d"
+      ],
+      "explanation": "Une bonne méthode consiste à comprendre précisément la consigne, identifier le nombre de réponses possibles, repérer les formulations pièges et éliminer les options incohérentes.",
+      "trap": "Utiliser des règles artificielles comme choisir la réponse la plus longue.",
+      "errorTypeIfWrong": "method",
+      "points": 2,
+      "estimatedSeconds": 75,
+      "confidenceRequired": true
+    },
+    {
+      "id": "diag-011",
+      "section": "sport-environment",
+      "skill": "identifier-role-agent",
+      "difficulty": "easy",
+      "type": "single_choice",
+      "title": "Comprendre le rôle de l’agent",
+      "statement": "Quelle description représente le mieux le rôle professionnel d’un agent sportif ?",
+      "options": [
+        {
+          "id": "a",
+          "text": "Garantir à chaque joueur la signature d’un contrat professionnel."
+        },
+        {
+          "id": "b",
+          "text": "Accompagner et représenter les intérêts du joueur dans le respect du cadre applicable."
+        },
+        {
+          "id": "c",
+          "text": "Décider à la place des clubs quels joueurs doivent être recrutés."
+        },
+        {
+          "id": "d",
+          "text": "Remplacer l’entraîneur dans les décisions sportives."
+        }
+      ],
+      "correctAnswerIds": [
+        "b"
+      ],
+      "explanation": "L’agent accompagne et représente les intérêts de son client dans les limites de son rôle et du cadre applicable. Il ne peut pas garantir une décision dépendant d’un club.",
+      "trap": "Confondre accompagnement professionnel et garantie de résultat.",
+      "errorTypeIfWrong": "knowledge",
+      "points": 1,
+      "estimatedSeconds": 45,
+      "confidenceRequired": true
+    },
+    {
+      "id": "diag-012",
+      "section": "sport-environment",
+      "skill": "distinguer-agent-recruteur",
+      "difficulty": "easy",
+      "type": "single_choice",
+      "title": "Agent et recruteur",
+      "statement": "Quelle différence est la plus pertinente entre un agent et un recruteur travaillant pour un club ?",
+      "options": [
+        {
+          "id": "a",
+          "text": "Il n’existe aucune différence entre les deux fonctions."
+        },
+        {
+          "id": "b",
+          "text": "L’agent accompagne son client, tandis que le recruteur recherche et évalue des profils pour son organisation."
+        },
+        {
+          "id": "c",
+          "text": "Le recruteur représente automatiquement les intérêts juridiques du joueur."
+        },
+        {
+          "id": "d",
+          "text": "L’agent décide seul du recrutement d’un joueur."
+        }
+      ],
+      "correctAnswerIds": [
+        "b"
+      ],
+      "explanation": "Les intérêts et missions peuvent être différents. L’agent accompagne son client, alors que le recruteur agit généralement pour identifier des profils correspondant aux besoins de son organisation.",
+      "trap": "Supposer que toutes les personnes intervenant dans un recrutement représentent les mêmes intérêts.",
+      "errorTypeIfWrong": "comprehension",
+      "points": 1,
+      "estimatedSeconds": 45,
+      "confidenceRequired": true
+    },
+    {
+      "id": "diag-013",
+      "section": "sport-environment",
+      "skill": "identifier-parties-prenantes",
+      "difficulty": "medium",
+      "type": "multiple_choice",
+      "title": "Les acteurs d’une carrière sportive",
+      "statement": "Quels acteurs peuvent intervenir dans la construction de la carrière d’un joueur ?",
+      "options": [
+        {
+          "id": "a",
+          "text": "Le joueur."
+        },
+        {
+          "id": "b",
+          "text": "Le club."
+        },
+        {
+          "id": "c",
+          "text": "L’agent ou le représentant autorisé."
+        },
+        {
+          "id": "d",
+          "text": "L’encadrement sportif et médical."
+        },
+        {
+          "id": "e",
+          "text": "Une personne inconnue sur un réseau social devient automatiquement décisionnaire."
+        }
+      ],
+      "correctAnswerIds": [
+        "a",
+        "b",
+        "c",
+        "d"
+      ],
+      "explanation": "La carrière du joueur implique plusieurs acteurs possédant des rôles différents. Une personne extérieure ne devient pas décisionnaire simplement parce qu’elle contacte le joueur.",
+      "trap": "Accorder une autorité professionnelle à une personne sans vérifier son rôle ni sa légitimité.",
+      "errorTypeIfWrong": "knowledge",
+      "points": 2,
+      "estimatedSeconds": 75,
+      "confidenceRequired": true
+    },
+    {
+      "id": "diag-014",
+      "section": "sport-environment",
+      "skill": "analyser-interets",
+      "difficulty": "medium",
+      "type": "single_choice",
+      "title": "Identifier les intérêts en présence",
+      "statement": "Un club et un joueur négocient un engagement. Quelle attitude méthodologique est la plus correcte ?",
+      "options": [
+        {
+          "id": "a",
+          "text": "Supposer que les deux parties ont toujours exactement les mêmes intérêts."
+        },
+        {
+          "id": "b",
+          "text": "Identifier les objectifs, obligations et risques propres à chaque partie."
+        },
+        {
+          "id": "c",
+          "text": "Ignorer les conséquences à long terme."
+        },
+        {
+          "id": "d",
+          "text": "Se concentrer uniquement sur la rémunération."
+        }
+      ],
+      "correctAnswerIds": [
+        "b"
+      ],
+      "explanation": "Une négociation sérieuse exige de comprendre les intérêts, les obligations, les contraintes et les risques de chaque partie.",
+      "trap": "Réduire toute négociation à une seule question financière.",
+      "errorTypeIfWrong": "method",
+      "points": 1,
+      "estimatedSeconds": 60,
+      "confidenceRequired": true
+    },
+    {
+      "id": "diag-015",
+      "section": "sport-environment",
+      "skill": "proteger-confidentialite",
+      "difficulty": "medium",
+      "type": "single_choice",
+      "title": "Confidentialité professionnelle",
+      "statement": "Un joueur transmet à son représentant un document personnel contenant des informations confidentielles. Quelle attitude est la plus professionnelle ?",
+      "options": [
+        {
+          "id": "a",
+          "text": "Le publier pour démontrer que le dossier est réel."
+        },
+        {
+          "id": "b",
+          "text": "Le partager avec toutes les personnes intéressées."
+        },
+        {
+          "id": "c",
+          "text": "Le protéger et limiter son accès aux personnes légitimement concernées."
+        },
+        {
+          "id": "d",
+          "text": "Le transférer dans une conversation publique."
+        }
+      ],
+      "correctAnswerIds": [
+        "c"
+      ],
+      "explanation": "Les informations confidentielles doivent être protégées. Leur accès doit rester limité aux personnes autorisées et réellement concernées.",
+      "trap": "Confondre preuve professionnelle et diffusion incontrôlée d’un document.",
+      "errorTypeIfWrong": "knowledge",
+      "points": 1,
+      "estimatedSeconds": 45,
+      "confidenceRequired": true
+    },
+    {
+      "id": "diag-016",
+      "section": "football-regulations",
+      "skill": "choisir-source-fiable",
+      "difficulty": "easy",
+      "type": "single_choice",
+      "title": "Choisir une source réglementaire",
+      "statement": "Pour vérifier une règle applicable à une situation sportive, quelle source doit être privilégiée ?",
+      "options": [
+        {
+          "id": "a",
+          "text": "Une publication anonyme sur un réseau social."
+        },
+        {
+          "id": "b",
+          "text": "Le texte officiel publié par l’autorité compétente."
+        },
+        {
+          "id": "c",
+          "text": "Le souvenir d’une ancienne conversation."
+        },
+        {
+          "id": "d",
+          "text": "La première réponse trouvée sans vérifier sa date."
+        }
+      ],
+      "correctAnswerIds": [
+        "b"
+      ],
+      "explanation": "Le texte officiel et actualisé publié par l’autorité compétente doit constituer la source principale de vérification.",
+      "trap": "Prendre une explication secondaire pour la règle officielle elle-même.",
+      "errorTypeIfWrong": "source",
+      "points": 1,
+      "estimatedSeconds": 45,
+      "confidenceRequired": true
+    },
+    {
+      "id": "diag-017",
+      "section": "football-regulations",
+      "skill": "verifier-version",
+      "difficulty": "medium",
+      "type": "multiple_choice",
+      "title": "Vérifier un règlement",
+      "statement": "Avant d’appliquer une disposition réglementaire, quels éléments doivent être vérifiés ?",
+      "options": [
+        {
+          "id": "a",
+          "text": "L’autorité ayant publié le texte."
+        },
+        {
+          "id": "b",
+          "text": "La version ou la saison concernée."
+        },
+        {
+          "id": "c",
+          "text": "La date d’entrée en vigueur."
+        },
+        {
+          "id": "d",
+          "text": "L’existence éventuelle d’une modification récente."
+        },
+        {
+          "id": "e",
+          "text": "La popularité du document sur les réseaux sociaux."
+        }
+      ],
+      "correctAnswerIds": [
+        "a",
+        "b",
+        "c",
+        "d"
+      ],
+      "explanation": "Une règle peut avoir été modifiée, remplacée ou ne pas encore être entrée en vigueur. La source, la version, la date et les mises à jour doivent être contrôlées.",
+      "trap": "Utiliser un document authentique mais devenu obsolète.",
+      "errorTypeIfWrong": "source",
+      "points": 2,
+      "estimatedSeconds": 90,
+      "confidenceRequired": true
+    },
+    {
+      "id": "diag-018",
+      "section": "football-regulations",
+      "skill": "identifier-territoire",
+      "difficulty": "medium",
+      "type": "single_choice",
+      "title": "Territoire et règle applicable",
+      "statement": "Avant de déterminer quelle réglementation doit être étudiée, quelle information est particulièrement importante ?",
+      "options": [
+        {
+          "id": "a",
+          "text": "Le territoire et le contexte dans lesquels l’activité est exercée."
+        },
+        {
+          "id": "b",
+          "text": "La couleur du maillot du joueur."
+        },
+        {
+          "id": "c",
+          "text": "Le nombre d’abonnés du représentant."
+        },
+        {
+          "id": "d",
+          "text": "La préférence personnelle du candidat."
+        }
+      ],
+      "correctAnswerIds": [
+        "a"
+      ],
+      "explanation": "Le territoire, l’autorité compétente et la nature de l’activité peuvent modifier le cadre applicable. Cette vérification doit précéder la conclusion.",
+      "trap": "Appliquer automatiquement une règle sans vérifier son champ d’application.",
+      "errorTypeIfWrong": "method",
+      "points": 1,
+      "estimatedSeconds": 60,
+      "confidenceRequired": true
+    },
+    {
+      "id": "diag-019",
+      "section": "football-regulations",
+      "skill": "distinguer-regle-commentaire",
+      "difficulty": "medium",
+      "type": "single_choice",
+      "title": "Règle officielle ou commentaire",
+      "statement": "Un article de blog résume un règlement officiel. Une différence apparaît entre le résumé et le texte officiel. Quelle référence doit être retenue en priorité ?",
+      "options": [
+        {
+          "id": "a",
+          "text": "Le blog, car il est plus facile à lire."
+        },
+        {
+          "id": "b",
+          "text": "Le texte officiel dans sa version applicable."
+        },
+        {
+          "id": "c",
+          "text": "La réponse qui semble la plus avantageuse."
+        },
+        {
+          "id": "d",
+          "text": "Les deux textes sont automatiquement équivalents."
+        }
+      ],
+      "correctAnswerIds": [
+        "b"
+      ],
+      "explanation": "Un commentaire peut faciliter la compréhension, mais il ne remplace pas la disposition officielle applicable.",
+      "trap": "Confondre une ressource pédagogique avec la source juridique ou réglementaire principale.",
+      "errorTypeIfWrong": "source",
+      "points": 1,
+      "estimatedSeconds": 60,
+      "confidenceRequired": true
+    },
+    {
+      "id": "diag-020",
+      "section": "football-regulations",
+      "skill": "identifier-conflit-interets",
+      "difficulty": "hard",
+      "type": "single_choice",
+      "title": "Détecter un conflit d’intérêts",
+      "statement": "Une personne intervient dans une opération et semble défendre simultanément plusieurs intérêts potentiellement opposés. Quelle doit être la première réaction professionnelle ?",
+      "options": [
+        {
+          "id": "a",
+          "text": "Ignorer la situation si l’opération paraît financièrement intéressante."
+        },
+        {
+          "id": "b",
+          "text": "Identifier les parties représentées, vérifier les règles applicables et évaluer le conflit potentiel."
+        },
+        {
+          "id": "c",
+          "text": "Supposer que tous les intérêts sont compatibles."
+        },
+        {
+          "id": "d",
+          "text": "Cacher la situation aux parties concernées."
+        }
+      ],
+      "correctAnswerIds": [
+        "b"
+      ],
+      "explanation": "Un conflit potentiel doit être identifié, documenté et analysé au regard des intérêts représentés et des règles applicables.",
+      "trap": "Considérer le résultat financier comme plus important que l’indépendance et la transparence.",
+      "errorTypeIfWrong": "method",
+      "points": 2,
+      "estimatedSeconds": 90,
+      "confidenceRequired": true
+    },
+    {
+      "id": "diag-021",
+      "section": "legal-reading",
+      "skill": "identifier-conditions-alternatives",
+      "difficulty": "medium",
+      "type": "single_choice",
+      "title": "Conditions alternatives",
+      "statement": "Une règle prévoit qu’une demande peut être acceptée lorsqu’elle est accompagnée d’une autorisation écrite ou d’une décision officielle équivalente. Le candidat possède uniquement la décision officielle équivalente. Quelle analyse est correcte ?",
+      "options": [
+        {
+          "id": "a",
+          "text": "La demande ne peut jamais être acceptée sans les deux documents."
+        },
+        {
+          "id": "b",
+          "text": "La condition peut être remplie car le texte prévoit deux possibilités alternatives."
+        },
+        {
+          "id": "c",
+          "text": "Le mot « ou » signifie que le candidat ne doit fournir aucun document."
+        },
+        {
+          "id": "d",
+          "text": "La décision officielle n’a aucune valeur."
+        }
+      ],
+      "correctAnswerIds": [
+        "b"
+      ],
+      "explanation": "Le mot « ou » indique ici que l’une des deux possibilités peut suffire. Il faut distinguer les conditions alternatives des conditions cumulatives introduites par « et ».",
+      "trap": "Interpréter le mot « ou » comme si les deux conditions étaient obligatoires.",
+      "errorTypeIfWrong": "comprehension",
+      "points": 1,
+      "estimatedSeconds": 60,
+      "confidenceRequired": true
+    },
+    {
+      "id": "diag-022",
+      "section": "legal-reading",
+      "skill": "analyser-delai",
+      "difficulty": "medium",
+      "type": "single_choice",
+      "title": "Comprendre une date limite",
+      "statement": "Un texte impose la transmission d’un document « au plus tard le 15 septembre ». Le document est transmis le 16 septembre. Quelle conclusion est la plus logique ?",
+      "options": [
+        {
+          "id": "a",
+          "text": "Le délai est respecté car un seul jour de retard est toujours accepté."
+        },
+        {
+          "id": "b",
+          "text": "Le délai n’est pas respecté, sauf si une règle particulière prévoit une tolérance ou une prorogation."
+        },
+        {
+          "id": "c",
+          "text": "La date n’a aucune importance."
+        },
+        {
+          "id": "d",
+          "text": "Le délai est automatiquement prolongé jusqu’à la fin du mois."
+        }
+      ],
+      "correctAnswerIds": [
+        "b"
+      ],
+      "explanation": "L’expression « au plus tard » fixe une limite. Un dépassement ne peut être considéré comme acceptable que si un texte applicable prévoit une exception, une prorogation ou une règle particulière.",
+      "trap": "Inventer une tolérance qui n’est pas mentionnée dans la règle.",
+      "errorTypeIfWrong": "comprehension",
+      "points": 1,
+      "estimatedSeconds": 60,
+      "confidenceRequired": true
+    },
+    {
+      "id": "diag-023",
+      "section": "legal-reading",
+      "skill": "distinguer-obligation-faculte",
+      "difficulty": "medium",
+      "type": "single_choice",
+      "title": "Obligation ou possibilité",
+      "statement": "Un règlement indique qu’une personne « peut demander un réexamen ». Quelle interprétation est correcte ?",
+      "options": [
+        {
+          "id": "a",
+          "text": "La personne est obligée de demander un réexamen."
+        },
+        {
+          "id": "b",
+          "text": "La personne dispose d’une possibilité, mais elle n’est pas nécessairement obligée de l’utiliser."
+        },
+        {
+          "id": "c",
+          "text": "Le réexamen est automatiquement accordé."
+        },
+        {
+          "id": "d",
+          "text": "Le mot « peut » signifie que la demande est interdite."
+        }
+      ],
+      "correctAnswerIds": [
+        "b"
+      ],
+      "explanation": "Le verbe « peut » exprime généralement une faculté ou une possibilité. Il doit être distingué des formulations obligatoires telles que « doit » ou « est tenu de ».",
+      "trap": "Confondre une possibilité ouverte par le texte avec une obligation.",
+      "errorTypeIfWrong": "comprehension",
+      "points": 1,
+      "estimatedSeconds": 45,
+      "confidenceRequired": true
+    },
+    {
+      "id": "diag-024",
+      "section": "legal-reading",
+      "skill": "identifier-champ-application",
+      "difficulty": "hard",
+      "type": "multiple_choice",
+      "title": "Vérifier le champ d’application",
+      "statement": "Avant d’appliquer une règle à une situation, quels éléments faut-il vérifier ?",
+      "options": [
+        {
+          "id": "a",
+          "text": "Les personnes auxquelles la règle s’applique."
+        },
+        {
+          "id": "b",
+          "text": "Le territoire concerné."
+        },
+        {
+          "id": "c",
+          "text": "La période ou la date d’application."
+        },
+        {
+          "id": "d",
+          "text": "La nature de l’activité ou de l’opération."
+        },
+        {
+          "id": "e",
+          "text": "La réponse qui paraît la plus populaire."
+        }
+      ],
+      "correctAnswerIds": [
+        "a",
+        "b",
+        "c",
+        "d"
+      ],
+      "explanation": "Le champ d’application d’une règle peut dépendre des personnes, du territoire, de la période et de la nature de l’activité concernée.",
+      "trap": "Appliquer une règle correcte à une situation qui ne relève pas de son champ d’application.",
+      "errorTypeIfWrong": "method",
+      "points": 2,
+      "estimatedSeconds": 90,
+      "confidenceRequired": true
+    },
+    {
+      "id": "diag-025",
+      "section": "legal-reading",
+      "skill": "resoudre-contradiction-textes",
+      "difficulty": "hard",
+      "type": "single_choice",
+      "title": "Deux textes semblent se contredire",
+      "statement": "Deux documents semblent apporter des réponses différentes à une même situation. Quelle méthode est la plus sérieuse ?",
+      "options": [
+        {
+          "id": "a",
+          "text": "Choisir le texte le plus court."
+        },
+        {
+          "id": "b",
+          "text": "Comparer leur autorité, leur champ d’application, leur date et leur version."
+        },
+        {
+          "id": "c",
+          "text": "Choisir automatiquement le document le plus ancien."
+        },
+        {
+          "id": "d",
+          "text": "Ignorer les deux textes et répondre selon son intuition."
+        }
+      ],
+      "correctAnswerIds": [
+        "b"
+      ],
+      "explanation": "Une contradiction apparente peut être résolue en vérifiant l’autorité des textes, leur spécialité, leur date, leur version et leur champ d’application.",
+      "trap": "Choisir une règle uniquement parce qu’elle paraît plus simple ou plus avantageuse.",
+      "errorTypeIfWrong": "method",
+      "points": 2,
+      "estimatedSeconds": 90,
+      "confidenceRequired": true
+    },
+    {
+      "id": "diag-026",
+      "section": "contracts",
+      "skill": "identifier-parties",
+      "difficulty": "easy",
+      "type": "single_choice",
+      "title": "Identifier les parties au contrat",
+      "statement": "Pourquoi faut-il identifier précisément les parties signataires d’un contrat ?",
+      "options": [
+        {
+          "id": "a",
+          "text": "Pour savoir quelles personnes ou organisations sont engagées par les obligations prévues."
+        },
+        {
+          "id": "b",
+          "text": "Uniquement pour choisir la police d’écriture."
+        },
+        {
+          "id": "c",
+          "text": "Parce que toutes les personnes citées dans le document deviennent automatiquement parties."
+        },
+        {
+          "id": "d",
+          "text": "Cela n’a aucune conséquence juridique."
+        }
+      ],
+      "correctAnswerIds": [
+        "a"
+      ],
+      "explanation": "L’identification des parties permet de déterminer qui possède des droits, qui supporte des obligations et qui peut être responsable en cas de non-respect.",
+      "trap": "Confondre une personne simplement mentionnée avec une partie juridiquement engagée.",
+      "errorTypeIfWrong": "knowledge",
+      "points": 1,
+      "estimatedSeconds": 45,
+      "confidenceRequired": true
+    },
+    {
+      "id": "diag-027",
+      "section": "contracts",
+      "skill": "analyser-duree",
+      "difficulty": "medium",
+      "type": "multiple_choice",
+      "title": "Analyser la durée d’un contrat",
+      "statement": "Quels éléments doivent être recherchés pour comprendre la durée d’un contrat ?",
+      "options": [
+        {
+          "id": "a",
+          "text": "La date de début."
+        },
+        {
+          "id": "b",
+          "text": "La date de fin ou la durée prévue."
+        },
+        {
+          "id": "c",
+          "text": "Les conditions de renouvellement."
+        },
+        {
+          "id": "d",
+          "text": "Les possibilités de résiliation anticipée."
+        },
+        {
+          "id": "e",
+          "text": "La longueur physique du document."
+        }
+      ],
+      "correctAnswerIds": [
+        "a",
+        "b",
+        "c",
+        "d"
+      ],
+      "explanation": "La durée d’un contrat ne se limite pas à une date de fin. Il faut également vérifier son commencement, son renouvellement et les conditions permettant d’y mettre fin avant son terme.",
+      "trap": "Lire uniquement la date de signature et supposer qu’elle correspond nécessairement au début ou à la fin du contrat.",
+      "errorTypeIfWrong": "method",
+      "points": 2,
+      "estimatedSeconds": 90,
+      "confidenceRequired": true
+    },
+    {
+      "id": "diag-028",
+      "section": "contracts",
+      "skill": "identifier-obligations-reciproques",
+      "difficulty": "medium",
+      "type": "single_choice",
+      "title": "Obligations réciproques",
+      "statement": "Dans un contrat, chaque partie possède des obligations. Quelle méthode est la plus correcte ?",
+      "options": [
+        {
+          "id": "a",
+          "text": "Analyser uniquement les obligations de l’autre partie."
+        },
+        {
+          "id": "b",
+          "text": "Établir séparément les obligations, droits, délais et risques de chaque partie."
+        },
+        {
+          "id": "c",
+          "text": "Supposer que toutes les obligations sont identiques."
+        },
+        {
+          "id": "d",
+          "text": "Ignorer les obligations qui ne sont pas financières."
+        }
+      ],
+      "correctAnswerIds": [
+        "b"
+      ],
+      "explanation": "Une analyse complète distingue les engagements de chaque partie. Les obligations peuvent porter sur des paiements, des documents, des comportements, des délais ou des résultats précisément définis.",
+      "trap": "Examiner uniquement ce que l’autre partie doit faire et oublier les obligations de son propre client.",
+      "errorTypeIfWrong": "method",
+      "points": 1,
+      "estimatedSeconds": 60,
+      "confidenceRequired": true
+    },
+    {
+      "id": "diag-029",
+      "section": "contracts",
+      "skill": "verifier-resiliation",
+      "difficulty": "hard",
+      "type": "single_choice",
+      "title": "Résiliation d’un contrat",
+      "statement": "Une partie souhaite mettre fin immédiatement à un contrat. Quelle doit être la première étape d’analyse ?",
+      "options": [
+        {
+          "id": "a",
+          "text": "Annoncer publiquement la fin du contrat."
+        },
+        {
+          "id": "b",
+          "text": "Vérifier les clauses de résiliation, les motifs possibles, la procédure et les délais."
+        },
+        {
+          "id": "c",
+          "text": "Considérer que tout contrat peut être interrompu librement et sans conséquence."
+        },
+        {
+          "id": "d",
+          "text": "Supprimer toutes les copies du contrat."
+        }
+      ],
+      "correctAnswerIds": [
+        "b"
+      ],
+      "explanation": "La résiliation peut dépendre de motifs, d’un préavis, d’une notification formelle ou de conséquences financières. Le contrat et les règles applicables doivent être analysés avant d’agir.",
+      "trap": "Confondre la volonté de mettre fin au contrat avec le droit de le faire immédiatement et sans conséquence.",
+      "errorTypeIfWrong": "method",
+      "points": 2,
+      "estimatedSeconds": 90,
+      "confidenceRequired": true
+    },
+    {
+      "id": "diag-030",
+      "section": "contracts",
+      "skill": "conserver-preuves",
+      "difficulty": "medium",
+      "type": "multiple_choice",
+      "title": "Conserver les preuves d’un engagement",
+      "statement": "Quels éléments peuvent être importants pour démontrer l’existence ou l’exécution d’un engagement ?",
+      "options": [
+        {
+          "id": "a",
+          "text": "Le contrat signé."
+        },
+        {
+          "id": "b",
+          "text": "Les échanges professionnels pertinents."
+        },
+        {
+          "id": "c",
+          "text": "Les confirmations de transmission ou de réception."
+        },
+        {
+          "id": "d",
+          "text": "Les documents attestant les actions réalisées."
+        },
+        {
+          "id": "e",
+          "text": "Une rumeur non vérifiable."
+        }
+      ],
+      "correctAnswerIds": [
+        "a",
+        "b",
+        "c",
+        "d"
+      ],
+      "explanation": "La traçabilité permet de démontrer les engagements pris, les informations transmises, les délais respectés et les actions effectivement réalisées.",
+      "trap": "Considérer que la signature suffit toujours à prouver toutes les actions effectuées après la conclusion du contrat.",
+      "errorTypeIfWrong": "knowledge",
+      "points": 2,
+      "estimatedSeconds": 90,
+      "confidenceRequired": true
+    },
+    {
+      "id": "diag-031",
+      "section": "contracts",
+      "skill": "identifier-clause-ambigue",
+      "difficulty": "hard",
+      "type": "single_choice",
+      "title": "Détecter une clause imprécise",
+      "statement": "Un contrat indique qu’une partie doit transmettre les documents nécessaires « rapidement », sans préciser de délai ni définir les documents concernés. Quelle analyse est la plus professionnelle ?",
+      "options": [
+        {
+          "id": "a",
+          "text": "La clause est parfaitement précise et ne nécessite aucune vérification."
+        },
+        {
+          "id": "b",
+          "text": "Il faut identifier les documents concernés et clarifier le délai attendu afin de réduire le risque de désaccord."
+        },
+        {
+          "id": "c",
+          "text": "La partie peut décider seule de ne jamais transmettre les documents."
+        },
+        {
+          "id": "d",
+          "text": "Le mot « rapidement » signifie toujours exactement vingt-quatre heures."
+        }
+      ],
+      "correctAnswerIds": [
+        "b"
+      ],
+      "explanation": "Une obligation imprécise peut provoquer un désaccord sur son contenu ou son délai d’exécution. Une analyse sérieuse recherche les éléments manquants et recommande de les clarifier.",
+      "trap": "Inventer une définition précise qui n’apparaît pas dans le contrat.",
+      "errorTypeIfWrong": "comprehension",
+      "points": 2,
+      "estimatedSeconds": 90,
+      "confidenceRequired": true
+    },
+    {
+      "id": "diag-032",
+      "section": "sport-environment",
+      "skill": "verifier-opportunite",
+      "difficulty": "medium",
+      "type": "multiple_choice",
+      "title": "Vérifier une opportunité sportive",
+      "statement": "Un joueur reçoit une proposition présentée comme urgente par une personne inconnue. Quelles vérifications sont prioritaires avant de transmettre des documents ou d’accepter une démarche ?",
+      "options": [
+        {
+          "id": "a",
+          "text": "L’identité et la fonction réelle de l’interlocuteur."
+        },
+        {
+          "id": "b",
+          "text": "L’existence de l’organisation ou du club mentionné."
+        },
+        {
+          "id": "c",
+          "text": "Les conditions précises de la proposition."
+        },
+        {
+          "id": "d",
+          "text": "La légitimité de la demande de documents ou de paiement."
+        },
+        {
+          "id": "e",
+          "text": "Le nombre d’émojis utilisés dans le message."
+        }
+      ],
+      "correctAnswerIds": [
+        "a",
+        "b",
+        "c",
+        "d"
+      ],
+      "explanation": "L’urgence ne dispense jamais de vérifier l’identité de l’interlocuteur, la réalité de l’organisation, les conditions proposées et la légitimité des demandes formulées.",
+      "trap": "Confondre pression temporelle et crédibilité professionnelle.",
+      "errorTypeIfWrong": "method",
+      "points": 2,
+      "estimatedSeconds": 90,
+      "confidenceRequired": true
+    },
+    {
+      "id": "diag-033",
+      "section": "football-regulations",
+      "skill": "identifier-autorite-competente",
+      "difficulty": "medium",
+      "type": "single_choice",
+      "title": "Identifier l’autorité compétente",
+      "statement": "Une situation concerne l’enregistrement d’un joueur dans une compétition déterminée. Quelle doit être la première recherche réglementaire ?",
+      "options": [
+        {
+          "id": "a",
+          "text": "Identifier l’autorité et les règlements compétents pour cette compétition et cette opération."
+        },
+        {
+          "id": "b",
+          "text": "Utiliser automatiquement n’importe quel règlement trouvé en ligne."
+        },
+        {
+          "id": "c",
+          "text": "Appliquer uniquement les habitudes d’un autre sport."
+        },
+        {
+          "id": "d",
+          "text": "Choisir la règle la plus avantageuse sans vérifier son origine."
+        }
+      ],
+      "correctAnswerIds": [
+        "a"
+      ],
+      "explanation": "Avant d’appliquer une règle, il faut déterminer quelle autorité organise ou contrôle l’opération et quels textes sont applicables à la compétition concernée.",
+      "trap": "Utiliser un texte officiel mais provenant d’une autorité qui n’est pas compétente pour la situation.",
+      "errorTypeIfWrong": "source",
+      "points": 1,
+      "estimatedSeconds": 60,
+      "confidenceRequired": true
+    },
+    {
+      "id": "diag-034",
+      "section": "football-regulations",
+      "skill": "mettre-a-jour-connaissances",
+      "difficulty": "medium",
+      "type": "multiple_choice",
+      "title": "Mise à jour réglementaire",
+      "statement": "Une nouvelle version d’un règlement est publiée avant une session d’examen. Quelle méthode de révision est la plus fiable ?",
+      "options": [
+        {
+          "id": "a",
+          "text": "Comparer la nouvelle version avec la précédente."
+        },
+        {
+          "id": "b",
+          "text": "Identifier les articles modifiés, ajoutés ou supprimés."
+        },
+        {
+          "id": "c",
+          "text": "Vérifier la date d’entrée en vigueur."
+        },
+        {
+          "id": "d",
+          "text": "Mettre à jour les fiches, questions et corrections concernées."
+        },
+        {
+          "id": "e",
+          "text": "Continuer à apprendre uniquement l’ancienne version."
+        }
+      ],
+      "correctAnswerIds": [
+        "a",
+        "b",
+        "c",
+        "d"
+      ],
+      "explanation": "Une mise à jour sérieuse exige de comparer les versions, repérer les changements, vérifier leur entrée en vigueur et actualiser les supports pédagogiques associés.",
+      "trap": "Supposer qu’un cours déjà appris reste automatiquement valable après la publication d’un nouveau texte.",
+      "errorTypeIfWrong": "source",
+      "points": 2,
+      "estimatedSeconds": 90,
+      "confidenceRequired": true
+    },
+    {
+      "id": "diag-035",
+      "section": "football-regulations",
+      "skill": "proteger-joueur-mineur",
+      "difficulty": "hard",
+      "type": "single_choice",
+      "title": "Situation impliquant un joueur mineur",
+      "statement": "Une opération concerne un joueur mineur. Quelle attitude méthodologique doit être adoptée avant toute conclusion ?",
+      "options": [
+        {
+          "id": "a",
+          "text": "Traiter automatiquement le mineur comme un joueur majeur."
+        },
+        {
+          "id": "b",
+          "text": "Vérifier les règles particulières applicables aux mineurs, les autorisations nécessaires et le rôle des représentants légaux."
+        },
+        {
+          "id": "c",
+          "text": "Ignorer l’âge du joueur si l’opération paraît avantageuse."
+        },
+        {
+          "id": "d",
+          "text": "Considérer qu’aucune règle sportive ne peut concerner les mineurs."
+        }
+      ],
+      "correctAnswerIds": [
+        "b"
+      ],
+      "explanation": "L’âge du joueur peut déclencher des règles et protections particulières. Le candidat doit les identifier avant d’appliquer les règles générales.",
+      "trap": "Appliquer immédiatement le régime général sans rechercher les dispositions spécifiques aux mineurs.",
+      "errorTypeIfWrong": "method",
+      "points": 2,
+      "estimatedSeconds": 90,
+      "confidenceRequired": true
+    },
+    {
+      "id": "diag-036",
+      "section": "practical-cases",
+      "skill": "selectionner-faits-utiles",
+      "difficulty": "medium",
+      "type": "multiple_choice",
+      "title": "Sélectionner les faits pertinents",
+      "statement": "Dans un cas pratique, quels faits doivent être retenus en priorité ?",
+      "options": [
+        {
+          "id": "a",
+          "text": "Les faits qui influencent la règle applicable."
+        },
+        {
+          "id": "b",
+          "text": "Les dates importantes."
+        },
+        {
+          "id": "c",
+          "text": "L’identité et la qualité des personnes concernées."
+        },
+        {
+          "id": "d",
+          "text": "Les actions, documents et engagements liés au problème."
+        },
+        {
+          "id": "e",
+          "text": "Tous les détails décoratifs sans rapport avec la question."
+        }
+      ],
+      "correctAnswerIds": [
+        "a",
+        "b",
+        "c",
+        "d"
+      ],
+      "explanation": "Les faits pertinents sont ceux qui permettent de déterminer la règle applicable, son champ d’application et les conséquences possibles.",
+      "trap": "Recopier l’intégralité du cas sans distinguer les faits utiles des informations secondaires.",
+      "errorTypeIfWrong": "method",
+      "points": 2,
+      "estimatedSeconds": 90,
+      "confidenceRequired": true
+    },
+    {
+      "id": "diag-037",
+      "section": "practical-cases",
+      "skill": "appliquer-regle-aux-faits",
+      "difficulty": "hard",
+      "type": "single_choice",
+      "title": "Appliquer la règle",
+      "statement": "Après avoir identifié la règle applicable, que doit faire le candidat avant de conclure ?",
+      "options": [
+        {
+          "id": "a",
+          "text": "Expliquer précisément comment les conditions de la règle correspondent ou non aux faits du cas."
+        },
+        {
+          "id": "b",
+          "text": "Recopier la règle sans jamais parler des faits."
+        },
+        {
+          "id": "c",
+          "text": "Donner uniquement son opinion personnelle."
+        },
+        {
+          "id": "d",
+          "text": "Changer les faits afin qu’ils correspondent à la réponse souhaitée."
+        }
+      ],
+      "correctAnswerIds": [
+        "a"
+      ],
+      "explanation": "L’application constitue le lien entre la règle et les faits. Le candidat doit vérifier chaque condition pertinente avant de formuler sa conclusion.",
+      "trap": "Présenter une règle correcte mais ne jamais démontrer pourquoi elle conduit à la réponse choisie.",
+      "errorTypeIfWrong": "method",
+      "points": 2,
+      "estimatedSeconds": 90,
+      "confidenceRequired": true
+    },
+    {
+      "id": "diag-038",
+      "section": "practical-cases",
+      "skill": "gerer-incertitude",
+      "difficulty": "hard",
+      "type": "single_choice",
+      "title": "Cas pratique incomplet",
+      "statement": "Le cas ne précise pas une information indispensable pour donner une réponse certaine. Quelle méthode est la plus rigoureuse ?",
+      "options": [
+        {
+          "id": "a",
+          "text": "Inventer l’information manquante sans le signaler."
+        },
+        {
+          "id": "b",
+          "text": "Identifier l’information manquante et présenter les conclusions possibles selon les différentes hypothèses."
+        },
+        {
+          "id": "c",
+          "text": "Refuser systématiquement de répondre à tout le cas."
+        },
+        {
+          "id": "d",
+          "text": "Choisir la conclusion la plus avantageuse."
+        }
+      ],
+      "correctAnswerIds": [
+        "b"
+      ],
+      "explanation": "Lorsqu’un fait déterminant manque, le candidat doit le signaler et raisonner sous plusieurs hypothèses au lieu de présenter une certitude artificielle.",
+      "trap": "Transformer une hypothèse personnelle en fait établi.",
+      "errorTypeIfWrong": "method",
+      "points": 2,
+      "estimatedSeconds": 90,
+      "confidenceRequired": true
+    },
+    {
+      "id": "diag-039",
+      "section": "exam-method",
+      "skill": "relire-reponses",
+      "difficulty": "medium",
+      "type": "multiple_choice",
+      "title": "Utiliser le temps de relecture",
+      "statement": "Pendant la relecture finale d’un QCM, quelles vérifications sont prioritaires ?",
+      "options": [
+        {
+          "id": "a",
+          "text": "Les questions restées sans réponse."
+        },
+        {
+          "id": "b",
+          "text": "Les négations et formulations absolues."
+        },
+        {
+          "id": "c",
+          "text": "Le nombre de réponses attendues."
+        },
+        {
+          "id": "d",
+          "text": "Les réponses données avec une faible confiance."
+        },
+        {
+          "id": "e",
+          "text": "Changer toutes les réponses correctes uniquement par nervosité."
+        }
+      ],
+      "correctAnswerIds": [
+        "a",
+        "b",
+        "c",
+        "d"
+      ],
+      "explanation": "La relecture doit cibler les risques identifiables : omissions, négations, réponses multiples et décisions prises avec une forte incertitude.",
+      "trap": "Modifier ses réponses sans raison précise uniquement parce que le temps restant provoque du doute.",
+      "errorTypeIfWrong": "attention",
+      "points": 2,
+      "estimatedSeconds": 75,
+      "confidenceRequired": true
+    },
+    {
+      "id": "diag-040",
+      "section": "exam-method",
+      "skill": "decider-sous-incertitude",
+      "difficulty": "hard",
+      "type": "single_choice",
+      "title": "Décider sous incertitude",
+      "statement": "Après analyse, un candidat hésite encore entre deux réponses. Quelle démarche est la plus efficace ?",
+      "options": [
+        {
+          "id": "a",
+          "text": "Comparer chaque réponse aux conditions exactes de la question et éliminer celle qui contient une incompatibilité."
+        },
+        {
+          "id": "b",
+          "text": "Choisir automatiquement la première réponse."
+        },
+        {
+          "id": "c",
+          "text": "Choisir celle qui utilise le vocabulaire le plus compliqué."
+        },
+        {
+          "id": "d",
+          "text": "Quitter l’examen."
+        }
+      ],
+      "correctAnswerIds": [
+        "a"
+      ],
+      "explanation": "Lorsque deux options paraissent possibles, le candidat doit revenir aux faits, aux conditions de la règle et aux mots exacts de la consigne pour rechercher une incompatibilité.",
+      "trap": "Remplacer le raisonnement par une règle artificielle liée à la longueur ou à la position de la réponse.",
+      "errorTypeIfWrong": "method",
+      "points": 2,
+      "estimatedSeconds": 90,
+      "confidenceRequired": true
+    }
+  ]
+}

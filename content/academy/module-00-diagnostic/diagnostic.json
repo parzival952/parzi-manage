@@ -1,0 +1,67 @@
+{
+  "id": "diagnostic-initial-v1",
+  "title": "Diagnostic initial PARZI Academy",
+  "durationMinutes": 75,
+  "totalQuestions": 40,
+  "sections": [
+    {
+      "id": "legal-reading",
+      "title": "Lecture et compréhension juridique",
+      "questionCount": 8,
+      "durationMinutes": 12
+    },
+    {
+      "id": "contracts",
+      "title": "Droit des contrats",
+      "questionCount": 8,
+      "durationMinutes": 12
+    },
+    {
+      "id": "sport-environment",
+      "title": "Environnement sportif",
+      "questionCount": 6,
+      "durationMinutes": 10
+    },
+    {
+      "id": "football-regulations",
+      "title": "Réglementation du football",
+      "questionCount": 8,
+      "durationMinutes": 14
+    },
+    {
+      "id": "practical-cases",
+      "title": "Cas pratiques",
+      "questionCount": 5,
+      "durationMinutes": 20
+    },
+    {
+      "id": "exam-method",
+      "title": "Méthode et gestion du temps",
+      "questionCount": 5,
+      "durationMinutes": 7
+    }
+  ],
+  "confidenceRequired": true,
+  "confidenceScale": [
+    {
+      "value": 1,
+      "label": "Je réponds presque au hasard"
+    },
+    {
+      "value": 2,
+      "label": "Je suis très incertain"
+    },
+    {
+      "value": 3,
+      "label": "Je pense avoir raison"
+    },
+    {
+      "value": 4,
+      "label": "Je suis assez sûr"
+    },
+    {
+      "value": 5,
+      "label": "Je suis totalement certain"
+    }
+  ]
+}

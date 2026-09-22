@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="96" height="96" viewBox="0 0 96 96" role="img" aria-labelledby="title desc">
+  <title id="title">Prototype vectoriel PZ A v0.1</title>
+  <desc id="desc">Monogramme monochrome de recherche combinant une silhouette de P et un Z en espace négatif.</desc>
+  <path
+    fill="currentColor"
+    fill-rule="evenodd"
+    d="M16 10H58C75 10 86 20 86 36C86 53 75 62 58 62H40L34 86H16V10ZM29 24H68V34L47 49H68V55H29V47L49 34H29V24Z"
+  />
+</svg>

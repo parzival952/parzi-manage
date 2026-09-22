@@ -1,0 +1,5 @@
+# Sauvegardes et exports de production — ne jamais committer
+parzi_backup_*.sql
+*.production.sql
+backups/
+exports/private/

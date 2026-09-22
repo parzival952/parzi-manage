@@ -1,0 +1,70 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="1040" viewBox="0 0 1200 1040" role="img" aria-labelledby="title desc">
+  <title id="title">Architecture produit PARZI v0.1</title>
+  <desc id="desc">Comparaison des endossements horizontaux et empilés pour PARZI Manage et PARZI Academy.</desc>
+  <defs>
+    <path id="mark-v02" fill-rule="evenodd" d="M12 12H60C75 12 84 21 84 36C84 51 75 60 60 60H42L36 84H12V12ZM30 24H66V36L48 48H66V54H30V48L48 36H30V24Z" />
+    <g id="wordmark-v02">
+      <path fill-rule="evenodd" d="M0 8H19C29 8 35 13 35 22C35 31 29 36 19 36H9V56H0V8ZM9 20L15 16H20L26 20V24L20 28H15L9 24V20Z" />
+      <path fill-rule="evenodd" d="M43 56L59 8H70L86 56H76L72 44H57L53 56H43ZM59 36H70L66 20H63L59 36Z" />
+      <path fill-rule="evenodd" d="M96 8H115C125 8 131 13 131 22C131 29 127 33 121 35L135 56H124L111 36H105V56H96V8ZM105 20L111 16H116L122 20V24L116 28H111L105 24V20Z" />
+      <path d="M143 8H181V17L157 47H181V56H143V47L167 17H143V8Z" />
+      <path d="M194 8H214L218 12V16H211V48H218V56H198L194 52V48H201V16H194V8Z" />
+    </g>
+  </defs>
+
+  <rect width="1200" height="1040" fill="#F8F5EF" />
+  <g font-family="Arial, Helvetica, sans-serif">
+    <text x="72" y="62" fill="#171717" font-size="28" font-weight="700">PARZI — architecture produit v0.1</text>
+    <text x="72" y="94" fill="#666158" font-size="16">Marque mère dominante ; descripteurs provisoires neutres ; aucun territoire couleur appliqué.</text>
+
+    <rect x="72" y="132" width="1056" height="318" rx="16" fill="#FFFFFF" stroke="#D7D2C8" />
+    <text x="104" y="176" fill="#171717" font-size="18" font-weight="700">A — ENDOSSEMENT HORIZONTAL</text>
+    <text x="104" y="202" fill="#666158" font-size="14">Format primaire recommandé pour les espaces larges</text>
+
+    <g transform="translate(134 230)" fill="#171717">
+      <g transform="scale(0.82)"><use href="#mark-v02" /></g>
+      <g transform="translate(108 2) scale(1.18)"><use href="#wordmark-v02" /></g>
+      <path d="M388 8V72" stroke="#9B958C" stroke-width="3" />
+      <text x="422" y="56" font-family="Arial, Helvetica, sans-serif" font-size="38" font-weight="600">Manage</text>
+    </g>
+
+    <g transform="translate(134 338)" fill="#171717">
+      <g transform="scale(0.82)"><use href="#mark-v02" /></g>
+      <g transform="translate(108 2) scale(1.18)"><use href="#wordmark-v02" /></g>
+      <path d="M388 8V72" stroke="#9B958C" stroke-width="3" />
+      <text x="422" y="56" font-family="Arial, Helvetica, sans-serif" font-size="38" font-weight="600">Academy</text>
+    </g>
+
+    <rect x="72" y="478" width="1056" height="360" rx="16" fill="#FFFFFF" stroke="#D7D2C8" />
+    <text x="104" y="522" fill="#171717" font-size="18" font-weight="700">B — ENDOSSEMENT EMPILÉ</text>
+    <text x="104" y="548" fill="#666158" font-size="14">Alternative responsive pour espaces étroits</text>
+
+    <g transform="translate(142 590)" fill="#171717">
+      <g transform="scale(0.78)"><use href="#mark-v02" /></g>
+      <g transform="translate(102 0) scale(1.12)"><use href="#wordmark-v02" /></g>
+      <text x="102" y="102" font-family="Arial, Helvetica, sans-serif" font-size="27" font-weight="600" letter-spacing="2">Manage</text>
+      <path d="M102 116H346" stroke="#9B958C" stroke-width="3" />
+    </g>
+
+    <g transform="translate(648 590)" fill="#171717">
+      <g transform="scale(0.78)"><use href="#mark-v02" /></g>
+      <g transform="translate(102 0) scale(1.12)"><use href="#wordmark-v02" /></g>
+      <text x="102" y="102" font-family="Arial, Helvetica, sans-serif" font-size="27" font-weight="600" letter-spacing="2">Academy</text>
+      <path d="M102 116H364" stroke="#9B958C" stroke-width="3" />
+    </g>
+
+    <text x="142" y="786" fill="#666158" font-size="14">Le descripteur reste subordonné au bloc PARZI.</text>
+    <text x="648" y="786" fill="#666158" font-size="14">La longueur d’Academy ne modifie pas le maître.</text>
+
+    <rect x="72" y="866" width="1056" height="126" rx="16" fill="#171717" />
+    <text x="104" y="904" fill="#BDB6AA" font-size="14" font-weight="700">INVERSION MONOCHROME — PARZI MANAGE</text>
+    <g transform="translate(350 916)" fill="#FFFFFF">
+      <g transform="scale(0.58)"><use href="#mark-v02" /></g>
+      <g transform="translate(78 0) scale(0.84)"><use href="#wordmark-v02" /></g>
+      <path d="M278 5V52" stroke="#FFFFFF" stroke-opacity="0.45" stroke-width="2" />
+      <text x="300" y="42" font-family="Arial, Helvetica, sans-serif" font-size="28" font-weight="600">Manage</text>
+    </g>
+
+    <text x="72" y="1024" fill="#666158" font-size="15">Les descripteurs utilisent une police système de démonstration ; leur typographie finale n’est pas sélectionnée.</text>
+  </g>
+</svg>

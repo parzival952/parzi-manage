@@ -1,0 +1,65 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="760" viewBox="0 0 1200 760" role="img" aria-labelledby="title desc">
+  <title id="title">Construction géométrique du prototype PZ A v0.1</title>
+  <desc id="desc">Grille de 96 unités montrant la silhouette extérieure du P et le Z en espace négatif.</desc>
+  <defs>
+    <pattern id="minor-grid" width="30" height="30" patternUnits="userSpaceOnUse">
+      <path d="M30 0H0V30" fill="none" stroke="#DED9D0" stroke-width="1" />
+    </pattern>
+    <pattern id="major-grid" width="120" height="120" patternUnits="userSpaceOnUse">
+      <rect width="120" height="120" fill="url(#minor-grid)" />
+      <path d="M120 0H0V120" fill="none" stroke="#BDB6AA" stroke-width="1.5" />
+    </pattern>
+    <path
+      id="pz-mark"
+      fill-rule="evenodd"
+      d="M16 10H58C75 10 86 20 86 36C86 53 75 62 58 62H40L34 86H16V10ZM29 24H68V34L47 49H68V55H29V47L49 34H29V24Z"
+    />
+  </defs>
+
+  <rect width="1200" height="760" fill="#F8F5EF" />
+  <text x="72" y="62" fill="#171717" font-family="Arial, Helvetica, sans-serif" font-size="28" font-weight="700">PARZI — PZ A v0.1</text>
+  <text x="72" y="92" fill="#666158" font-family="Arial, Helvetica, sans-serif" font-size="16">Construction de recherche sur grille 96 × 96 — aucune utilisation publique autorisée</text>
+
+  <rect x="72" y="128" width="576" height="576" fill="url(#major-grid)" stroke="#8A8378" stroke-width="1.5" />
+  <g transform="translate(72 128) scale(6)">
+    <use href="#pz-mark" fill="#171717" />
+  </g>
+
+  <g fill="none" stroke="#B99035" stroke-width="2" stroke-dasharray="7 7">
+    <path d="M168 128V704" />
+    <path d="M588 128V704" />
+    <path d="M72 188H648" />
+    <path d="M72 644H648" />
+  </g>
+  <g fill="#8E6B22" font-family="Arial, Helvetica, sans-serif" font-size="14" font-weight="700">
+    <text x="153" y="720">x=16</text>
+    <text x="573" y="720">x=86</text>
+    <text x="654" y="193">y=10</text>
+    <text x="654" y="649">y=86</text>
+  </g>
+
+  <g transform="translate(720 150)" font-family="Arial, Helvetica, sans-serif">
+    <text x="0" y="0" fill="#171717" font-size="22" font-weight="700">Règles de construction</text>
+    <text x="0" y="42" fill="#4F4B45" font-size="17">
+      <tspan x="0" dy="0">• canevas maître : 96 unités</tspan>
+      <tspan x="0" dy="34">• emprise utile : x 16–86, y 10–86</tspan>
+      <tspan x="0" dy="34">• silhouette extérieure : P compact</tspan>
+      <tspan x="0" dy="34">• contreforme : Z transparent</tspan>
+      <tspan x="0" dy="34">• aucune couleur nécessaire</tspan>
+      <tspan x="0" dy="34">• aucun tracé automatique de la planche raster</tspan>
+    </text>
+
+    <text x="0" y="286" fill="#171717" font-size="22" font-weight="700">Zone de protection provisoire</text>
+    <text x="0" y="328" fill="#4F4B45" font-size="17">
+      <tspan x="0" dy="0">Minimum : 12 unités autour de l’emprise utile.</tspan>
+      <tspan x="0" dy="30">Cette règle devra être confirmée avec le wordmark.</tspan>
+    </text>
+
+    <text x="0" y="416" fill="#171717" font-size="22" font-weight="700">Statut</text>
+    <text x="0" y="458" fill="#4F4B45" font-size="17">
+      <tspan x="0" dy="0">Prototype vectoriel v0.1.</tspan>
+      <tspan x="0" dy="30">Originalité juridique non évaluée.</tspan>
+      <tspan x="0" dy="30">Logo maître non sélectionné.</tspan>
+    </text>
+  </g>
+</svg>

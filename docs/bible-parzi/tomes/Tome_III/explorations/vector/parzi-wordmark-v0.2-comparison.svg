@@ -1,0 +1,48 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="900" viewBox="0 0 1200 900" role="img" aria-labelledby="title desc">
+  <title id="title">Comparaison des wordmarks PARZI v0.1 et v0.2</title>
+  <desc id="desc">Comparaison du squelette géométrique et de la version enrichie par des contreformes diagonales.</desc>
+  <defs>
+    <path id="mark-v02" fill-rule="evenodd" d="M12 12H60C75 12 84 21 84 36C84 51 75 60 60 60H42L36 84H12V12ZM30 24H66V36L48 48H66V54H30V48L48 36H30V24Z" />
+    <g id="wordmark-v01">
+      <path fill-rule="evenodd" d="M0 8H19C29 8 35 13 35 22C35 31 29 36 19 36H9V56H0V8ZM9 16V28H18C23 28 26 26 26 22C26 18 23 16 18 16H9Z" />
+      <path fill-rule="evenodd" d="M43 56L59 8H70L86 56H76L72 44H57L53 56H43ZM60 36H69L64 20L60 36Z" />
+      <path fill-rule="evenodd" d="M96 8H115C125 8 131 13 131 22C131 29 127 33 121 35L135 56H124L111 36H105V56H96V8ZM105 16V28H114C119 28 122 26 122 22C122 18 119 16 114 16H105Z" />
+      <path d="M143 8H181V16L156 48H181V56H143V48L168 16H143V8Z" />
+      <path d="M194 8H218V16H211V48H218V56H194V48H201V16H194V8Z" />
+    </g>
+    <g id="wordmark-v02">
+      <path fill-rule="evenodd" d="M0 8H19C29 8 35 13 35 22C35 31 29 36 19 36H9V56H0V8ZM9 20L15 16H20L26 20V24L20 28H15L9 24V20Z" />
+      <path fill-rule="evenodd" d="M43 56L59 8H70L86 56H76L72 44H57L53 56H43ZM59 36H70L66 20H63L59 36Z" />
+      <path fill-rule="evenodd" d="M96 8H115C125 8 131 13 131 22C131 29 127 33 121 35L135 56H124L111 36H105V56H96V8ZM105 20L111 16H116L122 20V24L116 28H111L105 24V20Z" />
+      <path d="M143 8H181V17L157 47H181V56H143V47L167 17H143V8Z" />
+      <path d="M194 8H214L218 12V16H211V48H218V56H198L194 52V48H201V16H194V8Z" />
+    </g>
+  </defs>
+
+  <rect width="1200" height="900" fill="#F8F5EF" />
+  <g font-family="Arial, Helvetica, sans-serif">
+    <text x="72" y="62" fill="#171717" font-size="28" font-weight="700">PARZI — wordmark v0.2</text>
+    <text x="72" y="94" fill="#666158" font-size="16">Une seule variable modifiée : la signature diagonale des contreformes et des terminaisons.</text>
+
+    <rect x="72" y="132" width="1056" height="184" rx="16" fill="#FFFFFF" stroke="#D7D2C8" />
+    <text x="104" y="176" fill="#666158" font-size="16" font-weight="700">V0.1 — SQUELETTE GÉOMÉTRIQUE</text>
+    <g transform="translate(334 190) scale(2.45)" fill="#171717"><use href="#wordmark-v01" /></g>
+
+    <rect x="72" y="340" width="1056" height="250" rx="16" fill="#FFFFFF" stroke="#B99035" stroke-width="2" />
+    <text x="104" y="384" fill="#8E6B22" font-size="16" font-weight="700">V0.2 — CONTREFORMES DIAGONALES</text>
+    <g transform="translate(334 385) scale(2.45)" fill="#171717"><use href="#wordmark-v02" /></g>
+
+    <g transform="translate(104 558)" fill="#666158" font-size="14">
+      <text x="0" y="0">P/R : contreformes hexagonales</text>
+      <text x="340" y="0">A : contreforme trapézoïdale</text>
+      <text x="720" y="0">I : angles opposés</text>
+    </g>
+
+    <rect x="72" y="620" width="1056" height="218" rx="16" fill="#171717" />
+    <text x="104" y="664" fill="#BDB6AA" font-size="16" font-weight="700">LOCKUP HORIZONTAL INVERSÉ — SYMBOLE GELÉ PZ A V0.2</text>
+    <g transform="translate(208 700) scale(1.15)" fill="#FFFFFF"><use href="#mark-v02" /></g>
+    <g transform="translate(372 721) scale(1.75)" fill="#FFFFFF"><use href="#wordmark-v02" /></g>
+
+    <text x="72" y="880" fill="#666158" font-size="15">Prototype documentaire — aucune sélection finale — recherche de similarité non effectuée.</text>
+  </g>
+</svg>

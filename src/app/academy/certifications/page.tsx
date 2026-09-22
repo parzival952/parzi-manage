@@ -9,7 +9,7 @@ export const metadata = { title: "Certifications" };
 export default async function CertificationsPage() {
   const user = await requireUser();
   const [p, mine] = await Promise.all([getProgress(user.id), getMyCerts(user.id)]);
-  const ctx = { chapters: chaptersCompleted(p.done), lessons: p.done.size, level: p.info.level };
+  const ctx = { chapters: chaptersCompleted(p.done), lessons: p.done.size, level: p.info.level, earned: new Set(mine.keys()) };
 
   return (
     <div className="flex flex-col gap-5">

@@ -2,7 +2,7 @@
 // Seul un agent dont la licence FFF/FIFA est vérifiée accède aux fonctions de
 // contact (CRM, Clubs / démarchage). Aligné cahier des charges : « badge agent
 // vérifié (licence FFF/FIFA contrôlée) » + valeur « vérifier les identités ».
-import { authEnabled, requireUser, type SessionUser } from "./auth";
+import { authEnabled } from "./auth";
 import { getProfile, type AgentStatus } from "./queries";
 
 /** Admins autorisés à valider les licences (console /admin). Surcharge via ADMIN_EMAILS. */
@@ -28,14 +28,4 @@ export async function isVerifiedAgent(uid: string): Promise<boolean> {
 export function isAdmin(email: string | undefined | null): boolean {
   if (!authEnabled()) return true;
   return Boolean(email && ADMIN_EMAILS.includes(email.toLowerCase()));
-}
-
-/** À appeler en tête d'une page admin : exige un utilisateur administrateur, sinon 404. */
-export async function requireAdmin(): Promise<SessionUser> {
-  const u = await requireUser();
-  if (!isAdmin(u.email)) {
-    const { notFound } = await import("next/navigation");
-    notFound();
-  }
-  return u;
 }

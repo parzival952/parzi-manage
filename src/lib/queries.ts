@@ -18,6 +18,10 @@ export type Opportunity = { id: number; club: string; fit_pct: number; body: str
 export type Contact = { id: number; name: string; role: string; org: string; last_exchange: string; next_step: string };
 export type PlayerInput = Omit<Player, "id">;
 
+function affectedRows(result: unknown): boolean {
+  return Number((result as { count?: number }).count ?? 0) > 0;
+}
+
 // ---------- Lectures ----------
 
 export async function getPlayers(uid: string): Promise<Player[]> {
@@ -97,27 +101,28 @@ export async function createPlayer(uid: string, p: PlayerInput): Promise<void> {
     .run(p.name, p.position, p.age, p.club, p.contract_end, p.est_value, p.status, p.status_label, p.salary, p.mandate, p.strong_foot, p.height, p.nationality, p.notes, p.transfermarkt_url);
 }
 
-export async function updatePlayer(uid: string, id: number, p: PlayerInput): Promise<void> {
+export async function updatePlayer(uid: string, id: number, p: PlayerInput): Promise<boolean> {
   if (usePostgres()) {
-    await pg()`UPDATE players SET name=${p.name}, position=${p.position}, age=${p.age}, club=${p.club},
+    const result = await pg()`UPDATE players SET name=${p.name}, position=${p.position}, age=${p.age}, club=${p.club},
       contract_end=${p.contract_end}, est_value=${p.est_value}, status=${p.status}, status_label=${p.status_label},
       salary=${p.salary}, mandate=${p.mandate}, strong_foot=${p.strong_foot}, height=${p.height},
       nationality=${p.nationality}, notes=${p.notes}, transfermarkt_url=${p.transfermarkt_url} WHERE id=${id} AND user_id=${uid}`;
-    return;
+    return affectedRows(result);
   }
-  db().prepare(`UPDATE players SET name=?, position=?, age=?, club=?, contract_end=?, est_value=?, status=?, status_label=?,
+  const result = db().prepare(`UPDATE players SET name=?, position=?, age=?, club=?, contract_end=?, est_value=?, status=?, status_label=?,
     salary=?, mandate=?, strong_foot=?, height=?, nationality=?, notes=?, transfermarkt_url=? WHERE id=?`)
     .run(p.name, p.position, p.age, p.club, p.contract_end, p.est_value, p.status, p.status_label, p.salary, p.mandate, p.strong_foot, p.height, p.nationality, p.notes, p.transfermarkt_url, id);
+  return result.changes > 0;
 }
 
-export async function deletePlayer(uid: string, id: number): Promise<void> {
-  if (usePostgres()) { await pg()`DELETE FROM players WHERE id=${id} AND user_id=${uid}`; return; }
-  db().prepare("DELETE FROM players WHERE id=?").run(id);
+export async function deletePlayer(uid: string, id: number): Promise<boolean> {
+  if (usePostgres()) return affectedRows(await pg()`DELETE FROM players WHERE id=${id} AND user_id=${uid}`);
+  return db().prepare("DELETE FROM players WHERE id=?").run(id).changes > 0;
 }
 
-export async function toggleTask(uid: string, id: number): Promise<void> {
-  if (usePostgres()) { await pg()`UPDATE tasks SET is_done = NOT is_done WHERE id = ${id} AND user_id = ${uid}`; return; }
-  db().prepare("UPDATE tasks SET is_done = 1 - is_done WHERE id = ?").run(id);
+export async function toggleTask(uid: string, id: number): Promise<boolean> {
+  if (usePostgres()) return affectedRows(await pg()`UPDATE tasks SET is_done = NOT is_done WHERE id = ${id} AND user_id = ${uid}`);
+  return db().prepare("UPDATE tasks SET is_done = 1 - is_done WHERE id = ?").run(id).changes > 0;
 }
 
 export async function createTask(uid: string, title: string, due_label: string): Promise<void> {
@@ -157,9 +162,9 @@ export async function createClub(uid: string, c: Omit<Club, "id">): Promise<void
     .run(c.name, c.league, c.need, c.budget, c.contact_name, c.notes);
 }
 
-export async function deleteClub(uid: string, id: number): Promise<void> {
-  if (usePostgres()) { await pg()`DELETE FROM clubs WHERE id=${id} AND user_id=${uid}`; return; }
-  db().prepare("DELETE FROM clubs WHERE id=?").run(id);
+export async function deleteClub(uid: string, id: number): Promise<boolean> {
+  if (usePostgres()) return affectedRows(await pg()`DELETE FROM clubs WHERE id=${id} AND user_id=${uid}`);
+  return db().prepare("DELETE FROM clubs WHERE id=?").run(id).changes > 0;
 }
 
 // ---------- Scouting (cibles) ----------
@@ -181,9 +186,9 @@ export async function createProspect(uid: string, p: Omit<Prospect, "id">): Prom
     .run(p.name, p.position, p.age, p.club, p.league, p.contract_end, p.note);
 }
 
-export async function deleteProspect(uid: string, id: number): Promise<void> {
-  if (usePostgres()) { await pg()`DELETE FROM prospects WHERE id=${id} AND user_id=${uid}`; return; }
-  db().prepare("DELETE FROM prospects WHERE id=?").run(id);
+export async function deleteProspect(uid: string, id: number): Promise<boolean> {
+  if (usePostgres()) return affectedRows(await pg()`DELETE FROM prospects WHERE id=${id} AND user_id=${uid}`);
+  return db().prepare("DELETE FROM prospects WHERE id=?").run(id).changes > 0;
 }
 
 // ---------- Événements (calendrier) ----------
@@ -198,9 +203,9 @@ export async function createEvent(uid: string, e: Omit<Event, "id">): Promise<vo
     .run(e.day_label, e.time_label, e.title, e.location);
 }
 
-export async function deleteEvent(uid: string, id: number): Promise<void> {
-  if (usePostgres()) { await pg()`DELETE FROM events WHERE id=${id} AND user_id=${uid}`; return; }
-  db().prepare("DELETE FROM events WHERE id=?").run(id);
+export async function deleteEvent(uid: string, id: number): Promise<boolean> {
+  if (usePostgres()) return affectedRows(await pg()`DELETE FROM events WHERE id=${id} AND user_id=${uid}`);
+  return db().prepare("DELETE FROM events WHERE id=?").run(id).changes > 0;
 }
 
 // ---------- Profils (e-mail + préférences de notification) ----------

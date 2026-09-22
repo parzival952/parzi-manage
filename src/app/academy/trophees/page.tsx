@@ -1,14 +1,32 @@
 export const dynamic = "force-dynamic";
 import Link from "next/link";
+import { redirect } from "next/navigation";
+
+import {
+  academyStateToProgress,
+  loadAcademyState,
+} from "@/lib/academy-state";
+import {
+  chaptersCompleted,
+  LESSON_COUNT,
+} from "@/lib/academy";
 import { requireUser } from "@/lib/auth";
-import { chaptersCompleted, getProgress, LESSON_COUNT } from "@/lib/academy";
 import { evaluateTrophies, sortTrophies, RARITY_TONE, RARITY_LABEL, type TrophyStats } from "@/lib/trophies";
 
 export const metadata = { title: "Trophées" };
 
 export default async function TropheesPage() {
-  const user = await requireUser();
-  const p = await getProgress(user.id);
+  await requireUser();
+
+  const academyState = await loadAcademyState();
+
+  if (!academyState) {
+    redirect("/academy");
+  }
+
+  const p = academyStateToProgress(
+    academyState,
+  );
   const stats: TrophyStats = {
     level: p.info.level, xp: p.xp, streak: p.streak, best: p.best_streak,
     lessons: p.done.size, chapters: chaptersCompleted(p.done), perfect: p.perfect,

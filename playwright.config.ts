@@ -11,7 +11,9 @@ export default defineConfig({
     launchOptions: process.env.PW_EXECUTABLE ? { executablePath: process.env.PW_EXECUTABLE } : {},
   },
   webServer: {
-    command: "npm run build && npm run start -- --port 3100",
+    command: process.env.CI
+      ? "npm run start -- --port 3100"
+      : "npm run build && npm run start -- --port 3100",
     url: "http://localhost:3100",
     timeout: 240_000,
     reuseExistingServer: true,

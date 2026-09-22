@@ -1,0 +1,55 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="720" viewBox="0 0 1200 720" role="img" aria-labelledby="title desc">
+  <title id="title">Tests de taille du prototype PZ A v0.1</title>
+  <desc id="desc">Comparaison du symbole à 16, 24, 32 et 64 pixels sur fonds clair et sombre.</desc>
+  <defs>
+    <path
+      id="pz-mark"
+      fill-rule="evenodd"
+      d="M16 10H58C75 10 86 20 86 36C86 53 75 62 58 62H40L34 86H16V10ZM29 24H68V34L47 49H68V55H29V47L49 34H29V24Z"
+    />
+  </defs>
+
+  <rect width="1200" height="720" fill="#F8F5EF" />
+  <text x="72" y="62" fill="#171717" font-family="Arial, Helvetica, sans-serif" font-size="28" font-weight="700">PZ A v0.1 — tests aux tailles natives</text>
+  <text x="72" y="92" fill="#666158" font-family="Arial, Helvetica, sans-serif" font-size="16">Les quatre premiers symboles de chaque ligne sont rendus à leur taille exacte lorsque le SVG est affiché à 100 %.</text>
+
+  <g font-family="Arial, Helvetica, sans-serif">
+    <text x="72" y="154" fill="#171717" font-size="18" font-weight="700">Fond clair</text>
+    <rect x="72" y="176" width="1056" height="164" rx="16" fill="#FFFFFF" stroke="#D7D2C8" />
+
+    <text x="130" y="230" fill="#666158" font-size="15">16 px</text>
+    <svg x="148" y="250" width="16" height="16" viewBox="0 0 96 96"><use href="#pz-mark" fill="#171717" /></svg>
+
+    <text x="310" y="230" fill="#666158" font-size="15">24 px</text>
+    <svg x="328" y="246" width="24" height="24" viewBox="0 0 96 96"><use href="#pz-mark" fill="#171717" /></svg>
+
+    <text x="500" y="230" fill="#666158" font-size="15">32 px</text>
+    <svg x="518" y="242" width="32" height="32" viewBox="0 0 96 96"><use href="#pz-mark" fill="#171717" /></svg>
+
+    <text x="700" y="230" fill="#666158" font-size="15">64 px</text>
+    <svg x="718" y="226" width="64" height="64" viewBox="0 0 96 96"><use href="#pz-mark" fill="#171717" /></svg>
+
+    <text x="928" y="230" fill="#666158" font-size="15">Loupe ×4 du 16 px</text>
+    <svg x="970" y="242" width="64" height="64" viewBox="0 0 96 96" shape-rendering="crispEdges"><use href="#pz-mark" fill="#171717" /></svg>
+
+    <text x="72" y="414" fill="#F8F5EF" font-size="18" font-weight="700">Fond sombre</text>
+    <rect x="72" y="370" width="1056" height="264" rx="16" fill="#171717" />
+
+    <text x="130" y="466" fill="#BDB6AA" font-size="15">16 px</text>
+    <svg x="148" y="486" width="16" height="16" viewBox="0 0 96 96"><use href="#pz-mark" fill="#FFFFFF" /></svg>
+
+    <text x="310" y="466" fill="#BDB6AA" font-size="15">24 px</text>
+    <svg x="328" y="482" width="24" height="24" viewBox="0 0 96 96"><use href="#pz-mark" fill="#FFFFFF" /></svg>
+
+    <text x="500" y="466" fill="#BDB6AA" font-size="15">32 px</text>
+    <svg x="518" y="478" width="32" height="32" viewBox="0 0 96 96"><use href="#pz-mark" fill="#FFFFFF" /></svg>
+
+    <text x="700" y="466" fill="#BDB6AA" font-size="15">64 px</text>
+    <svg x="718" y="462" width="64" height="64" viewBox="0 0 96 96"><use href="#pz-mark" fill="#FFFFFF" /></svg>
+
+    <text x="928" y="466" fill="#BDB6AA" font-size="15">Loupe ×4 du 16 px</text>
+    <svg x="970" y="478" width="64" height="64" viewBox="0 0 96 96" shape-rendering="crispEdges"><use href="#pz-mark" fill="#FFFFFF" /></svg>
+
+    <text x="72" y="684" fill="#666158" font-size="15">Prototype documentaire uniquement — aucune substitution dans PARZI Manage — contrôle juridique non effectué.</text>
+  </g>
+</svg>

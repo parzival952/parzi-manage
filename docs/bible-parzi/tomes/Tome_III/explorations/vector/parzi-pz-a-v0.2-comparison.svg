@@ -1,0 +1,50 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="760" viewBox="0 0 1200 760" role="img" aria-labelledby="title desc">
+  <title id="title">Comparaison des prototypes PZ A v0.1 et v0.2</title>
+  <desc id="desc">Comparaison optique des deux versions à 16, 24 et 64 pixels sur fonds clair et sombre.</desc>
+  <defs>
+    <path id="mark-v01" fill-rule="evenodd" d="M16 10H58C75 10 86 20 86 36C86 53 75 62 58 62H40L34 86H16V10ZM29 24H68V34L47 49H68V55H29V47L49 34H29V24Z" />
+    <path id="mark-v02" fill-rule="evenodd" d="M12 12H60C75 12 84 21 84 36C84 51 75 60 60 60H42L36 84H12V12ZM30 24H66V36L48 48H66V54H30V48L48 36H30V24Z" />
+  </defs>
+
+  <rect width="1200" height="760" fill="#F8F5EF" />
+  <g font-family="Arial, Helvetica, sans-serif">
+    <text x="72" y="62" fill="#171717" font-size="28" font-weight="700">PARZI — correction optique PZ A v0.2</text>
+    <text x="72" y="94" fill="#666158" font-size="16">La v0.2 aligne les points critiques sur une grille de 6 unités, soit un pixel à 16 px.</text>
+
+    <text x="72" y="154" fill="#171717" font-size="20" font-weight="700">Fond clair</text>
+    <rect x="72" y="174" width="1056" height="236" rx="16" fill="#FFFFFF" stroke="#D7D2C8" />
+    <text x="126" y="218" fill="#666158" font-size="16" font-weight="700">VERSION</text>
+    <text x="320" y="218" fill="#666158" font-size="16" font-weight="700">16 PX</text>
+    <text x="480" y="218" fill="#666158" font-size="16" font-weight="700">24 PX</text>
+    <text x="640" y="218" fill="#666158" font-size="16" font-weight="700">64 PX</text>
+    <text x="866" y="218" fill="#666158" font-size="16" font-weight="700">LOUPE DU 16 PX ×6</text>
+
+    <text x="126" y="276" fill="#171717" font-size="18">v0.1</text>
+    <svg x="328" y="254" width="16" height="16" viewBox="0 0 96 96"><use href="#mark-v01" fill="#171717" /></svg>
+    <svg x="490" y="250" width="24" height="24" viewBox="0 0 96 96"><use href="#mark-v01" fill="#171717" /></svg>
+    <svg x="648" y="230" width="64" height="64" viewBox="0 0 96 96"><use href="#mark-v01" fill="#171717" /></svg>
+    <svg x="900" y="230" width="96" height="96" viewBox="0 0 96 96" shape-rendering="crispEdges"><use href="#mark-v01" fill="#171717" /></svg>
+
+    <text x="126" y="350" fill="#171717" font-size="18" font-weight="700">v0.2</text>
+    <svg x="328" y="328" width="16" height="16" viewBox="0 0 96 96"><use href="#mark-v02" fill="#171717" /></svg>
+    <svg x="490" y="324" width="24" height="24" viewBox="0 0 96 96"><use href="#mark-v02" fill="#171717" /></svg>
+    <svg x="648" y="304" width="64" height="64" viewBox="0 0 96 96"><use href="#mark-v02" fill="#171717" /></svg>
+    <svg x="900" y="304" width="96" height="96" viewBox="0 0 96 96" shape-rendering="crispEdges"><use href="#mark-v02" fill="#171717" /></svg>
+
+    <rect x="72" y="422" width="1056" height="248" rx="16" fill="#171717" />
+    <text x="96" y="462" fill="#F8F5EF" font-size="20" font-weight="700">Fond sombre</text>
+    <text x="126" y="516" fill="#BDB6AA" font-size="18">v0.1</text>
+    <svg x="328" y="494" width="16" height="16" viewBox="0 0 96 96"><use href="#mark-v01" fill="#FFFFFF" /></svg>
+    <svg x="490" y="490" width="24" height="24" viewBox="0 0 96 96"><use href="#mark-v01" fill="#FFFFFF" /></svg>
+    <svg x="648" y="470" width="64" height="64" viewBox="0 0 96 96"><use href="#mark-v01" fill="#FFFFFF" /></svg>
+    <svg x="900" y="470" width="96" height="96" viewBox="0 0 96 96" shape-rendering="crispEdges"><use href="#mark-v01" fill="#FFFFFF" /></svg>
+
+    <text x="126" y="614" fill="#FFFFFF" font-size="18" font-weight="700">v0.2</text>
+    <svg x="328" y="592" width="16" height="16" viewBox="0 0 96 96"><use href="#mark-v02" fill="#FFFFFF" /></svg>
+    <svg x="490" y="588" width="24" height="24" viewBox="0 0 96 96"><use href="#mark-v02" fill="#FFFFFF" /></svg>
+    <svg x="648" y="568" width="64" height="64" viewBox="0 0 96 96"><use href="#mark-v02" fill="#FFFFFF" /></svg>
+    <svg x="900" y="568" width="96" height="96" viewBox="0 0 96 96" shape-rendering="crispEdges"><use href="#mark-v02" fill="#FFFFFF" /></svg>
+
+    <text x="72" y="720" fill="#666158" font-size="15">Prototype documentaire — aucune intégration applicative — contrôle de similarité non effectué.</text>
+  </g>
+</svg>

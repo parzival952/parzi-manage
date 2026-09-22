@@ -1,0 +1,77 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="920" viewBox="0 0 1200 920" role="img" aria-labelledby="title desc">
+  <title id="title">Micro-charte des lockups produits PARZI v0.2</title>
+  <desc id="desc">Zones de protection, espacements et proportions du lockup horizontal et empilé.</desc>
+  <defs>
+    <marker id="arrow" markerWidth="8" markerHeight="8" refX="4" refY="4" orient="auto-start-reverse">
+      <path d="M0 0L8 4L0 8Z" fill="#B99035" />
+    </marker>
+    <path id="mark-v02" fill-rule="evenodd" d="M12 12H60C75 12 84 21 84 36C84 51 75 60 60 60H42L36 84H12V12ZM30 24H66V36L48 48H66V54H30V48L48 36H30V24Z" />
+    <g id="wordmark-v02">
+      <path fill-rule="evenodd" d="M0 8H19C29 8 35 13 35 22C35 31 29 36 19 36H9V56H0V8ZM9 20L15 16H20L26 20V24L20 28H15L9 24V20Z" />
+      <path fill-rule="evenodd" d="M43 56L59 8H70L86 56H76L72 44H57L53 56H43ZM59 36H70L66 20H63L59 36Z" />
+      <path fill-rule="evenodd" d="M96 8H115C125 8 131 13 131 22C131 29 127 33 121 35L135 56H124L111 36H105V56H96V8ZM105 20L111 16H116L122 20V24L116 28H111L105 24V20Z" />
+      <path d="M143 8H181V17L157 47H181V56H143V47L167 17H143V8Z" />
+      <path d="M194 8H214L218 12V16H211V48H218V56H198L194 52V48H201V16H194V8Z" />
+    </g>
+  </defs>
+
+  <rect width="1200" height="920" fill="#F8F5EF" />
+  <g font-family="system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif">
+    <text x="72" y="62" fill="#171717" font-size="28" font-weight="700">PARZI — micro-charte produit v0.2</text>
+    <text x="72" y="94" fill="#666158" font-size="16">Module X = 12 unités de planche, proche de l’épaisseur de hampe du wordmark à cette échelle.</text>
+
+    <rect x="72" y="128" width="1056" height="322" rx="16" fill="#FFFFFF" stroke="#D7D2C8" />
+    <text x="104" y="172" fill="#171717" font-size="18" font-weight="700">LOCKUP HORIZONTAL — PARZI MANAGE</text>
+    <text x="104" y="198" fill="#666158" font-size="14">Zone de protection minimale : 2X autour de l’emprise visible</text>
+
+    <g transform="translate(220 246)" fill="#171717">
+      <rect x="-24" y="-24" width="620" height="120" fill="none" stroke="#B99035" stroke-width="2" stroke-dasharray="7 7" />
+      <g transform="scale(0.84)"><use href="#mark-v02" /></g>
+      <g transform="translate(96 0) scale(1.25)"><use href="#wordmark-v02" /></g>
+      <path d="M396 12V68" stroke="#9B958C" stroke-width="3" />
+      <text x="424" y="58" font-size="38" font-weight="600">Manage</text>
+
+      <g fill="none" stroke="#B99035" stroke-width="1.5" marker-start="url(#arrow)" marker-end="url(#arrow)">
+        <path d="M72 94H96" />
+        <path d="M369 94H393" />
+        <path d="M400 94H424" />
+        <path d="M-24 112H0" />
+      </g>
+      <g fill="#8E6B22" font-size="13" font-weight="700">
+        <text x="77" y="116">2X</text>
+        <text x="374" y="116">2X</text>
+        <text x="405" y="116">2X</text>
+        <text x="-19" y="134">2X</text>
+      </g>
+    </g>
+
+    <rect x="72" y="478" width="700" height="354" rx="16" fill="#FFFFFF" stroke="#D7D2C8" />
+    <text x="104" y="522" fill="#171717" font-size="18" font-weight="700">LOCKUP EMPILÉ — PARZI ACADEMY</text>
+    <text x="104" y="548" fill="#666158" font-size="14">Même maître ; descripteur aligné sur le wordmark</text>
+
+    <g transform="translate(176 606)" fill="#171717">
+      <rect x="-24" y="-24" width="454" height="180" fill="none" stroke="#B99035" stroke-width="2" stroke-dasharray="7 7" />
+      <g transform="scale(0.84)"><use href="#mark-v02" /></g>
+      <g transform="translate(96 0) scale(1.25)"><use href="#wordmark-v02" /></g>
+      <text x="96" y="112" font-size="32" font-weight="600" letter-spacing="0.02em">Academy</text>
+      <path d="M82 72V88" fill="none" stroke="#B99035" stroke-width="1.5" marker-start="url(#arrow)" marker-end="url(#arrow)" />
+      <text x="52" y="85" fill="#8E6B22" font-size="13" font-weight="700">≈ 1,3X</text>
+    </g>
+
+    <rect x="800" y="478" width="328" height="354" rx="16" fill="#171717" />
+    <text x="832" y="522" fill="#FFFFFF" font-size="18" font-weight="700">RÈGLES DE RAPPORT</text>
+    <g fill="#D8D4CC" font-size="15">
+      <text x="832" y="570">H = hauteur visible du wordmark</text>
+      <text x="832" y="606">Symbole visible : ≈ 1,0H</text>
+      <text x="832" y="642">Descripteur : ≈ 0,48H</text>
+      <text x="832" y="678">Séparateur : ≈ 0,93H</text>
+      <text x="832" y="714">Espaces horizontaux : 2X</text>
+      <text x="832" y="750">Protection extérieure : 2X</text>
+      <text x="832" y="786">Graisse descripteur : 600</text>
+    </g>
+
+    <rect x="72" y="862" width="12" height="12" fill="#B99035" />
+    <text x="94" y="874" fill="#666158" font-size="14">L’or sert uniquement aux mesures et annotations de cette planche, jamais au lockup monochrome.</text>
+    <text x="72" y="906" fill="#666158" font-size="14">Proportions documentaires à valider sur supports réels avant toute charte finale.</text>
+  </g>
+</svg>

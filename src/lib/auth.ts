@@ -53,7 +53,7 @@ export async function signOut() {
 
 async function storeSession(t: AuthTokens) {
   const jar = await cookies();
-  const opts = { httpOnly: true, secure: true, sameSite: "lax" as const, path: "/" };
+  const opts = { httpOnly: true, secure: process.env.NODE_ENV === "production", sameSite: "lax" as const, path: "/" };
   jar.set("pm_at", t.access_token, { ...opts, maxAge: 60 * 60 });
   jar.set("pm_rt", t.refresh_token, { ...opts, maxAge: 60 * 60 * 24 * 30 });
 }

@@ -1,0 +1,914 @@
+{
+  "reportId": "academy-module-00-diagnostic",
+  "version": "1.0.0",
+  "generatedAt": "2026-07-24T10:21:04.999Z",
+  "attempt": {
+    "attemptId": "demo-diagnostic-attempt",
+    "userId": "demo-user",
+    "startedAt": "2026-07-24T09:11:04.993Z",
+    "completedAt": "2026-07-24T10:21:04.997Z"
+  },
+  "summary": {
+    "scorePercent": 75,
+    "pointsEarned": 44,
+    "pointsPossible": 59,
+    "completionRatePercent": 100,
+    "initialLevel": {
+      "id": "niveau-intermédiaire",
+      "label": "Niveau intermédiaire"
+    }
+  },
+  "competencies": [
+    {
+      "id": "legal-reading",
+      "label": "Lecture et compréhension juridique",
+      "questionCount": 8,
+      "answeredCount": 8,
+      "correctCount": 7,
+      "earnedPoints": 8,
+      "possiblePoints": 10,
+      "score": 80,
+      "status": {
+        "id": "intermediate",
+        "label": "Niveau intermédiaire"
+      }
+    },
+    {
+      "id": "contracts",
+      "label": "Droit des contrats",
+      "questionCount": 8,
+      "answeredCount": 8,
+      "correctCount": 6,
+      "earnedPoints": 11,
+      "possiblePoints": 13,
+      "score": 85,
+      "status": {
+        "id": "solid",
+        "label": "Niveau solide"
+      }
+    },
+    {
+      "id": "practical-cases",
+      "label": "Cas pratiques",
+      "questionCount": 5,
+      "answeredCount": 5,
+      "correctCount": 4,
+      "earnedPoints": 6,
+      "possiblePoints": 8,
+      "score": 75,
+      "status": {
+        "id": "intermediate",
+        "label": "Niveau intermédiaire"
+      }
+    },
+    {
+      "id": "exam-method",
+      "label": "Méthode et gestion du temps",
+      "questionCount": 5,
+      "answeredCount": 5,
+      "correctCount": 3,
+      "earnedPoints": 5,
+      "possiblePoints": 8,
+      "score": 63,
+      "status": {
+        "id": "progressing",
+        "label": "En progression"
+      }
+    },
+    {
+      "id": "sport-environment",
+      "label": "Environnement sportif",
+      "questionCount": 6,
+      "answeredCount": 6,
+      "correctCount": 4,
+      "earnedPoints": 5,
+      "possiblePoints": 8,
+      "score": 63,
+      "status": {
+        "id": "progressing",
+        "label": "En progression"
+      }
+    },
+    {
+      "id": "football-regulations",
+      "label": "Réglementation du football",
+      "questionCount": 8,
+      "answeredCount": 8,
+      "correctCount": 6,
+      "earnedPoints": 9,
+      "possiblePoints": 12,
+      "score": 75,
+      "status": {
+        "id": "intermediate",
+        "label": "Niveau intermédiaire"
+      }
+    }
+  ],
+  "strengths": [
+    {
+      "rank": 1,
+      "sectionId": "contracts",
+      "label": "Droit des contrats",
+      "score": 85,
+      "status": "Niveau solide"
+    },
+    {
+      "rank": 2,
+      "sectionId": "legal-reading",
+      "label": "Lecture et compréhension juridique",
+      "score": 80,
+      "status": "Niveau intermédiaire"
+    },
+    {
+      "rank": 3,
+      "sectionId": "practical-cases",
+      "label": "Cas pratiques",
+      "score": 75,
+      "status": "Niveau intermédiaire"
+    }
+  ],
+  "priorities": [
+    {
+      "rank": 1,
+      "sectionId": "exam-method",
+      "label": "Méthode et gestion du temps",
+      "score": 63,
+      "status": "En progression",
+      "reason": "Compétence prioritaire par rapport aux autres résultats."
+    },
+    {
+      "rank": 2,
+      "sectionId": "sport-environment",
+      "label": "Environnement sportif",
+      "score": 63,
+      "status": "En progression",
+      "reason": "Compétence prioritaire par rapport aux autres résultats."
+    },
+    {
+      "rank": 3,
+      "sectionId": "practical-cases",
+      "label": "Cas pratiques",
+      "score": 75,
+      "status": "Niveau intermédiaire",
+      "reason": "Compétence prioritaire par rapport aux autres résultats."
+    }
+  ],
+  "riskSignals": {
+    "overconfidenceErrors": 5,
+    "slowAnswers": 9,
+    "unansweredQuestions": 0,
+    "highRiskSignals": [
+      {
+        "id": "overconfidence",
+        "label": "Fausses certitudes détectées",
+        "value": 5,
+        "severity": "high"
+      },
+      {
+        "id": "time",
+        "label": "Gestion du temps fragile",
+        "value": 9,
+        "severity": "medium"
+      }
+    ]
+  },
+  "errorProfile": [
+    {
+      "id": "method",
+      "label": "Erreur de méthode",
+      "count": 6
+    },
+    {
+      "id": "overconfidence",
+      "label": "Fausse certitude",
+      "count": 5
+    },
+    {
+      "id": "knowledge",
+      "label": "Erreur de connaissance",
+      "count": 1
+    },
+    {
+      "id": "time",
+      "label": "Erreur de gestion du temps",
+      "count": 1
+    },
+    {
+      "id": "comprehension",
+      "label": "Erreur de compréhension",
+      "count": 1
+    },
+    {
+      "id": "source",
+      "label": "Mauvaise source",
+      "count": 1
+    }
+  ],
+  "progression": {
+    "xpEarned": 300,
+    "maximumModuleXp": 300,
+    "level": 1,
+    "levelName": "Découverte",
+    "xpRequiredForNextLevel": 300,
+    "progressToNextLevelPercent": 100,
+    "levelUpReady": true
+  },
+  "trophies": {
+    "unlockedCount": 2,
+    "unlocked": [
+      {
+        "id": "starting-point",
+        "name": "Point de départ",
+        "description": "Terminer honnêtement son diagnostic initial.",
+        "rarity": "common",
+        "visibility": "private"
+      },
+      {
+        "id": "honest-candidate",
+        "name": "Candidat lucide",
+        "description": "Analyser et classer ses premières erreurs.",
+        "rarity": "uncommon",
+        "visibility": "private"
+      }
+    ]
+  },
+  "studyPlan": {
+    "durationDays": 14,
+    "recommendedSessionMinutes": 45,
+    "sessionsPerWeek": 5,
+    "days": [
+      {
+        "day": 1,
+        "focus": "Méthode et gestion du temps",
+        "activity": "Lecture et reformulation des notions clés"
+      },
+      {
+        "day": 2,
+        "focus": "Méthode et gestion du temps",
+        "activity": "Application sur 3 exercices guidés"
+      },
+      {
+        "day": 3,
+        "focus": "Méthode et gestion du temps",
+        "activity": "Correction détaillée des erreurs"
+      },
+      {
+        "day": 4,
+        "focus": "Environnement sportif",
+        "activity": "Lecture et reformulation des notions clés"
+      },
+      {
+        "day": 5,
+        "focus": "Environnement sportif",
+        "activity": "Application sur 3 exercices guidés"
+      },
+      {
+        "day": 6,
+        "focus": "Environnement sportif",
+        "activity": "Exercice chronométré"
+      },
+      {
+        "day": 7,
+        "focus": "Révision de la première semaine",
+        "activity": "Revue du carnet d’erreurs"
+      },
+      {
+        "day": 8,
+        "focus": "Cas pratiques",
+        "activity": "Lecture et reformulation des notions clés"
+      },
+      {
+        "day": 9,
+        "focus": "Cas pratiques",
+        "activity": "Application sur 3 exercices guidés"
+      },
+      {
+        "day": 10,
+        "focus": "Cas pratiques",
+        "activity": "Correction détaillée des erreurs"
+      },
+      {
+        "day": 11,
+        "focus": "Compétences mélangées",
+        "activity": "Exercice chronométré"
+      },
+      {
+        "day": 12,
+        "focus": "Méthode du cas pratique",
+        "activity": "Analyse d’un cas pratique complet"
+      },
+      {
+        "day": 13,
+        "focus": "Carnet d’erreurs",
+        "activity": "Revue du carnet d’erreurs"
+      },
+      {
+        "day": 14,
+        "focus": "Évaluation de progression",
+        "activity": "Retest partiel du diagnostic"
+      }
+    ]
+  },
+  "detailedAnswers": [
+    {
+      "questionId": "diag-001",
+      "section": "legal-reading",
+      "skill": "identifier-conditions",
+      "difficulty": "easy",
+      "answered": true,
+      "correct": true,
+      "earnedPoints": 1,
+      "possiblePoints": 1,
+      "confidence": 4,
+      "responseTimeSeconds": 48,
+      "estimatedSeconds": 60,
+      "slow": false,
+      "errorType": null
+    },
+    {
+      "questionId": "diag-002",
+      "section": "legal-reading",
+      "skill": "identifier-exception",
+      "difficulty": "easy",
+      "answered": true,
+      "correct": true,
+      "earnedPoints": 1,
+      "possiblePoints": 1,
+      "confidence": 4,
+      "responseTimeSeconds": 24,
+      "estimatedSeconds": 30,
+      "slow": false,
+      "errorType": null
+    },
+    {
+      "questionId": "diag-003",
+      "section": "legal-reading",
+      "skill": "distinguer-principe-exception",
+      "difficulty": "medium",
+      "answered": true,
+      "correct": true,
+      "earnedPoints": 1,
+      "possiblePoints": 1,
+      "confidence": 4,
+      "responseTimeSeconds": 48,
+      "estimatedSeconds": 60,
+      "slow": false,
+      "errorType": null
+    },
+    {
+      "questionId": "diag-004",
+      "section": "contracts",
+      "skill": "identifier-obligation",
+      "difficulty": "easy",
+      "answered": true,
+      "correct": false,
+      "earnedPoints": 0,
+      "possiblePoints": 1,
+      "confidence": 2,
+      "responseTimeSeconds": 61,
+      "estimatedSeconds": 45,
+      "slow": true,
+      "errorType": "knowledge"
+    },
+    {
+      "questionId": "diag-005",
+      "section": "contracts",
+      "skill": "analyser-engagement",
+      "difficulty": "medium",
+      "answered": true,
+      "correct": true,
+      "earnedPoints": 2,
+      "possiblePoints": 2,
+      "confidence": 4,
+      "responseTimeSeconds": 60,
+      "estimatedSeconds": 75,
+      "slow": false,
+      "errorType": null
+    },
+    {
+      "questionId": "diag-006",
+      "section": "practical-cases",
+      "skill": "identifier-probleme",
+      "difficulty": "medium",
+      "answered": true,
+      "correct": true,
+      "earnedPoints": 1,
+      "possiblePoints": 1,
+      "confidence": 4,
+      "responseTimeSeconds": 36,
+      "estimatedSeconds": 45,
+      "slow": false,
+      "errorType": null
+    },
+    {
+      "questionId": "diag-007",
+      "section": "practical-cases",
+      "skill": "raisonnement-juridique",
+      "difficulty": "medium",
+      "answered": true,
+      "correct": true,
+      "earnedPoints": 1,
+      "possiblePoints": 1,
+      "confidence": 4,
+      "responseTimeSeconds": 36,
+      "estimatedSeconds": 45,
+      "slow": false,
+      "errorType": null
+    },
+    {
+      "questionId": "diag-008",
+      "section": "exam-method",
+      "skill": "gerer-temps",
+      "difficulty": "easy",
+      "answered": true,
+      "correct": false,
+      "earnedPoints": 0,
+      "possiblePoints": 1,
+      "confidence": 5,
+      "responseTimeSeconds": 61,
+      "estimatedSeconds": 45,
+      "slow": true,
+      "errorType": "time"
+    },
+    {
+      "questionId": "diag-009",
+      "section": "exam-method",
+      "skill": "evaluer-confiance",
+      "difficulty": "medium",
+      "answered": true,
+      "correct": true,
+      "earnedPoints": 1,
+      "possiblePoints": 1,
+      "confidence": 4,
+      "responseTimeSeconds": 48,
+      "estimatedSeconds": 60,
+      "slow": false,
+      "errorType": null
+    },
+    {
+      "questionId": "diag-010",
+      "section": "exam-method",
+      "skill": "analyser-qcm",
+      "difficulty": "medium",
+      "answered": true,
+      "correct": true,
+      "earnedPoints": 2,
+      "possiblePoints": 2,
+      "confidence": 4,
+      "responseTimeSeconds": 60,
+      "estimatedSeconds": 75,
+      "slow": false,
+      "errorType": null
+    },
+    {
+      "questionId": "diag-011",
+      "section": "sport-environment",
+      "skill": "identifier-role-agent",
+      "difficulty": "easy",
+      "answered": true,
+      "correct": true,
+      "earnedPoints": 1,
+      "possiblePoints": 1,
+      "confidence": 4,
+      "responseTimeSeconds": 36,
+      "estimatedSeconds": 45,
+      "slow": false,
+      "errorType": null
+    },
+    {
+      "questionId": "diag-012",
+      "section": "sport-environment",
+      "skill": "distinguer-agent-recruteur",
+      "difficulty": "easy",
+      "answered": true,
+      "correct": false,
+      "earnedPoints": 0,
+      "possiblePoints": 1,
+      "confidence": 2,
+      "responseTimeSeconds": 61,
+      "estimatedSeconds": 45,
+      "slow": true,
+      "errorType": "comprehension"
+    },
+    {
+      "questionId": "diag-013",
+      "section": "sport-environment",
+      "skill": "identifier-parties-prenantes",
+      "difficulty": "medium",
+      "answered": true,
+      "correct": true,
+      "earnedPoints": 2,
+      "possiblePoints": 2,
+      "confidence": 4,
+      "responseTimeSeconds": 60,
+      "estimatedSeconds": 75,
+      "slow": false,
+      "errorType": null
+    },
+    {
+      "questionId": "diag-014",
+      "section": "sport-environment",
+      "skill": "analyser-interets",
+      "difficulty": "medium",
+      "answered": true,
+      "correct": true,
+      "earnedPoints": 1,
+      "possiblePoints": 1,
+      "confidence": 4,
+      "responseTimeSeconds": 48,
+      "estimatedSeconds": 60,
+      "slow": false,
+      "errorType": null
+    },
+    {
+      "questionId": "diag-015",
+      "section": "sport-environment",
+      "skill": "proteger-confidentialite",
+      "difficulty": "medium",
+      "answered": true,
+      "correct": true,
+      "earnedPoints": 1,
+      "possiblePoints": 1,
+      "confidence": 4,
+      "responseTimeSeconds": 36,
+      "estimatedSeconds": 45,
+      "slow": false,
+      "errorType": null
+    },
+    {
+      "questionId": "diag-016",
+      "section": "football-regulations",
+      "skill": "choisir-source-fiable",
+      "difficulty": "easy",
+      "answered": true,
+      "correct": false,
+      "earnedPoints": 0,
+      "possiblePoints": 1,
+      "confidence": 5,
+      "responseTimeSeconds": 61,
+      "estimatedSeconds": 45,
+      "slow": true,
+      "errorType": "source"
+    },
+    {
+      "questionId": "diag-017",
+      "section": "football-regulations",
+      "skill": "verifier-version",
+      "difficulty": "medium",
+      "answered": true,
+      "correct": true,
+      "earnedPoints": 2,
+      "possiblePoints": 2,
+      "confidence": 4,
+      "responseTimeSeconds": 72,
+      "estimatedSeconds": 90,
+      "slow": false,
+      "errorType": null
+    },
+    {
+      "questionId": "diag-018",
+      "section": "football-regulations",
+      "skill": "identifier-territoire",
+      "difficulty": "medium",
+      "answered": true,
+      "correct": true,
+      "earnedPoints": 1,
+      "possiblePoints": 1,
+      "confidence": 4,
+      "responseTimeSeconds": 48,
+      "estimatedSeconds": 60,
+      "slow": false,
+      "errorType": null
+    },
+    {
+      "questionId": "diag-019",
+      "section": "football-regulations",
+      "skill": "distinguer-regle-commentaire",
+      "difficulty": "medium",
+      "answered": true,
+      "correct": true,
+      "earnedPoints": 1,
+      "possiblePoints": 1,
+      "confidence": 4,
+      "responseTimeSeconds": 48,
+      "estimatedSeconds": 60,
+      "slow": false,
+      "errorType": null
+    },
+    {
+      "questionId": "diag-020",
+      "section": "football-regulations",
+      "skill": "identifier-conflit-interets",
+      "difficulty": "hard",
+      "answered": true,
+      "correct": false,
+      "earnedPoints": 0,
+      "possiblePoints": 2,
+      "confidence": 2,
+      "responseTimeSeconds": 122,
+      "estimatedSeconds": 90,
+      "slow": true,
+      "errorType": "method"
+    },
+    {
+      "questionId": "diag-021",
+      "section": "legal-reading",
+      "skill": "identifier-conditions-alternatives",
+      "difficulty": "medium",
+      "answered": true,
+      "correct": true,
+      "earnedPoints": 1,
+      "possiblePoints": 1,
+      "confidence": 4,
+      "responseTimeSeconds": 48,
+      "estimatedSeconds": 60,
+      "slow": false,
+      "errorType": null
+    },
+    {
+      "questionId": "diag-022",
+      "section": "legal-reading",
+      "skill": "analyser-delai",
+      "difficulty": "medium",
+      "answered": true,
+      "correct": true,
+      "earnedPoints": 1,
+      "possiblePoints": 1,
+      "confidence": 4,
+      "responseTimeSeconds": 48,
+      "estimatedSeconds": 60,
+      "slow": false,
+      "errorType": null
+    },
+    {
+      "questionId": "diag-023",
+      "section": "legal-reading",
+      "skill": "distinguer-obligation-faculte",
+      "difficulty": "medium",
+      "answered": true,
+      "correct": true,
+      "earnedPoints": 1,
+      "possiblePoints": 1,
+      "confidence": 4,
+      "responseTimeSeconds": 36,
+      "estimatedSeconds": 45,
+      "slow": false,
+      "errorType": null
+    },
+    {
+      "questionId": "diag-024",
+      "section": "legal-reading",
+      "skill": "identifier-champ-application",
+      "difficulty": "hard",
+      "answered": true,
+      "correct": false,
+      "earnedPoints": 0,
+      "possiblePoints": 2,
+      "confidence": 5,
+      "responseTimeSeconds": 122,
+      "estimatedSeconds": 90,
+      "slow": true,
+      "errorType": "method"
+    },
+    {
+      "questionId": "diag-025",
+      "section": "legal-reading",
+      "skill": "resoudre-contradiction-textes",
+      "difficulty": "hard",
+      "answered": true,
+      "correct": true,
+      "earnedPoints": 2,
+      "possiblePoints": 2,
+      "confidence": 4,
+      "responseTimeSeconds": 72,
+      "estimatedSeconds": 90,
+      "slow": false,
+      "errorType": null
+    },
+    {
+      "questionId": "diag-026",
+      "section": "contracts",
+      "skill": "identifier-parties",
+      "difficulty": "easy",
+      "answered": true,
+      "correct": true,
+      "earnedPoints": 1,
+      "possiblePoints": 1,
+      "confidence": 4,
+      "responseTimeSeconds": 36,
+      "estimatedSeconds": 45,
+      "slow": false,
+      "errorType": null
+    },
+    {
+      "questionId": "diag-027",
+      "section": "contracts",
+      "skill": "analyser-duree",
+      "difficulty": "medium",
+      "answered": true,
+      "correct": true,
+      "earnedPoints": 2,
+      "possiblePoints": 2,
+      "confidence": 4,
+      "responseTimeSeconds": 72,
+      "estimatedSeconds": 90,
+      "slow": false,
+      "errorType": null
+    },
+    {
+      "questionId": "diag-028",
+      "section": "contracts",
+      "skill": "identifier-obligations-reciproques",
+      "difficulty": "medium",
+      "answered": true,
+      "correct": false,
+      "earnedPoints": 0,
+      "possiblePoints": 1,
+      "confidence": 2,
+      "responseTimeSeconds": 81,
+      "estimatedSeconds": 60,
+      "slow": false,
+      "errorType": "method"
+    },
+    {
+      "questionId": "diag-029",
+      "section": "contracts",
+      "skill": "verifier-resiliation",
+      "difficulty": "hard",
+      "answered": true,
+      "correct": true,
+      "earnedPoints": 2,
+      "possiblePoints": 2,
+      "confidence": 4,
+      "responseTimeSeconds": 72,
+      "estimatedSeconds": 90,
+      "slow": false,
+      "errorType": null
+    },
+    {
+      "questionId": "diag-030",
+      "section": "contracts",
+      "skill": "conserver-preuves",
+      "difficulty": "medium",
+      "answered": true,
+      "correct": true,
+      "earnedPoints": 2,
+      "possiblePoints": 2,
+      "confidence": 4,
+      "responseTimeSeconds": 72,
+      "estimatedSeconds": 90,
+      "slow": false,
+      "errorType": null
+    },
+    {
+      "questionId": "diag-031",
+      "section": "contracts",
+      "skill": "identifier-clause-ambigue",
+      "difficulty": "hard",
+      "answered": true,
+      "correct": true,
+      "earnedPoints": 2,
+      "possiblePoints": 2,
+      "confidence": 4,
+      "responseTimeSeconds": 72,
+      "estimatedSeconds": 90,
+      "slow": false,
+      "errorType": null
+    },
+    {
+      "questionId": "diag-032",
+      "section": "sport-environment",
+      "skill": "verifier-opportunite",
+      "difficulty": "medium",
+      "answered": true,
+      "correct": false,
+      "earnedPoints": 0,
+      "possiblePoints": 2,
+      "confidence": 5,
+      "responseTimeSeconds": 122,
+      "estimatedSeconds": 90,
+      "slow": true,
+      "errorType": "method"
+    },
+    {
+      "questionId": "diag-033",
+      "section": "football-regulations",
+      "skill": "identifier-autorite-competente",
+      "difficulty": "medium",
+      "answered": true,
+      "correct": true,
+      "earnedPoints": 1,
+      "possiblePoints": 1,
+      "confidence": 4,
+      "responseTimeSeconds": 48,
+      "estimatedSeconds": 60,
+      "slow": false,
+      "errorType": null
+    },
+    {
+      "questionId": "diag-034",
+      "section": "football-regulations",
+      "skill": "mettre-a-jour-connaissances",
+      "difficulty": "medium",
+      "answered": true,
+      "correct": true,
+      "earnedPoints": 2,
+      "possiblePoints": 2,
+      "confidence": 4,
+      "responseTimeSeconds": 72,
+      "estimatedSeconds": 90,
+      "slow": false,
+      "errorType": null
+    },
+    {
+      "questionId": "diag-035",
+      "section": "football-regulations",
+      "skill": "proteger-joueur-mineur",
+      "difficulty": "hard",
+      "answered": true,
+      "correct": true,
+      "earnedPoints": 2,
+      "possiblePoints": 2,
+      "confidence": 4,
+      "responseTimeSeconds": 72,
+      "estimatedSeconds": 90,
+      "slow": false,
+      "errorType": null
+    },
+    {
+      "questionId": "diag-036",
+      "section": "practical-cases",
+      "skill": "selectionner-faits-utiles",
+      "difficulty": "medium",
+      "answered": true,
+      "correct": false,
+      "earnedPoints": 0,
+      "possiblePoints": 2,
+      "confidence": 2,
+      "responseTimeSeconds": 122,
+      "estimatedSeconds": 90,
+      "slow": true,
+      "errorType": "method"
+    },
+    {
+      "questionId": "diag-037",
+      "section": "practical-cases",
+      "skill": "appliquer-regle-aux-faits",
+      "difficulty": "hard",
+      "answered": true,
+      "correct": true,
+      "earnedPoints": 2,
+      "possiblePoints": 2,
+      "confidence": 4,
+      "responseTimeSeconds": 72,
+      "estimatedSeconds": 90,
+      "slow": false,
+      "errorType": null
+    },
+    {
+      "questionId": "diag-038",
+      "section": "practical-cases",
+      "skill": "gerer-incertitude",
+      "difficulty": "hard",
+      "answered": true,
+      "correct": true,
+      "earnedPoints": 2,
+      "possiblePoints": 2,
+      "confidence": 4,
+      "responseTimeSeconds": 72,
+      "estimatedSeconds": 90,
+      "slow": false,
+      "errorType": null
+    },
+    {
+      "questionId": "diag-039",
+      "section": "exam-method",
+      "skill": "relire-reponses",
+      "difficulty": "medium",
+      "answered": true,
+      "correct": true,
+      "earnedPoints": 2,
+      "possiblePoints": 2,
+      "confidence": 4,
+      "responseTimeSeconds": 60,
+      "estimatedSeconds": 75,
+      "slow": false,
+      "errorType": null
+    },
+    {
+      "questionId": "diag-040",
+      "section": "exam-method",
+      "skill": "decider-sous-incertitude",
+      "difficulty": "hard",
+      "answered": true,
+      "correct": false,
+      "earnedPoints": 0,
+      "possiblePoints": 2,
+      "confidence": 5,
+      "responseTimeSeconds": 122,
+      "estimatedSeconds": 90,
+      "slow": true,
+      "errorType": "method"
+    }
+  ]
+}

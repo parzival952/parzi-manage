@@ -1,6 +1,6 @@
 import Link from "next/link";
-import { notFound } from "next/navigation";
 import { requireUser } from "@/lib/auth";
+import { requireOwnedResource } from "@/lib/authorization";
 import { getOpportunities, getPlayer, getPlayers } from "@/lib/queries";
 import { getVeille } from "@/lib/veille";
 import { computeParziScore } from "@/lib/score";
@@ -8,13 +8,13 @@ import { computeParziScore } from "@/lib/score";
 export default async function JoueurPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
   const user = await requireUser();
-  const [p, allPlayers, opps, veille] = await Promise.all([
+  const [ownedPlayer, allPlayers, opps, veille] = await Promise.all([
     getPlayer(user.id, Number(id)),
     getPlayers(user.id),
     getOpportunities(user.id),
     getVeille().catch(() => ({ items: [], sourcesOk: 0, sourcesTotal: 0 })),
   ]);
-  if (!p) notFound();
+  const p = requireOwnedResource(ownedPlayer);
   const score = computeParziScore(p, allPlayers, opps, veille.items);
 
   const rows: [string, string][] = [

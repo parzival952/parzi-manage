@@ -1,6 +1,7 @@
 export const dynamic = "force-dynamic";
 import { revalidatePath } from "next/cache";
 import { requireUser } from "@/lib/auth";
+import { requireOwnedMutation } from "@/lib/authorization";
 import { createEvent, deleteEvent, getEvents } from "@/lib/queries";
 
 const input = "glass-input rounded-lg px-3 py-1.5 text-[13px] focus:outline-none focus:border-[#2a78d6]";
@@ -23,7 +24,7 @@ export default async function CalendrierPage() {
   async function remove(formData: FormData) {
     "use server";
     const u = await requireUser();
-    await deleteEvent(u.id, Number(formData.get("id")));
+    requireOwnedMutation(await deleteEvent(u.id, Number(formData.get("id"))));
     revalidatePath("/calendrier");
     revalidatePath("/dashboard");
   }

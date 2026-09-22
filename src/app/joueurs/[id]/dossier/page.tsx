@@ -1,7 +1,7 @@
 import Link from "next/link";
-import { notFound } from "next/navigation";
 import { revalidatePath } from "next/cache";
 import { requireUser } from "@/lib/auth";
+import { requireOwnedResource } from "@/lib/authorization";
 import { aiEnabled, generatePitch } from "@/lib/ai";
 import { getPlayer } from "@/lib/queries";
 import PrintButton from "@/components/PrintButton";
@@ -11,12 +11,12 @@ export default async function DossierPage({ params }: { params: Promise<{ id: st
   const { id } = await params;
   const playerId = Number(id);
   const user = await requireUser();
-  const p = await getPlayer(user.id, playerId);
-  if (!p) notFound();
+  const p = requireOwnedResource(await getPlayer(user.id, playerId));
 
   async function makePitch() {
     "use server";
     const u = await requireUser();
+    requireOwnedResource(await getPlayer(u.id, playerId));
     await generatePitch(u.id, playerId);
     revalidatePath(`/joueurs/${playerId}/dossier`);
   }

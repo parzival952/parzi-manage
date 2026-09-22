@@ -1,0 +1,380 @@
+{
+  "id": "academy-diagnostic-batch-02",
+  "version": "1.0.0",
+  "questions": [
+    {
+      "id": "diag-011",
+      "section": "sport-environment",
+      "skill": "identifier-role-agent",
+      "difficulty": "easy",
+      "type": "single_choice",
+      "title": "Comprendre le rôle de l’agent",
+      "statement": "Quelle description représente le mieux le rôle professionnel d’un agent sportif ?",
+      "options": [
+        {
+          "id": "a",
+          "text": "Garantir à chaque joueur la signature d’un contrat professionnel."
+        },
+        {
+          "id": "b",
+          "text": "Accompagner et représenter les intérêts du joueur dans le respect du cadre applicable."
+        },
+        {
+          "id": "c",
+          "text": "Décider à la place des clubs quels joueurs doivent être recrutés."
+        },
+        {
+          "id": "d",
+          "text": "Remplacer l’entraîneur dans les décisions sportives."
+        }
+      ],
+      "correctAnswerIds": [
+        "b"
+      ],
+      "explanation": "L’agent accompagne et représente les intérêts de son client dans les limites de son rôle et du cadre applicable. Il ne peut pas garantir une décision dépendant d’un club.",
+      "trap": "Confondre accompagnement professionnel et garantie de résultat.",
+      "errorTypeIfWrong": "knowledge",
+      "points": 1,
+      "estimatedSeconds": 45,
+      "confidenceRequired": true
+    },
+    {
+      "id": "diag-012",
+      "section": "sport-environment",
+      "skill": "distinguer-agent-recruteur",
+      "difficulty": "easy",
+      "type": "single_choice",
+      "title": "Agent et recruteur",
+      "statement": "Quelle différence est la plus pertinente entre un agent et un recruteur travaillant pour un club ?",
+      "options": [
+        {
+          "id": "a",
+          "text": "Il n’existe aucune différence entre les deux fonctions."
+        },
+        {
+          "id": "b",
+          "text": "L’agent accompagne son client, tandis que le recruteur recherche et évalue des profils pour son organisation."
+        },
+        {
+          "id": "c",
+          "text": "Le recruteur représente automatiquement les intérêts juridiques du joueur."
+        },
+        {
+          "id": "d",
+          "text": "L’agent décide seul du recrutement d’un joueur."
+        }
+      ],
+      "correctAnswerIds": [
+        "b"
+      ],
+      "explanation": "Les intérêts et missions peuvent être différents. L’agent accompagne son client, alors que le recruteur agit généralement pour identifier des profils correspondant aux besoins de son organisation.",
+      "trap": "Supposer que toutes les personnes intervenant dans un recrutement représentent les mêmes intérêts.",
+      "errorTypeIfWrong": "comprehension",
+      "points": 1,
+      "estimatedSeconds": 45,
+      "confidenceRequired": true
+    },
+    {
+      "id": "diag-013",
+      "section": "sport-environment",
+      "skill": "identifier-parties-prenantes",
+      "difficulty": "medium",
+      "type": "multiple_choice",
+      "title": "Les acteurs d’une carrière sportive",
+      "statement": "Quels acteurs peuvent intervenir dans la construction de la carrière d’un joueur ?",
+      "options": [
+        {
+          "id": "a",
+          "text": "Le joueur."
+        },
+        {
+          "id": "b",
+          "text": "Le club."
+        },
+        {
+          "id": "c",
+          "text": "L’agent ou le représentant autorisé."
+        },
+        {
+          "id": "d",
+          "text": "L’encadrement sportif et médical."
+        },
+        {
+          "id": "e",
+          "text": "Une personne inconnue sur un réseau social devient automatiquement décisionnaire."
+        }
+      ],
+      "correctAnswerIds": [
+        "a",
+        "b",
+        "c",
+        "d"
+      ],
+      "explanation": "La carrière du joueur implique plusieurs acteurs possédant des rôles différents. Une personne extérieure ne devient pas décisionnaire simplement parce qu’elle contacte le joueur.",
+      "trap": "Accorder une autorité professionnelle à une personne sans vérifier son rôle ni sa légitimité.",
+      "errorTypeIfWrong": "knowledge",
+      "points": 2,
+      "estimatedSeconds": 75,
+      "confidenceRequired": true
+    },
+    {
+      "id": "diag-014",
+      "section": "sport-environment",
+      "skill": "analyser-interets",
+      "difficulty": "medium",
+      "type": "single_choice",
+      "title": "Identifier les intérêts en présence",
+      "statement": "Un club et un joueur négocient un engagement. Quelle attitude méthodologique est la plus correcte ?",
+      "options": [
+        {
+          "id": "a",
+          "text": "Supposer que les deux parties ont toujours exactement les mêmes intérêts."
+        },
+        {
+          "id": "b",
+          "text": "Identifier les objectifs, obligations et risques propres à chaque partie."
+        },
+        {
+          "id": "c",
+          "text": "Ignorer les conséquences à long terme."
+        },
+        {
+          "id": "d",
+          "text": "Se concentrer uniquement sur la rémunération."
+        }
+      ],
+      "correctAnswerIds": [
+        "b"
+      ],
+      "explanation": "Une négociation sérieuse exige de comprendre les intérêts, les obligations, les contraintes et les risques de chaque partie.",
+      "trap": "Réduire toute négociation à une seule question financière.",
+      "errorTypeIfWrong": "method",
+      "points": 1,
+      "estimatedSeconds": 60,
+      "confidenceRequired": true
+    },
+    {
+      "id": "diag-015",
+      "section": "sport-environment",
+      "skill": "proteger-confidentialite",
+      "difficulty": "medium",
+      "type": "single_choice",
+      "title": "Confidentialité professionnelle",
+      "statement": "Un joueur transmet à son représentant un document personnel contenant des informations confidentielles. Quelle attitude est la plus professionnelle ?",
+      "options": [
+        {
+          "id": "a",
+          "text": "Le publier pour démontrer que le dossier est réel."
+        },
+        {
+          "id": "b",
+          "text": "Le partager avec toutes les personnes intéressées."
+        },
+        {
+          "id": "c",
+          "text": "Le protéger et limiter son accès aux personnes légitimement concernées."
+        },
+        {
+          "id": "d",
+          "text": "Le transférer dans une conversation publique."
+        }
+      ],
+      "correctAnswerIds": [
+        "c"
+      ],
+      "explanation": "Les informations confidentielles doivent être protégées. Leur accès doit rester limité aux personnes autorisées et réellement concernées.",
+      "trap": "Confondre preuve professionnelle et diffusion incontrôlée d’un document.",
+      "errorTypeIfWrong": "knowledge",
+      "points": 1,
+      "estimatedSeconds": 45,
+      "confidenceRequired": true
+    },
+    {
+      "id": "diag-016",
+      "section": "football-regulations",
+      "skill": "choisir-source-fiable",
+      "difficulty": "easy",
+      "type": "single_choice",
+      "title": "Choisir une source réglementaire",
+      "statement": "Pour vérifier une règle applicable à une situation sportive, quelle source doit être privilégiée ?",
+      "options": [
+        {
+          "id": "a",
+          "text": "Une publication anonyme sur un réseau social."
+        },
+        {
+          "id": "b",
+          "text": "Le texte officiel publié par l’autorité compétente."
+        },
+        {
+          "id": "c",
+          "text": "Le souvenir d’une ancienne conversation."
+        },
+        {
+          "id": "d",
+          "text": "La première réponse trouvée sans vérifier sa date."
+        }
+      ],
+      "correctAnswerIds": [
+        "b"
+      ],
+      "explanation": "Le texte officiel et actualisé publié par l’autorité compétente doit constituer la source principale de vérification.",
+      "trap": "Prendre une explication secondaire pour la règle officielle elle-même.",
+      "errorTypeIfWrong": "source",
+      "points": 1,
+      "estimatedSeconds": 45,
+      "confidenceRequired": true
+    },
+    {
+      "id": "diag-017",
+      "section": "football-regulations",
+      "skill": "verifier-version",
+      "difficulty": "medium",
+      "type": "multiple_choice",
+      "title": "Vérifier un règlement",
+      "statement": "Avant d’appliquer une disposition réglementaire, quels éléments doivent être vérifiés ?",
+      "options": [
+        {
+          "id": "a",
+          "text": "L’autorité ayant publié le texte."
+        },
+        {
+          "id": "b",
+          "text": "La version ou la saison concernée."
+        },
+        {
+          "id": "c",
+          "text": "La date d’entrée en vigueur."
+        },
+        {
+          "id": "d",
+          "text": "L’existence éventuelle d’une modification récente."
+        },
+        {
+          "id": "e",
+          "text": "La popularité du document sur les réseaux sociaux."
+        }
+      ],
+      "correctAnswerIds": [
+        "a",
+        "b",
+        "c",
+        "d"
+      ],
+      "explanation": "Une règle peut avoir été modifiée, remplacée ou ne pas encore être entrée en vigueur. La source, la version, la date et les mises à jour doivent être contrôlées.",
+      "trap": "Utiliser un document authentique mais devenu obsolète.",
+      "errorTypeIfWrong": "source",
+      "points": 2,
+      "estimatedSeconds": 90,
+      "confidenceRequired": true
+    },
+    {
+      "id": "diag-018",
+      "section": "football-regulations",
+      "skill": "identifier-territoire",
+      "difficulty": "medium",
+      "type": "single_choice",
+      "title": "Territoire et règle applicable",
+      "statement": "Avant de déterminer quelle réglementation doit être étudiée, quelle information est particulièrement importante ?",
+      "options": [
+        {
+          "id": "a",
+          "text": "Le territoire et le contexte dans lesquels l’activité est exercée."
+        },
+        {
+          "id": "b",
+          "text": "La couleur du maillot du joueur."
+        },
+        {
+          "id": "c",
+          "text": "Le nombre d’abonnés du représentant."
+        },
+        {
+          "id": "d",
+          "text": "La préférence personnelle du candidat."
+        }
+      ],
+      "correctAnswerIds": [
+        "a"
+      ],
+      "explanation": "Le territoire, l’autorité compétente et la nature de l’activité peuvent modifier le cadre applicable. Cette vérification doit précéder la conclusion.",
+      "trap": "Appliquer automatiquement une règle sans vérifier son champ d’application.",
+      "errorTypeIfWrong": "method",
+      "points": 1,
+      "estimatedSeconds": 60,
+      "confidenceRequired": true
+    },
+    {
+      "id": "diag-019",
+      "section": "football-regulations",
+      "skill": "distinguer-regle-commentaire",
+      "difficulty": "medium",
+      "type": "single_choice",
+      "title": "Règle officielle ou commentaire",
+      "statement": "Un article de blog résume un règlement officiel. Une différence apparaît entre le résumé et le texte officiel. Quelle référence doit être retenue en priorité ?",
+      "options": [
+        {
+          "id": "a",
+          "text": "Le blog, car il est plus facile à lire."
+        },
+        {
+          "id": "b",
+          "text": "Le texte officiel dans sa version applicable."
+        },
+        {
+          "id": "c",
+          "text": "La réponse qui semble la plus avantageuse."
+        },
+        {
+          "id": "d",
+          "text": "Les deux textes sont automatiquement équivalents."
+        }
+      ],
+      "correctAnswerIds": [
+        "b"
+      ],
+      "explanation": "Un commentaire peut faciliter la compréhension, mais il ne remplace pas la disposition officielle applicable.",
+      "trap": "Confondre une ressource pédagogique avec la source juridique ou réglementaire principale.",
+      "errorTypeIfWrong": "source",
+      "points": 1,
+      "estimatedSeconds": 60,
+      "confidenceRequired": true
+    },
+    {
+      "id": "diag-020",
+      "section": "football-regulations",
+      "skill": "identifier-conflit-interets",
+      "difficulty": "hard",
+      "type": "single_choice",
+      "title": "Détecter un conflit d’intérêts",
+      "statement": "Une personne intervient dans une opération et semble défendre simultanément plusieurs intérêts potentiellement opposés. Quelle doit être la première réaction professionnelle ?",
+      "options": [
+        {
+          "id": "a",
+          "text": "Ignorer la situation si l’opération paraît financièrement intéressante."
+        },
+        {
+          "id": "b",
+          "text": "Identifier les parties représentées, vérifier les règles applicables et évaluer le conflit potentiel."
+        },
+        {
+          "id": "c",
+          "text": "Supposer que tous les intérêts sont compatibles."
+        },
+        {
+          "id": "d",
+          "text": "Cacher la situation aux parties concernées."
+        }
+      ],
+      "correctAnswerIds": [
+        "b"
+      ],
+      "explanation": "Un conflit potentiel doit être identifié, documenté et analysé au regard des intérêts représentés et des règles applicables.",
+      "trap": "Considérer le résultat financier comme plus important que l’indépendance et la transparence.",
+      "errorTypeIfWrong": "method",
+      "points": 2,
+      "estimatedSeconds": 90,
+      "confidenceRequired": true
+    }
+  ]
+}
