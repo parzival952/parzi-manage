@@ -835,7 +835,92 @@ export const COURSE: { id: string; title: string; chapters: Chapter[] } = {
       ],
     },
 
-    // ================= CH.10 — MÉTHODE & PROFESSIONNALISATION =================
+    // ================= CH.10 — MÉDIAS, IMAGE & COMMUNICATION =================
+    {
+      id: "medias-communication",
+      title: "Médias, image & communication",
+      subtitle: "Aujourd'hui, l'agent gère aussi l'espace médiatique : presse, réseaux, crises et prises de parole.",
+      lessons: [
+        {
+          id: "relation-medias",
+          title: "Gérer la relation avec les médias",
+          minutes: 6,
+          intro: "Les médias peuvent porter un joueur au sommet ou l'enfoncer. L'agent n'est pas attaché de presse, mais il pilote la relation et protège son client.",
+          blocks: [
+            "Les journalistes ne sont ni des amis ni des ennemis : ce sont des professionnels avec leurs objectifs. Une relation saine repose sur la fiabilité (tu ne mens pas) et la clarté (ce qui est public, ce qui ne l'est pas). Un bon contact presse est un actif de long terme.",
+            "Maîtrise la distinction « on the record » / « off the record » : tout ce qui est dit peut être publié, sauf accord explicite — et même là, prudence. Ne dis jamais en « off » ce qui te détruirait en « on ».",
+            "Choisis les moments : une prise de parole se prépare (message clé, ce qu'on ne dira pas). Le silence est parfois la meilleure communication — ne pas répondre à une rumeur, c'est parfois l'éteindre.",
+            "Cas concret — Une rumeur de transfert sort en plein mercato. L'agent débutant dément avec véhémence (et alimente le sujet), ou confirme trop tôt (et fragilise la négociation). L'agent accompli répond de façon mesurée, protège la négociation en cours, et ne commente pas ce qui n'est pas signé.",
+            "⚠️ L'erreur classique — Traiter les journalistes comme des potes (et lâcher une info sensible) ou comme des ennemis (et se les mettre à dos). Le pro reste fiable, cadré et respectueux.",
+            "🎯 À retenir — Fiabilité + clarté = relation presse saine · « On the record » par défaut · Le silence est parfois la meilleure réponse.",
+          ],
+          quiz: [
+            { q: "Face à une rumeur de transfert non signé, le pro :", options: ["Dément avec véhémence", "Répond de façon mesurée et ne commente pas ce qui n'est pas signé", "Confirme tout de suite"], answer: 1, explain: "Commenter un deal non signé fragilise la négociation." },
+            { q: "« Off the record » signifie :", options: ["Que rien ne pourra jamais fuiter", "Une zone à manier avec prudence : ne dis jamais en off ce qui te détruirait en on", "Que tu peux tout dire sans risque"], answer: 1 },
+            { q: "Un bon contact presse, c'est :", options: ["Un ami à qui on dit tout", "Un actif de long terme fondé sur la fiabilité", "Un ennemi à éviter"], answer: 1 },
+          ],
+        },
+        {
+          id: "reseaux-sociaux",
+          title: "Maîtriser les réseaux sociaux",
+          minutes: 5,
+          intro: "Les réseaux sociaux sont à la fois le plus grand atout d'image d'un joueur et son plus grand risque. Ils se pilotent, ils ne se subissent pas.",
+          blocks: [
+            "Un compte bien géré construit une marque, attire des sponsors et donne de la valeur au joueur au-delà du terrain. Mal géré, il crée des polémiques, tend les relations avec le club et fait fuir les partenaires.",
+            "Les règles de base à poser avec le joueur : réfléchir avant de poster, éviter les sujets clivants gratuits, ne pas répondre à chaud, ne rien publier qui trahisse le vestiaire ou le club. Ce qui est en ligne y reste.",
+            "L'agent aide à structurer : une ligne éditoriale simple, cohérente avec l'image visée, et parfois un professionnel (community manager) quand le joueur monte. Les réseaux servent la carrière, ils ne la remplacent pas.",
+            "Cas concret — Après une défaite, ton joueur veut poster un message rageur visant son coach. L'agent débutant laisse faire (ou ne voit rien). L'agent accompli l'appelle avant, désamorce, et transforme l'élan en un message neutre — évitant une amende du club et une brouille durable.",
+            "⚠️ L'erreur classique — Croire que les réseaux sont un espace privé sans conséquence. Un post de dix secondes peut coûter un transfert, un sponsor ou une place dans le groupe.",
+            "🎯 À retenir — Les réseaux sont un actif ET un risque · Réfléchir avant de poster, jamais à chaud · Une ligne cohérente avec l'image visée.",
+          ],
+          quiz: [
+            { q: "Un compte social bien géré :", options: ["Ne sert à rien", "Construit une marque et attire des sponsors", "Remplace les performances"], answer: 1 },
+            { q: "Ton joueur veut poster un message rageur contre son coach. Tu :", options: ["Laisses faire, c'est son compte", "L'appelles avant, désamorces, et proposes un message neutre", "Postes à sa place sans le prévenir"], answer: 1 },
+            { q: "La bonne règle de publication :", options: ["Poster à chaud pour être authentique", "Réfléchir avant, jamais à chaud, cohérent avec l'image", "Publier tout, tout le temps"], answer: 1 },
+          ],
+        },
+        {
+          id: "communication-crise",
+          title: "Communication de crise",
+          minutes: 6,
+          intro: "Blessure grave, affaire extra-sportive, clash public, bad buzz : la crise arrive toujours. Ce qui distingue un grand agent, c'est sa gestion des tempêtes.",
+          blocks: [
+            "Les principes d'une crise : agir vite mais sans panique, dire la vérité (ou se taire, jamais mentir), parler d'une seule voix (joueur, agent, club alignés), et penser à l'après (reconstruire l'image une fois la tempête passée).",
+            "La cellule de crise : qui parle, qui ne parle pas, quel message, quel canal. Improviser en pleine tempête est le meilleur moyen d'aggraver les choses. Un plan simple préparé à froid vaut mille réactions à chaud.",
+            "Certaines crises se gèrent par le silence et le temps ; d'autres exigent une prise de parole claire et assumée. Savoir distinguer les deux — et ne jamais laisser le joueur seul face aux micros — fait partie du métier.",
+            "Cas concret — Ton joueur est impliqué dans une polémique virale un soir de match. L'agent débutant le laisse répondre seul sur les réseaux, en pleine émotion. L'agent accompli coupe le bruit, aligne joueur et club sur un message unique, et choisit le bon moment pour s'exprimer — ou pour ne rien dire.",
+            "⚠️ L'erreur classique — Réagir dans la panique, multiplier les prises de parole contradictoires, ou laisser le joueur gérer seul. La crise se pilote à froid, à plusieurs voix alignées.",
+            "🎯 À retenir — Vite mais sans panique · Une seule voix, jamais de mensonge · Prépare un plan de crise à froid.",
+          ],
+          quiz: [
+            { q: "En pleine crise médiatique, le pro :", options: ["Multiplie les prises de parole spontanées", "Aligne joueur et club sur un message unique et choisit le bon moment", "Laisse le joueur répondre seul à chaud"], answer: 1 },
+            { q: "Un principe de communication de crise :", options: ["Mentir si nécessaire", "Dire la vérité ou se taire, jamais mentir", "Ignorer totalement la crise"], answer: 1 },
+            { q: "Le meilleur plan de crise :", options: ["S'improvise pendant la tempête", "Se prépare à froid, avant la crise", "N'existe pas"], answer: 1 },
+          ],
+        },
+        {
+          id: "prise-de-parole",
+          title: "Préparer une prise de parole",
+          minutes: 5,
+          intro: "Une interview, une conférence, une story : chaque prise de parole peut servir ou desservir. Ça se prépare comme une négociation — avec un message et des limites.",
+          blocks: [
+            "Avant une prise de parole : définis 1 à 3 messages clés, et surtout ce qu'on ne dira pas (le mercato, le vestiaire, les sujets qui fâchent). Un joueur préparé garde le contrôle ; un joueur improvisé se fait piéger.",
+            "Les techniques : ramener chaque question vers ton message, répondre court sur les sujets sensibles, ne jamais répéter une formulation négative posée par le journaliste. Le silence et « je ne commente pas » sont des réponses valables.",
+            "L'objectif n'est pas de « bien parler » mais de servir la carrière : renforcer l'image, protéger la négociation, ne créer aucun problème. Une prise de parole réussie, c'est souvent celle qui ne fait pas de vagues.",
+            "Cas concret — Avant une interview d'après-match tendue, tu prépares ton joueur : trois messages, deux sujets à esquiver, une phrase de sortie prête. Le joueur reste maître de l'échange. L'agent débutant, lui, l'envoie à froid — et passe la soirée à éteindre l'incendie d'une phrase malheureuse.",
+            "⚠️ L'erreur classique — Envoyer le joueur sans préparation, ou le sur-briefer au point de le rendre robotique. Le pro prépare l'essentiel : messages, limites, et une posture naturelle.",
+            "🎯 À retenir — Prépare 1 à 3 messages + ce qu'on ne dira pas · Ramène vers ton message, réponds court sur le sensible · « Je ne commente pas » est une réponse.",
+          ],
+          quiz: [
+            { q: "Bien préparer une prise de parole, c'est définir :", options: ["Rien, il faut être spontané", "1 à 3 messages clés ET ce qu'on ne dira pas", "Uniquement la tenue"], answer: 1 },
+            { q: "Face à une question piège sur un sujet sensible :", options: ["Répondre longuement pour se justifier", "Répondre court, ramener vers son message, ou « je ne commente pas »", "Répéter la formulation négative du journaliste"], answer: 1 },
+            { q: "Une prise de parole réussie :", options: ["Fait le buzz à tout prix", "Sert la carrière et ne crée aucun problème", "Dure le plus longtemps possible"], answer: 1 },
+          ],
+        },
+      ],
+    },
+
+    // ================= CH.11 — MÉTHODE & PROFESSIONNALISATION =================
     {
       id: "methode-pro",
       title: "Méthode, examen & outils",
@@ -977,6 +1062,8 @@ const LESSON_ATTR: Record<string, AttrKey> = {
   "mental-performance": "MGT", "gerer-entourage": "MGT", "conversations-difficiles": "NEG", "jeune-argent-celebrite": "MGT",
   // Transferts internationaux
   "jouer-a-letranger": "JUR", "mecanique-transfert-int": "JUR", "formation-solidarite": "BUS", "montages-a-eviter": "JUR",
+  // Médias, image & communication
+  "relation-medias": "MGT", "reseaux-sociaux": "BUS", "communication-crise": "MGT", "prise-de-parole": "NEG",
   // Méthode & pro
   "methode-examen": "MGT", "cas-pratiques": "JUR", veille: "IA", "outils-parzi": "IA",
 };

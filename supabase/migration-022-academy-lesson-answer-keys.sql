@@ -1,4 +1,4 @@
--- migration-022 — Clés de correction de TOUTES les leçons du programme (41 leçons).
+-- migration-022 — Clés de correction de TOUTES les leçons du programme (45 leçons).
 --
 -- La CLÉ DE CORRECTION vit en base (academy_lesson_definitions) : le RPC
 -- complete_academy_lesson note les réponses (p_answers) contre answer_key côté
@@ -45,6 +45,10 @@ values
   ('mecanique-transfert-int', '[1,1,0]'::jsonb, 3, true),
   ('formation-solidarite', '[1,1,1]'::jsonb, 3, true),
   ('montages-a-eviter', '[1,0,1]'::jsonb, 3, true),
+  ('relation-medias', '[1,1,1]'::jsonb, 3, true),
+  ('reseaux-sociaux', '[1,1,1]'::jsonb, 3, true),
+  ('communication-crise', '[1,1,1]'::jsonb, 3, true),
+  ('prise-de-parole', '[1,1,1]'::jsonb, 3, true),
   ('methode-examen', '[1,1,1]'::jsonb, 3, true),
   ('cas-pratiques', '[1,1,1]'::jsonb, 3, true),
   ('veille', '[1,1,1]'::jsonb, 3, true),
