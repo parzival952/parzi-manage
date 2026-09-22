@@ -750,7 +750,92 @@ export const COURSE: { id: string; title: string; chapters: Chapter[] } = {
       ],
     },
 
-    // ================= CH.9 — MÉTHODE & PROFESSIONNALISATION =================
+    // ================= CH.9 — TRANSFERTS INTERNATIONAUX =================
+    {
+      id: "transferts-internationaux",
+      title: "Transferts internationaux",
+      subtitle: "Faire signer un joueur au-delà des frontières : éligibilité, mécanique FIFA et pièges à éviter.",
+      lessons: [
+        {
+          id: "jouer-a-letranger",
+          title: "Jouer à l'étranger : éligibilité & permis",
+          minutes: 6,
+          intro: "Avant de rêver d'un transfert à l'étranger, une question tranche tout : le joueur a-t-il le droit d'y jouer ? L'éligibilité administrative fait ou défait un deal.",
+          blocks: [
+            "Deux grands régimes. Au sein de l'Union européenne, la libre circulation facilite l'emploi des ressortissants de l'UE. Hors UE — et, depuis le Brexit, pour l'Angleterre — l'accès est filtré par des permis de travail, des systèmes à points ou des quotas de joueurs étrangers.",
+            "Chaque pays et chaque ligue a ses propres règles, et elles changent (quotas, critères d'expérience internationale, systèmes à points). Ne promets jamais un transfert avant d'avoir vérifié l'éligibilité pour ce pays, cette saison.",
+            "La nationalité sportive et un éventuel second passeport pèsent lourd : un joueur binational peut devenir « communautaire » et débloquer un marché entier. Connaître le dossier administratif d'un joueur fait partie du métier.",
+            "Cas concret — Tu tiens un accord de principe pour placer un joueur non-UE en Angleterre. L'agent débutant annonce la bonne nouvelle au joueur ; l'agent accompli vérifie d'abord le système à points : faute de sélections internationales suffisantes, le permis est refusé et le deal s'effondre. Vérifier l'éligibilité AVANT d'engager la parole, c'est se protéger d'une humiliation.",
+            "⚠️ L'erreur classique — Raisonner « niveau sportif » en oubliant l'administratif. Un transfert parfait sur le papier ne vaut rien si le joueur ne peut pas être enregistré.",
+            "🎯 À retenir — UE : libre circulation ; hors UE : permis/quotas · Les règles varient par pays et par saison · Vérifie l'éligibilité avant de promettre.",
+          ],
+          quiz: [
+            { q: "Avant d'annoncer un transfert à l'étranger, le réflexe n°1 :", options: ["Négocier le salaire", "Vérifier l'éligibilité administrative (permis, quotas) du joueur", "Prévenir la presse"], answer: 1, explain: "Un joueur inéligible ne peut pas être enregistré : l'administratif prime." },
+            { q: "Depuis le Brexit, jouer en Angleterre pour un non-UE dépend souvent :", options: ["D'un simple accord entre clubs", "D'un système à points / permis de travail", "De rien de particulier"], answer: 1 },
+            { q: "Un second passeport communautaire peut :", options: ["Compliquer le transfert", "Débloquer l'accès à tout un marché (statut communautaire)", "Être sans effet"], answer: 1 },
+          ],
+        },
+        {
+          id: "mecanique-transfert-int",
+          title: "La mécanique d'un transfert international",
+          minutes: 6,
+          intro: "Un transfert entre deux pays suit un circuit précis, tracé et minuté. Connaître la mécanique t'évite de faire capoter un accord pour un détail administratif.",
+          blocks: [
+            "Le passage d'une fédération à une autre nécessite un Certificat International de Transfert (CIT / ITC) : l'ancienne fédération le délivre, la nouvelle enregistre le joueur. Sans CIT validé, le joueur ne peut pas jouer, même si tout le reste est signé.",
+            "Tout transite par le TMS (Transfer Matching System) de la FIFA : les deux clubs y saisissent les informations, qui doivent concorder. La moindre incohérence (dates, montants, documents) bloque l'opération.",
+            "Le nerf de la guerre, c'est le temps : les fenêtres de transfert ont des dates limites strictes. Un dossier incomplet à minuit, c'est un transfert perdu. Le pro anticipe les documents (passeport, contrat, visite médicale) bien avant la clôture.",
+            "Cas concret — Dernier jour du mercato, l'accord est trouvé, mais l'ancienne fédération tarde à délivrer le CIT et un document manque dans le TMS. L'agent accompli avait tout préparé et relancé 48 h avant ; le débutant découvre le blocage à 23 h et regarde le deal mourir au buzzer.",
+            "⚠️ L'erreur classique — Croire que « accord signé = joueur qualifié ». Tant que le CIT n'est pas validé et le TMS bouclé, rien n'est fait.",
+            "🎯 À retenir — CIT/ITC obligatoire entre fédérations · Tout passe par le TMS, les infos doivent concorder · Anticipe les documents avant la clôture.",
+          ],
+          quiz: [
+            { q: "Pour enregistrer un joueur venu d'une autre fédération, il faut :", options: ["Rien de spécial", "Un Certificat International de Transfert (CIT/ITC) validé", "Uniquement l'accord des clubs"], answer: 1 },
+            { q: "Le TMS (FIFA) sert à :", options: ["Diffuser les matchs", "Saisir et faire concorder les informations du transfert entre les deux clubs", "Payer les agents"], answer: 1 },
+            { q: "Le vrai risque le dernier jour du mercato :", options: ["Un dossier incomplet / CIT en retard qui fait tout capoter", "Le prix du café", "La météo"], answer: 0 },
+          ],
+        },
+        {
+          id: "formation-solidarite",
+          title: "Indemnités de formation & solidarité",
+          minutes: 5,
+          intro: "Quand un joueur est transféré, les clubs qui l'ont formé peuvent toucher de l'argent. Comprendre ces mécanismes, c'est comprendre une partie de l'économie d'un transfert.",
+          blocks: [
+            "L'indemnité de formation récompense les clubs ayant formé un jeune joueur (jusqu'à un certain âge), lors de ses premiers contrats professionnels et de certains transferts. Objectif : encourager la formation.",
+            "Le mécanisme de solidarité prévoit qu'une part de l'indemnité de transfert d'un joueur encore « jeune » soit redistribuée aux clubs formateurs, au prorata des années de formation. C'est prévu par le règlement FIFA.",
+            "Pour l'agent, ces mécanismes ont un impact concret : ils modifient le « net vendeur » d'un club, donc la marge de négociation, et peuvent compliquer — ou débloquer — un accord. Les ignorer, c'est mal évaluer un deal.",
+            "Cas concret — Un club vend ton joueur 5 M€ mais n'anticipe pas la contribution de solidarité due aux clubs formateurs. Le net encaissé est plus faible que prévu, ce qui tend la négociation sur ta commission. L'agent accompli intègre ces flux dès le départ pour éviter les mauvaises surprises.",
+            "⚠️ L'erreur classique — Raisonner sur le montant brut du transfert sans tenir compte des indemnités de formation/solidarité. Le chiffre annoncé n'est pas le chiffre encaissé.",
+            "🎯 À retenir — La formation se rémunère (indemnité + solidarité) · Ça change le net vendeur et la négociation · Anticipe ces flux dans chaque deal.",
+          ],
+          quiz: [
+            { q: "Le mécanisme de solidarité bénéficie :", options: ["Aux agents", "Aux clubs ayant formé le joueur", "Aux sponsors"], answer: 1 },
+            { q: "Pour l'agent, les indemnités de formation/solidarité :", options: ["N'ont aucun impact", "Modifient le net vendeur et donc la négociation", "Concernent seulement la FIFA"], answer: 1 },
+            { q: "Le montant brut d'un transfert :", options: ["Est toujours ce que le club encaisse", "Peut différer du net après indemnités de formation/solidarité", "Est fixé par l'agent"], answer: 1 },
+          ],
+        },
+        {
+          id: "montages-a-eviter",
+          title: "Montages à éviter : TPO & pièges",
+          minutes: 5,
+          intro: "Certains montages promettent de l'argent rapide et finissent en sanctions. Un agent qui veut durer connaît les lignes rouges et s'y tient.",
+          blocks: [
+            "La TPO (Third-Party Ownership) — la détention des droits économiques d'un joueur par un tiers investisseur — est interdite par la FIFA. Les montages qui contournent cette interdiction exposent joueurs, clubs et agents à de lourdes sanctions.",
+            "Autres pièges : prête-noms, fausses factures, sur-commissions occultes, contrats « parallèles » non déclarés. Ils peuvent enrichir vite… puis détruire une carrière et une réputation d'un seul contrôle.",
+            "La règle de l'agent qui dure : si un montage doit rester caché, c'est qu'il ne faut pas le faire. La transparence n'est pas une contrainte, c'est ton assurance-vie professionnelle.",
+            "Cas concret — Un « investisseur » te propose de financer le transfert d'un joueur contre un pourcentage de sa future revente. C'est de la TPO déguisée : interdit. L'agent débutant voit l'argent facile ; l'agent accompli refuse, explique pourquoi, et garde les mains propres — parce qu'une seule affaire suffit à te bannir du métier.",
+            "⚠️ L'erreur classique — Se dire « tout le monde le fait » ou « personne ne verra ». Les contrôles existent, et le risque n'est jamais proportionnel au gain.",
+            "🎯 À retenir — La TPO est interdite · Fuis prête-noms, sur-commissions occultes et contrats parallèles · Si ça doit rester caché, ne le fais pas.",
+          ],
+          quiz: [
+            { q: "La détention des droits économiques d'un joueur par un tiers investisseur (TPO) est :", options: ["Encouragée", "Interdite par la FIFA", "Obligatoire"], answer: 1 },
+            { q: "La règle de l'agent qui veut durer :", options: ["Si un montage doit rester caché, ne le fais pas", "Profiter tant que ça passe", "Suivre ce que font les autres"], answer: 0 },
+            { q: "Un « investisseur » propose de financer un transfert contre un % de future revente. C'est :", options: ["Une bonne affaire", "De la TPO déguisée, à refuser", "Sans risque"], answer: 1 },
+          ],
+        },
+      ],
+    },
+
+    // ================= CH.10 — MÉTHODE & PROFESSIONNALISATION =================
     {
       id: "methode-pro",
       title: "Méthode, examen & outils",
@@ -890,6 +975,8 @@ const LESSON_ATTR: Record<string, AttrKey> = {
   "structurer-activite": "BUS", prospection: "BUS", reseau: "BUS", finances: "BUS",
   // Psychologie & facteur humain
   "mental-performance": "MGT", "gerer-entourage": "MGT", "conversations-difficiles": "NEG", "jeune-argent-celebrite": "MGT",
+  // Transferts internationaux
+  "jouer-a-letranger": "JUR", "mecanique-transfert-int": "JUR", "formation-solidarite": "BUS", "montages-a-eviter": "JUR",
   // Méthode & pro
   "methode-examen": "MGT", "cas-pratiques": "JUR", veille: "IA", "outils-parzi": "IA",
 };

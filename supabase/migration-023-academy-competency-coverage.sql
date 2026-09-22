@@ -86,7 +86,11 @@ values
   ('mental-performance','DOM-MGT',1),
   ('gerer-entourage','DOM-MGT',1),
   ('conversations-difficiles','DOM-NEG',1),
-  ('jeune-argent-celebrite','DOM-MGT',1)
+  ('jeune-argent-celebrite','DOM-MGT',1),
+  ('jouer-a-letranger','DOM-JUR',1),
+  ('mecanique-transfert-int','DOM-JUR',1),
+  ('formation-solidarite','DOM-BUS',1),
+  ('montages-a-eviter','DOM-JUR',1)
 on conflict (lesson_id, competency_id) do nothing;
 
 -- 4) Définition de question -> compétence, pour TOUTES les questions de TOUTES les
@@ -136,7 +140,11 @@ from (values
   ('mental-performance','DOM-MGT'),
   ('gerer-entourage','DOM-MGT'),
   ('conversations-difficiles','DOM-NEG'),
-  ('jeune-argent-celebrite','DOM-MGT')
+  ('jeune-argent-celebrite','DOM-MGT'),
+  ('jouer-a-letranger','DOM-JUR'),
+  ('mecanique-transfert-int','DOM-JUR'),
+  ('formation-solidarite','DOM-BUS'),
+  ('montages-a-eviter','DOM-JUR')
 ) as m(lesson_id, competency_id)
 join public.academy_lesson_definitions as l
   on l.lesson_id = m.lesson_id and l.active = true
