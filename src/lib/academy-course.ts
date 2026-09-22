@@ -744,12 +744,16 @@ const LESSON_ATTR: Record<string, AttrKey> = {
 export type AttrScore = { key: AttrKey; label: string; score: number };
 const clamp = (n: number, lo: number, hi: number) => Math.max(lo, Math.min(hi, n));
 
-export function computeAttributes(done: Set<string>, level: number): { ovr: number; attrs: AttrScore[] } {
+export function computeAttributes(
+  done: Set<string>,
+  level: number,
+  bonuses?: Partial<Record<AttrKey, number>>,
+): { ovr: number; attrs: AttrScore[] } {
   const counts: Record<string, number> = {};
   for (const id of done) { const a = LESSON_ATTR[id]; if (a) counts[a] = (counts[a] ?? 0) + 1; }
   const attrs: AttrScore[] = ATTR_DEFS.map(({ key, label }) => ({
     key, label,
-    score: clamp(40 + (counts[key] ?? 0) * 8 + Math.floor(level / 4), 40, 99),
+    score: clamp(40 + (counts[key] ?? 0) * 8 + Math.floor(level / 4) + (bonuses?.[key] ?? 0), 40, 99),
   }));
   const ovr = Math.round(attrs.reduce((s, a) => s + a.score, 0) / attrs.length);
   return { ovr, attrs };

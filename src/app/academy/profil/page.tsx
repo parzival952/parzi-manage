@@ -12,6 +12,7 @@ import {
   computeAttributes,
   LESSON_COUNT,
 } from "@/lib/academy";
+import { attributeBonusesForCerts, getMyCerts } from "@/lib/certifications";
 import { evaluateBadges, sortBadges, TIER_TONE, type BadgeStats } from "@/lib/badges";
 import { evaluateTrophies, RARITY_TONE, type TrophyStats } from "@/lib/trophies";
 import { RANKS } from "@/lib/progression";
@@ -31,7 +32,10 @@ export default async function AcademyProfil() {
   const { info } = progress;
   const initial = (user.email[0] ?? "P").toUpperCase();
   const displayName = user.email.split("@")[0];
-  const { ovr, attrs } = computeAttributes(progress.done, info.level);
+
+  const myCerts = await getMyCerts(user.id);
+  const certBonuses = attributeBonusesForCerts(new Set(myCerts.keys()));
+  const { ovr, attrs } = computeAttributes(progress.done, info.level, certBonuses);
 
   // Les 2 meilleurs attributs sont mis en avant.
   const topTwo = [...attrs].sort((a, b) => b.score - a.score).slice(0, 2).map((a) => a.key);
@@ -81,6 +85,14 @@ export default async function AcademyProfil() {
           </div>
         </div>
       </div>
+
+      {myCerts.size > 0 ? (
+        <div className="text-[11px] pz-muted -mt-3 text-center">
+          ▲ Carte boostée par {myCerts.size} certification
+          {myCerts.size > 1 ? "s" : ""} obtenue
+          {myCerts.size > 1 ? "s" : ""}
+        </div>
+      ) : null}
 
       <AcademyProgressHeader progress={progress} doneCount={progress.done.size} total={LESSON_COUNT} />
 

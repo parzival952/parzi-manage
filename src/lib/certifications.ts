@@ -168,6 +168,27 @@ export function gradeExam(cert: Cert, answers: number[]): { score: number; corre
   return { score, correct, breakdown };
 }
 
+/** Bonus d'attributs (carte agent) apportés par les certifications obtenues :
+ *  chaque certif renforce les domaines couverts par son examen (via les tags de
+ *  questions). Alimente computeAttributes — aucune persistance requise. */
+export function attributeBonusesForCerts(
+  earned: Set<string>,
+): Partial<Record<AttrKey, number>> {
+  const PER_CERT = 4;
+  const bonuses: Partial<Record<AttrKey, number>> = {};
+  for (const cert of CERTS) {
+    if (!earned.has(cert.id)) continue;
+    const domains = new Set<AttrKey>();
+    for (const q of cert.exam) {
+      if (q.domain) domains.add(q.domain);
+    }
+    for (const d of domains) {
+      bonuses[d] = (bonuses[d] ?? 0) + PER_CERT;
+    }
+  }
+  return bonuses;
+}
+
 export type EarnedCert = { cert_id: string; score: number; code: string; created_at: string };
 
 export async function getMyCerts(uid: string): Promise<Map<string, EarnedCert>> {
