@@ -90,7 +90,11 @@ values
   ('jouer-a-letranger','DOM-JUR',1),
   ('mecanique-transfert-int','DOM-JUR',1),
   ('formation-solidarite','DOM-BUS',1),
-  ('montages-a-eviter','DOM-JUR',1)
+  ('montages-a-eviter','DOM-JUR',1),
+  ('relation-medias','DOM-MGT',1),
+  ('reseaux-sociaux','DOM-BUS',1),
+  ('communication-crise','DOM-MGT',1),
+  ('prise-de-parole','DOM-NEG',1)
 on conflict (lesson_id, competency_id) do nothing;
 
 -- 4) Définition de question -> compétence, pour TOUTES les questions de TOUTES les
@@ -144,7 +148,11 @@ from (values
   ('jouer-a-letranger','DOM-JUR'),
   ('mecanique-transfert-int','DOM-JUR'),
   ('formation-solidarite','DOM-BUS'),
-  ('montages-a-eviter','DOM-JUR')
+  ('montages-a-eviter','DOM-JUR'),
+  ('relation-medias','DOM-MGT'),
+  ('reseaux-sociaux','DOM-BUS'),
+  ('communication-crise','DOM-MGT'),
+  ('prise-de-parole','DOM-NEG')
 ) as m(lesson_id, competency_id)
 join public.academy_lesson_definitions as l
   on l.lesson_id = m.lesson_id and l.active = true
