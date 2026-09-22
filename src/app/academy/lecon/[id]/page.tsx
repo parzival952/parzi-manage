@@ -4,6 +4,7 @@ import { revalidatePath } from "next/cache";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 
+import LessonAudio from "@/components/LessonAudio";
 import LessonQuiz from "@/components/LessonQuiz";
 import {
   loadLatestDiagnosticReport,
@@ -217,6 +218,12 @@ export default async function LessonPage({
           </Link>
         </section>
       ) : null}
+
+      <LessonAudio
+        title={lesson.title}
+        intro={lesson.intro}
+        blocks={lesson.blocks}
+      />
 
       <section className="pz-card p-6 flex flex-col gap-4 pz-rise pz-d1">
         {lesson.blocks.map(
