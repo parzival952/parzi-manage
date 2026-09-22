@@ -10,8 +10,9 @@ import {
 } from "@/lib/academy-diagnostic-report";
 import {
   completeSecureLesson,
+  type SecureLessonResult,
 } from "@/lib/academy-lesson-store";
-import { findLesson } from "@/lib/academy";
+import { completeLesson, findLesson } from "@/lib/academy";
 import { primaryLessonForSection } from "@/lib/academy-recommendations";
 import { requireUser } from "@/lib/auth";
 
@@ -57,13 +58,43 @@ export default async function LessonPage({
   ) {
     "use server";
 
-    await requireUser();
+    const user = await requireUser();
 
-    const result =
-      await completeSecureLesson(
+    let result: SecureLessonResult;
+
+    if (
+      process.env.SUPABASE_URL &&
+      process.env.SUPABASE_ANON_KEY
+    ) {
+      // Prod : correction 100 % côté serveur (RPC Supabase).
+      result = await completeSecureLesson(
         lesson.id,
         answers,
       );
+    } else {
+      // Démo / dev sans Supabase : correction contre le contenu + persistance dual-mode (SQLite).
+      let correct = 0;
+      lesson.quiz.forEach((q, i) => {
+        if (answers[i] === q.answer) {
+          correct += 1;
+        }
+      });
+      const score =
+        lesson.quiz.length > 0
+          ? Math.round((correct / lesson.quiz.length) * 100)
+          : 0;
+      const r = await completeLesson(user.id, lesson.id, score);
+      result = {
+        already: r.already,
+        xpGained: r.xpGained,
+        score,
+        previousXp: Math.max(0, r.info.xp - r.xpGained),
+        totalXp: r.info.xp,
+        streak: r.streak,
+        leveledUp: r.leveledUp,
+        newLevel: r.newLevel,
+      };
+    }
 
     revalidatePath("/academy");
     revalidatePath("/academy/profil");

@@ -63,12 +63,17 @@ test("PARZI Academy : parcours et flux de leçon", async ({ page }) => {
   await page.getByRole("link", { name: /Le rôle réel d'un agent/ }).click();
   await page.waitForURL("**/academy/lecon/role");
   await expect(page.getByText(/QUIZ/)).toBeVisible();
-  // Répond à chaque question : un choix débloque le bouton d'avancement.
-  for (let i = 0; i < 2; i++) {
+  // Répond à chaque question jusqu'à terminer la mission (robuste au nombre de questions).
+  for (let i = 0; i < 12; i++) {
     await page.locator("button.pz-opt").first().click();
-    await page.getByRole("button", { name: /Question suivante|Terminer la leçon/ }).click();
+    const finish = page.getByRole("button", { name: /Terminer et vérifier la mission/ });
+    if (await finish.isVisible().catch(() => false)) {
+      await finish.click();
+      break;
+    }
+    await page.getByRole("button", { name: /Question suivante/ }).click();
   }
-  await expect(page.getByText(/XP gagnée|Leçon révisée|Niveau|validée/).first()).toBeVisible({ timeout: 10000 });
+  await expect(page.getByText(/Score vérifié par PARZI Academy/)).toBeVisible({ timeout: 15000 });
 });
 
 test("PARZI Academy : profil et rangs", async ({ page }) => {
