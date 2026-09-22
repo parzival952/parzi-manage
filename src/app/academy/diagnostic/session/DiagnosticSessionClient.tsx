@@ -180,6 +180,7 @@ export default function DiagnosticSessionClient({
           typeof saved.currentIndex === "number" &&
           saved.attempts
         ) {
+          // eslint-disable-next-line react-hooks/set-state-in-effect -- restauration one-shot depuis localStorage (evite un mismatch d hydratation)
           setCurrentIndex(
             Math.min(
               Math.max(saved.currentIndex, 0),
