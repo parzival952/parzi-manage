@@ -38,6 +38,8 @@ export const COURSE: { id: string; title: string; chapters: Chapter[] } = {
             "Le quotidien réel : beaucoup de relationnel, de la veille permanente sur le marché, de l'administratif (mandats, contrats), et des moments courts mais décisifs de négociation. La valeur d'un agent se mesure sur la durée d'une carrière, pas sur un transfert isolé.",
             "La règle d'or du métier : la confiance. Un joueur confie sa carrière — donc sa vie professionnelle — à son agent. Tout se construit et se détruit sur cette confiance. Un bon agent dit parfois « non » à son client : refuser un transfert alléchant mais mauvais pour la carrière, c'est ça, protéger un joueur.",
             "Cas concret — Un club de première division propose à ton joueur de 19 ans un contrat en or… pour le laisser sur le banc derrière deux internationaux. L'agent débutant voit la commission ; l'agent accompli voit une saison sans jouer qui casse une progression. Refuser ce contrat et l'envoyer jouer en deuxième division, c'est souvent la décision qui, trois ans plus tard, vaut dix fois plus — pour le joueur comme pour toi.",
+            "⚠️ L'erreur classique — Le débutant court après la commission et dit oui à tout ; il confond « faire un transfert » et « gérer une carrière ». L'agent accompli sait dire non, même à un joli chèque, quand c'est mauvais pour le joueur.",
+            "🎯 À retenir — Tu gères une carrière, pas un transfert · La confiance est ton seul vrai capital · Un bon « non » vaut mieux qu'un mauvais « oui ».",
           ],
           quiz: [
             { q: "Quelle est la mission première d'un agent ?", options: ["Toucher une commission sur chaque transfert", "Gérer et protéger la carrière de son client dans la durée", "Trouver le salaire le plus élevé à court terme"], answer: 1, explain: "La carrière se gère sur la durée : c'est ça, le vrai métier." },
@@ -56,6 +58,8 @@ export const COURSE: { id: string; title: string; chapters: Chapter[] } = {
             "Dans un club, l'agent parle surtout au directeur sportif et à la cellule recrutement pour l'aspect sportif, et à la direction pour l'aspect financier et contractuel. Savoir à qui s'adresser, et dans quel ordre, fait gagner des semaines. Le pouvoir réel n'est pas toujours où l'organigramme le dit — apprends à repérer qui pèse vraiment.",
             "Le marché a un rythme : les fenêtres de transfert (mercato d'été et d'hiver) structurent l'année. Mais le vrai travail se fait ENTRE les mercatos : c'est là qu'on prépare les coups, qu'on sonde les besoins et qu'on positionne ses joueurs.",
             "Cas concret — Tu veux placer un milieu dans un club de Ligue 2. Tu appelles le président, qui te renvoie poliment vers « le sportif ». Pendant ce temps, un agent mieux informé a déjà déjeuné avec le directeur sportif ET le coach, qui décident réellement du recrutement. Résultat : quand le poste s'ouvre, c'est son joueur qu'on appelle. Connaître qui décide vraiment, ce n'est pas un détail — c'est l'accès.",
+            "⚠️ L'erreur classique — Parler au mauvais interlocuteur (le président quand c'est le directeur sportif qui décide) et perdre des semaines. Le pro cartographie qui pèse vraiment, au-delà de l'organigramme.",
+            "🎯 À retenir — Hiérarchie : FIFA puis confédérations, fédérations, clubs · Le pouvoir réel n'est pas toujours sur l'organigramme · L'essentiel se prépare entre les mercatos.",
           ],
           quiz: [
             { q: "Au niveau mondial, quelle instance chapeaute le football ?", options: ["L'UEFA", "La FIFA", "La FFF"], answer: 1, explain: "L'UEFA gère l'Europe ; la FIFA est l'instance mondiale." },
@@ -74,6 +78,8 @@ export const COURSE: { id: string; title: string; chapters: Chapter[] } = {
             "Les coûts réels : déplacements (matchs, rendez-vous), structure juridique et comptable, veille et outils, parfois des frais d'accompagnement du joueur. Beaucoup de débutants sous-estiment ces coûts et le temps avant le premier revenu significatif. Prévois une trésorerie de sécurité.",
             "La vraie richesse de l'agent, c'est son portefeuille et sa réputation. Un joueur bien accompagné en amène d'autres ; un joueur floué te ferme des portes pour des années. Le métier récompense la patience et l'intégrité bien plus que l'opportunisme.",
             "Cas concret — Un agent signe un unique joueur prometteur et vit un an sur l'espoir de son transfert. Le joueur se blesse gravement : zéro revenu, et une année perdue. À côté, un agent avec huit joueurs plus modestes encaisse des commissions étalées, encaisse le coup dur et continue. Le portefeuille n'est pas une question d'ego : c'est ta protection contre l'aléa.",
+            "⚠️ L'erreur classique — Dépenser une grosse commission comme si c'était un salaire fixe, sans provisionner impôts ni période creuse. Le pro lisse des revenus en dents de scie.",
+            "🎯 À retenir — Revenus irréguliers par nature · Provisionne impôts et trésorerie · Diversifie : plusieurs clients, pas un seul jackpot.",
           ],
           quiz: [
             { q: "Comment se rémunère principalement un agent ?", options: ["Un salaire fixe versé par la FFF", "Une commission (souvent un % de la rémunération du joueur)", "Les droits TV"], answer: 1 },
@@ -92,6 +98,8 @@ export const COURSE: { id: string; title: string; chapters: Chapter[] } = {
             "Les lignes rouges absolues : les mineurs (protection maximale), les paris (interdiction de parier sur ses propres matchs/joueurs), le blanchiment et les flux financiers opaques, les fausses déclarations aux instances. Ces fautes ne se « rattrapent » pas : elles finissent des carrières.",
             "L'éthique paie économiquement. Les clubs et joueurs reviennent vers les agents fiables. Ta signature doit valoir garantie. Ce chapitre n'est pas de la morale décorative : c'est ce qui fait qu'on te confiera, ou non, des joueurs et des millions.",
             "Cas concret — Un club te glisse : « Fais signer ton joueur chez nous, et on te verse un petit extra en direct, discret. » Tentant ? C'est le début de la fin : commission occulte, conflit d'intérêts, dossier « gris ». Le jour où ça sort — et ça sort toujours —, tu perds ta licence, ton joueur et ta réputation. La réponse d'un pro : tout ce qui est perçu est écrit, connu de toutes les parties, et déclaré. Point.",
+            "⚠️ L'erreur classique — Se faire payer des deux côtés sans transparence : conflit d'intérêts, sanctions et réputation détruite. Le pro clarifie par écrit qui il représente.",
+            "🎯 À retenir — Un mandant clair par opération · La transparence est une protection, pas une faiblesse · La réputation ne se perd qu'une fois.",
           ],
           quiz: [
             { q: "Le piège numéro un de la déontologie, c'est :", options: ["Parler trop", "Le conflit d'intérêts (représenter des parties opposées sans transparence)", "Voyager en classe éco"], answer: 1 },
@@ -119,6 +127,8 @@ export const COURSE: { id: string; title: string; chapters: Chapter[] } = {
             "Point non négociable : la protection des mineurs. Les règles encadrant les joueurs mineurs sont strictes et protectrices. Tout manquement expose à de lourdes sanctions — et surtout, met en danger un jeune.",
             "Méthode pro : garde une source officielle à jour (site FFF, réglementation FIFA) et la date de dernière vérification. Devant un client, dire « je vérifie le texte à jour » vaut mille fois mieux qu'affirmer une règle périmée.",
             "Cas concret — Un confrère t'affirme, sûr de lui, que « la commission est plafonnée à X % » en citant une règle qu'il a apprise il y a cinq ans. Tu la répètes à un club dans un e-mail… et elle a changé depuis (contentieux, suspension de plafond selon les pays). Tu passes pour un amateur. Le réflexe qui te sauve : vérifier le texte en vigueur et sa date avant d'affirmer quoi que ce soit d'écrit.",
+            "⚠️ L'erreur classique — Croire qu'une licence se contourne ou s'achète, et négliger l'examen. Le pro se prépare sérieusement et exerce toujours dans les règles.",
+            "🎯 À retenir — La licence se gagne par examen · Exercer sans titre = risque majeur · Vérifie le régime en vigueur (il évolue).",
           ],
           quiz: [
             { q: "Comment obtient-on traditionnellement une licence d'agent ?", options: ["En payant une cotisation", "En réussissant un examen", "En étant recommandé par un club"], answer: 1 },
@@ -137,6 +147,8 @@ export const COURSE: { id: string; title: string; chapters: Chapter[] } = {
             "Les pièges classiques : les renvois (« conformément à l'article X »), les définitions en préambule qui changent le sens de tout le document, les dates d'entrée en vigueur, et les clauses de juridiction (quel tribunal, quel droit applicable). Une clause anodine en apparence peut tout changer.",
             "Règle de survie : ce que tu ne comprends pas, tu ne le signes pas et tu ne le fais pas signer. Un bon agent sait quand appeler un avocat spécialisé en droit du sport. Reconnaître les limites de sa compétence juridique fait partie du professionnalisme — ce n'est pas un aveu de faiblesse.",
             "Cas concret — Un contrat indique que le club « peut » verser une prime de rendement. Ton joueur comprend « va toucher ». Un an plus tard, la prime n'est pas versée : « peut » n'obligeait à rien. Un mot lu de travers, et c'est une brouille avec ton client. En lecture juridique, on ne devine pas l'intention : on lit ce qui est écrit, mot à mot, et on fait transformer un « peut » en « doit » quand c'est un enjeu.",
+            "⚠️ L'erreur classique — Citer un chiffre ou une règle de mémoire, ou d'un vieux document. Le pro remonte toujours au texte à jour avant d'agir.",
+            "🎯 À retenir — Respecte la hiérarchie des normes · Toujours la version en vigueur · Lis la définition exacte avant de conclure.",
           ],
           quiz: [
             { q: "En lecture juridique, « peut » signifie :", options: ["Une obligation", "une faculté (pas une obligation)", "une interdiction"], answer: 1, explain: "« Peut » = faculté ; « doit » = obligation. La nuance change tout." },
@@ -155,6 +167,8 @@ export const COURSE: { id: string; title: string; chapters: Chapter[] } = {
             "Les plafonds de commission ont été un sujet chaud : la FIFA a voulu imposer des plafonds, contestés en justice dans plusieurs pays. Résultat : l'état exact du droit dépend du moment et de la juridiction. Ne cite jamais un pourcentage « de mémoire » à un client — vérifie.",
             "Réflexe pro : pour chaque opération, pose-toi trois questions — suis-je habilité (licence) ? ai-je un mandat écrit valide ? l'opération sera-t-elle déclarée dans les règles ? Si une réponse est « non », tu ne fais pas l'opération.",
             "Cas concret — Un joueur français que tu suis intéresse un club belge. Tu appliques par réflexe le cadre franco-français… mais c'est une opération internationale : le cadre FIFA s'ajoute, avec ses obligations d'enregistrement et ses spécificités. Se tromper de cadre, c'est risquer un dossier invalide. Avant d'avancer, la première question est toujours : dans quel cadre suis-je, national ou international ?",
+            "⚠️ L'erreur classique — Appliquer un plafond « entendu entre confrères » sans vérifier, et négliger l'enregistrement de l'opération. Le pro s'appuie sur le texte FFF/FIFA.",
+            "🎯 À retenir — Règles mouvantes et sujettes à contentieux · Enregistre/trace les opérations · Dans le doute, le texte officiel tranche.",
           ],
           quiz: [
             { q: "Pour une opération internationale, le cadre de référence est plutôt :", options: ["Uniquement le Code du sport français", "Le cadre FIFA (en plus du national)", "Aucun, c'est libre"], answer: 1 },
@@ -173,6 +187,8 @@ export const COURSE: { id: string; title: string; chapters: Chapter[] } = {
             "Pour l'agent : approcher un mineur exige un respect absolu du cadre et de la famille. Les rémunérations liées à des mineurs sont particulièrement surveillées. La moindre pratique douteuse (promesse, versement, contournement) peut entraîner des sanctions majeures pour toi ET pour le club.",
             "La bonne pratique : privilégier la relation de confiance et le conseil sur le long terme, impliquer les représentants légaux à chaque étape, tout documenter, et refuser toute opération qui met le jeune en risque. Protéger le mineur passe TOUJOURS avant l'intérêt commercial.",
             "Cas concret — On te parle d'un talent de 16 ans à l'étranger, « facile à faire venir si on arrange le dossier ». Traduction : contourner l'interdiction de transfert international de mineurs. Même si tout le monde semble d'accord, c'est une faute grave qui peut valoir une suspension au club et à toi, et surtout mettre un enfant en danger. La seule bonne réponse : non. La protection du mineur passe avant tout deal.",
+            "⚠️ L'erreur classique — Tenter un transfert international de mineur « parce que c'est un crack ». Le pro connaît le principe d'interdiction (art. 19) et ses exceptions strictes.",
+            "🎯 À retenir — Le principe est l'interdiction · Les exceptions sont rares et encadrées · Protéger le mineur passe avant l'opération.",
           ],
           quiz: [
             { q: "Les transferts internationaux de mineurs sont en principe :", options: ["Libres", "Interdits, sauf exceptions strictement encadrées", "Encouragés"], answer: 1, explain: "Interdiction de principe (art. FIFA), avec exceptions limitées et contrôlées." },
@@ -191,6 +207,8 @@ export const COURSE: { id: string; title: string; chapters: Chapter[] } = {
             "Les fenêtres de transfert (périodes d'enregistrement) sont fixées par chaque fédération dans le cadre FIFA. Une opération doit être bouclée ET enregistrée dans les délais : un dossier parfait mais déposé en retard est un dossier mort. La gestion du temps est une compétence de l'agent.",
             "La tierce propriété des droits économiques d'un joueur (TPO) est interdite par la FIFA : un tiers investisseur ne peut pas détenir les droits économiques et influencer les transferts. De même, l'influence d'un tiers sur les décisions d'un club est encadrée. Ces règles visent l'intégrité des compétitions.",
             "Cas concret — Tout est signé à 23 h 40 le dernier jour du mercato. Mais le certificat international n'est déposé qu'à 00 h 05 : hors délai, le joueur n'est pas qualifié, le transfert tombe. Des dossiers en or meurent chaque année pour une question de minutes et de procédure. Un agent pro boucle l'administratif AVANT la dernière heure — la paperasse fait partie du deal, pas après.",
+            "⚠️ L'erreur classique — Rater une fenêtre de transfert ou mal lire le calendrier/TMS. Le pro anticipe et positionne ses joueurs avant l'ouverture.",
+            "🎯 À retenir — Les fenêtres sont des contraintes fortes · Le TMS trace chaque mouvement · Le coup se prépare avant le mercato, pas pendant.",
           ],
           quiz: [
             { q: "Qu'autorise le certificat international de transfert (CIT/ITC) ?", options: ["Le paiement de l'agent", "L'enregistrement du joueur dans son nouveau pays", "La diffusion TV du match"], answer: 1 },
@@ -219,6 +237,8 @@ export const COURSE: { id: string; title: string; chapters: Chapter[] } = {
             "La rémunération de l'agent est elle aussi encadrée (souvent exprimée en pourcentage de la rémunération brute du joueur) et doit figurer clairement dans le mandat. Transparence totale : les zones grises en matière de commission sont le meilleur moyen de perdre sa licence et sa réputation.",
             "Un mandat propre précise aussi : le périmètre (types d'opérations couvertes), le sort de la commission si le joueur signe après la fin du mandat sur un dossier que tu as initié, et les modalités de résiliation. Ces détails, négligés par les débutants, sont ceux qui protègent ton travail.",
             "Cas concret — Tu prépares depuis six mois le transfert de ton joueur ; ton mandat expire dans deux semaines et, pris par le dossier, tu oublies de le renouveler. Un concurrent en profite, signe le mandat, et empoche la commission de TON travail. Ce n'est pas de la malchance : c'est un défaut de suivi. Une simple alerte d'échéance aurait sauvé des mois d'efforts.",
+            "⚠️ L'erreur classique — Travailler sans mandat écrit « parce qu'on se fait confiance », puis ne pas être payé. Le pro fait signer le mandat avant de bouger.",
+            "🎯 À retenir — Pas de mandat, pas de mission · Écrit, daté, mentions obligatoires · Durée maîtrisée, jamais indéfinie.",
           ],
           quiz: [
             { q: "Qu'est-ce qu'un mandat exclusif ?", options: ["Le joueur peut avoir plusieurs agents", "Seul cet agent représente le joueur sur la période", "Un contrat avec un club"], answer: 1 },
@@ -237,6 +257,8 @@ export const COURSE: { id: string; title: string; chapters: Chapter[] } = {
             "Les points de vigilance : la durée et sa cohérence avec le plan de carrière, les conditions de renouvellement, les clauses de performance, la garantie des primes (sont-elles réalistes et atteignables ?), et le sort du contrat en cas de blessure ou de relégation. Un salaire élevé avec des primes inatteignables vaut moins qu'un fixe solide.",
             "La règle de l'agent expérimenté : on négocie pour le joueur d'aujourd'hui ET celui de dans deux ans. Un contrat trop long à bas prix enferme un talent qui explose ; un contrat trop court fragilise un joueur en difficulté. L'art, c'est d'ajuster la durée et les clauses au profil et au moment de carrière.",
             "Cas concret — Un club propose 30 K€/mois à ton joueur, dont 12 K€ de fixe et 18 K€ de primes conditionnées à 25 matchs joués et une qualification européenne. Sur le papier, c'est « 30 K€ ». Dans la réalité d'un joueur de rotation, ces primes tomberont rarement : le vrai salaire, c'est 12 K€. Un fixe de 20 K€ sans primes irréalistes vaut mieux. L'agent lit le package et sa probabilité, pas le chiffre affiché.",
+            "⚠️ L'erreur classique — Ne regarder que le salaire brut affiché. Le pro décortique primes, durée, et clauses qui changent toute la valeur réelle.",
+            "🎯 À retenir — Le salaire n'est qu'une ligne · Primes et clauses font la différence · Lis chaque article, sans exception.",
           ],
           quiz: [
             { q: "Le contrat d'un joueur professionnel est avant tout :", options: ["Un contrat commercial", "Un contrat de travail encadré (convention collective, règlements)", "Un simple accord verbal"], answer: 1 },
@@ -255,6 +277,8 @@ export const COURSE: { id: string; title: string; chapters: Chapter[] } = {
             "Les clauses liées à l'image et aux droits dérivés : qui exploite l'image du joueur, dans quel cadre, avec quel partage ? Pour les joueurs à forte notoriété, c'est un enjeu majeur qui dépasse le salaire. À l'inverse, mal cadrée, une clause d'image peut créer des conflits avec le club et les sponsors.",
             "Méthode : pour chaque clause, demande-toi « dans quel scénario cette clause se déclenche, et à qui profite-t-elle ? ». Simule les cas favorables ET défavorables (blessure, relégation, explosion du joueur). Une clause ne vaut que par ce qu'elle produit dans la réalité, pas par sa formulation élégante.",
             "Cas concret — Tu places un jeune de 18 ans à petit prix, mais tu négocies 15 % sur une future revente. Deux ans plus tard, il explose et part pour 20 M€ : la clause de revente rapporte 3 M€ au club vendeur — et prouve à tout le milieu que tu penses long terme. À l'inverse, l'agent qui n'a regardé que l'indemnité immédiate a laissé filer l'essentiel. Sur un jeune, la revente est souvent LA clause qui compte.",
+            "⚠️ L'erreur classique — Laisser passer une clause libératoire mal calibrée, ou oublier le pourcentage à la revente. Le pro négocie chaque clause comme un levier.",
+            "🎯 À retenir — La libératoire cadre le départ · Le sell-on est un revenu futur · Les droits à l'image se bornent noir sur blanc.",
           ],
           quiz: [
             { q: "À quoi sert une clause libératoire ?", options: ["À licencier le joueur", "À fixer un montant permettant à un club tiers de débloquer le transfert", "À payer l'agent"], answer: 1 },
@@ -273,6 +297,8 @@ export const COURSE: { id: string; title: string; chapters: Chapter[] } = {
             "La fiscalité : la commission est un revenu professionnel, soumis à TVA et à l'impôt selon ta structure. Beaucoup de débutants oublient de provisionner ces charges et se retrouvent en difficulté. Raisonne toujours en NET après charges et impôts, pas en brut encaissé.",
             "Sécuriser sa commission : elle doit figurer dans le mandat, être cohérente avec l'opération, et son versement (échelonné ou non) doit être écrit noir sur blanc. Une commission « promise » oralement n'existe pas. Le professionnalisme administratif protège ton travail autant que ton talent de négociateur.",
             "Cas concret — Un club te promet ta commission « à la poignée de main », rien d'écrit. Le deal se fait, puis le club traîne, conteste, et finit par ne rien verser. Sans écrit, tu n'as quasiment aucun recours et tu perds des mois de travail. La règle d'airain : pas d'écrit, pas de commission. On sécurise qui paie, combien et quand AVANT de conclure.",
+            "⚠️ L'erreur classique — Fixer une commission au feeling, au-dessus du plafond, sans échéancier. Le pro écrit qui paie, combien et quand, en vérifiant le plafond.",
+            "🎯 À retenir — Qui paie, combien, quand · Plafond en vigueur vérifié · Tout formalisé par écrit.",
           ],
           quiz: [
             { q: "Sur quelle base se calcule souvent la commission de l'agent côté joueur ?", options: ["Le nombre de buts", "Un pourcentage de la rémunération du joueur", "La billetterie"], answer: 1 },
@@ -291,6 +317,8 @@ export const COURSE: { id: string; title: string; chapters: Chapter[] } = {
             "La clause de règlement des différends est donc capitale dans tes contrats : quel droit s'applique, quelle instance est compétente, quelle langue, quels délais. Une clause bien pensée t'évite de te battre sur un terrain qui ne t'est pas favorable.",
             "La posture pro : privilégier la résolution amiable quand c'est possible (elle préserve les relations et la réputation), documenter chaque échange, et ne judiciariser qu'à bon escient. Un agent qui a la réputation de « faire des procès à tout le monde » se coupe du marché. Choisis tes batailles.",
             "Cas concret — Un club conteste ta commission sur un dossier. Tu as tout tracé : mandat clair, e-mails horodatés, accord écrit. Résultat : soit le club paie sans aller plus loin, soit tu gagnes vite si ça monte en litige. L'agent qui, lui, avait tout fait à l'oral se retrouve démuni. Ce qui te protège en cas de conflit se prépare AVANT le conflit : par des écrits propres et une trace de chaque échange.",
+            "⚠️ L'erreur classique — Régler à l'oral et se retrouver sans preuve le jour du conflit. Le pro écrit tout en amont et connaît les instances.",
+            "🎯 À retenir — L'écrit prévient le litige · Connais les instances (CNRL, TAS/CAS) · Garde chaque trace et échange.",
           ],
           quiz: [
             { q: "Quelle est la juridiction arbitrale suprême du sport ?", options: ["La Cour de cassation", "Le Tribunal arbitral du sport (TAS/CAS)", "La FFF"], answer: 1, explain: "Le TAS/CAS à Lausanne est l'instance arbitrale suprême du sport." },
@@ -318,6 +346,8 @@ export const COURSE: { id: string; title: string; chapters: Chapter[] } = {
             "Ce qu'on regarde au-delà du geste : l'intelligence de jeu (prise de décision, placement), la mentalité (attitude après une erreur, dans la difficulté), la constance sur plusieurs matchs, et le contexte (club, entraîneur, temps de jeu, âge relatif). Un même niveau ne vaut pas pareil à 17 ans en pro qu'à 21 ans en amateur.",
             "Le piège du débutant : tomber amoureux d'un joueur. Reste lucide : croise les avis, note factuellement, reviens le voir. La détection est une hypothèse à confirmer dans le temps, pas un coup de cœur à défendre coûte que coûte.",
             "Cas concret — Tu vois une compilation vidéo bluffante : dribbles, buts, gestes techniques. Emballé, tu veux signer. Puis tu vas le voir en vrai trois matchs de suite : il disparaît dès qu'il y a du combat, se cache dans les matchs difficiles. La vidéo montrait ses 5 meilleures minutes de la saison. L'œil sur le terrain, lui, montre les 90 minutes — et la vérité.",
+            "⚠️ L'erreur classique — Se fier aux stats brutes ou au buzz du moment. Le pro croise la donnée, l'œil du terrain et le contexte.",
+            "🎯 À retenir — La data seule ne dit pas tout · Vois le joueur en conditions réelles · Pèse le contexte (niveau, rôle, projet).",
           ],
           quiz: [
             { q: "Pour détecter, la meilleure base reste :", options: ["Les highlights vidéo uniquement", "Voir jouer en vrai, régulièrement et dans divers contextes", "Le nombre de followers"], answer: 1, explain: "L'œil entraîné sur le jeu réel prime ; data et vidéo complètent." },
@@ -336,6 +366,8 @@ export const COURSE: { id: string; title: string; chapters: Chapter[] } = {
             "Le rôle de la durée de contrat est central : plus un joueur approche de la fin de son contrat, plus sa valeur de transfert baisse pour le club (il partira bientôt libre) — mais plus l'agent et le joueur gagnent en levier. Savoir lire ce cycle, c'est savoir quand pousser une prolongation ou préparer un départ.",
             "L'erreur à éviter : confondre la valeur qu'on souhaite et la valeur réelle. Le marché ne se trompe pas longtemps. Un agent crédible annonce des valeurs défendables, preuves à l'appui — c'est ce qui le rend audible face aux clubs. Survendre une fois, c'est perdre sa crédibilité pour dix dossiers.",
             "Cas concret — Ton joueur est excellent, mais il lui reste six mois de contrat. Son club refuse toute prolongation raisonnable. Deux options : soit le club le vend maintenant à prix réduit (avant de le perdre libre), soit il attend et le perd pour rien. Toi, tu tiens le levier : dans six mois ton joueur choisit son club et négocie une belle prime à la signature. Lire l'horloge du contrat, c'est savoir quand on est en position de force.",
+            "⚠️ L'erreur classique — Juger sur un seul match ou uniquement le physique. Le pro évalue un profil complet et sa projection.",
+            "🎯 À retenir — Technique, physique, mental · La projection prime sur l'instantané · Toujours resituer dans le contexte de jeu.",
           ],
           quiz: [
             { q: "Une bonne évaluation d'un joueur est :", options: ["« C'est un bon joueur »", "Précise : qualités dominantes, lacunes corrigibles, projection", "Basée sur son nombre de followers"], answer: 1 },
@@ -354,6 +386,8 @@ export const COURSE: { id: string; title: string; chapters: Chapter[] } = {
             "L'usage pro : utiliser la data pour PRÉ-sélectionner et pour ARGUMENTER. Devant un club, un dossier chiffré et vidéo bien monté rend ton joueur crédible et te fait gagner en professionnalisme. C'est aussi ce qui te distingue d'un agent « à l'ancienne » qui n'a que son carnet d'adresses.",
             "L'avenir (et l'atout Parzi) : centraliser la donnée de tes joueurs, suivre leurs échéances et leur évolution au même endroit, et t'appuyer sur des outils intelligents pour ne rien laisser passer. L'agent qui maîtrise ses outils traite plus de dossiers, mieux, sans se noyer.",
             "Cas concret — Un attaquant affiche 12 buts : impressionnant. Mais la data montre qu'il a marqué sur très peu d'occasions (il a « sur-performé »), et 9 buts sont tombés contre les trois derniers du classement. L'œil confirme : il vit sur une série chanceuse. À l'inverse, un dossier vidéo + data solide sur un profil régulier convainc un directeur sportif en dix minutes. La data ne signe pas à ta place — elle sépare le vrai du flatteur et rend ton argumentaire imparable.",
+            "⚠️ L'erreur classique — Prendre un chiffre isolé pour argent comptant. Le pro recoupe vidéo et données sur un échantillon suffisant.",
+            "🎯 À retenir — Exige un échantillon suffisant · La vidéo explique le « comment » · Méfie-toi des faux signaux statistiques.",
           ],
           quiz: [
             { q: "Le bon rapport entre data et œil du scout :", options: ["La data remplace l'œil", "La data trie et arme la décision ; l'œil décide", "L'œil est dépassé"], answer: 1, explain: "La data pré-sélectionne et argumente ; le jugement reste humain." },
@@ -381,6 +415,8 @@ export const COURSE: { id: string; title: string; chapters: Chapter[] } = {
             "Ton atout de débutant, c'est le travail et la disponibilité. Un joueur négligé par les grosses agences peut trouver chez toi une attention que personne d'autre ne lui donne. C'est là que se gagne un premier mandat.",
             "Le respect du cadre : n'approche jamais un joueur déjà sous contrat de mandat de façon déloyale, et pour un mineur, passe toujours par les représentants légaux. La façon dont tu approches dit déjà quel agent tu seras — les familles le sentent.",
             "Cas concret — Tu repères un jeune de National 2 négligé par tout le monde. Plutôt que de lui promettre la Ligue 1 dès le premier café, tu viens le voir jouer, tu lui envoies une analyse honnête de son jeu, tu le mets en relation avec un préparateur. Trois mois plus tard, quand il pense « agent », c'est ton nom qui vient — parce que tu as apporté de la valeur avant de rien demander. Le premier mandat se gagne comme ça, pas par des promesses.",
+            "⚠️ L'erreur classique — Survendre et promettre monts et merveilles au premier contact, en brûlant la famille. Le pro écoute, cadre et reste éthique.",
+            "🎯 À retenir — Le premier contact construit la confiance · Implique la famille · Aucune promesse creuse.",
           ],
           quiz: [
             { q: "D'où vient souvent le premier joueur d'un agent ?", options: ["D'un club de Ligue 1", "De divisions inférieures ou de son réseau local", "D'un transfert international"], answer: 1 },
@@ -399,6 +435,8 @@ export const COURSE: { id: string; title: string; chapters: Chapter[] } = {
             "Les moments décisifs de la relation : la blessure grave, le banc, un échec de transfert, un conflit avec l'entraîneur. C'est LÀ qu'un agent prouve sa valeur — pas quand tout va bien. Être présent dans la difficulté crée une loyauté qu'aucune promesse financière ne rachète.",
             "Le piège : négliger un joueur « installé » pour courir après de nouveaux. Un portefeuille se cultive : chaque joueur bien suivi devient une référence, une source de recommandations, et parfois un futur dirigeant ou entraîneur qui se souviendra de toi. La fidélité est un investissement.",
             "Cas concret — Ton joueur se rompt les ligaments croisés : six mois loin des terrains, moral au plus bas, et aucune commission en vue pour toi. L'agent opportuniste disparaît. Toi, tu l'appelles chaque semaine, tu organises sa rééducation, tu le rassures sur son retour. À sa reprise, il refuse trois agences qui le courtisent : « lui, il était là quand j'étais à terre ». Cette loyauté-là ne s'achète pas — elle se mérite dans les moments durs.",
+            "⚠️ L'erreur classique — Disparaître entre deux deals et ne réapparaître qu'au moment utile. Le pro reste présent dans les creux.",
+            "🎯 À retenir — Sois disponible dans les périodes calmes · Communique régulièrement · La durée fait la relation.",
           ],
           quiz: [
             { q: "Quand un agent prouve-t-il vraiment sa valeur ?", options: ["Quand tout va bien", "Dans les moments durs (blessure, banc, échec)", "Le jour de la signature"], answer: 1, explain: "La présence dans la difficulté crée une loyauté durable." },
@@ -417,6 +455,8 @@ export const COURSE: { id: string; title: string; chapters: Chapter[] } = {
             "Le plan intègre l'extra-sportif : formation, reconversion, image, finances, équilibre de vie. Un joueur bien accompagné hors du terrain performe mieux dessus. Les meilleurs agents pensent la personne, pas seulement le joueur — et préparent l'après-carrière bien avant la fin.",
             "Piloter un plan suppose des OUTILS : suivre les échéances de contrat, les fenêtres de marché, les besoins des clubs cibles, l'évolution du joueur. C'est précisément le rôle d'un outil comme Parzi Manage : transformer une intention (« le faire monter d'un cran l'été prochain ») en actions datées et suivies.",
             "Cas concret — Deux jeunes de même niveau à 18 ans. Le premier signe dans un grand club prestigieux : il joue 4 matchs en deux ans, stagne, se démoralise. Le second, guidé par un plan, part en Ligue 2 : 70 matchs, il progresse, et à 21 ans un grand club l'achète — cette fois pour jouer. Même talent au départ, trajectoires opposées. La différence, c'est un plan qui privilégie le temps de jeu au bon moment plutôt que le prestige immédiat.",
+            "⚠️ L'erreur classique — Viser le plus gros chèque à chaque étape. Le pro cale les transferts sur la progression sportive.",
+            "🎯 À retenir — Jouer vaut mieux qu'un banc doré · Avance par paliers · Le bon moment prime sur le gros montant.",
           ],
           quiz: [
             { q: "Pour un jeune joueur prometteur, le bon palier est souvent :", options: ["Le plus grand club possible tout de suite", "Un club adapté offrant du temps de jeu pour progresser", "Rester le plus longtemps possible au même endroit"], answer: 1, explain: "Le temps de jeu au bon niveau prime souvent sur le prestige immédiat." },
@@ -435,6 +475,8 @@ export const COURSE: { id: string; title: string; chapters: Chapter[] } = {
             "La marque personnelle moderne passe aussi par les réseaux sociaux et les contenus. Une présence maîtrisée renforce la valeur marchande d'un joueur ; une présence mal gérée (propos déplacés, polémiques) peut ruiner un transfert ou un contrat de sponsoring. L'agent conseille, cadre, et parfois protège le joueur de lui-même.",
             "L'équilibre à tenir : l'image sert la carrière, elle ne la remplace pas. Un joueur « influenceur » mais en perte de niveau perd tout à terme. La performance sportive reste le socle ; l'image est un multiplicateur. Ne jamais inverser l'ordre des priorités avec un jeune.",
             "Cas concret — Ton joueur, en pleine négociation avec un club sérieux et une marque d'équipementier, poste un message polémique un soir. En 24 h, la marque se retire et le club s'interroge sur son sérieux. Un tweet a coûté deux contrats. Depuis, tu as instauré une règle simple avec tes joueurs : sur les sujets sensibles, on en parle avant de publier. Protéger l'image fait partie du métier — parfois contre le joueur lui-même.",
+            "⚠️ L'erreur classique — Négliger l'image d'un jeune, ou la brader au premier sponsor venu. Le pro construit la marque tôt et cadre les droits.",
+            "🎯 À retenir — L'image est un actif · Cadre les droits par écrit · Pilote les réseaux, ne les subis pas.",
           ],
           quiz: [
             { q: "Pour l'agent, l'image d'un joueur est :", options: ["Un gadget sans importance", "Un multiplicateur de valeur à protéger et cadrer, sans remplacer le sportif", "Plus importante que le jeu"], answer: 1, explain: "L'image démultiplie la valeur sportive ; elle ne s'y substitue pas." },
@@ -462,6 +504,8 @@ export const COURSE: { id: string; title: string; chapters: Chapter[] } = {
             "Un accord durable est un accord équilibré. Un club qui se sent floué se vengera au prochain dossier ; un joueur surpayé mais mal intégré échouera. Le bon agent protège la relation à long terme, pas juste la commission du jour.",
             "Le ton fait la musique : ferme sur le fond, souple sur la forme. On peut défendre durement des intérêts tout en restant respectueux et fiable. Ta réputation de négociateur — dur mais loyal — est un actif que tu bâtis dossier après dossier.",
             "Cas concret — Un club bloque sur le salaire que tu demandes. Au lieu de camper, tu écoutes : en réalité, leur problème n'est pas le montant annuel mais la trésorerie de cette saison. Tu proposes le même salaire, mais avec une prime à la signature étalée : le club dit oui, ton joueur est content. Tu n'as rien lâché sur le fond — tu as juste entendu le vrai besoin de l'autre. Écouter, c'est trouver la clé.",
+            "⚠️ L'erreur classique — Négocier à l'émotion, sans plancher défini. Le pro connaît son point de rupture avant d'entrer dans la pièce.",
+            "🎯 À retenir — Connais ton seuil de refus · Écoute plus que tu ne parles · Jamais de décision à chaud.",
           ],
           quiz: [
             { q: "Qu'est-ce qu'un « point de rupture » en négociation ?", options: ["Le moment où on s'énerve", "Le seuil en dessous duquel on refuse l'accord", "La commission de l'agent"], answer: 1 },
@@ -480,6 +524,8 @@ export const COURSE: { id: string; title: string; chapters: Chapter[] } = {
             "Anticipe l'autre camp : quels sont SES contraintes, SON calendrier, SES alternatives ? Un club sous pression (fin de mercato, blessure d'un titulaire) n'a pas le même rapport de force qu'un club serein. Lire la situation de l'autre vaut mieux que la plus belle des argumentations.",
             "Prépare aussi le joueur : aligne ses attentes sur la réalité du marché AVANT la négociation. Un client qui a des attentes irréalistes sabote ton travail. Une bonne partie du métier, c'est de gérer les attentes de son propre camp autant que de négocier avec l'autre.",
             "Cas concret — Avant un rendez-vous, tu fais tes devoirs : ton joueur a une offre ferme d'un autre club (ta MESORE est solide), le club en face vient de perdre son titulaire au poste sur blessure (il est pressé). Tu entres donc en position de force sans avoir à bluffer. Résultat : tu obtiens ta cible. L'agent d'en face, arrivé sans rien préparer, a subi. La négociation était gagnée avant même de commencer.",
+            "⚠️ L'erreur classique — Arriver sans informations ni scénarios de repli. Le pro fixe plancher/plafond et prépare son alternative.",
+            "🎯 À retenir — Objectifs chiffrés à l'avance · Renseigne-toi sur l'autre partie · Prépare ton plan B (BATNA).",
           ],
           quiz: [
             { q: "La MESORE (BATNA), c'est :", options: ["Ta meilleure solution de rechange si l'accord échoue", "Le montant maximum", "Le nom d'une clause"], answer: 0, explain: "Plus ta solution de repli est solide, plus tu négocies fort." },
@@ -498,6 +544,8 @@ export const COURSE: { id: string; title: string; chapters: Chapter[] } = {
             "Le silence et le temps : après une proposition, se taire met une pression saine sur l'autre. Et gérer le calendrier (ne pas paraître pressé, utiliser les échéances) est une arme. Beaucoup d'accords se débloquent dans les dernières heures — savoir attendre sans craquer est décisif.",
             "La ligne éthique : ces techniques servent à défendre des intérêts légitimes, pas à tromper. Le mensonge, la pression déloyale ou les fausses promesses fonctionnent une fois et détruisent la confiance pour toujours. Dans un milieu où tout le monde se connaît, ta réputation te précède à chaque table.",
             "Cas concret — Le club te demande de baisser le salaire de ton joueur « pour rentrer dans le budget ». Plutôt que de céder sec, tu réponds : « D'accord pour baisser de 10 % le fixe, SI on ajoute une prime d'objectifs et un an de contrat en plus. » Tu as transformé une concession en échange gagnant pour ton joueur. La règle : jamais un cadeau, toujours un troc — chaque chose lâchée doit t'en rapporter une autre.",
+            "⚠️ L'erreur classique — Montrer son empressement et céder au silence de l'autre. Le pro ancre en premier et laisse le temps travailler.",
+            "🎯 À retenir — Pose la première référence (ancrage) · Le silence est un outil · Une concession contre une contrepartie.",
           ],
           quiz: [
             { q: "La technique de l'« ancrage » consiste à :", options: ["Parler très fort", "Poser une première proposition ambitieuse mais crédible qui cadre la discussion", "Attendre la proposition de l'autre toujours"], answer: 1 },
@@ -516,6 +564,8 @@ export const COURSE: { id: string; title: string; chapters: Chapter[] } = {
             "Les leviers spécifiques : la durée de contrat restante du joueur (un joueur en fin de contrat change tout le rapport de force), les besoins urgents d'un club, la concurrence entre acheteurs (créer une saine émulation sans bluffer), et les clauses créatives (paiements échelonnés, bonus, revente) qui débloquent un accord quand les positions sur le prix sec sont figées.",
             "Le calendrier du mercato est ton allié et ton ennemi : la pression de fin de fenêtre débloque des dossiers mais fait aussi rater des trains. Un agent expérimenté prépare ses coups en amont et ne dépend jamais de la dernière heure — tout en sachant l'exploiter quand elle sert son joueur.",
             "Cas concret — Deux clubs se bloquent : l'acheteur propose 4 M€, le vendeur en veut 6. Impasse sur le prix sec. Tu débloques tout avec une structure créative : 4,5 M€ fermes + 1 M€ de bonus (matchs joués) + 15 % à la revente. L'acheteur limite son risque, le vendeur garde un intérêt à la plus-value future, ton joueur signe. Quand le prix ne bouge plus, ce sont les clauses créatives — pas l'ultimatum — qui font le deal.",
+            "⚠️ L'erreur classique — Gérer une seule partie et oublier le calendrier du mercato. Le pro orchestre clubs et joueur en même temps.",
+            "🎯 À retenir — C'est une négociation multi-parties · Le timing est un levier · Sécurise chaque point par écrit.",
           ],
           quiz: [
             { q: "Un transfert se négocie :", options: ["Uniquement avec le joueur", "À plusieurs étages : club acheteur, club vendeur, joueur", "Uniquement entre clubs"], answer: 1, explain: "L'agent orchestre trois logiques aux intérêts opposés." },
@@ -543,6 +593,8 @@ export const COURSE: { id: string; title: string; chapters: Chapter[] } = {
             "La conformité : selon les opérations, tu es soumis à des obligations (déclarations aux instances, lutte anti-blanchiment, transparence des flux). Ces obligations ne sont pas optionnelles. Un dossier « gris » peut te coûter ta licence. La rigueur n'est pas un frein : c'est ce qui te rend fréquentable pour les gros clubs.",
             "L'outillage : centraliser joueurs, échéances, contacts et tâches dans un système fiable (comme Parzi Manage) te fait gagner un temps considérable et t'évite les oublis qui coûtent cher (un mandat expiré, une échéance ratée). Un agent outillé traite plus, mieux, sans se noyer — et paraît instantanément plus professionnel.",
             "Cas concret — Un agent doué signe trois joueurs la même année mais tient sa compta dans un carnet et ses mandats dans une boîte mail. À la fin de la saison : une commission jamais facturée, un mandat qu'il ne retrouve plus, un contrôle qui vire au cauchemar. Le talent était là ; l'organisation, non. Structurer dès le départ (statut, compta, outil de suivi) n'est pas de la paperasse — c'est ce qui transforme des coups en une vraie activité qui dure.",
+            "⚠️ L'erreur classique — Travailler « au black » tant que l'activité est petite. Le pro se structure dès le premier mandat.",
+            "🎯 À retenir — Choisis un statut et tiens une comptabilité · Reste en conformité · Sépare pro et perso.",
           ],
           quiz: [
             { q: "L'administratif pour un agent, c'est :", options: ["Une perte de temps", "Le socle qui protège son travail (mandats, déclarations, compta)", "Optionnel tant qu'on gagne"], answer: 1, explain: "Un dossier propre protège tes commissions et ta licence." },
@@ -561,6 +613,8 @@ export const COURSE: { id: string; title: string; chapters: Chapter[] } = {
             "La valeur avant la demande : apporter quelque chose au joueur (un conseil, une mise en relation, une analyse) AVANT de demander un mandat crée une dette de réciprocité et prouve ta valeur. Les meilleurs agents donnent d'abord. C'est plus lent, mais ça construit des relations qui durent.",
             "Mesure et pilote : combien de joueurs suivis, à quel stade, avec quelle prochaine action datée ? Traiter sa prospection comme un pipeline (exactement ce que permet Parzi Manage) transforme un flou anxiogène en un processus maîtrisé et régulier.",
             "Cas concret — Tu suis quinze jeunes prometteurs, mais tout est dans ta tête. Tu en relances cinq, tu en oublies dix. Trois mois plus tard, deux d'entre eux ont signé ailleurs — tu ne les avais pas rappelés. Avec un pipeline (chaque prospect, son stade, sa prochaine action datée), aucun ne passe à la trappe. La prospection n'est pas qu'une affaire de flair : c'est un suivi discipliné.",
+            "⚠️ L'erreur classique — Viser tout de suite la Ligue 1 et les stars. Le pro commence par le local et les divisions inférieures.",
+            "🎯 À retenir — Le réseau local d'abord · Volume et patience · Crée de la valeur avant de chercher la notoriété.",
           ],
           quiz: [
             { q: "La prospection efficace est :", options: ["Au hasard, le plus large possible", "Ciblée sur une stratégie (niche, poste, région, âge)", "Réservée aux mercatos"], answer: 1, explain: "Cibler concentre ton temps limité là où il produit le plus." },
@@ -579,6 +633,8 @@ export const COURSE: { id: string; title: string; chapters: Chapter[] } = {
             "La régularité : un réseau qu'on ne contacte que quand on a besoin de quelque chose s'assèche. Les meilleurs agents entretiennent leurs relations en continu — un message, un café, un suivi après un dossier. Garder une trace de ses contacts et de la dernière interaction (un CRM, comme dans Parzi Manage) évite de laisser mourir des relations précieuses.",
             "La réputation circule vite : le milieu du football est petit et parle beaucoup. Un agent fiable, discret et loyal se fait recommander ; un agent malhonnête se fait fermer les portes en silence. Ton comportement d'aujourd'hui construit ton réseau de dans cinq ans.",
             "Cas concret — Un directeur sportif cherche en urgence un latéral gauche. Tu n'en as pas sous mandat, mais tu connais le bon profil chez un confrère : tu fais la mise en relation, sans rien demander. Six mois plus tard, ce même directeur sportif t'appelle en premier pour placer un de SES joueurs sortants — parce que tu lui avais rendu service. Le réseau, c'est ça : on sème sans calcul immédiat, on récolte plus tard.",
+            "⚠️ L'erreur classique — Ne contacter les gens que lorsqu'on a besoin d'eux. Le pro entretient ses relations avant de demander quoi que ce soit.",
+            "🎯 À retenir — Donne avant de prendre · Tiens toujours ta parole · Un réseau se cultive en continu.",
           ],
           quiz: [
             { q: "La règle d'or du réseau est :", options: ["Prendre le maximum, vite", "Donner avant de recevoir (réciprocité)", "Ne parler qu'aux plus puissants"], answer: 1, explain: "Rendre service crée les relations qui durent." },
@@ -597,6 +653,8 @@ export const COURSE: { id: string; title: string; chapters: Chapter[] } = {
             "La trésorerie de sécurité : garde de quoi tenir plusieurs mois sans rentrée. Le métier récompense la patience, mais la patience suppose de pouvoir attendre. Un agent sous pression financière prend de mauvaises décisions (signer un mauvais deal pour toucher vite) — la sécurité financière protège ton jugement.",
             "Voir loin : un portefeuille de joueurs, c'est aussi des revenus futurs prévisibles (commissions sur contrats en cours, échéances connues). Anticiper ces flux, les suivre, et planifier en conséquence transforme l'angoisse du « prochain deal » en gestion sereine. Là encore, l'outil et la rigueur font la différence.",
             "Cas concret — Un agent touche 120 K€ de commission et se sent riche : voiture, train de vie, tout y passe. Il oublie que ~40 % partiront en TVA, impôts et charges. Six mois plus tard, l'appel des impôts tombe et il n'a plus rien de côté : il accepte alors un mauvais dossier juste pour rentrer du cash. En provisionnant dès l'encaissement et en gardant une trésorerie de sécurité, il aurait gardé son jugement libre. On raisonne toujours en NET, pas en brut encaissé.",
+            "⚠️ L'erreur classique — Confondre chiffre d'affaires et revenu net, et ne rien mettre de côté. Le pro provisionne et lisse ses revenus.",
+            "🎯 À retenir — Chiffre d'affaires n'est pas revenu net · Provisionne les impôts · Garde une trésorerie de sécurité.",
           ],
           quiz: [
             { q: "Face à une commission encaissée, le bon réflexe est :", options: ["Tout dépenser, c'est mérité", "Provisionner impôts et charges, raisonner en net", "L'oublier"], answer: 1, explain: "La commission brute n'est pas du disponible : provisionne." },
@@ -624,6 +682,8 @@ export const COURSE: { id: string; title: string; chapters: Chapter[] } = {
             "Les pièges de l'examen : questions à double négation, options « presque vraies », faux amis entre règle nationale et internationale, et gestion du temps. Lis chaque énoncé DEUX fois, repère le mot qui change tout, et ne laisse jamais une question sans réponse s'il n'y a pas de pénalité au hasard.",
             "L'état d'esprit : l'examen n'est pas une fin, c'est un permis d'exercer. Le vrai apprentissage continue sur le terrain. Mais un examen réussi proprement, sans zone d'ombre, pose des bases solides — et t'évite de découvrir une règle essentielle le jour où elle te coûte cher.",
             "Cas concret — Deux candidats. Le premier apprend par cœur des centaines d'articles la veille : le jour J, il panique dès qu'une question est reformulée en cas concret. Le second a travaillé la MÉTHODE (savoir où chercher, s'entraîner sur des cas, gérer le temps) un peu chaque jour pendant deux mois : il retrouve calmement la règle applicable et l'applique. C'est le second qui passe. À l'examen d'agent, on teste l'application, pas la récitation.",
+            "⚠️ L'erreur classique — Réviser sans méthode et mal gérer le temps le jour J. Le pro s'entraîne en conditions réelles.",
+            "🎯 À retenir — Lis bien chaque question · Gère ton temps · Entraîne-toi comme le jour de l'examen.",
           ],
           quiz: [
             { q: "L'examen d'agent évalue surtout :", options: ["Le par-cœur des articles", "La capacité à retrouver et appliquer la règle à un cas", "La culture footballistique générale"], answer: 1, explain: "Savoir où chercher et appliquer prime sur la récitation." },
@@ -642,6 +702,8 @@ export const COURSE: { id: string; title: string; chapters: Chapter[] } = {
             "Le raisonnement doit être visible : on ne se contente pas d'une conclusion, on montre le chemin (« puisque le joueur est mineur ET que le transfert est international, alors le principe est l'interdiction, sauf si… »). Cette rigueur rassure un examinateur comme un client, et t'évite les conclusions hâtives.",
             "Dans la vraie vie, ajoute une 5e étape : SÉCURISER — mettre par écrit, obtenir les accords nécessaires, et documenter. Un raisonnement juste mais non tracé ne te protège pas. Le cas pratique n'est pas qu'un exercice d'examen : c'est le réflexe quotidien qui distingue l'agent fiable.",
             "Cas concret — Énoncé : « Un joueur de 17 ans, résidant au Brésil, veut signer dans un club français. » Le candidat pressé conclut « oui, avec accord des parents ». Le candidat méthodique QUALIFIE d'abord : mineur + transfert international → principe = interdiction, sauf exceptions strictes. Il IDENTIFIE la règle, l'APPLIQUE, et CONCLUT prudemment. Même énoncé, deux notes opposées : la méthode, pas l'instinct, fait la différence.",
+            "⚠️ L'erreur classique — Répondre à l'instinct sans méthode d'analyse. Le pro qualifie les faits, identifie la règle, puis conclut.",
+            "🎯 À retenir — Les faits d'abord · La bonne règle ensuite · Une conclusion claire et motivée.",
           ],
           quiz: [
             { q: "Face à un cas, la première étape est :", options: ["Conclure vite", "Qualifier les faits (parties, opération, cadre)", "Chercher la sanction"], answer: 1, explain: "Un cas bien qualifié est à moitié résolu." },
@@ -660,6 +722,8 @@ export const COURSE: { id: string; title: string; chapters: Chapter[] } = {
             "La méthode : se construire des routines (sources à consulter, alertes, réseau qui remonte l'info) et un système pour NE RIEN oublier. L'information ne vaut que si elle déclenche une action au bon moment — une fin de contrat repérée six mois à l'avance vaut de l'or ; repérée trop tard, elle ne vaut rien.",
             "L'atout d'un outil : un système qui te remonte automatiquement les échéances de tes joueurs, croise l'actualité avec ton portefeuille et te propose les actions prioritaires (comme le fait Parzi Manage) transforme la veille d'une corvée aléatoire en un avantage systématique.",
             "Cas concret — Un club change d'entraîneur en octobre. Le nouveau coach joue en 3-5-2 : il va avoir besoin de pistons, et deux défenseurs centraux du précédent système vont se retrouver sur le banc. L'agent qui capte l'info tout de suite positionne son piston ET propose une porte de sortie à un central mécontent. Celui qui l'apprend en janvier arrive trop tard. La veille, ce n'est pas de la curiosité — c'est de l'avance transformée en opportunités.",
+            "⚠️ L'erreur classique — Se figer sur ce qu'on a appris une fois pour toutes. Le pro fait une veille continue.",
+            "🎯 À retenir — Les règles bougent · Suis les sources officielles · Mets tes réflexes à jour régulièrement.",
           ],
           quiz: [
             { q: "Pourquoi la veille réglementaire est-elle vitale ?", options: ["Pour la culture générale", "Parce que les règles évoluent et travailler sur une info périmée est risqué", "Ce n'est pas important"], answer: 1, explain: "Les plafonds de commission ont changé récemment : l'info datée est un risque." },
@@ -678,6 +742,8 @@ export const COURSE: { id: string; title: string; chapters: Chapter[] } = {
             "Parzi Manage est pensé exactement pour ça : suivre les échéances pour ne jamais perdre un client par oubli, gérer le portefeuille et le pipeline d'opportunités, garder un CRM des clubs et contacts, et s'appuyer sur des analyses pour prioriser. L'outil ne remplace pas l'agent — il élimine les oublis et libère du temps pour ce qui compte : les relations et les deals.",
             "La discipline finale : ce que tu apprends dans cette formation ne vaut que si tu l'exécutes avec constance. Choisis un système, tiens-le à jour religieusement, et fais-en une habitude quotidienne. C'est cette rigueur, invisible mais implacable, qui sépare ceux qui durent de ceux qui disparaissent.",
             "Cas concret — Deux agents de talent égal. Le premier garde tout en tête et dans des mails éparpillés : sur une année, il perd un client (mandat expiré), rate une prolongation (échéance oubliée) et laisse filer une opportunité (relance jamais faite). Le second centralise tout dans un outil qui l'alerte : zéro oubli. À la fin de la saison, l'écart n'est pas une question de talent — c'est trois dossiers sauvés par la rigueur. C'est exactement ce que Parzi Manage automatise.",
+            "⚠️ L'erreur classique — Tout gérer de tête ou dans des notes éparses, et rater une échéance. Le pro centralise mandats, joueurs et dates clés.",
+            "🎯 À retenir — Une seule source de vérité · Des alertes d'échéances · Le suivi rigoureux fait la différence.",
           ],
           quiz: [
             { q: "Les erreurs les plus coûteuses d'un agent sont souvent :", options: ["Des erreurs de talent", "Des erreurs d'organisation (mandat expiré, échéance ratée)", "Des erreurs de tactique de jeu"], answer: 1, explain: "Ce sont des oublis évitables, pas des manques de talent." },
