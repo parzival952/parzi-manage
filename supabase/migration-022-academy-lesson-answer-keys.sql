@@ -1,15 +1,8 @@
--- migration-022 — Clés de correction de TOUTES les leçons du programme (33 leçons).
+-- migration-022 — Clés de correction de TOUTES les leçons du programme (37 leçons).
 --
--- Contexte : le contenu des leçons (questions/options) vit dans le code
--- (src/lib/academy-course.ts), mais la CLÉ DE CORRECTION vit en base
--- (academy_lesson_definitions). Le RPC complete_academy_lesson note les réponses
--- de l'utilisateur (p_answers) contre answer_key, côté serveur — le client ne peut
--- pas s'auto-attribuer un score.
---
--- Les 33 leçons ont été enrichies : chacune se termine désormais par une question
--- de mise en situation. Les clés ci-dessous sont RÉGÉNÉRÉES automatiquement depuis le
--- contenu à jour (les `answer:` de chaque quiz), donc elles correspondent exactement
--- aux questions affichées. Idempotent (upsert). Rollback : neutre.
+-- La CLÉ DE CORRECTION vit en base (academy_lesson_definitions) : le RPC
+-- complete_academy_lesson note les réponses (p_answers) contre answer_key côté
+-- serveur. Régénéré automatiquement depuis src/lib/academy-course.ts — idempotent.
 
 begin;
 
@@ -44,6 +37,10 @@ values
   ('prospection', '[1,1,1]'::jsonb, 3, true),
   ('reseau', '[1,1,1]'::jsonb, 3, true),
   ('finances', '[1,1,1]'::jsonb, 3, true),
+  ('mental-performance', '[1,1,1]'::jsonb, 3, true),
+  ('gerer-entourage', '[1,0,1]'::jsonb, 3, true),
+  ('conversations-difficiles', '[1,1,1]'::jsonb, 3, true),
+  ('jeune-argent-celebrite', '[1,1,1]'::jsonb, 3, true),
   ('methode-examen', '[1,1,1]'::jsonb, 3, true),
   ('cas-pratiques', '[1,1,1]'::jsonb, 3, true),
   ('veille', '[1,1,1]'::jsonb, 3, true),

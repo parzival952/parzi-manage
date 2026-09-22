@@ -665,7 +665,92 @@ export const COURSE: { id: string; title: string; chapters: Chapter[] } = {
       ],
     },
 
-    // ================= CH.8 — MÉTHODE & PROFESSIONNALISATION =================
+    // ================= CH.8 — PSYCHOLOGIE & FACTEUR HUMAIN =================
+    {
+      id: "psychologie-humain",
+      title: "Psychologie & facteur humain",
+      subtitle: "Le métier se joue autant sur l'humain que sur le contrat : émotions, entourage et moments durs.",
+      lessons: [
+        {
+          id: "mental-performance",
+          title: "Le mental de la performance",
+          minutes: 6,
+          intro: "Un joueur n'est pas une machine : sa tête fait autant que ses jambes. Un bon agent protège l'équilibre mental de son client.",
+          blocks: [
+            "La performance sur le terrain dépend d'un mental stable : confiance, gestion du stress, capacité à encaisser l'échec. L'agent n'est pas psychologue, mais il est souvent le premier confident — et le premier à détecter quand ça ne va pas.",
+            "Les moments à risque : une méforme, une blessure longue, un banc prolongé, une critique publique, une contre-performance décisive. Ce sont ces creux qui cassent les carrières — ou les révèlent, si le joueur est bien entouré.",
+            "Ton rôle : normaliser les hauts et les bas, entourer le joueur des bonnes personnes (préparateur mental, staff médical), et éviter les décisions à chaud (demande de transfert, clash avec le coach) prises sous le coup de l'émotion.",
+            "Cas concret — Ton joueur enchaîne trois matchs sans marquer, la presse l'enterre, il veut « partir tout de suite ». L'agent débutant active le marché sous la pression. L'agent accompli l'aide à respirer, lui rappelle le plan, et attend que la tête soit froide avant de décider. Trois semaines plus tard, le joueur repart — et sa valeur avec.",
+            "⚠️ L'erreur classique — Confondre le rôle d'agent et celui de psy, ou à l'inverse ignorer le mental sous prétexte que « ce n'est pas mon domaine ». Le pro ne soigne pas, mais il écoute, détecte et oriente vers les bons professionnels.",
+            "🎯 À retenir — Le mental fait la performance · Repère les moments de creux · Jamais de décision majeure à chaud.",
+          ],
+          quiz: [
+            { q: "Quand un joueur en méforme veut tout plaquer, l'agent avisé :", options: ["Active le transfert immédiatement", "L'aide à décider à froid, une fois l'émotion retombée", "Ignore, ça passera"], answer: 1, explain: "Les décisions majeures se prennent à tête reposée." },
+            { q: "Le rôle de l'agent sur le plan mental, c'est :", options: ["Remplacer un psychologue", "Écouter, détecter et orienter vers les bons pros", "Ne pas s'en mêler"], answer: 1 },
+            { q: "Les moments les plus à risque pour un joueur sont :", options: ["Les victoires", "Les creux : blessure, banc, critiques, méforme", "Les vacances"], answer: 1 },
+          ],
+        },
+        {
+          id: "gerer-entourage",
+          title: "Gérer l'entourage du joueur",
+          minutes: 6,
+          intro: "Autour d'un joueur gravitent une famille, des amis, parfois des « conseillers » improvisés. Bien géré, l'entourage est un socle ; mal géré, il fait tout dérailler.",
+          blocks: [
+            "L'entourage sain veut le bien du joueur sur le long terme. L'entourage toxique profite (argent, réseaux, promesses), pousse aux mauvais choix ou te court-circuite auprès d'autres agents. Savoir distinguer les deux est vital.",
+            "Ta position est délicate : tu dois travailler AVEC la famille (surtout pour un jeune) sans te laisser dicter la stratégie par des gens qui n'en ont pas les compétences. Respect des personnes, fermeté sur la méthode, pédagogie constante.",
+            "Signaux d'alerte : un « ami » qui parle argent à ta place, un proche qui multiplie les contacts avec d'autres agents, des promesses irréalistes faites au joueur par des tiers. Nomme ces dérives tôt, calmement, avec des faits.",
+            "Cas concret — Le cousin du joueur, sans mandat ni compétence, négocie en parallèle avec un club et promet un salaire irréaliste. L'agent débutant se braque ou se tait. L'agent accompli réunit joueur et famille, explique factuellement les risques (opération qui capote, réputation abîmée) et recentre la décision sur l'intérêt du joueur.",
+            "⚠️ L'erreur classique — Vouloir écarter brutalement l'entourage (tu perds le joueur) ou tout lui céder (tu perds la stratégie). Le pro tient une ligne : chaleureux avec les personnes, ferme sur la méthode.",
+            "🎯 À retenir — L'entourage peut porter ou couler une carrière · Travaille avec la famille sans lui déléguer la stratégie · Nomme les dérives tôt et calmement.",
+          ],
+          quiz: [
+            { q: "Face à un proche qui négocie en parallèle sans compétence, le pro :", options: ["L'écarte brutalement", "Réunit joueur et famille, explique les risques, recentre sur l'intérêt du joueur", "Laisse faire"], answer: 1 },
+            { q: "La bonne posture avec l'entourage d'un jeune joueur :", options: ["Chaleureux avec les personnes, ferme sur la méthode", "Tout céder pour être apprécié", "Les ignorer"], answer: 0 },
+            { q: "Un signal d'entourage toxique :", options: ["Un proche discret et présent", "Un « ami » qui promet des salaires irréalistes et multiplie les contacts d'agents", "Une famille présente aux matchs"], answer: 1 },
+          ],
+        },
+        {
+          id: "conversations-difficiles",
+          title: "Les conversations difficiles",
+          minutes: 5,
+          intro: "Dire non, annoncer une mauvaise nouvelle, gérer un désaccord : ces moments définissent un agent. Les fuir détruit la confiance ; les mener bien la renforce.",
+          blocks: [
+            "Les conversations qu'on n'a pas envie d'avoir : refuser une offre alléchante mais mauvaise, annoncer qu'un club ne veut plus du joueur, conseiller à un jeune de descendre d'un niveau pour jouer, gérer un conflit avec un coach.",
+            "La méthode : prépare ton message, sois direct mais respectueux, appuie-toi sur des faits, et propose toujours une voie de sortie. On ne noie pas la mauvaise nouvelle : on l'assume et on montre le plan d'après.",
+            "Le timing et le canal comptent : une mauvaise nouvelle se dit en direct (appel, face à face), jamais par un SMS sec. Le joueur doit sentir que tu es avec lui, même quand le message est dur.",
+            "Cas concret — Un club de National veut ton joueur ; son club de Ligue 2 le laisse sur le banc. Tu dois lui conseiller de « descendre » pour jouer — un message que son ego rejette. L'agent accompli explique factuellement (temps de jeu, progression, valeur dans 18 mois), assume le conseil, et le cadre comme une étape, pas une régression.",
+            "⚠️ L'erreur classique — Éviter la conversation, l'édulcorer ou la déléguer par écrit. Le joueur l'apprend autrement et la confiance s'effondre. Le pro dit les choses, en face, avec un plan.",
+            "🎯 À retenir — Ne fuis jamais la conversation dure · Faits + respect + une voie de sortie · Les mauvaises nouvelles se disent en direct.",
+          ],
+          quiz: [
+            { q: "Une mauvaise nouvelle importante se transmet idéalement :", options: ["Par un SMS bref", "En direct (appel ou face à face), avec un plan", "Via un proche"], answer: 1 },
+            { q: "Bien mener une conversation difficile, c'est :", options: ["Édulcorer pour ménager", "Être direct et respectueux, appuyé sur des faits, avec une voie de sortie", "L'éviter"], answer: 1 },
+            { q: "Ton joueur peut jouer à un niveau inférieur plutôt que rester sur le banc. Tu :", options: ["Évites le sujet, trop sensible", "Expliques factuellement l'intérêt et assumes le conseil", "Le laisses croupir sur le banc"], answer: 1 },
+          ],
+        },
+        {
+          id: "jeune-argent-celebrite",
+          title: "Jeune joueur : argent & célébrité",
+          minutes: 6,
+          intro: "Un talent qui explose à 18 ans découvre en même temps l'argent, la célébrité et les réseaux sociaux. Sans cadre, ce cocktail brise plus de carrières qu'il n'en construit.",
+          blocks: [
+            "Les pièges du jeune qui perce : train de vie qui explose, entourage qui grossit, réseaux sociaux mal maîtrisés, sentiment d'invincibilité, perte du travail qui l'a fait monter. L'argent facile est le plus difficile à gérer.",
+            "Ton rôle : poser des garde-fous sans étouffer. Éduquer à l'argent (épargne, fiscalité, prudence), cadrer la communication (ce qu'on poste et ce qu'on ne poste pas), et rappeler que la performance reste la seule base durable.",
+            "La règle du temps long : un jeune pense en semaines, l'agent pense en années. Ton boulot est de protéger le joueur de lui-même quand il le faut — quitte à être celui qui dit « pas maintenant ».",
+            "Cas concret — Un joueur de 19 ans signe son premier gros contrat et veut tout : voitures, montre, entourage payé. L'agent débutant approuve pour rester populaire. L'agent accompli l'assoit, pose un budget, met en place une épargne et un conseil fiscal, et lui rappelle que sa prochaine prolongation dépendra de ses matchs, pas de son compte de réseau social.",
+            "⚠️ L'erreur classique — Vouloir être « le pote » qui dit toujours oui pour rester dans les bonnes grâces. Le pro préfère être respecté dans dix ans plutôt qu'adoré ce mois-ci.",
+            "🎯 À retenir — Argent + célébrité + jeunesse = cocktail à cadrer · Éduque à l'argent et à la communication · La performance reste la seule base durable.",
+          ],
+          quiz: [
+            { q: "Face à un jeune qui veut tout dépenser à sa première grosse signature, le pro :", options: ["Approuve pour rester populaire", "Pose un budget, met en place épargne et conseil fiscal", "Ne dit rien, c'est son argent"], answer: 1 },
+            { q: "Le bon état d'esprit de l'agent avec un jeune qui perce :", options: ["Être le pote qui dit toujours oui", "Être respecté dans la durée, quitte à dire « pas maintenant »", "Le laisser gérer seul"], answer: 1 },
+            { q: "Ce qui reste la base durable d'une carrière :", options: ["Le nombre d'abonnés", "La performance sur le terrain", "Le train de vie"], answer: 1 },
+          ],
+        },
+      ],
+    },
+
+    // ================= CH.9 — MÉTHODE & PROFESSIONNALISATION =================
     {
       id: "methode-pro",
       title: "Méthode, examen & outils",
@@ -803,6 +888,8 @@ const LESSON_ATTR: Record<string, AttrKey> = {
   negociation: "NEG", "preparer-nego": "NEG", "techniques-nego": "NEG", "negocier-transfert": "NEG",
   // Business & réseau
   "structurer-activite": "BUS", prospection: "BUS", reseau: "BUS", finances: "BUS",
+  // Psychologie & facteur humain
+  "mental-performance": "MGT", "gerer-entourage": "MGT", "conversations-difficiles": "NEG", "jeune-argent-celebrite": "MGT",
   // Méthode & pro
   "methode-examen": "MGT", "cas-pratiques": "JUR", veille: "IA", "outils-parzi": "IA",
 };
