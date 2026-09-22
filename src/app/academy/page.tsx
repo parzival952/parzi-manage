@@ -735,6 +735,27 @@ export default async function AcademyHome() {
         </div>
       </Link>
 
+      <Link
+        href="/academy/glossaire"
+        className="pz-card p-5 pz-rise pz-d5 flex items-center gap-4"
+      >
+        <div className="text-[26px]">📖</div>
+
+        <div className="flex-1">
+          <div className="font-bold text-[15px]">
+            Glossaire du métier
+          </div>
+
+          <div className="text-[12.5px] pz-muted">
+            Tous les termes clés : mandats, clauses, transferts, instances…
+          </div>
+        </div>
+
+        <div className="text-[18px] pz-muted">
+          →
+        </div>
+      </Link>
+
       <div className="grid grid-cols-3 gap-3 pz-rise pz-d5">
         <Link
           href="/academy/classement"
