@@ -44,6 +44,16 @@ export async function getProgress(uid: string): Promise<Progress> {
   return { xp, streak, best_streak: best, last_active: last, done, perfect, info: levelInfo(xp) };
 }
 
+/** Leçons validées (avec score et date) — voie dual-mode, pour reconstruire l'état sans Supabase. */
+export async function getDoneLessons(uid: string): Promise<{ lessonId: string; score: number; createdAt: string }[]> {
+  if (usePostgres()) {
+    const rows = (await pg()`SELECT lesson_id, score, created_at::text AS created_at FROM academy_done WHERE user_id = ${uid} ORDER BY created_at ASC`) as unknown as { lesson_id: string; score: number; created_at: string }[];
+    return rows.map((r) => ({ lessonId: r.lesson_id, score: r.score, createdAt: r.created_at }));
+  }
+  const rows = db().prepare("SELECT lesson_id, score, created_at FROM academy_done WHERE user_id = ? ORDER BY created_at ASC").all(uid) as { lesson_id: string; score: number; created_at: string }[];
+  return rows.map((r) => ({ lessonId: r.lesson_id, score: r.score, createdAt: r.created_at }));
+}
+
 // ---------- Hall of Fame / Classement ----------
 
 export type HofRow = { user_id: string; name: string; xp: number; level: number };

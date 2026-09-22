@@ -1,6 +1,8 @@
 import { cookies } from "next/headers";
 
 import type { Progress } from "@/lib/academy";
+import { getDoneLessons, getProgress, getTodayActivity } from "@/lib/academy";
+import { requireUser } from "@/lib/auth";
 import { levelInfo } from "@/lib/progression";
 
 type AcademyCompletedLesson = {
@@ -26,7 +28,27 @@ const SUPABASE_ANON_KEY =
 export async function loadAcademyState():
   Promise<AcademyState | null> {
   if (!SUPABASE_URL || !SUPABASE_ANON_KEY) {
-    return null;
+    // Démo / dev sans Supabase : état reconstruit depuis la base dual-mode (SQLite).
+    try {
+      const user = await requireUser();
+      const [p, done, today] = await Promise.all([
+        getProgress(user.id),
+        getDoneLessons(user.id),
+        getTodayActivity(user.id),
+      ]);
+      return {
+        xp: p.xp,
+        streak: p.streak,
+        bestStreak: p.best_streak,
+        lastActive: p.last_active,
+        done,
+        todayLessons: today.lessons,
+        todayPerfect: today.perfect,
+      };
+    } catch (error) {
+      console.error("academy state (démo):", error);
+      return null;
+    }
   }
 
   const cookieStore = await cookies();
