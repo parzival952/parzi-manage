@@ -777,6 +777,27 @@ export default async function AcademyHome() {
         </div>
       </Link>
 
+      <Link
+        href="/academy/aide-memoire"
+        className="pz-card p-5 pz-rise pz-d5 flex items-center gap-4"
+      >
+        <div className="text-[26px]">🎯</div>
+
+        <div className="flex-1">
+          <div className="font-bold text-[15px]">
+            Aide-mémoire
+          </div>
+
+          <div className="text-[12.5px] pz-muted">
+            Tous les points clés à retenir, chapitre par chapitre.
+          </div>
+        </div>
+
+        <div className="text-[18px] pz-muted">
+          →
+        </div>
+      </Link>
+
       <div className="grid grid-cols-3 gap-3 pz-rise pz-d5">
         <Link
           href="/academy/classement"

@@ -1,12 +1,18 @@
 "use client";
 
-export default function PrintButton() {
+/**
+ * Bouton d'impression / export PDF (via la boîte d'impression du navigateur).
+ * Masqué à l'impression grâce à la classe `no-print`.
+ */
+export default function PrintButton({ label = "🖨️ Imprimer / PDF" }: { label?: string }) {
   return (
     <button
+      type="button"
       onClick={() => window.print()}
-      className="no-print bg-[#2a78d6] hover:bg-[#2266bb] text-white font-semibold text-[13.5px] rounded-lg px-4 py-2"
+      className="pz-btn ghost no-print shrink-0"
+      style={{ padding: "8px 12px", fontSize: 12 }}
     >
-      🖨 Imprimer / Enregistrer en PDF
+      {label}
     </button>
   );
 }
