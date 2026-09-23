@@ -1,5 +1,6 @@
 export const dynamic = "force-dynamic";
 import Link from "next/link";
+import CollectibleGlyph from "@/components/CollectibleGlyph";
 import { redirect } from "next/navigation";
 
 import {
@@ -59,13 +60,12 @@ export default async function TropheesPage() {
                   style={{
                     width: 48, height: 52,
                     clipPath: "polygon(50% 0,100% 25%,100% 75%,50% 100%,0 75%,0 25%)",
-                    background: t.earned ? "linear-gradient(180deg,var(--anthracite-2),var(--anthracite))" : "var(--anthracite)",
+                    background: t.earned ? "linear-gradient(180deg,#2a2a32,#131317)" : "var(--anthracite)",
                     border: `1px solid ${t.earned ? tone + "aa" : "rgba(var(--ink-rgb),.06)"}`,
-                    filter: t.earned ? "none" : "grayscale(1)",
                     boxShadow: t.earned ? "inset 0 1px 0 rgba(255,255,255,.10)" : "none",
                   }}
                 >
-                  {hidden ? <AcademyIcon name="help" size={20} style={{ color: "var(--gris)", opacity: 0.6 }} /> : <span style={{ opacity: t.earned ? 1 : 0.4 }}>{t.icon}</span>}
+                  {hidden ? <AcademyIcon name="help" size={20} style={{ color: "var(--gris)", opacity: 0.6 }} /> : <span style={{ opacity: t.earned ? 1 : 0.45, display: "grid" }}><CollectibleGlyph icon={t.icon} color={t.earned ? tone : "var(--gris)"} /></span>}
                 </div>
                 <div className="min-w-0">
                   <div className="font-bold text-[13.5px] leading-tight" style={{ color: t.earned ? "var(--blanc)" : "var(--gris)" }}>

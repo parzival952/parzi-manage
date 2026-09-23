@@ -1,5 +1,6 @@
 export const dynamic = "force-dynamic";
 import Link from "next/link";
+import CollectibleGlyph from "@/components/CollectibleGlyph";
 import { redirect } from "next/navigation";
 
 import {
@@ -113,7 +114,7 @@ export default async function AcademyProfil() {
       {/* Badges réels */}
       <div className="pz-rise pz-d2">
         <div className="flex items-center justify-between mb-3">
-          <div className="text-[11px] font-bold tracking-wider pz-red">BADGES · {earnedCount}/{badges.length}</div>
+          <div className="pz-eyebrow pz-red">BADGES · {earnedCount}/{badges.length}</div>
           <Link href="/academy/badges" className="text-[11.5px] pz-muted hover:text-white">Tout voir →</Link>
         </div>
         <div className="flex gap-2.5 flex-wrap">
@@ -123,13 +124,13 @@ export default async function AcademyProfil() {
               className="pzc-badge"
               title={`${b.name} — ${b.desc}`}
               style={{
-                filter: b.earned ? "none" : "grayscale(1)",
-                opacity: b.earned ? 1 : 0.4,
+                opacity: b.earned ? 1 : 0.45,
+                background: b.earned ? "linear-gradient(180deg,#2a2a32,#131317)" : undefined,
                 borderColor: b.earned ? TIER_TONE[b.tier] + "88" : undefined,
                 boxShadow: b.earned ? "inset 0 1px 0 rgba(255,255,255,.10)" : "none",
               }}
             >
-              {b.icon}
+              <CollectibleGlyph icon={b.icon} color={b.earned ? TIER_TONE[b.tier] : "var(--gris)"} />
             </div>
           ))}
         </div>
@@ -143,15 +144,15 @@ export default async function AcademyProfil() {
       {/* Trophées */}
       <div className="pz-rise pz-d2">
         <div className="flex items-center justify-between mb-3">
-          <div className="text-[11px] font-bold tracking-wider pz-red">TROPHÉES · {trophyEarned.length}/{trophies.length}</div>
+          <div className="pz-eyebrow pz-red">TROPHÉES · {trophyEarned.length}/{trophies.length}</div>
           <Link href="/academy/trophees" className="text-[11.5px] pz-muted hover:text-white">Tout voir →</Link>
         </div>
         {trophyShowcase.length > 0 ? (
           <div className="flex gap-2.5 flex-wrap">
             {trophyShowcase.map((t) => (
               <div key={t.id} className="pzc-badge" title={`${t.name} — ${t.desc}`}
-                style={{ borderColor: RARITY_TONE[t.rarity] + "aa", boxShadow: "inset 0 1px 0 rgba(255,255,255,.10)" }}>
-                {t.icon}
+                style={{ background: "linear-gradient(180deg,#2a2a32,#131317)", borderColor: RARITY_TONE[t.rarity] + "aa", boxShadow: "inset 0 1px 0 rgba(255,255,255,.10)" }}>
+                <CollectibleGlyph icon={t.icon} color={RARITY_TONE[t.rarity]} />
               </div>
             ))}
           </div>
@@ -162,7 +163,7 @@ export default async function AcademyProfil() {
 
       {/* Échelle des rangs */}
       <div className="pz-rise pz-d3">
-        <div className="text-[11px] font-bold tracking-wider pz-red mb-3">LES 12 RANGS PARZI</div>
+        <div className="pz-eyebrow pz-red mb-3">LES 12 RANGS PARZI</div>
         <div className="pz-card p-4 flex flex-col gap-1.5">
           {RANKS.map((r) => {
             const reached = info.level >= r.min;

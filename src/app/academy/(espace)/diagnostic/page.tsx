@@ -267,7 +267,7 @@ export default function DiagnosticStartPage() {
       <section className="pz-card p-5 pz-rise pz-d1">
         <div className="flex items-start justify-between gap-4">
           <div>
-            <div className="text-[11px] font-bold tracking-wider pz-red">
+            <div className="pz-eyebrow pz-red">
               CE QUI SERA ÉVALUÉ
             </div>
 
@@ -317,7 +317,7 @@ export default function DiagnosticStartPage() {
       </section>
 
       <section className="pz-card p-5 pz-rise pz-d1">
-        <div className="text-[11px] font-bold tracking-wider pz-red">
+        <div className="pz-eyebrow pz-red">
           RÈGLES DU DIAGNOSTIC
         </div>
 

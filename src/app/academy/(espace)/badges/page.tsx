@@ -1,5 +1,6 @@
 export const dynamic = "force-dynamic";
 import Link from "next/link";
+import CollectibleGlyph from "@/components/CollectibleGlyph";
 import { redirect } from "next/navigation";
 
 import {
@@ -52,13 +53,12 @@ export default async function BadgesPage() {
                   style={{
                     clipPath: "polygon(50% 0,100% 25%,100% 75%,50% 100%,0 75%,0 25%)",
                     height: "3.1rem",
-                    background: b.earned ? "linear-gradient(180deg,var(--anthracite-2),var(--anthracite))" : "var(--anthracite)",
+                    background: b.earned ? "linear-gradient(180deg,#2a2a32,#131317)" : "var(--anthracite)",
                     border: `1px solid ${b.earned ? tone + "88" : "rgba(var(--ink-rgb),.06)"}`,
-                    filter: b.earned ? "none" : "grayscale(1)",
                     boxShadow: b.earned ? "inset 0 1px 0 rgba(255,255,255,.10)" : "none",
                   }}
                 >
-                  <span style={{ opacity: b.earned ? 1 : 0.4 }}>{b.icon}</span>
+                  <span style={{ opacity: b.earned ? 1 : 0.45, display: "grid" }}><CollectibleGlyph icon={b.icon} color={b.earned ? tone : "var(--gris)"} /></span>
                 </div>
                 <div className="min-w-0">
                   <div className="font-bold text-[13.5px] leading-tight" style={{ color: b.earned ? "var(--blanc)" : "var(--gris)" }}>{b.name}</div>
