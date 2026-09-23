@@ -674,7 +674,7 @@ export default function DiagnosticSessionClient({
         </section>
 
         <section className="pz-card p-5">
-          <div className="text-[11px] font-bold tracking-wider pz-red">
+          <div className="pz-eyebrow pz-red">
             RÉSULTATS PAR DOMAINE
           </div>
 
@@ -943,7 +943,7 @@ export default function DiagnosticSessionClient({
       <section className="pz-card p-5">
         <div className="flex items-start justify-between gap-4">
           <div>
-            <div className="text-[11px] font-bold tracking-wider pz-red">
+            <div className="pz-eyebrow pz-red">
               NIVEAU DE CONFIANCE
             </div>
 

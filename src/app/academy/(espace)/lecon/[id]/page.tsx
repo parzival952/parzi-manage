@@ -237,7 +237,7 @@ export default async function LessonPage({
       <LessonReader blocks={lesson.blocks} />
 
       <section className="pz-rise pz-d2">
-        <div className="text-[11px] font-bold tracking-wider pz-red mb-3">
+        <div className="pz-eyebrow pz-red mb-3">
           QUIZ — VALIDE TA LEÇON
         </div>
 
