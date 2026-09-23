@@ -5,7 +5,7 @@ import Link from "next/link";
 export const dynamic = "force-dynamic";
 
 export const metadata = {
-  title: "Diagnostic initial | PARZI Academy",
+  title: "Diagnostic initial",
   description:
     "Évalue ton niveau initial et obtiens un parcours de formation personnalisé.",
 };

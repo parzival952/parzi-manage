@@ -1,8 +1,10 @@
 // Authentification Parzi Manage — Supabase Auth via API REST (GoTrue).
 // Pas de SDK : appels fetch directs, session en cookies httpOnly.
 // En dev local sans Supabase configuré → mode démo sans connexion.
-import { cookies } from "next/headers";
+import { cookies, headers as requestHeaders } from "next/headers";
 import { redirect } from "next/navigation";
+
+import { SURFACE_HEADER } from "@/lib/academy-host";
 
 const SUPABASE_URL = process.env.SUPABASE_URL;
 const ANON_KEY = process.env.SUPABASE_ANON_KEY;
@@ -88,10 +90,17 @@ export async function getUser(): Promise<SessionUser | null> {
   }
 }
 
-/** À appeler en tête de chaque page protégée. */
+/**
+ * À appeler en tête de chaque page protégée. Un visiteur non connecté est
+ * envoyé vers la connexion du produit qu'il visite : PARZI Academy
+ * (/academy/connexion) ou Parzi Manage (/connexion).
+ */
 export async function requireUser(): Promise<SessionUser> {
   const u = await getUser();
-  if (!u) redirect("/connexion");
+  if (!u) {
+    const surface = (await requestHeaders()).get(SURFACE_HEADER);
+    redirect(surface === "academy" ? "/academy/connexion" : "/connexion");
+  }
   return u;
 }
 
