@@ -19,7 +19,8 @@ export type AideMemoireChapter = {
 
 const MARKER = "🎯 À retenir";
 
-function extractPoints(blocks: string[]): string[] {
+/** Points « 🎯 À retenir » d'une leçon (liste vide si la leçon n'en a pas). */
+export function extractPoints(blocks: string[]): string[] {
   const block = blocks.find((b) => b.includes(MARKER));
   if (!block) return [];
   // Retire « 🎯 À retenir » puis le tiret d'introduction éventuel.

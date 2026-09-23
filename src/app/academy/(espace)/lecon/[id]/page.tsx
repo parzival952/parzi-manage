@@ -4,6 +4,7 @@ import { revalidatePath } from "next/cache";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 
+import LessonAside from "@/components/LessonAside";
 import LessonReader from "@/components/LessonReader";
 import LessonQuiz from "@/components/LessonQuiz";
 import {
@@ -13,7 +14,9 @@ import {
   completeSecureLesson,
   type SecureLessonResult,
 } from "@/lib/academy-lesson-store";
-import { completeLesson, findLesson } from "@/lib/academy";
+import { ALL_LESSONS, COURSE, completeLesson, findLesson } from "@/lib/academy";
+import { extractPoints } from "@/lib/academy-aide-memoire";
+import { academyStateToProgress, loadAcademyState } from "@/lib/academy-state";
 import { primaryLessonForSection } from "@/lib/academy-recommendations";
 import {
   isConfidenceValue,
@@ -39,8 +42,28 @@ export default async function LessonPage({
 
   const { chapter, lesson, index } = found;
 
-  const report =
-    await loadLatestDiagnosticReport();
+  const [report, academyState] = await Promise.all([
+    loadLatestDiagnosticReport(),
+    loadAcademyState(),
+  ]);
+
+  // Panneau latéral (ordinateur) : progression du chapitre, points clés,
+  // leçons voisines.
+  const done = academyState
+    ? academyStateToProgress(academyState).done
+    : new Set<string>();
+  const chapterNumber =
+    COURSE.chapters.findIndex((c) => c.id === chapter.id) + 1;
+  const keyPoints = extractPoints(lesson.blocks);
+  const previousEntry = index > 0 ? ALL_LESSONS[index - 1] : null;
+  const nextEntry =
+    index < ALL_LESSONS.length - 1 ? ALL_LESSONS[index + 1] : null;
+  const previous = previousEntry
+    ? { id: previousEntry.lesson.id, title: previousEntry.lesson.title }
+    : null;
+  const next = nextEntry
+    ? { id: nextEntry.lesson.id, title: nextEntry.lesson.title }
+    : null;
 
   const priority =
     report?.priorities[0] ?? null;
@@ -122,7 +145,8 @@ export default async function LessonPage({
   }
 
   return (
-    <div className="pz-lecture flex flex-col gap-5">
+    <div className="pz-wide lg:grid lg:grid-cols-[minmax(0,760px)_300px] lg:justify-center lg:gap-10 lg:items-start">
+    <div className="flex flex-col gap-5 min-w-0 max-w-[780px] mx-auto lg:mx-0 w-full">
       <header className="pz-rise">
         <Link
           href="/academy"
@@ -236,7 +260,7 @@ export default async function LessonPage({
 
       <LessonReader blocks={lesson.blocks} />
 
-      <section className="pz-rise pz-d2">
+      <section id="quiz" className="pz-rise pz-d2 scroll-mt-24">
         <div className="pz-eyebrow pz-red mb-3">
           QUIZ — VALIDE TA LEÇON
         </div>
@@ -247,6 +271,35 @@ export default async function LessonPage({
           isMission={isMission}
         />
       </section>
+
+      {/* Téléphone / tablette : leçons voisines sous le quiz. */}
+      <nav className="lg:hidden grid grid-cols-2 gap-2" aria-label="Leçons voisines">
+        {previous ? (
+          <Link href={`/academy/lecon/${previous.id}`} className="pz-card p-3 text-[12px] leading-snug">
+            <span className="pz-muted block">← Précédente</span>
+            <span className="line-clamp-2">{previous.title}</span>
+          </Link>
+        ) : (
+          <span />
+        )}
+        {next ? (
+          <Link href={`/academy/lecon/${next.id}`} className="pz-card p-3 text-[12px] leading-snug text-right">
+            <span className="pz-muted block">Suivante →</span>
+            <span className="line-clamp-2">{next.title}</span>
+          </Link>
+        ) : null}
+      </nav>
+    </div>
+
+    <LessonAside
+      chapter={chapter}
+      chapterNumber={chapterNumber}
+      lesson={lesson}
+      done={done}
+      keyPoints={keyPoints}
+      previous={previous}
+      next={next}
+    />
     </div>
   );
 }
