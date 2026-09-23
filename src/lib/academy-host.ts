@@ -7,6 +7,9 @@
 
 const DEFAULT_ACADEMY_HOSTS = ["parziacademy.fr", "www.parziacademy.fr"];
 
+/** Adresse publique officielle de PARZI Academy (liens des e-mails de confirmation). */
+export const ACADEMY_ORIGIN = "https://www.parziacademy.fr";
+
 function stripPort(host: string): string {
   return host.trim().toLowerCase().replace(/:\d+$/, "");
 }

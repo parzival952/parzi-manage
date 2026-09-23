@@ -21,8 +21,19 @@ type AuthTokens = { access_token: string; refresh_token: string; user?: { id: st
 const AUTH = () => `${SUPABASE_URL}/auth/v1`;
 const headers = () => ({ apikey: ANON_KEY as string, "Content-Type": "application/json" });
 
-export async function signUp(email: string, password: string): Promise<{ ok: true } | { ok: false; error: string }> {
-  const r = await fetch(`${AUTH()}/signup`, {
+/**
+ * Inscription. `redirectTo` = page où arrive le lien de l'e-mail de confirmation
+ * (si la confirmation est activée côté Supabase). Supabase ne l'utilise que si
+ * l'adresse figure dans Authentication → URL Configuration → Redirect URLs ;
+ * sinon il retombe sur la « Site URL ».
+ */
+export async function signUp(
+  email: string,
+  password: string,
+  redirectTo?: string,
+): Promise<{ ok: true } | { ok: false; error: string }> {
+  const query = redirectTo ? `?redirect_to=${encodeURIComponent(redirectTo)}` : "";
+  const r = await fetch(`${AUTH()}/signup${query}`, {
     method: "POST", headers: headers(),
     body: JSON.stringify({ email, password }),
   });
