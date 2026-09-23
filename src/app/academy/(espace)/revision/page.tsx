@@ -41,9 +41,9 @@ function attrOf(competencyId: string | null): AttrKey | null {
 }
 
 function toneFor(score: number): string {
-  if (score < 25) return "#ff6b78";
-  if (score < 55) return "#f0b35c";
-  if (score < 80) return "#e9c36a";
+  if (score < 25) return "var(--rouge-clair)";
+  if (score < 55) return "var(--ambre)";
+  if (score < 80) return "var(--or)";
   return "var(--vert)";
 }
 
@@ -177,7 +177,7 @@ export default async function AcademyRevisionPage() {
                 <span
                   className="text-[9px] font-bold rounded-full px-3 py-1 shrink-0"
                   style={{
-                    color: "#ff8290",
+                    color: "var(--rouge-clair)",
                     background: "rgba(194,24,51,.10)",
                     border: "1px solid var(--ligne)",
                   }}
@@ -228,7 +228,7 @@ export default async function AcademyRevisionPage() {
                   <span
                     className="text-[9px] font-bold rounded-full px-3 py-1 shrink-0"
                     style={{
-                      color: "#f0b35c",
+                      color: "var(--ambre)",
                       background: "rgba(240,179,92,.12)",
                       border: "1px solid var(--ligne)",
                     }}
@@ -263,7 +263,7 @@ export default async function AcademyRevisionPage() {
                 </div>
                 <div
                   className="h-1.5 rounded-full mt-1"
-                  style={{ background: "rgba(255,255,255,.08)" }}
+                  style={{ background: "rgba(var(--ink-rgb),.08)" }}
                 >
                   <div
                     className="h-full rounded-full"

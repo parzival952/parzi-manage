@@ -14,7 +14,7 @@
       transparent 32%
     ),
     #080d0b;
-  color: #f7faf8;
+  color: var(--blanc);
 }
 
 .backgroundGlow {
@@ -22,8 +22,8 @@
   inset: 0;
   pointer-events: none;
   background-image:
-    linear-gradient(rgba(255, 255, 255, 0.018) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(255, 255, 255, 0.018) 1px, transparent 1px);
+    linear-gradient(rgba(var(--ink-rgb), 0.018) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(var(--ink-rgb), 0.018) 1px, transparent 1px);
   background-size: 48px 48px;
   mask-image: linear-gradient(to bottom, black, transparent 70%);
 }
@@ -42,9 +42,9 @@
   justify-content: space-between;
   gap: 40px;
   padding: 32px;
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(var(--ink-rgb), 0.08);
   border-radius: 28px;
-  background: linear-gradient(135deg, rgba(255, 255, 255, 0.07), rgba(255, 255, 255, 0.025));
+  background: linear-gradient(135deg, rgba(var(--ink-rgb), 0.07), rgba(var(--ink-rgb), 0.025));
   box-shadow: 0 30px 80px rgba(0, 0, 0, 0.34);
   backdrop-filter: blur(18px);
 }
@@ -58,7 +58,7 @@
   border: 1px solid rgba(217, 172, 73, 0.24);
   border-radius: 999px;
   background: rgba(217, 172, 73, 0.08);
-  color: #efd080;
+  color: var(--or);
   font-size: 0.68rem;
   font-weight: 900;
   letter-spacing: 0.1em;
@@ -70,13 +70,13 @@
   height: 7px;
   flex-shrink: 0;
   border-radius: 50%;
-  background: #c9a45c;
+  background: var(--or);
 }
 
 .eyebrow,
 .cardLabel {
   margin: 0 0 10px;
-  color: #c9ccd1;
+  color: var(--texte-2);
   font-family: var(--font-chiffres), ui-monospace, monospace;
   font-size: 0.7rem;
   font-weight: 800;
@@ -95,14 +95,14 @@
 .subtitle {
   max-width: 720px;
   margin: 22px 0 0;
-  color: #abb8b1;
+  color: var(--texte-2);
   font-size: 1.06rem;
   line-height: 1.75;
 }
 
 .generatedAt {
   margin: 16px 0 0;
-  color: #708078;
+  color: var(--gris);
   font-size: 0.83rem;
 }
 
@@ -134,9 +134,9 @@
 }
 
 .secondaryButton {
-  border: 1px solid rgba(255, 255, 255, 0.11);
-  background: rgba(255, 255, 255, 0.04);
-  color: #eff7f2;
+  border: 1px solid rgba(var(--ink-rgb), 0.11);
+  background: rgba(var(--ink-rgb), 0.04);
+  color: var(--blanc);
 }
 
 .primaryButton:hover,
@@ -159,8 +159,8 @@
 .fullTrophyCard,
 .studyDay,
 .finalCallout {
-  border: 1px solid rgba(255, 255, 255, 0.075);
-  background: rgba(15, 24, 20, 0.86);
+  border: 1px solid rgba(var(--ink-rgb), 0.075);
+  background: var(--carte);
   box-shadow: 0 20px 60px rgba(0, 0, 0, 0.24);
 }
 
@@ -205,7 +205,7 @@
 
 .scoreRingInner span {
   margin-top: 2px;
-  color: #8e9d95;
+  color: var(--gris);
   font-size: 0.77rem;
 }
 
@@ -215,7 +215,7 @@
   justify-content: center;
   gap: 8px 14px;
   margin-top: 20px;
-  color: #8b9a92;
+  color: var(--gris);
   font-size: 0.75rem;
   text-align: center;
 }
@@ -227,7 +227,7 @@
 .scoreDetails span:not(:last-child)::after {
   content: "•";
   margin-left: 14px;
-  color: rgba(255, 255, 255, 0.2);
+  color: rgba(var(--ink-rgb), 0.2);
 }
 
 .levelBadge {
@@ -236,7 +236,7 @@
   border: 1px solid rgba(53, 208, 127, 0.2);
   border-radius: 999px;
   background: rgba(53, 208, 127, 0.08);
-  color: #58dc96;
+  color: var(--vert);
   font-size: 0.75rem;
   font-weight: 800;
 }
@@ -246,7 +246,7 @@
   flex-direction: column;
   justify-content: center;
   padding: 34px;
-  background: radial-gradient(circle at 100% 0%, rgba(217, 172, 73, 0.12), transparent 38%), rgba(15, 24, 20, 0.86);
+  background: radial-gradient(circle at 100% 0%, rgba(217, 172, 73, 0.12), transparent 38%), var(--carte);
 }
 
 .cardTop {
@@ -269,7 +269,7 @@
   padding: 9px 12px;
   border-radius: 12px;
   background: rgba(217, 172, 73, 0.12);
-  color: #f0c869;
+  color: var(--or);
   font-weight: 900;
 }
 
@@ -277,7 +277,7 @@
 .smallProgressTrack {
   overflow: hidden;
   border-radius: 999px;
-  background: rgba(255, 255, 255, 0.07);
+  background: rgba(var(--ink-rgb), 0.07);
 }
 
 .progressTrack {
@@ -296,7 +296,7 @@
   display: flex;
   justify-content: space-between;
   margin-top: 10px;
-  color: #89988f;
+  color: var(--gris);
   font-size: 0.77rem;
 }
 
@@ -306,7 +306,7 @@
   border-left: 3px solid #d9ac49;
   border-radius: 0 10px 10px 0;
   background: rgba(217, 172, 73, 0.06);
-  color: #b7b19f;
+  color: var(--texte-2);
   font-size: 0.8rem;
   line-height: 1.55;
 }
@@ -327,7 +327,7 @@
   place-items: center;
   border-radius: 20px;
   background: rgba(217, 172, 73, 0.11);
-  color: #c9a45c;
+  color: var(--or);
   font-size: 1.8rem;
 }
 
@@ -338,7 +338,7 @@
 }
 
 .trophyText {
-  color: #8e9d95;
+  color: var(--gris);
   font-size: 0.8rem;
 }
 
@@ -354,17 +354,17 @@
   flex-direction: column;
   padding: 10px;
   border-radius: 12px;
-  background: rgba(255, 255, 255, 0.035);
+  background: rgba(var(--ink-rgb), 0.035);
 }
 
 .trophyMini strong {
-  color: #efd080;
+  color: var(--or);
   font-size: 0.76rem;
 }
 
 .trophyMini span {
   margin-top: 3px;
-  color: #76867d;
+  color: var(--gris);
   font-size: 0.68rem;
 }
 
@@ -383,7 +383,7 @@
 .sectionHeading p:last-child {
   max-width: 530px;
   margin: 0;
-  color: #819087;
+  color: var(--gris);
   font-size: 0.84rem;
   line-height: 1.65;
 }
@@ -424,28 +424,28 @@
 
 .statusCritical {
   background: rgba(255, 79, 79, 0.12);
-  color: #ff8989;
+  color: var(--rouge-clair);
 }
 
 .statusFragile {
   background: rgba(242, 142, 62, 0.12);
-  color: #f8a865;
+  color: var(--or);
 }
 
 .statusProgressing {
   background: rgba(240, 196, 80, 0.12);
-  color: #f2cc69;
+  color: var(--or);
 }
 
 .statusOperational {
   background: rgba(83, 164, 255, 0.12);
-  color: #79b7ff;
+  color: var(--argent);
 }
 
 .statusMastered,
 .statusAdvanced {
   background: rgba(53, 208, 127, 0.12);
-  color: #66e5a3;
+  color: var(--vert);
 }
 
 .competencyScore {
@@ -460,7 +460,7 @@
 }
 
 .competencyScore span {
-  color: #7d8d84;
+  color: var(--gris);
   font-size: 0.72rem;
 }
 
@@ -473,7 +473,7 @@
   display: flex;
   justify-content: space-between;
   margin-top: 12px;
-  color: #718178;
+  color: var(--gris);
   font-size: 0.67rem;
 }
 
@@ -502,8 +502,8 @@
   flex-shrink: 0;
   place-items: center;
   border-radius: 14px;
-  background: rgba(255, 255, 255, 0.055);
-  color: #c9ccd1;
+  background: rgba(var(--ink-rgb), 0.055);
+  color: var(--texte-2);
   font-size: 1.25rem;
 }
 
@@ -523,7 +523,7 @@
   gap: 14px;
   padding: 15px;
   border-radius: 14px;
-  background: rgba(255, 255, 255, 0.033);
+  background: rgba(var(--ink-rgb), 0.033);
 }
 
 .rankingNumber {
@@ -533,7 +533,7 @@
   place-items: center;
   border-radius: 10px;
   background: rgba(53, 208, 127, 0.11);
-  color: #65dfa1;
+  color: var(--vert);
   font-weight: 900;
 }
 
@@ -544,12 +544,12 @@
 
 .rankingItem div span {
   margin-top: 3px;
-  color: #75857c;
+  color: var(--gris);
   font-size: 0.72rem;
 }
 
 .rankingItem b {
-  color: #62dda0;
+  color: var(--vert);
 }
 
 .priorityItem {
@@ -562,7 +562,7 @@
 .priorityTop {
   display: flex;
   justify-content: space-between;
-  color: #d5b75c;
+  color: var(--or);
   font-size: 0.7rem;
   font-weight: 800;
   text-transform: uppercase;
@@ -575,7 +575,7 @@
 
 .priorityItem p {
   margin: 0;
-  color: #839188;
+  color: var(--gris);
   font-size: 0.77rem;
   line-height: 1.55;
 }
@@ -597,7 +597,7 @@
 
 .alertItem span {
   margin-top: 4px;
-  color: #8a938d;
+  color: var(--gris);
   font-size: 0.7rem;
 }
 
@@ -610,7 +610,7 @@
   padding: 18px;
   border-radius: 14px;
   background: rgba(53, 208, 127, 0.06);
-  color: #6bdd9f;
+  color: var(--vert);
 }
 
 .riskStats {
@@ -625,7 +625,7 @@
   flex-direction: column;
   padding: 13px 8px;
   border-radius: 12px;
-  background: rgba(255, 255, 255, 0.03);
+  background: rgba(var(--ink-rgb), 0.03);
   text-align: center;
 }
 
@@ -635,7 +635,7 @@
 
 .riskStats span {
   margin-top: 3px;
-  color: #728078;
+  color: var(--gris);
   font-size: 0.62rem;
 }
 
@@ -651,7 +651,7 @@
   height: 7px;
   overflow: hidden;
   border-radius: 999px;
-  background: rgba(255, 255, 255, 0.06);
+  background: rgba(var(--ink-rgb), 0.06);
 }
 
 .errorBar {
@@ -686,7 +686,7 @@
 }
 
 .rarity {
-  color: #d9b95d;
+  color: var(--or);
   font-size: 0.65rem;
   font-weight: 900;
   letter-spacing: 0.12em;
@@ -699,7 +699,7 @@
 
 .fullTrophyCard p {
   margin: 0;
-  color: #819087;
+  color: var(--gris);
   font-size: 0.77rem;
   line-height: 1.55;
 }
@@ -730,13 +730,13 @@
 }
 
 .dayNumber span {
-  color: #7e9085;
+  color: var(--gris);
   font-size: 0.58rem;
   text-transform: uppercase;
 }
 
 .dayNumber strong {
-  color: #61dfa0;
+  color: var(--vert);
   font-size: 1.3rem;
 }
 
@@ -747,7 +747,7 @@
 
 .dayContent p {
   margin: 5px 0 0;
-  color: #7e8d84;
+  color: var(--gris);
   font-size: 0.75rem;
   line-height: 1.5;
 }
@@ -755,8 +755,8 @@
 .dayStatus {
   padding: 7px 10px;
   border-radius: 999px;
-  background: rgba(255, 255, 255, 0.045);
-  color: #829188;
+  background: rgba(var(--ink-rgb), 0.045);
+  color: var(--gris);
   font-size: 0.65rem;
   font-weight: 800;
 }
@@ -769,12 +769,12 @@
   margin-top: 28px;
   padding: 28px;
   border-radius: 22px;
-  background: linear-gradient(135deg, rgba(53, 208, 127, 0.1), rgba(217, 172, 73, 0.07)), rgba(15, 24, 20, 0.9);
+  background: linear-gradient(135deg, rgba(53, 208, 127, 0.1), rgba(217, 172, 73, 0.07)), var(--carte);
 }
 
 .finalCallout p:last-child {
   margin: 8px 0 0;
-  color: #8a9990;
+  color: var(--gris);
 }
 
 @media (max-width: 1100px) {

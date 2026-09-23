@@ -43,7 +43,7 @@ export default function Image() {
         <div style={{ display: "flex", fontSize: "72px", fontWeight: 900, marginTop: "56px", lineHeight: 1.1 }}>
           Deviens agent de joueur.
         </div>
-        <div style={{ display: "flex", fontSize: "32px", color: "#8A8F98", marginTop: "24px" }}>
+        <div style={{ display: "flex", fontSize: "32px", color: "var(--gris)", marginTop: "24px" }}>
           45 leçons · révision intelligente · examen blanc de la licence d&apos;agent
         </div>
       </div>

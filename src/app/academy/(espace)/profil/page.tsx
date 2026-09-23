@@ -56,7 +56,8 @@ export default async function AcademyProfil() {
   const trophyShowcase = [...trophyEarned].slice(0, 5);
 
   return (
-    <div className="flex flex-col gap-6">
+    <div className="pz-wide flex flex-col gap-6 lg:grid lg:grid-cols-[400px_minmax(0,1fr)] lg:gap-10 lg:items-start">
+      <div className="flex flex-col gap-6 lg:sticky lg:top-24">
       {/* Carte agent collector */}
       <div className="pzc-wrap pz-rise">
         <div className="pzc-sheen" />
@@ -94,6 +95,8 @@ export default async function AcademyProfil() {
           {myCerts.size > 1 ? "s" : ""}
         </div>
       ) : null}
+      </div>
+      <div className="flex flex-col gap-6 min-w-0">
 
       <AcademyProgressHeader progress={progress} doneCount={progress.done.size} total={LESSON_COUNT} />
 
@@ -165,14 +168,15 @@ export default async function AcademyProfil() {
             const reached = info.level >= r.min;
             return (
               <div key={r.name} className="flex items-center gap-3 py-1">
-                <span className="text-[13px]" style={{ color: reached ? r.tone : "#3a3a42" }}>◆</span>
-                <span className="text-[13.5px] font-semibold" style={{ color: reached ? "var(--blanc)" : "#4a4a52" }}>{r.name}</span>
+                <span className="text-[13px]" style={{ color: reached ? r.tone : "rgba(var(--ink-rgb),.2)" }}>◆</span>
+                <span className="text-[13.5px] font-semibold" style={{ color: reached ? "var(--blanc)" : "rgba(var(--ink-rgb),.32)" }}>{r.name}</span>
                 <span className="text-[11px] pz-muted ml-auto">Niv. {r.min}{r.max > r.min ? `–${r.max}` : ""}</span>
                 {info.rank.name === r.name && <span className="text-[10px] font-bold pz-red">ACTUEL</span>}
               </div>
             );
           })}
         </div>
+      </div>
       </div>
     </div>
   );

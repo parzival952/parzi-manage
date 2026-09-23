@@ -119,7 +119,7 @@ export default function ErrorReplay({
               background:
                 i < index || (i === index && answered)
                   ? "var(--rouge)"
-                  : "rgba(255,255,255,0.08)",
+                  : "rgba(var(--ink-rgb),0.08)",
             }}
           />
         ))}
@@ -132,7 +132,7 @@ export default function ErrorReplay({
         {item.recurrenceCount > 1 ? (
           <span
             className="text-[9px] font-bold rounded-full px-3 py-1 shrink-0"
-            style={{ color: "#f0b35c", background: "rgba(240,179,92,.12)", border: "1px solid var(--ligne)" }}
+            style={{ color: "var(--ambre)", background: "rgba(240,179,92,.12)", border: "1px solid var(--ligne)" }}
           >
             RATÉE {item.recurrenceCount}×
           </span>
@@ -199,7 +199,7 @@ export default function ErrorReplay({
       {outcome && !outcome.ok ? (
         <div
           className="rounded-2xl p-4 mt-4 text-[12.5px]"
-          style={{ color: "#f0b35c", background: "rgba(240,179,92,.08)", border: "1px solid rgba(240,179,92,.3)" }}
+          style={{ color: "var(--ambre)", background: "rgba(240,179,92,.08)", border: "1px solid rgba(240,179,92,.3)" }}
         >
           <AcademyIcon name="alert" size={13} style={{ marginRight: 5 }} />
           {outcome.error}
@@ -220,12 +220,12 @@ export default function ErrorReplay({
               : "✗ Pas encore. Elle reste dans ton carnet : tu la reverras demain."}
           </div>
           {!outcome.correct ? (
-            <p className="text-[12.5px] leading-6 mt-2" style={{ color: "#D8DADF" }}>
+            <p className="text-[12.5px] leading-6 mt-2" style={{ color: "var(--texte-2)" }}>
               {"La bonne réponse : " + item.options[outcome.correctAnswer]}
             </p>
           ) : null}
           {!outcome.correct && level === 5 ? (
-            <p className="text-[12.5px] leading-6 mt-2" style={{ color: "#f0b35c" }}>
+            <p className="text-[12.5px] leading-6 mt-2" style={{ color: "var(--ambre)" }}>
               <AcademyIcon name="alert" size={13} style={{ marginRight: 5 }} />
               {"Fausse certitude : tu étais certain (5/5). C'est l'erreur la plus coûteuse sur le terrain — relis la leçon avant de réessayer."}
             </p>

@@ -180,7 +180,7 @@ export default function LessonQuiz({
             color:
               result.score >= 70
                 ? "var(--vert)"
-                : "#f0b35c",
+                : "var(--ambre)",
           }}
         >
           {result.score} %
@@ -198,7 +198,7 @@ export default function LessonQuiz({
               className="rounded-2xl p-3"
               style={{
                 background:
-                  "rgba(255,255,255,.035)",
+                  "rgba(var(--ink-rgb),.035)",
                 border:
                   "1px solid var(--ligne)",
               }}
@@ -216,7 +216,7 @@ export default function LessonQuiz({
               className="rounded-2xl p-3"
               style={{
                 background:
-                  "rgba(255,255,255,.035)",
+                  "rgba(var(--ink-rgb),.035)",
                 border:
                   "1px solid var(--ligne)",
               }}
@@ -234,7 +234,7 @@ export default function LessonQuiz({
               className="rounded-2xl p-3"
               style={{
                 background:
-                  "rgba(255,255,255,.035)",
+                  "rgba(var(--ink-rgb),.035)",
                 border:
                   "1px solid var(--ligne)",
               }}
@@ -286,7 +286,7 @@ export default function LessonQuiz({
               className="min-h-[48px] rounded-2xl flex items-center justify-center text-[12px] font-bold"
               style={{
                 background:
-                  "rgba(255,255,255,.035)",
+                  "rgba(var(--ink-rgb),.035)",
                 border:
                   "1px solid var(--ligne)",
               }}
@@ -311,7 +311,7 @@ export default function LessonQuiz({
                 background:
                   questionIndex <= step
                     ? "var(--rouge)"
-                    : "rgba(255,255,255,.1)",
+                    : "rgba(var(--ink-rgb),.1)",
               }}
             />
           ),
@@ -404,7 +404,7 @@ export default function LessonQuiz({
               color:
                 picked === question.answer
                   ? "var(--vert)"
-                  : "#ff7d88",
+                  : "var(--rouge-clair)",
             }}
           >
             {picked === question.answer
@@ -420,7 +420,7 @@ export default function LessonQuiz({
           </p>
 
           {picked !== question.answer && confidence === 5 ? (
-            <p className="text-[11.5px] leading-5 mt-2" style={{ color: "#f0b35c" }}>
+            <p className="text-[11.5px] leading-5 mt-2" style={{ color: "var(--ambre)" }}>
               <AcademyIcon name="alert" size={13} style={{ marginRight: 5 }} />
               {"Fausse certitude : tu étais certain (5/5). C'est l'erreur la plus coûteuse sur le terrain — elle part en priorité dans ton carnet de révision."}
             </p>
@@ -437,7 +437,7 @@ export default function LessonQuiz({
         <div
           className="rounded-2xl p-4 mt-4 text-[11px]"
           style={{
-            color: "#ffc27d",
+            color: "var(--ambre)",
             background:
               "rgba(240,179,92,.07)",
             border:

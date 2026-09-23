@@ -85,7 +85,7 @@ export default async function AcademyPlanPage() {
             className="rounded-3xl px-5 py-4 text-center shrink-0"
             style={{
               background:
-                "linear-gradient(145deg, rgba(201,204,209,.12), rgba(255,255,255,.025))",
+                "linear-gradient(145deg, rgba(201,204,209,.12), rgba(var(--ink-rgb),.025))",
               border:
                 "1px solid rgba(201,204,209,.18)",
             }}
@@ -125,7 +125,7 @@ export default async function AcademyPlanPage() {
           className="h-3 rounded-full overflow-hidden mt-4"
           style={{
             background:
-              "rgba(255,255,255,.07)",
+              "rgba(var(--ink-rgb),.07)",
           }}
         >
           <div
@@ -144,7 +144,7 @@ export default async function AcademyPlanPage() {
           className="pz-card p-5 pz-rise pz-d2"
           style={{
             background:
-              "radial-gradient(circle at 100% 0%, rgba(194,24,51,.16), transparent 48%), rgba(255,255,255,.02)",
+              "radial-gradient(circle at 100% 0%, rgba(194,24,51,.16), transparent 48%), rgba(var(--ink-rgb),.02)",
             borderColor:
               "rgba(194,24,51,.30)",
           }}
@@ -169,7 +169,7 @@ export default async function AcademyPlanPage() {
               className="rounded-2xl px-3 py-2 text-center shrink-0"
               style={{
                 background:
-                  "rgba(255,255,255,.04)",
+                  "rgba(var(--ink-rgb),.04)",
                 border:
                   "1px solid var(--ligne)",
               }}
@@ -188,7 +188,7 @@ export default async function AcademyPlanPage() {
             className="rounded-2xl p-4 mt-5"
             style={{
               background:
-                "rgba(255,255,255,.035)",
+                "rgba(var(--ink-rgb),.035)",
               border:
                 "1px solid var(--ligne)",
             }}
@@ -314,7 +314,7 @@ export default async function AcademyPlanPage() {
                       ? "var(--vert)"
                       : day.isCurrent
                         ? "var(--rouge)"
-                        : "rgba(255,255,255,.06)",
+                        : "rgba(var(--ink-rgb),.06)",
                     border:
                       completed ||
                       day.isCurrent
@@ -346,10 +346,10 @@ export default async function AcademyPlanPage() {
                         color: completed
                           ? "var(--vert)"
                           : day.isCurrent
-                            ? "#ff8290"
-                            : "var(--gris2)",
+                            ? "var(--rouge-clair)"
+                            : "var(--gris)",
                         background:
-                          "rgba(255,255,255,.04)",
+                          "rgba(var(--ink-rgb),.04)",
                         border:
                           "1px solid var(--ligne)",
                       }}

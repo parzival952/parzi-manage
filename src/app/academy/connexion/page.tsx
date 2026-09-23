@@ -6,7 +6,9 @@ import { redirect } from "next/navigation";
 
 import ConfirmationNotice from "@/components/ConfirmationNotice";
 import { ACADEMY_ORIGIN, isAcademyHost } from "@/lib/academy-host";
+import { getAcademyTheme } from "@/lib/academy-theme";
 import { getUser, signIn, signUp } from "@/lib/auth";
+import ThemeToggle from "@/components/ThemeToggle";
 import { getProfile, setPath, upsertProfile } from "@/lib/queries";
 import AcademyIcon, { type AcademyIconName } from "@/components/AcademyIcon";
 
@@ -70,19 +72,24 @@ export default async function AcademyConnexionPage({
     redirect("/academy");
   }
 
+  const theme = await getAcademyTheme();
+
   const input =
-    "w-full rounded-xl px-4 py-3 text-[14.5px] text-white placeholder:text-[#6b7079] focus:outline-none transition-shadow";
-  const inputStyle = { background: "rgba(255,255,255,.04)", border: "1px solid var(--ligne)" };
+    "w-full rounded-xl px-4 py-3 text-[14.5px] text-white placeholder:text-[color:var(--gris)] focus:outline-none transition-shadow";
+  const inputStyle = { background: "rgba(var(--ink-rgb),.04)", border: "1px solid var(--ligne)" };
 
   return (
-    <div className="parzi">
+    <div className="parzi" data-theme={theme}>
+      <div className="fixed top-4 right-4 z-10">
+        <ThemeToggle />
+      </div>
       <div className="min-h-full flex items-center justify-center px-5 py-10">
         <div className="w-full max-w-[920px] grid gap-8 lg:grid-cols-2 lg:items-center">
           {/* ---- Présentation ---- */}
           <section className="pz-rise">
             <div className="flex items-center gap-3">
               <div
-                className="w-11 h-11 rounded-[12px] grid place-items-center font-black text-white text-[18px]"
+                className="w-11 h-11 rounded-[12px] grid place-items-center font-black text-white pz-sur-rouge text-[18px]"
                 style={{ background: "linear-gradient(135deg, var(--rouge), var(--rouge-profond))" }}
               >
                 P
@@ -107,10 +114,10 @@ export default async function AcademyConnexionPage({
 
             <div className="flex flex-col gap-3 mt-7">
               {POINTS.map(([icon, txt]) => (
-                <div key={txt} className="flex items-center gap-3 text-[13.5px]" style={{ color: "#D8DADF" }}>
+                <div key={txt} className="flex items-center gap-3 text-[13.5px]" style={{ color: "var(--texte-2)" }}>
                   <span
                     className="w-8 h-8 rounded-lg grid place-items-center text-[14px] shrink-0"
-                    style={{ background: "rgba(255,255,255,.04)", border: "1px solid var(--ligne)" }}
+                    style={{ background: "rgba(var(--ink-rgb),.04)", border: "1px solid var(--ligne)" }}
                   >
                     <AcademyIcon name={icon} size={15} style={{ color: "var(--argent)" }} />
                   </span>
@@ -135,7 +142,7 @@ export default async function AcademyConnexionPage({
             {erreur ? (
               <div
                 className="text-[13px] rounded-xl px-3.5 py-2.5 mb-4"
-                style={{ color: "#ff8b95", background: "rgba(194,24,51,.10)", border: "1px solid rgba(194,24,51,.3)" }}
+                style={{ color: "var(--rouge-clair)", background: "rgba(194,24,51,.10)", border: "1px solid rgba(194,24,51,.3)" }}
               >
                 {erreur}
               </div>
@@ -143,7 +150,7 @@ export default async function AcademyConnexionPage({
             {info ? (
               <div
                 className="text-[13px] rounded-xl px-3.5 py-2.5 mb-4"
-                style={{ color: "#8CF3AD", background: "rgba(29,185,84,.10)", border: "1px solid rgba(29,185,84,.3)" }}
+                style={{ color: "var(--vert)", background: "rgba(29,185,84,.10)", border: "1px solid rgba(29,185,84,.3)" }}
               >
                 {info}
               </div>

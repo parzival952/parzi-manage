@@ -11,8 +11,8 @@ export default async function AcademyGlossairePage() {
   await requireUser();
 
   return (
-    <main className="flex flex-col gap-6">
-      <header className="pz-rise">
+    <main className="grid gap-6 lg:grid-cols-2 lg:items-start">
+      <header className="lg:col-span-2 pz-rise">
         <Link href="/academy" className="text-[12px] pz-muted hover:text-white">
           ← Retour à PARZI Academy
         </Link>
@@ -55,7 +55,7 @@ export default async function AcademyGlossairePage() {
         </section>
       ))}
 
-      <p className="text-[11px] pz-muted text-center pz-rise pz-d5">
+      <p className="lg:col-span-2 text-[11px] pz-muted text-center pz-rise pz-d5">
         Un terme manque ? Le glossaire s&apos;enrichit avec le programme.
       </p>
     </main>

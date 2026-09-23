@@ -83,7 +83,7 @@ export default async function RejouerErreursPage() {
   }
 
   return (
-    <main className="flex flex-col gap-6">
+    <main className="pz-lecture flex flex-col gap-6">
       <header className="pz-rise">
         <Link href="/academy/revision" className="text-[12px] pz-muted hover:text-white">
           ← Révision intelligente

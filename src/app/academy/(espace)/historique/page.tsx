@@ -68,10 +68,10 @@ function getScoreTone(score: number): string {
   }
 
   if (score >= 70) {
-    return "#e9c36a";
+    return "var(--or)";
   }
 
-  return "#ff6b78";
+  return "var(--rouge-clair)";
 }
 
 export default async function AcademyHistoryPage() {
@@ -121,7 +121,7 @@ export default async function AcademyHistoryPage() {
 
           <strong
             className="block text-[24px] mt-2"
-            style={{ color: "#e9c36a" }}
+            style={{ color: "var(--or)" }}
           >
             {history.xp}
           </strong>
@@ -182,7 +182,7 @@ export default async function AcademyHistoryPage() {
         className="pz-card p-5 pz-rise pz-d2"
         style={{
           background:
-            "radial-gradient(circle at 100% 0%, rgba(194,24,51,.13), transparent 45%), rgba(255,255,255,.02)",
+            "radial-gradient(circle at 100% 0%, rgba(194,24,51,.13), transparent 45%), rgba(var(--ink-rgb),.02)",
         }}
       >
         <div className="flex items-center justify-between gap-4">
@@ -208,7 +208,7 @@ export default async function AcademyHistoryPage() {
           <div
             className="rounded-2xl p-3 text-center"
             style={{
-              background: "rgba(255,255,255,.035)",
+              background: "rgba(var(--ink-rgb),.035)",
               border: "1px solid var(--ligne)",
             }}
           >
@@ -224,7 +224,7 @@ export default async function AcademyHistoryPage() {
           <div
             className="rounded-2xl p-3 text-center"
             style={{
-              background: "rgba(255,255,255,.035)",
+              background: "rgba(var(--ink-rgb),.035)",
               border: "1px solid var(--ligne)",
             }}
           >
@@ -243,7 +243,7 @@ export default async function AcademyHistoryPage() {
           <div
             className="rounded-2xl p-3 text-center"
             style={{
-              background: "rgba(255,255,255,.035)",
+              background: "rgba(var(--ink-rgb),.035)",
               border: "1px solid var(--ligne)",
             }}
           >
@@ -321,7 +321,7 @@ export default async function AcademyHistoryPage() {
                       className="w-12 h-12 rounded-2xl grid place-items-center text-[21px] shrink-0"
                       style={{
                         background:
-                          "rgba(255,255,255,.045)",
+                          "rgba(var(--ink-rgb),.045)",
                         border:
                           "1px solid var(--ligne)",
                       }}
@@ -392,7 +392,7 @@ export default async function AcademyHistoryPage() {
                           style={{
                             color:
                               event.xpGained > 0
-                                ? "#e9c36a"
+                                ? "var(--or)"
                                 : undefined,
                           }}
                         >

@@ -13,8 +13,8 @@ export default async function CertificationsPage() {
   const ctx = { chapters: chaptersCompleted(p.done), lessons: p.done.size, level: p.info.level, earned: new Set(mine.keys()) };
 
   return (
-    <div className="flex flex-col gap-5">
-      <div className="pz-rise">
+    <div className="grid gap-5 lg:grid-cols-2 lg:items-start">
+      <div className="lg:col-span-2 pz-rise">
         <h1 className="text-[22px] font-extrabold tracking-tight">Certifications</h1>
         <p className="text-[13.5px] pz-muted mt-1">Prouve tes compétences. Chaque certification délivre un <b className="pz-red">diplôme numérique vérifiable</b>.</p>
       </div>
@@ -51,7 +51,7 @@ export default async function CertificationsPage() {
         );
       })}
 
-      <div className="pz-card p-5 pz-rise pz-d2">
+      <div className="lg:col-span-2 pz-card p-5 pz-rise pz-d2">
         <p className="text-[12px] pz-muted leading-relaxed">
           <b className="text-white">Intégrité :</b> PARZI certifie tes <b className="text-white">compétences</b>, pas la licence officielle d&apos;agent (FFF/FIFA). Le module « Réglementation » te prépare aux exigences réelles, sans s&apos;y substituer.
         </p>

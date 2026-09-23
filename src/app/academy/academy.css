@@ -7,31 +7,78 @@
    --font-chiffres (DM Mono).
    Scopé sous .parzi pour ne jamais affecter l'app Manage (thème clair). */
 .parzi {
-  --noir: #0A0A0C;
-  --anthracite: #17171B;
-  --anthracite-2: #212127;
+  /* ---- Mode nuit (par défaut) ---- */
+  --noir: #0A0A0C;           /* fond de page */
+  --anthracite: #17171B;     /* bas des cartes */
+  --anthracite-2: #212127;   /* haut des cartes */
   --rouge: #C21833;          /* rubis */
   --rouge-profond: #7A1024;  /* bordeaux */
-  --rouge-vif: #D92E48;      /* survol / texte rouge sur fond sombre */
-  --blanc: #F5F2EC;          /* blanc cassé */
-  --argent: #C9CCD1;
-  --gris: #8A8F98;
+  --rouge-vif: #D92E48;      /* texte rouge lisible sur le fond */
+  --rouge-clair: #E8566B;    /* messages d'erreur, attributs forts */
+  --blanc: #F5F2EC;          /* texte principal (blanc cassé) */
+  --texte-2: #D8DADF;        /* texte courant secondaire */
+  --argent: #C9CCD1;         /* accent argent (icônes, repères, sélection) */
+  --sur-argent: #0A0A0C;     /* texte posé sur l'argent */
+  --gris: #8A8F98;           /* texte discret */
+  --carte: #1B1B20;          /* fond plein de carte (sous les dégradés) */
   --or: #C9A45C;
-  --ligne: rgba(255,255,255,0.08);
-  /* Vert « validé / maîtrisé » — utilisé par var(--vert) dans tout le module
-     (jauge d'assurance, scores réussis, liens de plan) mais jamais défini. */
-  --vert: #3BAF72;          /* succès (bonne réponse, acquis) — sobre, jamais décoratif */
-  --rouge-clair: #E8566B; /* utilisé par .pzc-attr.hi */
+  --ambre: #F0B35C;          /* avertissements */
+  --vert: #3BAF72;           /* succès (bonne réponse, acquis) — jamais décoratif */
+  --ink-rgb: 255, 255, 255;  /* voiles : rgba(var(--ink-rgb), .04) */
+  --ligne: rgba(var(--ink-rgb),0.08);
+  --entete-bg: rgba(10,10,12,0.72);
+  --nav-bg: rgba(10,10,12,0.9);
+  --carte-ombre: none;
+  --halo: rgba(194,24,51,0.08);
 
   position: fixed; inset: 0; z-index: 60; overflow-y: auto;
   background:
-    radial-gradient(1200px 500px at 50% -10%, rgba(194,24,51,0.08), transparent 60%),
+    radial-gradient(1200px 500px at 50% -10%, var(--halo), transparent 60%),
     var(--noir);
   color: var(--blanc);
+  color-scheme: dark;
   font-family: var(--font-ui), system-ui, -apple-system, sans-serif;
   font-variant-numeric: tabular-nums;
   -webkit-font-smoothing: antialiased;
+  transition: background-color 250ms cubic-bezier(0.22,1,0.36,1), color 250ms cubic-bezier(0.22,1,0.36,1);
 }
+/* ---- Mode clair : papier chaud, encre graphite (charte « Parzi Paper ») ---- */
+.parzi[data-theme="light"] {
+  --noir: #F4F1EA;
+  --anthracite: #FBFAF7;
+  --anthracite-2: #FFFFFF;
+  --rouge-vif: #B0162F;
+  --rouge-clair: #B0162F;
+  --blanc: #17171B;
+  --texte-2: #3A3D44;
+  --argent: #5F646C;
+  --sur-argent: #FFFFFF;
+  --gris: #6B6F78;
+  --carte: #FFFFFF;
+  --or: #8F6A1F;
+  --ambre: #A0600F;
+  --vert: #1F8352;
+  --ink-rgb: 10, 10, 12;
+  --ligne: rgba(10,10,12,0.10);
+  --entete-bg: rgba(244,241,234,0.82);
+  --nav-bg: rgba(244,241,234,0.94);
+  --carte-ombre: 0 1px 2px rgba(10,10,12,0.04), 0 10px 28px rgba(10,10,12,0.05);
+  --halo: rgba(194,24,51,0.06);
+  color-scheme: light;
+}
+/* Textes « blancs » codés en dur → encre en mode clair (sauf sur fond rubis). */
+.parzi[data-theme="light"] .text-white:not(.pz-sur-rouge),
+.parzi[data-theme="light"] .hover\:text-white:hover { color: var(--blanc); }
+/* Icône du bouton de thème : lune en mode nuit, soleil en mode clair. */
+.parzi .pz-si-clair { display: none; }
+.parzi[data-theme="light"] .pz-si-clair { display: inline-block; }
+.parzi[data-theme="light"] .pz-si-nuit { display: none; }
+
+/* Largeurs : lecture (780), standard (1000), pleine largeur (.pz-wide). */
+.pz-main > * { width: 100%; max-width: 1000px; margin-inline: auto; }
+.pz-main > .pz-lecture { max-width: 780px; }
+.pz-main > .pz-wide { max-width: none; }
+
 /* Titres : serif d'autorité (héritage charte Empire Parzi). */
 .parzi h1, .parzi h2, .pz-titre {
   font-family: var(--font-titre), Georgia, "Times New Roman", serif;
@@ -51,12 +98,13 @@
   background: linear-gradient(180deg, var(--anthracite-2), var(--anthracite));
   border: 1px solid var(--ligne);
   border-radius: 18px;
+  box-shadow: var(--carte-ombre);
 }
 .pz-muted { color: var(--gris); }
 .pz-red { color: var(--rouge-vif); }
 
 /* Barre d'XP */
-.pz-xpbar { height: 8px; background: rgba(255,255,255,0.07); border-radius: 99px; overflow: hidden; }
+.pz-xpbar { height: 8px; background: rgba(var(--ink-rgb),0.07); border-radius: 99px; overflow: hidden; }
 .pz-xpfill {
   height: 100%; border-radius: 99px;
   background: linear-gradient(90deg, var(--rouge-profond), var(--rouge));
@@ -64,14 +112,14 @@
 }
 .pz-xpfill::after {
   content: ""; position: absolute; right: 0; top: 0; bottom: 0; width: 2px;
-  background: var(--blanc); opacity: 0.85;
+  background: #fff; opacity: 0.85;
 }
 
 /* Pastille de rang / anneaux de niveau */
 .pz-rank {
   display: inline-flex; align-items: center; gap: 8px;
   padding: 5px 12px; border-radius: 99px;
-  border: 1px solid var(--ligne); background: rgba(255,255,255,0.03);
+  border: 1px solid var(--ligne); background: rgba(var(--ink-rgb),0.03);
   font-size: 12px; font-weight: 700; letter-spacing: 0.04em;
 }
 
@@ -83,9 +131,9 @@
   transition: transform 200ms cubic-bezier(0.22,1,0.36,1);
 }
 .pz-node:hover { transform: translateY(-3px); }
-.pz-node.done { background: linear-gradient(180deg, #1c1c22, #141418); color: var(--rouge-vif); border-color: rgba(194,24,51,0.4); }
+.pz-node.done { background: linear-gradient(180deg, var(--anthracite-2), var(--anthracite)); color: var(--rouge-vif); border-color: rgba(194,24,51,0.4); }
 .pz-node.current { background: linear-gradient(180deg, var(--rouge), var(--rouge-profond)); color: #fff; box-shadow: inset 0 1px 0 rgba(255,255,255,0.18), 0 8px 20px rgba(0,0,0,0.45); }
-.pz-node.locked { background: var(--anthracite); color: #3a3a42; }
+.pz-node.locked { background: var(--anthracite); color: rgba(var(--ink-rgb),0.22); }
 
 .pz-connector { width: 3px; height: 26px; background: var(--ligne); border-radius: 2px; }
 .pz-connector.done { background: rgba(194,24,51,0.5); }
@@ -106,7 +154,7 @@
 /* Options de quiz */
 .pz-opt {
   width: 100%; text-align: left; padding: 14px 16px; border-radius: 14px;
-  background: rgba(255,255,255,0.03); border: 1px solid var(--ligne);
+  background: rgba(var(--ink-rgb),0.03); border: 1px solid var(--ligne);
   color: var(--blanc); font-size: 14.5px; cursor: pointer;
   transition: border-color 160ms, background 160ms;
 }
@@ -117,7 +165,7 @@
 /* Barre de navigation basse */
 .pz-nav {
   position: sticky; bottom: 0; left: 0; right: 0;
-  background: rgba(10,10,12,0.9); backdrop-filter: blur(14px);
+  background: var(--nav-bg); backdrop-filter: blur(14px);
   border-top: 1px solid var(--ligne);
 }
 
@@ -156,7 +204,7 @@
 .pzc-ovr { text-align:center; line-height:.9; }
 .pzc-ovr .n { font-family:var(--font-titre), Georgia, serif; font-weight:700; font-size:52px; background:linear-gradient(180deg,#fff,#c9ccd1); -webkit-background-clip:text; background-clip:text; color:transparent; }
 .pzc-ovr .l { font-family:var(--font-chiffres), ui-monospace, monospace; font-weight:500; font-size:13px; letter-spacing:3px; color:var(--rouge-vif); }
-.pzc-ovr .r { font-size:9px; letter-spacing:.2em; color:var(--gris); margin-top:2px; text-transform:uppercase; }
+.pzc-ovr .r { font-size:9px; letter-spacing:.2em; color:#8A8F98; margin-top:2px; text-transform:uppercase; }
 .pzc-crest { width:58px; height:66px; position:relative; display:grid; place-items:center;
   background:linear-gradient(180deg,#26262f,#15151a); clip-path:polygon(50% 0,100% 22%,100% 78%,50% 100%,0 78%,0 22%); border:1px solid rgba(231,195,106,.35); }
 .pzc-crest span { font-size:24px; }
@@ -164,16 +212,16 @@
 .pzc-portrait { height:132px; display:grid; place-items:center; margin:4px 0 2px; }
 .pzc-mono { width:100px; height:100px; border-radius:50%; display:grid; place-items:center; font-family:var(--font-titre), Georgia, serif; font-weight:700; font-size:44px; color:#fff;
   background:radial-gradient(circle at 50% 30%,#2a2a33,#111116); border:2px solid rgba(201,204,209,.18); box-shadow:0 12px 32px rgba(0,0,0,.55), inset 0 1px 0 rgba(255,255,255,.12); }
-.pzc-name { text-align:center; font-family:var(--font-titre), Georgia, serif; font-weight:700; font-size:26px; letter-spacing:1px; text-transform:uppercase; margin-top:2px; }
-.pzc-sub { text-align:center; font-size:11px; color:var(--gris); letter-spacing:.12em; text-transform:uppercase; margin-top:1px; }
+.pzc-name { color:#F5F2EC; text-align:center; font-family:var(--font-titre), Georgia, serif; font-weight:700; font-size:26px; letter-spacing:1px; text-transform:uppercase; margin-top:2px; }
+.pzc-sub { text-align:center; font-size:11px; color:#8A8F98; letter-spacing:.12em; text-transform:uppercase; margin-top:1px; }
 .pzc-div { height:1px; margin:15px 2px 13px; background:linear-gradient(90deg,transparent,rgba(255,255,255,.14),transparent); }
 .pzc-attrs { display:grid; grid-template-columns:1fr 1fr 1fr; gap:10px 6px; }
 .pzc-attr { display:flex; align-items:baseline; gap:7px; justify-content:center; }
 .pzc-attr b { font-family:var(--font-chiffres), ui-monospace, monospace; font-weight:500; font-size:19px; color:#fff; min-width:26px; text-align:right; }
-.pzc-attr span { font-family:var(--font-chiffres), ui-monospace, monospace; font-size:10.5px; letter-spacing:.1em; color:var(--gris); }
-.pzc-attr.hi b { color:var(--rouge-clair); }
+.pzc-attr span { font-family:var(--font-chiffres), ui-monospace, monospace; font-size:10.5px; letter-spacing:.1em; color:#8A8F98; }
+.pzc-attr.hi b { color:#E8566B; }
 .pzc-badge { width:52px; height:58px; display:grid; place-items:center; font-size:22px;
-  clip-path:polygon(50% 0,100% 25%,100% 75%,50% 100%,0 75%,0 25%); background:linear-gradient(180deg,#26262f,#141419); border:1px solid rgba(255,255,255,.07); }
+  clip-path:polygon(50% 0,100% 25%,100% 75%,50% 100%,0 75%,0 25%); background:linear-gradient(180deg,var(--anthracite-2),var(--anthracite)); border:1px solid var(--ligne); }
 .pzc-badge.gold { border-color:rgba(231,195,106,.5); }
 .pzc-badge.red { border-color:rgba(194,24,51,.55); }
 .pzc-badge.lock { opacity:.35; }

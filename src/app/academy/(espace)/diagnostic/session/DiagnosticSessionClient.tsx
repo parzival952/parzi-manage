@@ -535,7 +535,7 @@ export default function DiagnosticSessionClient({
           }}
         >
           <div className="pz-eyebrow"
-            style={{ color: "#e4c264" }}
+            style={{ color: "var(--or)" }}
           >
             RÉCOMPENSE DU DIAGNOSTIC
           </div>
@@ -580,7 +580,7 @@ export default function DiagnosticSessionClient({
                 className="rounded-2xl p-4 mt-4 flex items-center gap-3"
                 style={{
                   background:
-                    "rgba(255,255,255,.035)",
+                    "rgba(var(--ink-rgb),.035)",
                   border:
                     "1px solid var(--ligne)",
                 }}
@@ -661,7 +661,7 @@ export default function DiagnosticSessionClient({
               style={{
                 color:
                   result.overconfidenceErrors > 0
-                    ? "#f0b35c"
+                    ? "var(--ambre)"
                     : "var(--vert)",
               }}
             >
@@ -686,7 +686,7 @@ export default function DiagnosticSessionClient({
                   className="rounded-2xl p-4"
                   style={{
                     background:
-                      "rgba(255,255,255,.035)",
+                      "rgba(var(--ink-rgb),.035)",
                     border:
                       "1px solid var(--ligne)",
                   }}
@@ -784,7 +784,7 @@ export default function DiagnosticSessionClient({
           className="min-h-[52px] rounded-2xl text-[13px] font-bold"
           style={{
             border: "1px solid var(--ligne)",
-            background: "rgba(255,255,255,.035)",
+            background: "rgba(var(--ink-rgb),.035)",
           }}
         >
           Recommencer le diagnostic
@@ -908,7 +908,7 @@ export default function DiagnosticSessionClient({
                   style={{
                     background: selected
                       ? "rgba(201,204,209,.08)"
-                      : "rgba(255,255,255,.035)",
+                      : "rgba(var(--ink-rgb),.035)",
                     border: selected
                       ? "1px solid rgba(201,204,209,.45)"
                       : "1px solid var(--ligne)",
@@ -918,11 +918,11 @@ export default function DiagnosticSessionClient({
                     className="w-8 h-8 rounded-xl grid place-items-center shrink-0 text-[11px] font-black"
                     style={{
                       color: selected
-                        ? "#0A0A0C"
+                        ? "var(--sur-argent)"
                         : "var(--gris)",
                       background: selected
                         ? "var(--argent)"
-                        : "rgba(255,255,255,.05)",
+                        : "rgba(var(--ink-rgb),.05)",
                     }}
                   >
                     {String.fromCharCode(
@@ -975,11 +975,11 @@ export default function DiagnosticSessionClient({
                 className="rounded-xl py-3 text-center"
                 style={{
                   color: selected
-                    ? "#0A0A0C"
+                    ? "var(--sur-argent)"
                     : "var(--blanc)",
                   background: selected
                     ? "var(--argent)"
-                    : "rgba(255,255,255,.04)",
+                    : "rgba(var(--ink-rgb),.04)",
                   border: selected
                     ? "1px solid var(--argent)"
                     : "1px solid var(--ligne)",
@@ -1007,7 +1007,7 @@ export default function DiagnosticSessionClient({
           onClick={fillDevelopmentTest}
           className="min-h-[48px] rounded-2xl text-[11px] font-bold"
           style={{
-            color: "#f0c56c",
+            color: "var(--or)",
             background:
               "rgba(213,172,73,.06)",
             border:
@@ -1023,7 +1023,7 @@ export default function DiagnosticSessionClient({
         <div
           className="rounded-2xl p-4 text-[12px] font-semibold"
           style={{
-            color: "#ffc27d",
+            color: "var(--ambre)",
             background: "rgba(240,179,92,.08)",
             border:
               "1px solid rgba(240,179,92,.24)",
@@ -1042,7 +1042,7 @@ export default function DiagnosticSessionClient({
           className="min-h-[54px] rounded-2xl text-[13px] font-bold disabled:opacity-35"
           style={{
             color: "var(--blanc)",
-            background: "rgba(255,255,255,.035)",
+            background: "rgba(var(--ink-rgb),.035)",
             border: "1px solid var(--ligne)",
           }}
         >
@@ -1059,10 +1059,10 @@ export default function DiagnosticSessionClient({
           }
           className="min-h-[54px] rounded-2xl text-[13px] font-black disabled:opacity-50"
           style={{
-            color: canContinue ? "#fff" : "rgba(245,242,236,.55)",
+            color: canContinue ? "#fff" : "rgba(var(--ink-rgb),.5)",
             background: canContinue
               ? "linear-gradient(180deg, #C21833, #A3142D)"
-              : "rgba(255,255,255,.06)",
+              : "rgba(var(--ink-rgb),.06)",
           }}
         >
           {isSubmitting

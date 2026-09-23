@@ -19,8 +19,8 @@ function Breakdown({ items }: { items?: Domain[] }) {
               <span className="font-semibold">{d.label}</span>
               <span className="pz-muted">{d.correct}/{d.total} · {d.pct}%</span>
             </div>
-            <div className="h-1.5 rounded-full mt-1" style={{ background: "rgba(255,255,255,.08)" }}>
-              <div className="h-full rounded-full" style={{ width: `${d.pct}%`, background: d.pct >= 70 ? "var(--vert)" : d.pct >= 40 ? "var(--or,#E9C36A)" : "var(--rouge)" }} />
+            <div className="h-1.5 rounded-full mt-1" style={{ background: "rgba(var(--ink-rgb),.08)" }}>
+              <div className="h-full rounded-full" style={{ width: `${d.pct}%`, background: d.pct >= 70 ? "var(--vert)" : d.pct >= 40 ? "var(--or)" : "var(--rouge)" }} />
             </div>
             {d.lessons && d.lessons.length > 0 ? (
               <div className="mt-1.5 text-[11px] pz-muted">
@@ -112,13 +112,13 @@ export default function CertExam({ certId, questions, durationMin, onSubmit }: {
     <div className="pz-card p-6 pz-rise">
       <div className="flex items-center gap-2 mb-4">
         {questions.map((_, i) => (
-          <div key={i} className="h-1.5 flex-1 rounded-full" style={{ background: i < step ? "var(--rouge)" : i === step ? "var(--rougeclair)" : "rgba(255,255,255,.1)" }} />
+          <div key={i} className="h-1.5 flex-1 rounded-full" style={{ background: i < step ? "var(--rouge)" : i === step ? "var(--rouge-clair)" : "rgba(var(--ink-rgb),.1)" }} />
         ))}
       </div>
       <div className="flex items-center justify-between mb-2">
         <div className="text-[11px] pz-muted">Question {step + 1} / {questions.length}</div>
         {mmss ? (
-          <div className="text-[12px] font-bold tabular-nums" style={{ color: lowTime ? "var(--rouge)" : "var(--gris2,#8A8F98)" }}>⏱ {mmss}</div>
+          <div className="text-[12px] font-bold tabular-nums" style={{ color: lowTime ? "var(--rouge)" : "var(--gris)" }}>⏱ {mmss}</div>
         ) : null}
       </div>
       <h3 className="text-[16.5px] font-bold mb-4">{q.q}</h3>

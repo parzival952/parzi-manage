@@ -19,8 +19,8 @@ export default async function AcademyAideMemoirePage() {
   );
 
   return (
-    <main className="flex flex-col gap-6">
-      <header className="pz-rise">
+    <main className="grid gap-6 lg:grid-cols-2 lg:items-start">
+      <header className="lg:col-span-2 pz-rise">
         <Link href="/academy" className="text-[12px] pz-muted hover:text-white">
           ← Retour à PARZI Academy
         </Link>
@@ -65,7 +65,7 @@ export default async function AcademyAideMemoirePage() {
                 key={lesson.id}
                 className="rounded-2xl p-3"
                 style={{
-                  background: "rgba(255,255,255,.03)",
+                  background: "rgba(var(--ink-rgb),.03)",
                   border: "1px solid var(--ligne)",
                 }}
               >
@@ -82,9 +82,9 @@ export default async function AcademyAideMemoirePage() {
                     <li
                       key={idx}
                       className="text-[12.5px] leading-6 flex gap-2"
-                      style={{ color: "#D8DADF" }}
+                      style={{ color: "var(--texte-2)" }}
                     >
-                      <span aria-hidden style={{ color: "#1db954" }}>
+                      <span aria-hidden style={{ color: "var(--vert)" }}>
                         ▸
                       </span>
                       <span>{point}</span>
@@ -97,7 +97,7 @@ export default async function AcademyAideMemoirePage() {
         </section>
       ))}
 
-      <div className="pz-rise pz-d5 text-center no-print">
+      <div className="lg:col-span-2 pz-rise pz-d5 text-center no-print">
         <Link
           href="/academy/revision"
           className="text-[12px] font-bold pz-red hover:underline"

@@ -122,7 +122,7 @@ export default async function LessonPage({
   }
 
   return (
-    <div className="flex flex-col gap-5">
+    <div className="pz-lecture flex flex-col gap-5">
       <header className="pz-rise">
         <Link
           href="/academy"
@@ -155,7 +155,7 @@ export default async function LessonPage({
           className="pz-card p-5 pz-rise pz-d1"
           style={{
             background:
-              "linear-gradient(145deg, rgba(194,24,51,.10), rgba(255,255,255,.02))",
+              "linear-gradient(145deg, rgba(194,24,51,.10), rgba(var(--ink-rgb),.02))",
             borderColor:
               "rgba(194,24,51,.30)",
           }}
@@ -180,7 +180,7 @@ export default async function LessonPage({
               className="rounded-2xl px-3 py-2 text-center shrink-0"
               style={{
                 background:
-                  "rgba(255,255,255,.04)",
+                  "rgba(var(--ink-rgb),.04)",
                 border:
                   "1px solid var(--ligne)",
               }}
@@ -199,7 +199,7 @@ export default async function LessonPage({
             className="rounded-2xl p-4 mt-4"
             style={{
               background:
-                "rgba(255,255,255,.035)",
+                "rgba(var(--ink-rgb),.035)",
               border:
                 "1px solid var(--ligne)",
             }}

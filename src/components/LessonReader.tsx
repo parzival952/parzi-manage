@@ -63,10 +63,10 @@ function renderWords(text: string, progress: number) {
           // le mot en cours ressort en blanc pur souligné d'un filet rubis.
           color:
             state === "upcoming"
-              ? "rgba(216,218,223,0.38)"
+              ? "rgba(var(--ink-rgb),0.36)"
               : state === "current"
-                ? "#FFFFFF"
-                : "#F5F2EC",
+                ? "var(--blanc)"
+                : "var(--blanc)",
           textDecorationLine: state === "current" ? "underline" : "none",
           textDecorationColor: "rgba(194,24,51,0.85)",
           textDecorationThickness: "2px",
@@ -271,7 +271,7 @@ export default function LessonReader({ blocks }: { blocks: string[] }) {
           className="flex items-center gap-2 rounded-2xl px-3 py-2"
           style={{
             position: "sticky",
-            top: 8,
+            top: 72, // sous l'en-tête collant de l'Academy
             zIndex: 2,
             background: "var(--anthracite-2)",
             border: "1px solid var(--ligne)",
@@ -313,7 +313,7 @@ export default function LessonReader({ blocks }: { blocks: string[] }) {
 
           <div
             className="flex-1 rounded-full overflow-hidden"
-            style={{ height: 6, background: "rgba(255,255,255,0.07)" }}
+            style={{ height: 6, background: "rgba(var(--ink-rgb),0.07)" }}
             aria-hidden
           >
             <div
@@ -332,7 +332,7 @@ export default function LessonReader({ blocks }: { blocks: string[] }) {
             onClick={cycleRate}
             className="text-[11px] font-bold rounded-full px-2.5 py-1"
             style={{
-              background: "rgba(255,255,255,.05)",
+              background: "rgba(var(--ink-rgb),.05)",
               border: "1px solid var(--ligne)",
             }}
             title="Vitesse de lecture"
@@ -355,12 +355,12 @@ export default function LessonReader({ blocks }: { blocks: string[] }) {
             title={supported ? "Lire à partir d'ici" : undefined}
             className="text-[14.5px] leading-relaxed transition-colors"
             style={{
-              color: active ? "#F5F2EC" : "#D8DADF",
+              color: active ? "var(--blanc)" : "var(--texte-2)",
               cursor: supported ? "pointer" : "default",
               borderLeft: active
                 ? "3px solid var(--rouge)"
                 : "3px solid transparent",
-              background: active ? "rgba(255,255,255,0.035)" : "transparent",
+              background: active ? "rgba(var(--ink-rgb),0.035)" : "transparent",
               borderRadius: 10,
               padding: "8px 10px",
               margin: "0 -10px",

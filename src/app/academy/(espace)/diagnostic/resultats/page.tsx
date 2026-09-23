@@ -151,8 +151,8 @@ export default async function DiagnosticResultsPage() {
               className={styles.scoreRing}
               style={{
                 background: `conic-gradient(
-                  #35d07f ${score}%,
-                  rgba(255, 255, 255, 0.08) ${score}% 100%
+                  var(--vert) ${score}%,
+                  rgba(var(--ink-rgb),0.08) ${score}% 100%
                 )`,
               }}
               role="progressbar"

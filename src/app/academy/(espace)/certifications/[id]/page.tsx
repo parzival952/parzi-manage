@@ -29,7 +29,7 @@ export default async function CertExamPage({ params }: { params: Promise<{ id: s
   }
 
   return (
-    <div className="flex flex-col gap-5">
+    <div className="pz-lecture flex flex-col gap-5">
       <div className="pz-rise">
         <Link href="/academy/certifications" className="text-[12.5px] pz-muted hover:text-white">← Certifications</Link>
         <h1 className="text-[22px] font-extrabold tracking-tight mt-2">{cert.name}</h1>

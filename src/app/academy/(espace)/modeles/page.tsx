@@ -12,8 +12,8 @@ export default async function AcademyModelesPage() {
   await requireUser();
 
   return (
-    <main className="flex flex-col gap-6">
-      <header className="pz-rise">
+    <main className="grid gap-6 lg:grid-cols-2 lg:items-start">
+      <header className="lg:col-span-2 pz-rise">
         <Link href="/academy" className="text-[12px] pz-muted hover:text-white">
           ← Retour à PARZI Academy
         </Link>
@@ -37,7 +37,7 @@ export default async function AcademyModelesPage() {
       </header>
 
       <section
-        className="pz-card p-4 pz-rise pz-d1"
+        className="lg:col-span-2 pz-card p-4 pz-rise pz-d1"
         style={{ borderColor: "rgba(240,179,92,.30)" }}
       >
         <p className="text-[12px] leading-6 pz-muted">
@@ -64,7 +64,7 @@ export default async function AcademyModelesPage() {
                 key={s.clause}
                 className="rounded-2xl p-3"
                 style={{
-                  background: "rgba(255,255,255,.03)",
+                  background: "rgba(var(--ink-rgb),.03)",
                   border: "1px solid var(--ligne)",
                 }}
               >
@@ -88,7 +88,7 @@ export default async function AcademyModelesPage() {
         </section>
       ))}
 
-      <div className="pz-rise pz-d5 text-center">
+      <div className="lg:col-span-2 pz-rise pz-d5 text-center">
         <Link
           href="/academy/glossaire"
           className="text-[12px] font-bold pz-red hover:underline"

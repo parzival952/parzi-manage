@@ -18,9 +18,9 @@ export default async function ClassementPage({ searchParams }: { searchParams: P
     : hof.general.map((r) => ({ id: r.user_id, name: r.name, value: r.xp, level: r.level }));
   const podium = rows.slice(0, 3);
   const rest = rows.slice(3);
-  const medal = ["#E9C36A", "#c9ccd1", "#b08d57"];
+  const medal = ["#C9A45C", "#c9ccd1", "#b08d57"];
 
-  const tabCls = (on: boolean) => "flex-1 text-center text-[13px] font-semibold py-2 rounded-lg transition-colors " + (on ? "bg-[#C21833] text-white" : "pz-muted");
+  const tabCls = (on: boolean) => "flex-1 text-center text-[13px] font-semibold py-2 rounded-lg transition-colors " + (on ? "bg-[#C21833] text-white pz-sur-rouge" : "pz-muted");
 
   return (
     <div className="flex flex-col gap-5">
@@ -56,7 +56,7 @@ export default async function ClassementPage({ searchParams }: { searchParams: P
             return (
               <div key={r.id} className="flex-1 flex flex-col items-center">
                 <div className="pzc-badge" style={{ borderColor: medal[idx] + "cc", boxShadow: "inset 0 1px 0 rgba(255,255,255,.10)", marginBottom: 6 }}>{idx + 1}</div>
-                <div className="text-[12px] font-bold truncate max-w-full" style={{ color: me ? "var(--rougeclair)" : "var(--blanc)" }}>{r.name}{me ? " (toi)" : ""}</div>
+                <div className="text-[12px] font-bold truncate max-w-full" style={{ color: me ? "var(--rouge-clair)" : "var(--blanc)" }}>{r.name}{me ? " (toi)" : ""}</div>
                 <div className="text-[11px] pz-muted mb-2">{r.value.toLocaleString("fr-FR")} XP</div>
                 <div style={{ height: h, background: `linear-gradient(180deg, ${medal[idx]}, transparent)`, width: "100%", borderRadius: "8px 8px 0 0", opacity: .5 }} />
               </div>
@@ -75,7 +75,7 @@ export default async function ClassementPage({ searchParams }: { searchParams: P
             return (
               <div key={r.id} className="flex items-center gap-3 px-3 py-2.5 rounded-lg" style={me ? { background: "rgba(194,24,51,.12)", border: "1px solid rgba(194,24,51,.3)" } : {}}>
                 <span className="w-6 text-center font-bold pz-muted text-[13px]">{i + 4}</span>
-                <span className="flex-1 font-semibold text-[13.5px] truncate" style={{ color: me ? "var(--rougeclair)" : "var(--blanc)" }}>{r.name}{me ? " (toi)" : ""}</span>
+                <span className="flex-1 font-semibold text-[13.5px] truncate" style={{ color: me ? "var(--rouge-clair)" : "var(--blanc)" }}>{r.name}{me ? " (toi)" : ""}</span>
                 <span className="font-bold tabular-nums text-[13px]">{r.value.toLocaleString("fr-FR")}<span className="pz-muted text-[11px]"> XP</span></span>
               </div>
             );
