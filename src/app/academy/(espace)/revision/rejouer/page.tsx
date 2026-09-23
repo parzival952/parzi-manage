@@ -16,6 +16,7 @@ import {
   type RetryConfidence,
 } from "@/lib/academy-retry";
 import { requireUser } from "@/lib/auth";
+import { IconTile } from "@/components/AcademyIcon";
 
 export const metadata = { title: "Rejouer mes erreurs" };
 
@@ -82,14 +83,14 @@ export default async function RejouerErreursPage() {
   }
 
   return (
-    <main className="flex flex-col gap-6">
+    <main className="pz-lecture flex flex-col gap-6">
       <header className="pz-rise">
         <Link href="/academy/revision" className="text-[12px] pz-muted hover:text-white">
           ← Révision intelligente
         </Link>
         <div
-          className="text-[10px] font-extrabold uppercase tracking-[0.16em] mt-5"
-          style={{ color: "var(--rouge)" }}
+          className="pz-eyebrow mt-5"
+          style={{ color: "var(--rouge-vif)" }}
         >
           CARNET D&apos;ERREURS
         </div>
@@ -106,7 +107,7 @@ export default async function RejouerErreursPage() {
 
       {!state ? (
         <section className="pz-card p-6 text-center pz-rise pz-d1">
-          <div className="text-[30px]">🔒</div>
+          <IconTile name="lock" size={48} />
           <p className="text-[13px] leading-6 pz-muted mt-2">
             Le rejeu des erreurs est disponible avec un compte connecté : ton
             carnet est enregistré et corrigé côté serveur.
@@ -114,7 +115,7 @@ export default async function RejouerErreursPage() {
         </section>
       ) : items.length === 0 ? (
         <section className="pz-card p-6 text-center pz-rise pz-d1">
-          <div className="text-[34px]">🎉</div>
+          <IconTile name="check" size={48} tone="var(--vert)" />
           <h2 className="text-[18px] font-black mt-2">Carnet vide</h2>
           <p className="text-[13px] leading-6 pz-muted mt-2">
             Aucune erreur à rejouer. Continue ton parcours : chaque question

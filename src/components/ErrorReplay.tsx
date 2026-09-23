@@ -8,6 +8,7 @@ import {
   confidenceToEngine,
   type ConfidenceValue,
 } from "@/lib/academy-confidence";
+import AcademyIcon, { IconTile } from "@/components/AcademyIcon";
 
 export type ReplayItem = {
   lessonId: string;
@@ -79,7 +80,9 @@ export default function ErrorReplay({
     const perfect = fixedCount === total;
     return (
       <section className="pz-card p-6 text-center pz-rise">
-        <div className="text-[34px]">{perfect ? "🏆" : "💪"}</div>
+        <div className="flex justify-center">
+          <IconTile name={perfect ? "trophy" : "target"} size={52} tone={perfect ? "var(--or)" : "var(--argent)"} />
+        </div>
         <h2 className="text-[20px] font-black mt-2">
           {fixedCount} erreur{fixedCount > 1 ? "s" : ""} corrigée
           {fixedCount > 1 ? "s" : ""} sur {total}
@@ -116,7 +119,7 @@ export default function ErrorReplay({
               background:
                 i < index || (i === index && answered)
                   ? "var(--rouge)"
-                  : "rgba(255,255,255,0.08)",
+                  : "rgba(var(--ink-rgb),0.08)",
             }}
           />
         ))}
@@ -129,7 +132,7 @@ export default function ErrorReplay({
         {item.recurrenceCount > 1 ? (
           <span
             className="text-[9px] font-bold rounded-full px-3 py-1 shrink-0"
-            style={{ color: "#f0b35c", background: "rgba(240,179,92,.12)", border: "1px solid var(--ligne)" }}
+            style={{ color: "var(--ambre)", background: "rgba(240,179,92,.12)", border: "1px solid var(--ligne)" }}
           >
             RATÉE {item.recurrenceCount}×
           </span>
@@ -159,7 +162,7 @@ export default function ErrorReplay({
               onClick={() => setSelected(i)}
               style={
                 !answered && i === selected
-                  ? { borderColor: "var(--rouge)", background: "rgba(228,0,43,0.10)" }
+                  ? { borderColor: "var(--rouge)", background: "rgba(194,24,51,0.10)" }
                   : undefined
               }
             >
@@ -196,9 +199,10 @@ export default function ErrorReplay({
       {outcome && !outcome.ok ? (
         <div
           className="rounded-2xl p-4 mt-4 text-[12.5px]"
-          style={{ color: "#f0b35c", background: "rgba(240,179,92,.08)", border: "1px solid rgba(240,179,92,.3)" }}
+          style={{ color: "var(--ambre)", background: "rgba(240,179,92,.08)", border: "1px solid rgba(240,179,92,.3)" }}
         >
-          ⚠️ {outcome.error}
+          <AcademyIcon name="alert" size={13} style={{ marginRight: 5 }} />
+          {outcome.error}
         </div>
       ) : null}
 
@@ -206,23 +210,24 @@ export default function ErrorReplay({
         <div
           className="rounded-2xl p-4 mt-4"
           style={{
-            background: outcome.correct ? "rgba(29,185,84,0.08)" : "rgba(228,0,43,0.08)",
-            border: `1px solid ${outcome.correct ? "rgba(29,185,84,0.35)" : "rgba(228,0,43,0.3)"}`,
+            background: outcome.correct ? "rgba(59,175,114,0.08)" : "rgba(194,24,51,0.08)",
+            border: `1px solid ${outcome.correct ? "rgba(59,175,114,0.32)" : "rgba(194,24,51,0.3)"}`,
           }}
         >
-          <div className="text-[14px] font-extrabold" style={{ color: outcome.correct ? "#8CF3AD" : "#ff6b78" }}>
+          <div className="text-[14px] font-extrabold" style={{ color: outcome.correct ? "var(--vert)" : "var(--rouge-clair)" }}>
             {outcome.correct
               ? "✓ Erreur corrigée — elle sort de ton carnet."
               : "✗ Pas encore. Elle reste dans ton carnet : tu la reverras demain."}
           </div>
           {!outcome.correct ? (
-            <p className="text-[12.5px] leading-6 mt-2" style={{ color: "#D8DADF" }}>
+            <p className="text-[12.5px] leading-6 mt-2" style={{ color: "var(--texte-2)" }}>
               {"La bonne réponse : " + item.options[outcome.correctAnswer]}
             </p>
           ) : null}
           {!outcome.correct && level === 5 ? (
-            <p className="text-[12.5px] leading-6 mt-2" style={{ color: "#f0b35c" }}>
-              {"⚠️ Fausse certitude : tu étais certain (5/5). C'est l'erreur la plus coûteuse sur le terrain — relis la leçon avant de réessayer."}
+            <p className="text-[12.5px] leading-6 mt-2" style={{ color: "var(--ambre)" }}>
+              <AcademyIcon name="alert" size={13} style={{ marginRight: 5 }} />
+              {"Fausse certitude : tu étais certain (5/5). C'est l'erreur la plus coûteuse sur le terrain — relis la leçon avant de réessayer."}
             </p>
           ) : null}
           {outcome.explain ? (

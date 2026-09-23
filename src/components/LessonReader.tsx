@@ -7,6 +7,7 @@ import {
   useState,
   useSyncExternalStore,
 } from "react";
+import AcademyIcon from "@/components/AcademyIcon";
 
 /**
  * Lecteur de leçon avec narration synchronisée (Web Speech API).
@@ -58,15 +59,19 @@ function renderWords(text: string, progress: number) {
       <span
         key={i}
         style={{
+          // Fondu mot par mot, sans halo : à venir (estompé) → lu (blanc cassé),
+          // le mot en cours ressort en blanc pur souligné d'un filet rubis.
           color:
             state === "upcoming"
-              ? "rgba(216,218,223,0.42)"
+              ? "rgba(var(--ink-rgb),0.36)"
               : state === "current"
-                ? "#8CF3AD"
-                : "#EAF7EE",
-          textShadow:
-            state === "current" ? "0 0 10px rgba(29,185,84,0.55)" : "none",
-          transition: "color .28s ease, text-shadow .28s ease",
+                ? "var(--blanc)"
+                : "var(--blanc)",
+          textDecorationLine: state === "current" ? "underline" : "none",
+          textDecorationColor: "rgba(194,24,51,0.85)",
+          textDecorationThickness: "2px",
+          textUnderlineOffset: "4px",
+          transition: "color .28s cubic-bezier(0.22,1,0.36,1)",
         }}
       >
         {word}
@@ -266,15 +271,13 @@ export default function LessonReader({ blocks }: { blocks: string[] }) {
           className="flex items-center gap-2 rounded-2xl px-3 py-2"
           style={{
             position: "sticky",
-            top: 8,
+            top: 72, // sous l'en-tête collant de l'Academy
             zIndex: 2,
             background: "var(--anthracite-2)",
             border: "1px solid var(--ligne)",
           }}
         >
-          <span className="text-[15px]" aria-hidden>
-            🎧
-          </span>
+          <AcademyIcon name="headphones" size={16} style={{ color: "var(--argent)" }} />
 
           {status === "playing" ? (
             <button
@@ -310,7 +313,7 @@ export default function LessonReader({ blocks }: { blocks: string[] }) {
 
           <div
             className="flex-1 rounded-full overflow-hidden"
-            style={{ height: 6, background: "rgba(255,255,255,0.07)" }}
+            style={{ height: 6, background: "rgba(var(--ink-rgb),0.07)" }}
             aria-hidden
           >
             <div
@@ -329,7 +332,7 @@ export default function LessonReader({ blocks }: { blocks: string[] }) {
             onClick={cycleRate}
             className="text-[11px] font-bold rounded-full px-2.5 py-1"
             style={{
-              background: "rgba(255,255,255,.05)",
+              background: "rgba(var(--ink-rgb),.05)",
               border: "1px solid var(--ligne)",
             }}
             title="Vitesse de lecture"
@@ -352,13 +355,12 @@ export default function LessonReader({ blocks }: { blocks: string[] }) {
             title={supported ? "Lire à partir d'ici" : undefined}
             className="text-[14.5px] leading-relaxed transition-colors"
             style={{
-              color: active ? "#EAF7EE" : "#D8DADF",
+              color: active ? "var(--blanc)" : "var(--texte-2)",
               cursor: supported ? "pointer" : "default",
               borderLeft: active
-                ? "3px solid #1db954"
+                ? "3px solid var(--rouge)"
                 : "3px solid transparent",
-              background: active ? "rgba(29,185,84,0.12)" : "transparent",
-              boxShadow: active ? "0 0 0 1px rgba(29,185,84,0.20)" : "none",
+              background: active ? "rgba(var(--ink-rgb),0.035)" : "transparent",
               borderRadius: 10,
               padding: "8px 10px",
               margin: "0 -10px",

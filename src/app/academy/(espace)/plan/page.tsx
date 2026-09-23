@@ -9,6 +9,7 @@ import {
 import { findLesson } from "@/lib/academy";
 import { lessonForSectionByDay } from "@/lib/academy-recommendations";
 import { requireUser } from "@/lib/auth";
+import AcademyIcon, { IconTile } from "@/components/AcademyIcon";
 
 function formatDate(value: string): string {
   const date = new Date(`${value}T12:00:00`);
@@ -63,8 +64,8 @@ export default async function AcademyPlanPage() {
         <div className="mt-5 flex items-start justify-between gap-5">
           <div>
             <div
-              className="text-[10px] font-extrabold uppercase tracking-[0.16em]"
-              style={{ color: "var(--vert)" }}
+              className="pz-eyebrow"
+              style={{ color: "var(--argent)" }}
             >
               PARCOURS PERSONNALISÉ
             </div>
@@ -84,9 +85,9 @@ export default async function AcademyPlanPage() {
             className="rounded-3xl px-5 py-4 text-center shrink-0"
             style={{
               background:
-                "linear-gradient(145deg, rgba(37,194,110,.12), rgba(255,255,255,.025))",
+                "linear-gradient(145deg, rgba(201,204,209,.12), rgba(var(--ink-rgb),.025))",
               border:
-                "1px solid rgba(37,194,110,.25)",
+                "1px solid rgba(201,204,209,.18)",
             }}
           >
             <strong className="block text-[25px]">
@@ -104,7 +105,7 @@ export default async function AcademyPlanPage() {
       <section className="pz-card p-5 pz-rise pz-d1">
         <div className="flex items-center justify-between gap-4">
           <div>
-            <div className="text-[10px] font-bold uppercase tracking-[0.14em] pz-muted">
+            <div className="pz-eyebrow pz-muted">
               PROGRESSION GLOBALE
             </div>
 
@@ -124,7 +125,7 @@ export default async function AcademyPlanPage() {
           className="h-3 rounded-full overflow-hidden mt-4"
           style={{
             background:
-              "rgba(255,255,255,.07)",
+              "rgba(var(--ink-rgb),.07)",
           }}
         >
           <div
@@ -132,7 +133,7 @@ export default async function AcademyPlanPage() {
             style={{
               width: `${completionPercent}%`,
               background:
-                "linear-gradient(90deg, var(--rouge), var(--vert))",
+                "linear-gradient(90deg, var(--rouge-profond), var(--rouge))",
             }}
           />
         </div>
@@ -143,15 +144,15 @@ export default async function AcademyPlanPage() {
           className="pz-card p-5 pz-rise pz-d2"
           style={{
             background:
-              "radial-gradient(circle at 100% 0%, rgba(228,0,43,.16), transparent 48%), rgba(255,255,255,.02)",
+              "radial-gradient(circle at 100% 0%, rgba(194,24,51,.16), transparent 48%), rgba(var(--ink-rgb),.02)",
             borderColor:
-              "rgba(228,0,43,.30)",
+              "rgba(194,24,51,.30)",
           }}
         >
           <div className="flex items-start justify-between gap-4">
             <div>
-              <div className="text-[10px] font-extrabold uppercase tracking-[0.15em] pz-red">
-                🎯 MISSION ACTUELLE · JOUR{" "}
+              <div className="pz-eyebrow pz-red inline-flex items-center gap-1.5">
+                <AcademyIcon name="target" size={12} /> Mission actuelle · jour{" "}
                 {currentDay.day}
               </div>
 
@@ -168,7 +169,7 @@ export default async function AcademyPlanPage() {
               className="rounded-2xl px-3 py-2 text-center shrink-0"
               style={{
                 background:
-                  "rgba(255,255,255,.04)",
+                  "rgba(var(--ink-rgb),.04)",
                 border:
                   "1px solid var(--ligne)",
               }}
@@ -187,12 +188,12 @@ export default async function AcademyPlanPage() {
             className="rounded-2xl p-4 mt-5"
             style={{
               background:
-                "rgba(255,255,255,.035)",
+                "rgba(var(--ink-rgb),.035)",
               border:
                 "1px solid var(--ligne)",
             }}
           >
-            <div className="text-[9px] font-bold uppercase tracking-[0.13em] pz-muted">
+            <div className="pz-eyebrow pz-muted">
               LEÇON RECOMMANDÉE
             </div>
 
@@ -204,14 +205,14 @@ export default async function AcademyPlanPage() {
               {currentLesson.lesson.intro}
             </p>
 
-            <div className="flex flex-wrap gap-4 mt-3 text-[10px] pz-muted">
-              <span>
-                ⏱{" "}
+            <div className="flex flex-wrap gap-4 mt-3 text-[10.5px] pz-muted pz-mono">
+              <span className="inline-flex items-center gap-1">
+                <AcademyIcon name="clock" size={12} />
                 {currentLesson.lesson.minutes} min
               </span>
 
-              <span>
-                📝{" "}
+              <span className="inline-flex items-center gap-1">
+                <AcademyIcon name="notes" size={12} />
                 {currentLesson.lesson.quiz.length}{" "}
                 questions
               </span>
@@ -234,11 +235,11 @@ export default async function AcademyPlanPage() {
           className="pz-card p-6 text-center pz-rise pz-d2"
           style={{
             borderColor:
-              "rgba(37,194,110,.30)",
+              "rgba(201,204,209,.2)",
           }}
         >
-          <div className="text-[42px]">
-            🏆
+          <div className="flex justify-center">
+            <IconTile name="trophy" size={56} tone="var(--or)" />
           </div>
 
           <h2 className="text-[21px] font-black mt-3">
@@ -293,12 +294,12 @@ export default async function AcademyPlanPage() {
                 borderColor: completed
                   ? "rgba(37,194,110,.28)"
                   : day.isCurrent
-                    ? "rgba(228,0,43,.34)"
+                    ? "rgba(194,24,51,.34)"
                     : undefined,
                 background: completed
                   ? "rgba(37,194,110,.045)"
                   : day.isCurrent
-                    ? "rgba(228,0,43,.045)"
+                    ? "rgba(194,24,51,.045)"
                     : undefined,
               }}
             >
@@ -313,7 +314,7 @@ export default async function AcademyPlanPage() {
                       ? "var(--vert)"
                       : day.isCurrent
                         ? "var(--rouge)"
-                        : "rgba(255,255,255,.06)",
+                        : "rgba(var(--ink-rgb),.06)",
                     border:
                       completed ||
                       day.isCurrent
@@ -327,7 +328,7 @@ export default async function AcademyPlanPage() {
                 <div className="flex-1 min-w-0">
                   <div className="flex items-start justify-between gap-3">
                     <div>
-                      <span className="text-[9px] font-bold uppercase tracking-[0.12em] pz-muted">
+                      <span className="pz-eyebrow pz-muted">
                         JOUR {day.day} ·{" "}
                         {formatDate(
                           day.scheduledDate,
@@ -345,10 +346,10 @@ export default async function AcademyPlanPage() {
                         color: completed
                           ? "var(--vert)"
                           : day.isCurrent
-                            ? "#ff8290"
-                            : "var(--gris2)",
+                            ? "var(--rouge-clair)"
+                            : "var(--gris)",
                         background:
-                          "rgba(255,255,255,.04)",
+                          "rgba(var(--ink-rgb),.04)",
                         border:
                           "1px solid var(--ligne)",
                       }}
@@ -366,8 +367,8 @@ export default async function AcademyPlanPage() {
                   </p>
 
                   <div className="flex flex-wrap items-center gap-4 mt-3 text-[10px] pz-muted">
-                    <span>
-                      📘{" "}
+                    <span className="inline-flex items-center gap-1">
+                      <AcademyIcon name="book" size={12} />
                       {lesson?.lesson.title ??
                         day.recommendedLessonId}
                     </span>

@@ -1,6 +1,7 @@
 import fs from "node:fs";
 import path from "node:path";
 import Link from "next/link";
+import AcademyIcon from "@/components/AcademyIcon";
 
 export const dynamic = "force-dynamic";
 
@@ -147,17 +148,17 @@ function getDiagnosticInformation() {
 
 const RULES = [
   {
-    icon: "🎯",
+    icon: "target" as const,
     title: "Réponds naturellement",
     text: "Le diagnostic cherche ton niveau réel, pas un score artificiel.",
   },
   {
-    icon: "🧠",
+    icon: "revision" as const,
     title: "Indique ton niveau de confiance",
     text: "Une mauvaise réponse donnée avec certitude révèle un risque prioritaire.",
   },
   {
-    icon: "⏱️",
+    icon: "clock" as const,
     title: "Travaille sans aide extérieure",
     text: "Le temps et la méthode font partie des compétences évaluées.",
   },
@@ -178,15 +179,15 @@ export default function DiagnosticStartPage() {
         className="pz-card p-6 pz-rise overflow-hidden relative"
         style={{
           background:
-            "radial-gradient(circle at 100% 0%, rgba(37,194,110,.18), transparent 42%), var(--carte)",
+            "radial-gradient(circle at 100% 0%, rgba(201,204,209,.18), transparent 42%), var(--carte)",
         }}
       >
         <div
           className="inline-flex items-center gap-2 rounded-full px-3 py-2 mb-5 text-[10px] font-extrabold uppercase tracking-[0.16em]"
           style={{
-            color: "var(--vert)",
-            background: "rgba(37,194,110,.09)",
-            border: "1px solid rgba(37,194,110,.22)",
+            color: "var(--argent)",
+            background: "rgba(201,204,209,.09)",
+            border: "1px solid rgba(201,204,209,.22)",
           }}
         >
           <span>◆</span>
@@ -210,7 +211,7 @@ export default function DiagnosticStartPage() {
           <div
             className="rounded-2xl p-3 text-center"
             style={{
-              background: "rgba(255,255,255,.045)",
+              background: "rgba(var(--ink-rgb),.045)",
               border: "1px solid var(--ligne)",
             }}
           >
@@ -228,7 +229,7 @@ export default function DiagnosticStartPage() {
           <div
             className="rounded-2xl p-3 text-center"
             style={{
-              background: "rgba(255,255,255,.045)",
+              background: "rgba(var(--ink-rgb),.045)",
               border: "1px solid var(--ligne)",
             }}
           >
@@ -246,7 +247,7 @@ export default function DiagnosticStartPage() {
           <div
             className="rounded-2xl p-3 text-center"
             style={{
-              background: "rgba(255,255,255,.045)",
+              background: "rgba(var(--ink-rgb),.045)",
               border: "1px solid var(--ligne)",
             }}
           >
@@ -278,8 +279,8 @@ export default function DiagnosticStartPage() {
           <span
             className="text-[11px] font-bold rounded-full px-3 py-1.5"
             style={{
-              color: "var(--vert)",
-              background: "rgba(37,194,110,.08)",
+              color: "var(--argent)",
+              background: "rgba(201,204,209,.08)",
             }}
           >
             {diagnostic.sections.length} domaines
@@ -292,15 +293,15 @@ export default function DiagnosticStartPage() {
               key={sectionId}
               className="rounded-2xl p-3.5"
               style={{
-                background: "rgba(255,255,255,.035)",
+                background: "rgba(var(--ink-rgb),.035)",
                 border: "1px solid var(--ligne)",
               }}
             >
               <div
                 className="w-7 h-7 rounded-lg grid place-items-center text-[11px] font-black mb-3"
                 style={{
-                  color: "var(--vert)",
-                  background: "rgba(37,194,110,.1)",
+                  color: "var(--argent)",
+                  background: "rgba(201,204,209,.1)",
                 }}
               >
                 {String(index + 1).padStart(2, "0")}
@@ -330,17 +331,17 @@ export default function DiagnosticStartPage() {
               key={rule.title}
               className="flex items-start gap-3 rounded-2xl p-4"
               style={{
-                background: "rgba(255,255,255,.035)",
+                background: "rgba(var(--ink-rgb),.035)",
                 border: "1px solid var(--ligne)",
               }}
             >
               <div
                 className="w-10 h-10 rounded-xl grid place-items-center shrink-0"
                 style={{
-                  background: "rgba(255,255,255,.05)",
+                  background: "rgba(var(--ink-rgb),.05)",
                 }}
               >
-                {rule.icon}
+                <AcademyIcon name={rule.icon} size={18} style={{ color: "var(--argent)" }} />
               </div>
 
               <div>
@@ -364,7 +365,7 @@ export default function DiagnosticStartPage() {
         className="pz-card p-5 pz-rise pz-d1"
         style={{
           background:
-            "linear-gradient(135deg, rgba(213,172,73,.1), rgba(37,194,110,.06)), var(--carte)",
+            "linear-gradient(135deg, rgba(213,172,73,.1), rgba(201,204,209,.06)), var(--carte)",
         }}
       >
         <div className="flex items-center gap-4">
@@ -375,13 +376,13 @@ export default function DiagnosticStartPage() {
               border: "1px solid rgba(213,172,73,.2)",
             }}
           >
-            🏆
+            <AcademyIcon name="trophy" size={24} style={{ color: "var(--or)" }} />
           </div>
 
           <div className="flex-1">
             <div
-              className="text-[10px] font-extrabold uppercase tracking-[0.14em]"
-              style={{ color: "#e4c264" }}
+              className="pz-eyebrow"
+              style={{ color: "var(--or)" }}
             >
               Récompense de démarrage
             </div>
@@ -404,7 +405,7 @@ export default function DiagnosticStartPage() {
       <section
         className="rounded-3xl p-5"
         style={{
-          background: "rgba(255,255,255,.025)",
+          background: "rgba(var(--ink-rgb),.025)",
           border: "1px solid var(--ligne)",
         }}
       >
@@ -428,11 +429,11 @@ export default function DiagnosticStartPage() {
           href="/academy/diagnostic/session"
           className="min-h-[58px] rounded-2xl flex items-center justify-center text-[15px] font-black"
           style={{
-            color: "#06130c",
+            color: "#fff",
             background:
-              "linear-gradient(135deg, #44dc8c, #20b968)",
+              "linear-gradient(180deg, #C21833, #A3142D)",
             boxShadow:
-              "0 16px 40px rgba(37,194,110,.2)",
+              "inset 0 1px 0 rgba(255,255,255,.16), 0 1px 2px rgba(0,0,0,.45)",
           }}
         >
           Commencer le diagnostic
@@ -443,7 +444,7 @@ export default function DiagnosticStartPage() {
           className="min-h-[52px] rounded-2xl flex items-center justify-center text-[13px] font-bold"
           style={{
             color: "var(--blanc)",
-            background: "rgba(255,255,255,.035)",
+            background: "rgba(var(--ink-rgb),.035)",
             border: "1px solid var(--ligne)",
           }}
         >

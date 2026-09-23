@@ -29,10 +29,10 @@ export const RANKS: Rank[] = [
   { name: "Analyste", min: 20, max: 29, tone: "#D6A9AE" },
   { name: "Recruteur", min: 30, max: 39, tone: "#C9CCD1" },
   { name: "Professionnel", min: 40, max: 49, tone: "#E4818D" },
-  { name: "Expert", min: 50, max: 59, tone: "#E4002B" },
-  { name: "Élite", min: 60, max: 69, tone: "#E4002B" },
-  { name: "Master", min: 70, max: 79, tone: "#A30020" },
-  { name: "Champion", min: 80, max: 89, tone: "#A30020" },
+  { name: "Expert", min: 50, max: 59, tone: "#C21833" },
+  { name: "Élite", min: 60, max: 69, tone: "#C21833" },
+  { name: "Master", min: 70, max: 79, tone: "#B03A52" },
+  { name: "Champion", min: 80, max: 89, tone: "#B03A52" },
   { name: "Légende", min: 90, max: 99, tone: "#C9A45C" },
   { name: "PARZI ICON", min: 100, max: 100, tone: "#C9A45C" },
 ];
@@ -69,7 +69,7 @@ export const LEAGUES: League[] = [
   { name: "Bronze", tone: "#b08d57", min: 10 },
   { name: "Argent", tone: "#c9ccd1", min: 20 },
   { name: "Or", tone: "#E9C36A", min: 35 },
-  { name: "Rubis", tone: "#E4002B", min: 50 },
+  { name: "Rubis", tone: "#C21833", min: 50 },
   { name: "Diamant", tone: "#7fd4ff", min: 70 },
   { name: "Légende", tone: "#9a6bff", min: 90 },
 ];

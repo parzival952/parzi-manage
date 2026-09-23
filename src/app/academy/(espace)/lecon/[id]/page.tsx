@@ -20,6 +20,7 @@ import {
   type ConfidenceValue,
 } from "@/lib/academy-confidence";
 import { requireUser } from "@/lib/auth";
+import AcademyIcon from "@/components/AcademyIcon";
 
 export default async function LessonPage({
   params,
@@ -121,7 +122,7 @@ export default async function LessonPage({
   }
 
   return (
-    <div className="flex flex-col gap-5">
+    <div className="pz-lecture flex flex-col gap-5">
       <header className="pz-rise">
         <Link
           href="/academy"
@@ -154,15 +155,15 @@ export default async function LessonPage({
           className="pz-card p-5 pz-rise pz-d1"
           style={{
             background:
-              "linear-gradient(145deg, rgba(228,0,43,.10), rgba(255,255,255,.02))",
+              "linear-gradient(145deg, rgba(194,24,51,.10), rgba(var(--ink-rgb),.02))",
             borderColor:
-              "rgba(228,0,43,.30)",
+              "rgba(194,24,51,.30)",
           }}
         >
           <div className="flex items-start justify-between gap-4">
             <div>
-              <div className="text-[10px] font-extrabold uppercase tracking-[0.15em] pz-red">
-                🎯 MISSION PERSONNALISÉE
+              <div className="pz-eyebrow pz-red inline-flex items-center gap-1.5">
+                <AcademyIcon name="target" size={12} /> Mission personnalisée
               </div>
 
               <h2 className="text-[17px] font-black mt-2">
@@ -179,7 +180,7 @@ export default async function LessonPage({
               className="rounded-2xl px-3 py-2 text-center shrink-0"
               style={{
                 background:
-                  "rgba(255,255,255,.04)",
+                  "rgba(var(--ink-rgb),.04)",
                 border:
                   "1px solid var(--ligne)",
               }}
@@ -198,12 +199,12 @@ export default async function LessonPage({
             className="rounded-2xl p-4 mt-4"
             style={{
               background:
-                "rgba(255,255,255,.035)",
+                "rgba(var(--ink-rgb),.035)",
               border:
                 "1px solid var(--ligne)",
             }}
           >
-            <div className="text-[9px] font-bold uppercase tracking-[0.13em] pz-muted">
+            <div className="pz-eyebrow pz-muted">
               OBJECTIF DE LA MISSION
             </div>
 
@@ -226,7 +227,7 @@ export default async function LessonPage({
           <Link
             href="/academy/diagnostic/resultats#plan-revision"
             className="inline-flex mt-4 text-[11px] font-bold"
-            style={{ color: "var(--vert)" }}
+            style={{ color: "var(--argent)" }}
           >
             Voir mon plan complet sur 14 jours →
           </Link>

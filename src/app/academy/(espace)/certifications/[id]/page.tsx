@@ -5,6 +5,7 @@ import { revalidatePath } from "next/cache";
 import { requireUser } from "@/lib/auth";
 import { canTakeCert, findCert, getMyCerts, gradeExam, submitExam } from "@/lib/certifications";
 import CertExam from "@/components/CertExam";
+import { IconTile } from "@/components/AcademyIcon";
 
 export default async function CertExamPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
@@ -28,7 +29,7 @@ export default async function CertExamPage({ params }: { params: Promise<{ id: s
   }
 
   return (
-    <div className="flex flex-col gap-5">
+    <div className="pz-lecture flex flex-col gap-5">
       <div className="pz-rise">
         <Link href="/academy/certifications" className="text-[12.5px] pz-muted hover:text-white">← Certifications</Link>
         <h1 className="text-[22px] font-extrabold tracking-tight mt-2">{cert.name}</h1>
@@ -46,7 +47,7 @@ export default async function CertExamPage({ params }: { params: Promise<{ id: s
         />
       ) : (
         <div className="pz-card p-6 text-center">
-          <div className="text-[36px] mb-2">🔒</div>
+          <div className="mb-3"><IconTile name="lock" size={52} /></div>
           <h2 className="text-[17px] font-bold mb-1">Certification verrouillée</h2>
           <p className="text-[13.5px] pz-muted mb-4">Prérequis : {cert.prereqLabel}.</p>
           <Link href="/academy" className="pz-btn w-full">Continuer le parcours</Link>

@@ -38,7 +38,7 @@ export default async function DiplomePage({ params }: { params: Promise<{ id: st
           border: "1px solid rgba(233,195,106,.25)",
         }}>
           <div style={{ display: "inline-flex", alignItems: "center", gap: 9, marginBottom: 18 }}>
-            <span style={{ width: 34, height: 34, borderRadius: 10, display: "grid", placeItems: "center", fontFamily: "Oswald", fontWeight: 700, color: "#fff", background: "linear-gradient(135deg,#E4002B,#8f0018)" }}>P</span>
+            <span style={{ width: 34, height: 34, borderRadius: 10, display: "grid", placeItems: "center", fontFamily: "Oswald", fontWeight: 700, color: "#fff", background: "linear-gradient(135deg,#C21833,#8f0018)" }}>P</span>
             <span style={{ fontFamily: "Oswald", fontWeight: 700, letterSpacing: 1, fontSize: 17 }}>PARZI ACADEMY</span>
           </div>
           <div style={{ fontSize: 11, letterSpacing: 4, textTransform: "uppercase", color: "#E9C36A", marginBottom: 6 }}>Certificat de compétences</div>

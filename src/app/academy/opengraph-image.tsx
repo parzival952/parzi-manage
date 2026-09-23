@@ -26,7 +26,7 @@ export default function Image() {
               width: "88px",
               height: "88px",
               borderRadius: "22px",
-              background: "linear-gradient(135deg, #E4002B, #A30020)",
+              background: "linear-gradient(135deg, #C21833, #7A1024)",
               display: "flex",
               alignItems: "center",
               justifyContent: "center",
@@ -37,13 +37,13 @@ export default function Image() {
             P
           </div>
           <div style={{ display: "flex", fontSize: "52px", fontWeight: 800 }}>
-            PARZI&nbsp;<span style={{ color: "#E4002B" }}>Academy</span>
+            PARZI&nbsp;<span style={{ color: "#C21833" }}>Academy</span>
           </div>
         </div>
         <div style={{ display: "flex", fontSize: "72px", fontWeight: 900, marginTop: "56px", lineHeight: 1.1 }}>
           Deviens agent de joueur.
         </div>
-        <div style={{ display: "flex", fontSize: "32px", color: "#8A8F98", marginTop: "24px" }}>
+        <div style={{ display: "flex", fontSize: "32px", color: "var(--gris)", marginTop: "24px" }}>
           45 leçons · révision intelligente · examen blanc de la licence d&apos;agent
         </div>
       </div>

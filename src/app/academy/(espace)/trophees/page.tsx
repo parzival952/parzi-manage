@@ -12,6 +12,7 @@ import {
 } from "@/lib/academy";
 import { requireUser } from "@/lib/auth";
 import { evaluateTrophies, sortTrophies, RARITY_TONE, RARITY_LABEL, type TrophyStats } from "@/lib/trophies";
+import AcademyIcon from "@/components/AcademyIcon";
 
 export const metadata = { title: "Trophées" };
 
@@ -46,7 +47,7 @@ export default async function TropheesPage() {
         </p>
       </div>
 
-      <div className="grid grid-cols-2 gap-3 pz-rise pz-d1">
+      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 pz-rise pz-d1">
         {trophies.map((t) => {
           const tone = RARITY_TONE[t.rarity];
           const hidden = t.secret && !t.earned;
@@ -58,19 +59,19 @@ export default async function TropheesPage() {
                   style={{
                     width: 48, height: 52,
                     clipPath: "polygon(50% 0,100% 25%,100% 75%,50% 100%,0 75%,0 25%)",
-                    background: t.earned ? "linear-gradient(180deg,#26262f,#141419)" : "#17171b",
-                    border: `1px solid ${t.earned ? tone + "aa" : "rgba(255,255,255,.06)"}`,
+                    background: t.earned ? "linear-gradient(180deg,var(--anthracite-2),var(--anthracite))" : "var(--anthracite)",
+                    border: `1px solid ${t.earned ? tone + "aa" : "rgba(var(--ink-rgb),.06)"}`,
                     filter: t.earned ? "none" : "grayscale(1)",
-                    boxShadow: t.earned ? `0 0 16px ${tone}44` : "none",
+                    boxShadow: t.earned ? "inset 0 1px 0 rgba(255,255,255,.10)" : "none",
                   }}
                 >
-                  <span style={{ opacity: t.earned ? 1 : 0.4 }}>{hidden ? "❓" : t.icon}</span>
+                  {hidden ? <AcademyIcon name="help" size={20} style={{ color: "var(--gris)", opacity: 0.6 }} /> : <span style={{ opacity: t.earned ? 1 : 0.4 }}>{t.icon}</span>}
                 </div>
                 <div className="min-w-0">
                   <div className="font-bold text-[13.5px] leading-tight" style={{ color: t.earned ? "var(--blanc)" : "var(--gris)" }}>
                     {hidden ? "Trophée secret" : t.name}
                   </div>
-                  <div className="text-[10px] uppercase tracking-wider mt-0.5" style={{ color: t.earned ? tone : "var(--gris2)" }}>
+                  <div className="text-[10px] uppercase tracking-wider mt-0.5" style={{ color: t.earned ? tone : "var(--gris)" }}>
                     {RARITY_LABEL[t.rarity]}{t.secret ? " · secret" : ""}
                   </div>
                 </div>

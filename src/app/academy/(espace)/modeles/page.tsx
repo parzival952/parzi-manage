@@ -4,6 +4,7 @@ import Link from "next/link";
 
 import { requireUser } from "@/lib/auth";
 import { MODELES } from "@/lib/academy-modeles";
+import AcademyIcon from "@/components/AcademyIcon";
 
 export const metadata = { title: "Fiches & modèles" };
 
@@ -11,16 +12,16 @@ export default async function AcademyModelesPage() {
   await requireUser();
 
   return (
-    <main className="flex flex-col gap-6">
-      <header className="pz-rise">
+    <main className="grid gap-6 lg:grid-cols-2 lg:items-start">
+      <header className="lg:col-span-2 pz-rise">
         <Link href="/academy" className="text-[12px] pz-muted hover:text-white">
           ← Retour à PARZI Academy
         </Link>
 
         <div className="mt-5">
           <div
-            className="text-[10px] font-extrabold uppercase tracking-[0.16em]"
-            style={{ color: "var(--vert)" }}
+            className="pz-eyebrow"
+            style={{ color: "var(--argent)" }}
           >
             RESSOURCES
           </div>
@@ -36,11 +37,11 @@ export default async function AcademyModelesPage() {
       </header>
 
       <section
-        className="pz-card p-4 pz-rise pz-d1"
+        className="lg:col-span-2 pz-card p-4 pz-rise pz-d1"
         style={{ borderColor: "rgba(240,179,92,.30)" }}
       >
         <p className="text-[12px] leading-6 pz-muted">
-          <b className="text-white">⚠️ Cadre :</b> ces fiches sont{" "}
+          <b className="text-white inline-flex items-center gap-1"><AcademyIcon name="alert" size={13} style={{ color: "var(--or)" }} /> Cadre :</b> ces fiches sont{" "}
           <b className="text-white">pédagogiques</b> — elles expliquent la logique,
           ce ne sont pas des documents juridiques prêts à l&apos;emploi. Adapte-les
           au droit applicable et aux règlements en vigueur, et fais valider un
@@ -63,7 +64,7 @@ export default async function AcademyModelesPage() {
                 key={s.clause}
                 className="rounded-2xl p-3"
                 style={{
-                  background: "rgba(255,255,255,.03)",
+                  background: "rgba(var(--ink-rgb),.03)",
                   border: "1px solid var(--ligne)",
                 }}
               >
@@ -87,7 +88,7 @@ export default async function AcademyModelesPage() {
         </section>
       ))}
 
-      <div className="pz-rise pz-d5 text-center">
+      <div className="lg:col-span-2 pz-rise pz-d5 text-center">
         <Link
           href="/academy/glossaire"
           className="text-[12px] font-bold pz-red hover:underline"

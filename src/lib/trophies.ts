@@ -6,7 +6,7 @@ import type { BadgeStats } from "./badges";
 export type Rarity = "commun" | "rare" | "epique" | "legendaire" | "mythique";
 
 export const RARITY_TONE: Record<Rarity, string> = {
-  commun: "#8A8F98", rare: "#c9ccd1", epique: "#E4002B", legendaire: "#E9C36A", mythique: "#9a6bff",
+  commun: "#8A8F98", rare: "#c9ccd1", epique: "#C21833", legendaire: "#E9C36A", mythique: "#9a6bff",
 };
 export const RARITY_LABEL: Record<Rarity, string> = {
   commun: "Commun", rare: "Rare", epique: "Épique", legendaire: "Légendaire", mythique: "Mythique",

@@ -41,7 +41,7 @@ export default async function BadgesPage() {
         </p>
       </div>
 
-      <div className="grid grid-cols-2 gap-3 pz-rise pz-d1">
+      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 pz-rise pz-d1">
         {badges.map((b) => {
           const tone = TIER_TONE[b.tier];
           return (
@@ -52,17 +52,17 @@ export default async function BadgesPage() {
                   style={{
                     clipPath: "polygon(50% 0,100% 25%,100% 75%,50% 100%,0 75%,0 25%)",
                     height: "3.1rem",
-                    background: b.earned ? "linear-gradient(180deg,#26262f,#141419)" : "#17171b",
-                    border: `1px solid ${b.earned ? tone + "88" : "rgba(255,255,255,.06)"}`,
+                    background: b.earned ? "linear-gradient(180deg,var(--anthracite-2),var(--anthracite))" : "var(--anthracite)",
+                    border: `1px solid ${b.earned ? tone + "88" : "rgba(var(--ink-rgb),.06)"}`,
                     filter: b.earned ? "none" : "grayscale(1)",
-                    boxShadow: b.earned ? `0 0 14px ${tone}33` : "none",
+                    boxShadow: b.earned ? "inset 0 1px 0 rgba(255,255,255,.10)" : "none",
                   }}
                 >
                   <span style={{ opacity: b.earned ? 1 : 0.4 }}>{b.icon}</span>
                 </div>
                 <div className="min-w-0">
                   <div className="font-bold text-[13.5px] leading-tight" style={{ color: b.earned ? "var(--blanc)" : "var(--gris)" }}>{b.name}</div>
-                  <div className="text-[10px] uppercase tracking-wider mt-0.5" style={{ color: b.earned ? tone : "var(--gris2)" }}>{b.tier} · {b.family}</div>
+                  <div className="text-[10px] uppercase tracking-wider mt-0.5" style={{ color: b.earned ? tone : "var(--gris)" }}>{b.tier} · {b.family}</div>
                 </div>
               </div>
               <p className="text-[11.5px] pz-muted mt-2.5 leading-snug">{b.desc}</p>

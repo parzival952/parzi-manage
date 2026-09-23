@@ -8,6 +8,7 @@ import {
   type LearningError,
 } from "@/lib/academy-learning";
 import { findLesson, lessonsForAttr, type AttrKey } from "@/lib/academy";
+import { IconTile } from "@/components/AcademyIcon";
 
 const STATUS_LABEL: Record<string, string> = {
   not_started: "Non commencé",
@@ -40,9 +41,9 @@ function attrOf(competencyId: string | null): AttrKey | null {
 }
 
 function toneFor(score: number): string {
-  if (score < 25) return "#ff6b78";
-  if (score < 55) return "#f0b35c";
-  if (score < 80) return "#e9c36a";
+  if (score < 25) return "var(--rouge-clair)";
+  if (score < 55) return "var(--ambre)";
+  if (score < 80) return "var(--or)";
   return "var(--vert)";
 }
 
@@ -83,7 +84,7 @@ export default async function AcademyRevisionPage() {
           </h1>
         </header>
         <section className="pz-card p-6 text-center pz-rise pz-d1">
-          <div className="text-[40px]">🧠</div>
+          <IconTile name="revision" size={52} />
           <p className="text-[13px] pz-muted mt-3 max-w-[460px] mx-auto">
             La révision se construit à partir de tes réponses. Valide une leçon
             ou un examen : les questions ratées viendront ici, prêtes à être
@@ -113,8 +114,8 @@ export default async function AcademyRevisionPage() {
 
         <div className="mt-5">
           <div
-            className="text-[10px] font-extrabold uppercase tracking-[0.16em]"
-            style={{ color: "var(--vert)" }}
+            className="pz-eyebrow"
+            style={{ color: "var(--argent)" }}
           >
             RÉVISION INTELLIGENTE
           </div>
@@ -130,7 +131,7 @@ export default async function AcademyRevisionPage() {
 
       <section className="grid grid-cols-2 gap-3 pz-rise pz-d1">
         <div className="pz-card p-4">
-          <div className="text-[10px] font-bold uppercase tracking-[0.13em] pz-muted">
+          <div className="pz-eyebrow pz-muted">
             À réviser aujourd&apos;hui
           </div>
           <strong className="block text-[26px] mt-1 pz-red">
@@ -138,7 +139,7 @@ export default async function AcademyRevisionPage() {
           </strong>
         </div>
         <div className="pz-card p-4">
-          <div className="text-[10px] font-bold uppercase tracking-[0.13em] pz-muted">
+          <div className="pz-eyebrow pz-muted">
             Erreurs à corriger
           </div>
           <strong className="block text-[26px] mt-1">
@@ -149,7 +150,7 @@ export default async function AcademyRevisionPage() {
 
       {!hasActivity ? (
         <section className="pz-card p-6 text-center pz-rise pz-d2">
-          <div className="text-[36px]">✨</div>
+          <IconTile name="check" size={52} tone="var(--vert)" />
           <p className="text-[13px] pz-muted mt-3 max-w-[460px] mx-auto">
             Rien à réviser pour l&apos;instant — beau travail. Continue le
             parcours : dès qu&apos;une réponse est ratée, elle apparaîtra ici.
@@ -176,8 +177,8 @@ export default async function AcademyRevisionPage() {
                 <span
                   className="text-[9px] font-bold rounded-full px-3 py-1 shrink-0"
                   style={{
-                    color: "#ff8290",
-                    background: "rgba(228,0,43,.10)",
+                    color: "var(--rouge-clair)",
+                    background: "rgba(194,24,51,.10)",
                     border: "1px solid var(--ligne)",
                   }}
                 >
@@ -227,7 +228,7 @@ export default async function AcademyRevisionPage() {
                   <span
                     className="text-[9px] font-bold rounded-full px-3 py-1 shrink-0"
                     style={{
-                      color: "#f0b35c",
+                      color: "var(--ambre)",
                       background: "rgba(240,179,92,.12)",
                       border: "1px solid var(--ligne)",
                     }}
@@ -262,7 +263,7 @@ export default async function AcademyRevisionPage() {
                 </div>
                 <div
                   className="h-1.5 rounded-full mt-1"
-                  style={{ background: "rgba(255,255,255,.08)" }}
+                  style={{ background: "rgba(var(--ink-rgb),.08)" }}
                 >
                   <div
                     className="h-full rounded-full"

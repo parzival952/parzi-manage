@@ -15,6 +15,6 @@ export default function DiagnosticSessionPage() {
   const questions = loadPublicDiagnosticQuestions();
 
   return (
-    <DiagnosticSessionClient questions={questions} />
+    <div className="pz-lecture"><DiagnosticSessionClient questions={questions} /></div>
   );
 }

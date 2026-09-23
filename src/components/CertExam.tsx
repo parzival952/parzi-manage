@@ -1,6 +1,7 @@
 "use client";
 import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
+import { IconTile } from "@/components/AcademyIcon";
 
 type Q = { q: string; options: string[] };
 type Domain = { key: string; label: string; correct: number; total: number; pct: number; lessons?: { id: string; title: string }[] };
@@ -10,7 +11,7 @@ function Breakdown({ items }: { items?: Domain[] }) {
   if (!items || items.length === 0) return null;
   return (
     <div className="mt-6 text-left">
-      <div className="text-[10px] font-bold uppercase tracking-[0.14em] pz-muted mb-3 text-center">Bilan par compétence</div>
+      <div className="pz-eyebrow pz-muted mb-3 text-center">Bilan par compétence</div>
       <div className="flex flex-col gap-2.5">
         {items.map((d) => (
           <div key={d.key}>
@@ -18,8 +19,8 @@ function Breakdown({ items }: { items?: Domain[] }) {
               <span className="font-semibold">{d.label}</span>
               <span className="pz-muted">{d.correct}/{d.total} · {d.pct}%</span>
             </div>
-            <div className="h-1.5 rounded-full mt-1" style={{ background: "rgba(255,255,255,.08)" }}>
-              <div className="h-full rounded-full" style={{ width: `${d.pct}%`, background: d.pct >= 70 ? "var(--vert)" : d.pct >= 40 ? "var(--or,#E9C36A)" : "var(--rouge)" }} />
+            <div className="h-1.5 rounded-full mt-1" style={{ background: "rgba(var(--ink-rgb),.08)" }}>
+              <div className="h-full rounded-full" style={{ width: `${d.pct}%`, background: d.pct >= 70 ? "var(--vert)" : d.pct >= 40 ? "var(--or)" : "var(--rouge)" }} />
             </div>
             {d.lessons && d.lessons.length > 0 ? (
               <div className="mt-1.5 text-[11px] pz-muted">
@@ -86,7 +87,7 @@ export default function CertExam({ certId, questions, durationMin, onSubmit }: {
     if (result.pass) {
       return (
         <div className="pz-card p-6 text-center pz-rise">
-          <div className="text-[44px] mb-1">🎓</div>
+          <div className="mb-3 flex justify-center"><IconTile name="cap" size={60} tone="var(--or)" /></div>
           <h2 className="text-[21px] font-extrabold mb-1">{result.already ? "Certification déjà obtenue" : "Certification réussie !"}</h2>
           <p className="text-[13.5px] pz-muted mb-4">Score : {result.score} %{!result.already && result.bonusXp ? ` · +${result.bonusXp} XP` : ""}</p>
           <Breakdown items={result.breakdown} />
@@ -97,7 +98,7 @@ export default function CertExam({ certId, questions, durationMin, onSubmit }: {
     }
     return (
       <div className="pz-card p-6 text-center pz-rise">
-        <div className="text-[40px] mb-1">📕</div>
+        <div className="mb-3 flex justify-center"><IconTile name="book" size={56} /></div>
         <h2 className="text-[20px] font-extrabold mb-1">Pas encore validé</h2>
         <p className="text-[13.5px] pz-muted mb-4">Score : {result.score} % — il faut atteindre le seuil requis. Révise et retente, c&apos;est en travaillant qu&apos;on décroche sa certif.</p>
         <Breakdown items={result.breakdown} />
@@ -111,19 +112,19 @@ export default function CertExam({ certId, questions, durationMin, onSubmit }: {
     <div className="pz-card p-6 pz-rise">
       <div className="flex items-center gap-2 mb-4">
         {questions.map((_, i) => (
-          <div key={i} className="h-1.5 flex-1 rounded-full" style={{ background: i < step ? "var(--rouge)" : i === step ? "var(--rougeclair)" : "rgba(255,255,255,.1)" }} />
+          <div key={i} className="h-1.5 flex-1 rounded-full" style={{ background: i < step ? "var(--rouge)" : i === step ? "var(--rouge-clair)" : "rgba(var(--ink-rgb),.1)" }} />
         ))}
       </div>
       <div className="flex items-center justify-between mb-2">
         <div className="text-[11px] pz-muted">Question {step + 1} / {questions.length}</div>
         {mmss ? (
-          <div className="text-[12px] font-bold tabular-nums" style={{ color: lowTime ? "var(--rouge)" : "var(--gris2,#8A8F98)" }}>⏱ {mmss}</div>
+          <div className="text-[12px] font-bold tabular-nums" style={{ color: lowTime ? "var(--rouge)" : "var(--gris)" }}>⏱ {mmss}</div>
         ) : null}
       </div>
       <h3 className="text-[16.5px] font-bold mb-4">{q.q}</h3>
       <div className="flex flex-col gap-2.5">
         {q.options.map((opt, i) => (
-          <button key={i} className="pz-opt" style={answers[step] === i ? { borderColor: "var(--rouge)", background: "rgba(228,0,43,.10)" } : {}} onClick={() => pick(i)}>{opt}</button>
+          <button key={i} className="pz-opt" style={answers[step] === i ? { borderColor: "var(--rouge)", background: "rgba(194,24,51,.10)" } : {}} onClick={() => pick(i)}>{opt}</button>
         ))}
       </div>
       <button className="pz-btn w-full mt-5" onClick={next} disabled={!answered || saving}>

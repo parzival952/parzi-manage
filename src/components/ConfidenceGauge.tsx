@@ -23,7 +23,7 @@ export default function ConfidenceGauge({
   return (
     <div
       className="rounded-2xl p-4 mt-4"
-      style={{ background: "rgba(255,255,255,.03)", border: "1px solid var(--ligne)" }}
+      style={{ background: "rgba(var(--ink-rgb),.03)", border: "1px solid var(--ligne)" }}
     >
       <div className="flex items-start justify-between gap-4">
         <div>
@@ -52,9 +52,9 @@ export default function ConfidenceGauge({
               onClick={() => onChange(level.value)}
               className="rounded-xl py-3 text-center"
               style={{
-                color: selected ? "#06130c" : "var(--blanc)",
-                background: selected ? "var(--vert)" : "rgba(255,255,255,.04)",
-                border: selected ? "1px solid var(--vert)" : "1px solid var(--ligne)",
+                color: selected ? "var(--sur-argent)" : "var(--blanc)",
+                background: selected ? "var(--argent)" : "rgba(var(--ink-rgb),.04)",
+                border: selected ? "1px solid var(--argent)" : "1px solid var(--ligne)",
                 cursor: disabled ? "default" : "pointer",
               }}
               title={level.label}

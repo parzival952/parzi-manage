@@ -17,6 +17,7 @@ import { evaluateBadges, sortBadges, TIER_TONE, type BadgeStats } from "@/lib/ba
 import { evaluateTrophies, RARITY_TONE, type TrophyStats } from "@/lib/trophies";
 import { RANKS } from "@/lib/progression";
 import AcademyProgressHeader from "@/components/AcademyProgressHeader";
+import AcademyIcon from "@/components/AcademyIcon";
 
 export default async function AcademyProfil() {
   const user = await requireUser();
@@ -55,7 +56,8 @@ export default async function AcademyProfil() {
   const trophyShowcase = [...trophyEarned].slice(0, 5);
 
   return (
-    <div className="flex flex-col gap-6">
+    <div className="pz-wide flex flex-col gap-6 lg:grid lg:grid-cols-[400px_minmax(0,1fr)] lg:gap-10 lg:items-start">
+      <div className="flex flex-col gap-6 lg:sticky lg:top-24">
       {/* Carte agent collector */}
       <div className="pzc-wrap pz-rise">
         <div className="pzc-sheen" />
@@ -93,16 +95,18 @@ export default async function AcademyProfil() {
           {myCerts.size > 1 ? "s" : ""}
         </div>
       ) : null}
+      </div>
+      <div className="flex flex-col gap-6 min-w-0">
 
       <AcademyProgressHeader progress={progress} doneCount={progress.done.size} total={LESSON_COUNT} />
 
       {/* Stats */}
       <div className="pz-rise pz-d1">
-        <div className="text-[11px] font-bold tracking-wider pz-red mb-3">STATISTIQUES</div>
+        <div className="pz-eyebrow pz-red mb-3">Statistiques</div>
         <div className="grid grid-cols-3 gap-3">
-          <div className="pz-card p-4 text-center"><div className="text-[22px] font-black" style={{ color: "var(--rouge)" }}>🔥 {progress.streak}</div><div className="text-[11px] pz-muted">Série (j)</div></div>
-          <div className="pz-card p-4 text-center"><div className="text-[22px] font-black">{progress.done.size}</div><div className="text-[11px] pz-muted">Leçons</div></div>
-          <div className="pz-card p-4 text-center"><div className="text-[22px] font-black">{progress.best_streak}</div><div className="text-[11px] pz-muted">Record série</div></div>
+          <div className="pz-card p-4 text-center"><div className="text-[22px] font-black pz-mono inline-flex items-center gap-1.5" style={{ color: "var(--rouge-vif)" }}><AcademyIcon name="flame" size={18} /> {progress.streak}</div><div className="text-[11px] pz-muted">Série (j)</div></div>
+          <div className="pz-card p-4 text-center"><div className="text-[22px] font-black pz-mono">{progress.done.size}</div><div className="text-[11px] pz-muted">Leçons</div></div>
+          <div className="pz-card p-4 text-center"><div className="text-[22px] font-black pz-mono">{progress.best_streak}</div><div className="text-[11px] pz-muted">Record série</div></div>
         </div>
       </div>
 
@@ -122,7 +126,7 @@ export default async function AcademyProfil() {
                 filter: b.earned ? "none" : "grayscale(1)",
                 opacity: b.earned ? 1 : 0.4,
                 borderColor: b.earned ? TIER_TONE[b.tier] + "88" : undefined,
-                boxShadow: b.earned ? `0 0 12px ${TIER_TONE[b.tier]}33` : "none",
+                boxShadow: b.earned ? "inset 0 1px 0 rgba(255,255,255,.10)" : "none",
               }}
             >
               {b.icon}
@@ -146,13 +150,13 @@ export default async function AcademyProfil() {
           <div className="flex gap-2.5 flex-wrap">
             {trophyShowcase.map((t) => (
               <div key={t.id} className="pzc-badge" title={`${t.name} — ${t.desc}`}
-                style={{ borderColor: RARITY_TONE[t.rarity] + "aa", boxShadow: `0 0 14px ${RARITY_TONE[t.rarity]}44` }}>
+                style={{ borderColor: RARITY_TONE[t.rarity] + "aa", boxShadow: "inset 0 1px 0 rgba(255,255,255,.10)" }}>
                 {t.icon}
               </div>
             ))}
           </div>
         ) : (
-          <p className="text-[12px] pz-muted">Aucun trophée encore — les plus beaux se méritent. Certains sont secrets 🤫</p>
+          <p className="text-[12px] pz-muted">Aucun trophée encore — les plus beaux se méritent. Certains sont secrets.</p>
         )}
       </div>
 
@@ -164,14 +168,15 @@ export default async function AcademyProfil() {
             const reached = info.level >= r.min;
             return (
               <div key={r.name} className="flex items-center gap-3 py-1">
-                <span className="text-[13px]" style={{ color: reached ? r.tone : "#3a3a42" }}>◆</span>
-                <span className="text-[13.5px] font-semibold" style={{ color: reached ? "var(--blanc)" : "#4a4a52" }}>{r.name}</span>
+                <span className="text-[13px]" style={{ color: reached ? r.tone : "rgba(var(--ink-rgb),.2)" }}>◆</span>
+                <span className="text-[13.5px] font-semibold" style={{ color: reached ? "var(--blanc)" : "rgba(var(--ink-rgb),.32)" }}>{r.name}</span>
                 <span className="text-[11px] pz-muted ml-auto">Niv. {r.min}{r.max > r.min ? `–${r.max}` : ""}</span>
                 {info.rank.name === r.name && <span className="text-[10px] font-bold pz-red">ACTUEL</span>}
               </div>
             );
           })}
         </div>
+      </div>
       </div>
     </div>
   );
