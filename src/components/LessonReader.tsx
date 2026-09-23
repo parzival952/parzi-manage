@@ -13,9 +13,11 @@ import {
  *
  * - Lit à voix haute le titre + l'intro puis chaque bloc (voix fr-FR).
  * - Le bloc en cours de lecture est surligné et défile automatiquement à
- *   l'écran : le texte affiché sert de transcription qui « suit ».
- * - Découpage bloc par bloc + relance périodique pour contourner la coupure
- *   de Chrome au bout de ~15 s sur les longues lectures.
+ *   l'écran : le texte affiché sert de transcription qui « suit ». Le tout
+ *   premier segment (titre + intro) surligne déjà le 1er bloc pour que la
+ *   surbrillance soit visible dès le lancement.
+ * - Lecture séquentielle (un bloc après l'autre via onend) + relance
+ *   périodique pour contourner la coupure de Chrome au bout de ~15 s.
  * - Clic sur un paragraphe = démarrer la lecture à partir de là.
  * - Aucune dépendance ni coût serveur. Si le navigateur ne supporte pas la
  *   synthèse vocale, le contenu s'affiche normalement, sans les commandes.
@@ -69,6 +71,7 @@ export default function LessonReader({
 
   const rateRef = useRef(rate);
   const curSegRef = useRef(0);
+  const genRef = useRef(0);
   const blockRefs = useRef<Array<HTMLParagraphElement | null>>([]);
 
   const segments = useMemo<Segment[]>(() => {
@@ -76,7 +79,8 @@ export default function LessonReader({
     const lead = [cleanForSpeech(title), cleanForSpeech(intro)]
       .filter(Boolean)
       .join(". ");
-    if (lead) segs.push({ text: lead, block: null });
+    // Le segment d'intro surligne déjà le 1er bloc → surbrillance immédiate.
+    if (lead) segs.push({ text: lead, block: blocks.length > 0 ? 0 : null });
     blocks.forEach((b, i) => {
       const t = cleanForSpeech(b);
       if (t) segs.push({ text: t, block: i });
@@ -136,39 +140,51 @@ export default function LessonReader({
     return voices.find((v) => v.lang?.toLowerCase().startsWith("fr")) ?? null;
   }
 
+  // Lecture séquentielle : un segment, puis le suivant via onend. Un jeton de
+  // génération (genRef) invalide toute lecture précédente (stop / changement de
+  // vitesse / relance), ce qui évite les chevauchements d'événements.
+  function speakSegment(i: number, gen: number) {
+    if (gen !== genRef.current) return;
+    if (i >= segments.length) {
+      setStatus("idle");
+      setActiveBlock(-1);
+      setActiveSeg(0);
+      curSegRef.current = 0;
+      return;
+    }
+    const synth = window.speechSynthesis;
+    const seg = segments[i];
+    const utter = new SpeechSynthesisUtterance(seg.text);
+    utter.lang = "fr-FR";
+    utter.rate = rateRef.current;
+    const voice = pickFrVoice(synth);
+    if (voice) utter.voice = voice;
+    utter.onstart = () => {
+      if (gen !== genRef.current) return;
+      curSegRef.current = i;
+      setActiveSeg(i);
+      setActiveBlock(seg.block ?? -1);
+    };
+    utter.onend = () => {
+      if (gen === genRef.current) speakSegment(i + 1, gen);
+    };
+    utter.onerror = () => {
+      if (gen === genRef.current) speakSegment(i + 1, gen);
+    };
+    synth.speak(utter);
+  }
+
   function speakFrom(startSeg: number) {
     if (!supported || segments.length === 0) return;
+    genRef.current += 1;
+    const gen = genRef.current;
     const synth = window.speechSynthesis;
     synth.cancel();
-
-    const voice = pickFrVoice(synth);
-    const lastIndex = segments.length - 1;
-
-    for (let k = startSeg; k < segments.length; k++) {
-      const seg = segments[k];
-      const utter = new SpeechSynthesisUtterance(seg.text);
-      utter.lang = "fr-FR";
-      utter.rate = rateRef.current;
-      if (voice) utter.voice = voice;
-      utter.onstart = () => {
-        curSegRef.current = k;
-        setActiveSeg(k);
-        setActiveBlock(seg.block ?? -1);
-      };
-      if (k === lastIndex) {
-        utter.onend = () => {
-          setStatus("idle");
-          setActiveBlock(-1);
-          setActiveSeg(0);
-          curSegRef.current = 0;
-        };
-      }
-      utter.onerror = () => {
-        /* ignore — l'utterance suivante prend le relais */
-      };
-      synth.speak(utter);
-    }
     setStatus("playing");
+    setActiveSeg(startSeg);
+    setActiveBlock(segments[startSeg]?.block ?? -1);
+    // Laisse cancel() se propager avant de relancer (course connue de Chrome).
+    window.setTimeout(() => speakSegment(startSeg, gen), 80);
   }
 
   function play() {
@@ -189,6 +205,7 @@ export default function LessonReader({
 
   function stop() {
     if (!supported) return;
+    genRef.current += 1; // invalide la lecture en cours
     window.speechSynthesis.cancel();
     setStatus("idle");
     setActiveBlock(-1);
@@ -201,7 +218,6 @@ export default function LessonReader({
     const nextRate = order[(order.indexOf(rate) + 1) % order.length];
     setRate(nextRate);
     rateRef.current = nextRate;
-    // Relance au débit choisi si une lecture est en cours.
     if (status !== "idle") {
       speakFrom(curSegRef.current);
     }
@@ -315,9 +331,10 @@ export default function LessonReader({
               borderLeft: active
                 ? "3px solid #1db954"
                 : "3px solid transparent",
-              background: active ? "rgba(29,185,84,0.08)" : "transparent",
+              background: active ? "rgba(29,185,84,0.14)" : "transparent",
+              boxShadow: active ? "0 0 0 1px rgba(29,185,84,0.22)" : "none",
               borderRadius: 10,
-              padding: "6px 10px",
+              padding: "8px 10px",
               margin: "0 -10px",
             }}
           >
