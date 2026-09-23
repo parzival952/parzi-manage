@@ -12,19 +12,15 @@ import {
  * Lecteur de leçon avec narration synchronisée (Web Speech API).
  *
  * - Lit à voix haute le titre + l'intro puis chaque bloc (voix fr-FR).
- * - Le bloc en cours de lecture est surligné et défile automatiquement à
- *   l'écran : le texte affiché sert de transcription qui « suit ». Le tout
- *   premier segment (titre + intro) surligne déjà le 1er bloc pour que la
- *   surbrillance soit visible dès le lancement.
- * - Lecture séquentielle (un bloc après l'autre via onend) + relance
+ * - Le bloc lu est surligné et défile automatiquement (transcription qui suit).
+ * - À l'intérieur du bloc lu, chaque MOT s'illumine en fondu au moment où il
+ *   est prononcé (événements « boundary »). Repli propre : si le navigateur ne
+ *   fournit pas ces événements, on garde la surbrillance du paragraphe.
+ * - Lecture séquentielle (un segment puis le suivant via onend) + relance
  *   périodique pour contourner la coupure de Chrome au bout de ~15 s.
  * - Clic sur un paragraphe = démarrer la lecture à partir de là.
- * - Aucune dépendance ni coût serveur. Si le navigateur ne supporte pas la
- *   synthèse vocale, le contenu s'affiche normalement, sans les commandes.
- *
- * La détection de support passe par useSyncExternalStore : rendu serveur et
- * première hydratation renvoient `false` (pas de window), puis le client
- * bascule sans erreur d'hydratation ni setState synchrone dans un effet.
+ * - Aucune dépendance ni coût serveur. Sans support de la synthèse vocale, le
+ *   contenu s'affiche normalement, sans les commandes.
  */
 function subscribe() {
   return () => {};
@@ -38,7 +34,7 @@ function getServerSnapshot() {
   return false;
 }
 
-type Segment = { text: string; block: number | null };
+type Segment = { text: string; block: number | null; isBlockText: boolean };
 
 function cleanForSpeech(text: string): string {
   return text
@@ -48,6 +44,35 @@ function cleanForSpeech(text: string): string {
     .replace(/«|»/g, "")
     .replace(/\s+/g, " ")
     .trim();
+}
+
+// Rendu mot par mot avec fondu progressif : les mots déjà lus sont clairs, le
+// mot courant s'illumine en vert, les suivants restent atténués.
+function renderWords(text: string, progress: number) {
+  const parts = text.split(" ");
+  const readCount = Math.round(progress * parts.length);
+  return parts.map((word, i) => {
+    const state = i < readCount ? "read" : i === readCount ? "current" : "upcoming";
+    return (
+      <span
+        key={i}
+        style={{
+          color:
+            state === "upcoming"
+              ? "rgba(216,218,223,0.42)"
+              : state === "current"
+                ? "#8CF3AD"
+                : "#EAF7EE",
+          textShadow:
+            state === "current" ? "0 0 10px rgba(29,185,84,0.55)" : "none",
+          transition: "color .28s ease, text-shadow .28s ease",
+        }}
+      >
+        {word}
+        {i < parts.length - 1 ? " " : ""}
+      </span>
+    );
+  });
 }
 
 export default function LessonReader({
@@ -68,6 +93,9 @@ export default function LessonReader({
   const [rate, setRate] = useState(1);
   const [activeBlock, setActiveBlock] = useState<number>(-1);
   const [activeSeg, setActiveSeg] = useState(0);
+  const [syncBlock, setSyncBlock] = useState<number>(-1);
+  const [wordProgress, setWordProgress] = useState(0);
+  const [boundaryOk, setBoundaryOk] = useState(false);
 
   const rateRef = useRef(rate);
   const curSegRef = useRef(0);
@@ -79,11 +107,16 @@ export default function LessonReader({
     const lead = [cleanForSpeech(title), cleanForSpeech(intro)]
       .filter(Boolean)
       .join(". ");
-    // Le segment d'intro surligne déjà le 1er bloc → surbrillance immédiate.
-    if (lead) segs.push({ text: lead, block: blocks.length > 0 ? 0 : null });
+    // L'intro surligne déjà le 1er bloc (container), sans fondu mot par mot.
+    if (lead)
+      segs.push({
+        text: lead,
+        block: blocks.length > 0 ? 0 : null,
+        isBlockText: false,
+      });
     blocks.forEach((b, i) => {
       const t = cleanForSpeech(b);
-      if (t) segs.push({ text: t, block: i });
+      if (t) segs.push({ text: t, block: i, isBlockText: true });
     });
     return segs;
   }, [title, intro, blocks]);
@@ -92,8 +125,6 @@ export default function LessonReader({
     rateRef.current = rate;
   }, [rate]);
 
-  // Précharge les voix (certains navigateurs les remplissent tardivement)
-  // et coupe la lecture au démontage.
   useEffect(() => {
     if (!supported) return;
     try {
@@ -140,15 +171,14 @@ export default function LessonReader({
     return voices.find((v) => v.lang?.toLowerCase().startsWith("fr")) ?? null;
   }
 
-  // Lecture séquentielle : un segment, puis le suivant via onend. Un jeton de
-  // génération (genRef) invalide toute lecture précédente (stop / changement de
-  // vitesse / relance), ce qui évite les chevauchements d'événements.
   function speakSegment(i: number, gen: number) {
     if (gen !== genRef.current) return;
     if (i >= segments.length) {
       setStatus("idle");
       setActiveBlock(-1);
       setActiveSeg(0);
+      setSyncBlock(-1);
+      setWordProgress(0);
       curSegRef.current = 0;
       return;
     }
@@ -159,11 +189,24 @@ export default function LessonReader({
     utter.rate = rateRef.current;
     const voice = pickFrVoice(synth);
     if (voice) utter.voice = voice;
+
     utter.onstart = () => {
       if (gen !== genRef.current) return;
       curSegRef.current = i;
       setActiveSeg(i);
       setActiveBlock(seg.block ?? -1);
+      setWordProgress(0);
+      setSyncBlock(seg.isBlockText ? (seg.block ?? -1) : -1);
+    };
+    utter.onboundary = (event: SpeechSynthesisEvent) => {
+      if (gen !== genRef.current || !seg.isBlockText) return;
+      if (typeof event.charIndex !== "number") return;
+      const frac = Math.min(
+        1,
+        Math.max(0, event.charIndex / Math.max(1, seg.text.length)),
+      );
+      setBoundaryOk(true);
+      setWordProgress(frac);
     };
     utter.onend = () => {
       if (gen === genRef.current) speakSegment(i + 1, gen);
@@ -183,6 +226,10 @@ export default function LessonReader({
     setStatus("playing");
     setActiveSeg(startSeg);
     setActiveBlock(segments[startSeg]?.block ?? -1);
+    setSyncBlock(
+      segments[startSeg]?.isBlockText ? (segments[startSeg]?.block ?? -1) : -1,
+    );
+    setWordProgress(0);
     // Laisse cancel() se propager avant de relancer (course connue de Chrome).
     window.setTimeout(() => speakSegment(startSeg, gen), 80);
   }
@@ -205,11 +252,13 @@ export default function LessonReader({
 
   function stop() {
     if (!supported) return;
-    genRef.current += 1; // invalide la lecture en cours
+    genRef.current += 1;
     window.speechSynthesis.cancel();
     setStatus("idle");
     setActiveBlock(-1);
     setActiveSeg(0);
+    setSyncBlock(-1);
+    setWordProgress(0);
     curSegRef.current = 0;
   }
 
@@ -225,7 +274,7 @@ export default function LessonReader({
 
   function startFromBlock(blockIndex: number) {
     if (!supported) return;
-    const seg = segments.findIndex((s) => s.block === blockIndex);
+    const seg = segments.findIndex((s) => s.block === blockIndex && s.isBlockText);
     speakFrom(seg >= 0 ? seg : 0);
   }
 
@@ -316,6 +365,7 @@ export default function LessonReader({
 
       {blocks.map((block, blockIndex) => {
         const active = activeBlock === blockIndex;
+        const sweeping = boundaryOk && syncBlock === blockIndex;
         return (
           <p
             key={blockIndex}
@@ -331,14 +381,14 @@ export default function LessonReader({
               borderLeft: active
                 ? "3px solid #1db954"
                 : "3px solid transparent",
-              background: active ? "rgba(29,185,84,0.14)" : "transparent",
-              boxShadow: active ? "0 0 0 1px rgba(29,185,84,0.22)" : "none",
+              background: active ? "rgba(29,185,84,0.12)" : "transparent",
+              boxShadow: active ? "0 0 0 1px rgba(29,185,84,0.20)" : "none",
               borderRadius: 10,
               padding: "8px 10px",
               margin: "0 -10px",
             }}
           >
-            {block}
+            {sweeping ? renderWords(block, wordProgress) : block}
           </p>
         );
       })}
