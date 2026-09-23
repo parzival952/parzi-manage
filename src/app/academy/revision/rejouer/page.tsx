@@ -98,8 +98,9 @@ export default async function RejouerErreursPage() {
         </h1>
         <p className="text-[13px] leading-6 pz-muted mt-2 max-w-[620px]">
           Chaque question ratée revient. Réponds juste et elle sort de ton
-          carnet ; rate-la et elle revient demain. Indique ta certitude : une
-          erreur « sûr de moi » compte double pour le moteur de révision.
+          carnet ; rate-la et elle revient demain. Indique ton niveau
+          d&apos;assurance : une erreur à 5/5 est une fausse certitude, traitée
+          en priorité par le moteur de révision.
         </p>
       </header>
 

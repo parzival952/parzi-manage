@@ -64,8 +64,11 @@ test("PARZI Academy : parcours et flux de leçon", async ({ page }) => {
   await page.waitForURL("**/academy/lecon/role");
   await expect(page.getByText(/QUIZ/)).toBeVisible();
   // Répond à chaque question jusqu'à terminer la mission (robuste au nombre de questions).
+  // Chaque question : réponse → niveau d'assurance (jauge 1-5) → « Valider ma réponse ».
   for (let i = 0; i < 12; i++) {
     await page.locator("button.pz-opt").first().click();
+    await page.getByRole("radio", { name: "3" }).click();
+    await page.getByRole("button", { name: /Valider ma réponse/ }).click();
     const finish = page.getByRole("button", { name: /Terminer et vérifier la mission/ });
     if (await finish.isVisible().catch(() => false)) {
       await finish.click();

@@ -3,6 +3,12 @@
 import Link from "next/link";
 import { useState, useTransition } from "react";
 
+import ConfidenceGauge from "@/components/ConfidenceGauge";
+import {
+  confidenceToEngine,
+  type ConfidenceValue,
+} from "@/lib/academy-confidence";
+
 export type ReplayItem = {
   lessonId: string;
   lessonTitle: string;
@@ -25,13 +31,6 @@ export type ReplayOutcome =
     }
   | { ok: false; error: string };
 
-const CONFIDENCES: { key: Confidence; label: string }[] = [
-  { key: "certain", label: "Sûr de moi" },
-  { key: "rather_certain", label: "Plutôt sûr" },
-  { key: "hesitant", label: "J'hésite" },
-  { key: "guess", label: "Au hasard" },
-];
-
 export default function ErrorReplay({
   items,
   submit,
@@ -46,7 +45,7 @@ export default function ErrorReplay({
 }) {
   const [index, setIndex] = useState(0);
   const [selected, setSelected] = useState<number | null>(null);
-  const [confidence, setConfidence] = useState<Confidence | null>(null);
+  const [level, setLevel] = useState<ConfidenceValue | 0>(0);
   const [outcome, setOutcome] = useState<ReplayOutcome | null>(null);
   const [fixedCount, setFixedCount] = useState(0);
   const [finished, setFinished] = useState(false);
@@ -55,11 +54,11 @@ export default function ErrorReplay({
   const total = items.length;
   const item = items[index];
 
-  function validate(level: Confidence) {
-    if (selected === null || pending) return;
-    setConfidence(level);
+  function validate() {
+    if (selected === null || level === 0 || pending) return;
+    const engine = confidenceToEngine(level);
     startTransition(async () => {
-      const res = await submit(item.lessonId, item.questionIndex, selected, level);
+      const res = await submit(item.lessonId, item.questionIndex, selected, engine);
       setOutcome(res);
       if (res.ok && res.correct) setFixedCount((n) => n + 1);
     });
@@ -72,7 +71,7 @@ export default function ErrorReplay({
     }
     setIndex(index + 1);
     setSelected(null);
-    setConfidence(null);
+    setLevel(0);
     setOutcome(null);
   }
 
@@ -170,26 +169,28 @@ export default function ErrorReplay({
         })}
       </div>
 
-      {!answered && selected !== null ? (
-        <div className="mt-5">
-          <div className="text-[11px] font-bold uppercase tracking-[0.12em] pz-muted">
-            Ton niveau de certitude — ça valide ta réponse
-          </div>
-          <div className="grid grid-cols-2 gap-2 mt-2">
-            {CONFIDENCES.map((c) => (
-              <button
-                key={c.key}
-                type="button"
-                disabled={pending}
-                onClick={() => validate(c.key)}
-                className="pz-btn ghost"
-                style={{ padding: "10px 12px", fontSize: 13, opacity: pending && confidence !== c.key ? 0.5 : 1 }}
-              >
-                {pending && confidence === c.key ? "Correction…" : c.label}
-              </button>
-            ))}
-          </div>
-        </div>
+      <ConfidenceGauge
+        value={level}
+        onChange={setLevel}
+        disabled={answered || pending}
+      />
+
+      {!answered ? (
+        <button
+          type="button"
+          onClick={validate}
+          disabled={selected === null || level === 0 || pending}
+          className="pz-btn w-full mt-4"
+          style={{ padding: "12px 16px" }}
+        >
+          {pending
+            ? "Correction…"
+            : selected === null
+              ? "Choisis une réponse"
+              : level === 0
+                ? "Indique ton niveau d’assurance"
+                : "Valider ma réponse"}
+        </button>
       ) : null}
 
       {outcome && !outcome.ok ? (
@@ -219,9 +220,9 @@ export default function ErrorReplay({
               {"La bonne réponse : " + item.options[outcome.correctAnswer]}
             </p>
           ) : null}
-          {!outcome.correct && confidence === "certain" ? (
+          {!outcome.correct && level === 5 ? (
             <p className="text-[12.5px] leading-6 mt-2" style={{ color: "#f0b35c" }}>
-              {"⚠️ Excès de confiance : tu étais sûr de toi. C'est l'erreur la plus coûteuse sur le terrain — relis la leçon avant de réessayer."}
+              {"⚠️ Fausse certitude : tu étais certain (5/5). C'est l'erreur la plus coûteuse sur le terrain — relis la leçon avant de réessayer."}
             </p>
           ) : null}
           {outcome.explain ? (

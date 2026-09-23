@@ -15,6 +15,10 @@ import {
 } from "@/lib/academy-lesson-store";
 import { completeLesson, findLesson } from "@/lib/academy";
 import { primaryLessonForSection } from "@/lib/academy-recommendations";
+import {
+  isConfidenceValue,
+  type ConfidenceValue,
+} from "@/lib/academy-confidence";
 import { requireUser } from "@/lib/auth";
 
 export default async function LessonPage({
@@ -56,8 +60,17 @@ export default async function LessonPage({
 
   async function complete(
     answers: number[],
+    confidences?: ConfidenceValue[],
   ) {
     "use server";
+
+    // Niveaux d'assurance : transmis seulement s'ils sont complets et valides.
+    const validConfidences =
+      Array.isArray(confidences) &&
+      confidences.length === lesson.quiz.length &&
+      confidences.every(isConfidenceValue)
+        ? confidences
+        : undefined;
 
     const user = await requireUser();
 
@@ -71,6 +84,7 @@ export default async function LessonPage({
       result = await completeSecureLesson(
         lesson.id,
         answers,
+        validConfidences,
       );
     } else {
       // Démo / dev sans Supabase : correction contre le contenu + persistance dual-mode (SQLite).

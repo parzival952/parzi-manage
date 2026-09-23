@@ -3,6 +3,9 @@
 import Link from "next/link";
 import { useState } from "react";
 
+import ConfidenceGauge from "@/components/ConfidenceGauge";
+import type { ConfidenceValue } from "@/lib/academy-confidence";
+
 type Question = {
   q: string;
   options: string[];
@@ -29,6 +32,7 @@ export default function LessonQuiz({
   questions: Question[];
   onComplete: (
     answers: number[],
+    confidences: ConfidenceValue[],
   ) => Promise<Result>;
   isMission?: boolean;
 }) {
@@ -38,6 +42,9 @@ export default function LessonQuiz({
   >(
     () => questions.map(() => null),
   );
+  const [confidences, setConfidences] = useState<
+    Array<ConfidenceValue | 0>
+  >(() => questions.map(() => 0));
   const [locked, setLocked] =
     useState(false);
   const [result, setResult] =
@@ -49,6 +56,9 @@ export default function LessonQuiz({
 
   const question = questions[step];
   const picked = answers[step];
+  const confidence = confidences[step];
+  const canValidate =
+    picked !== null && confidence !== 0;
   const isLast =
     step === questions.length - 1;
 
@@ -63,8 +73,29 @@ export default function LessonQuiz({
       return next;
     });
 
-    setLocked(true);
     setErrorMessage("");
+  }
+
+  function chooseConfidence(value: ConfidenceValue) {
+    if (locked) {
+      return;
+    }
+
+    setConfidences((previous) => {
+      const next = [...previous];
+      next[step] = value;
+      return next;
+    });
+  }
+
+  // La correction ne s'affiche qu'une fois la réponse ET l'assurance données :
+  // sinon la jauge n'aurait aucun sens.
+  function validateStep() {
+    if (!canValidate) {
+      return;
+    }
+
+    setLocked(true);
   }
 
   async function next() {
@@ -82,13 +113,20 @@ export default function LessonQuiz({
       answers.map((answer) =>
         answer === null ? -1 : answer,
       );
+    const completedConfidences =
+      confidences.map((value) =>
+        value === 0 ? 3 : value,
+      ) as ConfidenceValue[];
 
     setSaving(true);
     setErrorMessage("");
 
     try {
       const response =
-        await onComplete(completedAnswers);
+        await onComplete(
+          completedAnswers,
+          completedConfidences,
+        );
 
       setResult(response);
     } catch (error) {
@@ -305,6 +343,9 @@ export default function LessonQuiz({
               className += " wrong";
             }
 
+            const pendingPick =
+              !locked && optionIndex === picked;
+
             return (
               <button
                 key={optionIndex}
@@ -314,6 +355,14 @@ export default function LessonQuiz({
                   choose(optionIndex)
                 }
                 disabled={locked}
+                style={
+                  pendingPick
+                    ? {
+                        borderColor: "var(--rouge)",
+                        background: "rgba(228,0,43,.10)",
+                      }
+                    : undefined
+                }
               >
                 {option}
               </button>
@@ -321,6 +370,12 @@ export default function LessonQuiz({
           },
         )}
       </div>
+
+      <ConfidenceGauge
+        value={confidence}
+        onChange={chooseConfidence}
+        disabled={locked}
+      />
 
       {locked ? (
         <div
@@ -356,6 +411,17 @@ export default function LessonQuiz({
                 ? "Tu as correctement identifié la règle attendue."
                 : `La bonne réponse était : ${question.options[question.answer]}.`)}
           </p>
+
+          {picked !== question.answer && confidence === 5 ? (
+            <p className="text-[11.5px] leading-5 mt-2" style={{ color: "#f0b35c" }}>
+              {"⚠️ Fausse certitude : tu étais certain (5/5). C'est l'erreur la plus coûteuse sur le terrain — elle part en priorité dans ton carnet de révision."}
+            </p>
+          ) : null}
+          {picked === question.answer && confidence <= 2 ? (
+            <p className="text-[11.5px] leading-5 pz-muted mt-2">
+              {"Bonne réponse, mais peu assurée : ta compétence sera remise plus tôt en révision pour la consolider."}
+            </p>
+          ) : null}
         </div>
       ) : null}
 
@@ -377,14 +443,22 @@ export default function LessonQuiz({
       <button
         type="button"
         className="pz-btn w-full mt-5"
-        onClick={next}
-        disabled={!locked || saving}
+        onClick={locked ? next : validateStep}
+        disabled={
+          saving || (!locked && !canValidate)
+        }
       >
         {saving
           ? "Vérification sécurisée…"
-          : isLast
-            ? "Terminer et vérifier la mission"
-            : "Question suivante"}
+          : !locked
+            ? picked === null
+              ? "Choisis une réponse"
+              : confidence === 0
+                ? "Indique ton niveau d’assurance"
+                : "Valider ma réponse"
+            : isLast
+              ? "Terminer et vérifier la mission"
+              : "Question suivante"}
       </button>
     </div>
   );
