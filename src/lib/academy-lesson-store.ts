@@ -31,6 +31,7 @@ const SUPABASE_ANON_KEY =
 export async function completeSecureLesson(
   lessonId: string,
   answers: number[],
+  confidences?: number[],
 ): Promise<SecureLessonResult> {
   if (!SUPABASE_URL || !SUPABASE_ANON_KEY) {
     throw new Error(
@@ -48,22 +49,45 @@ export async function completeSecureLesson(
     );
   }
 
-  const response = await fetch(
-    `${SUPABASE_URL}/rest/v1/rpc/complete_academy_lesson`,
-    {
-      method: "POST",
-      headers: {
-        apikey: SUPABASE_ANON_KEY,
-        Authorization: `Bearer ${accessToken}`,
-        "Content-Type": "application/json",
+  const call = (withConfidences: boolean) =>
+    fetch(
+      `${SUPABASE_URL}/rest/v1/rpc/complete_academy_lesson`,
+      {
+        method: "POST",
+        headers: {
+          apikey: SUPABASE_ANON_KEY,
+          Authorization: `Bearer ${accessToken}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          p_lesson_id: lessonId,
+          p_answers: answers,
+          ...(withConfidences
+            ? { p_confidences: confidences }
+            : {}),
+        }),
+        cache: "no-store",
       },
-      body: JSON.stringify({
-        p_lesson_id: lessonId,
-        p_answers: answers,
-      }),
-      cache: "no-store",
-    },
-  );
+    );
+
+  let response = await call(Boolean(confidences));
+
+  // Base pas encore migrée (025) : la fonction à 3 arguments n'existe pas
+  // (PGRST202). On retombe sur l'appel historique pour ne jamais bloquer
+  // la validation d'une leçon.
+  if (
+    confidences &&
+    response.status === 404
+  ) {
+    const probe = (await response
+      .clone()
+      .json()
+      .catch(() => null)) as { code?: string } | null;
+
+    if (probe?.code === "PGRST202") {
+      response = await call(false);
+    }
+  }
 
   const body = (await response.json()) as
     | RpcLessonResult

@@ -9,12 +9,14 @@ const TABS = [
   { href: "/dashboard", label: "Manage", icon: "▤" },
 ];
 
-export default function AcademyNav() {
+export default function AcademyNav({ academyOnly = false }: { academyOnly?: boolean }) {
   const path = usePathname();
+  // Sur parziacademy.fr, pas d'onglet vers Parzi Manage.
+  const tabs = academyOnly ? TABS.filter((t) => !t.href.startsWith("/dashboard")) : TABS;
   return (
     <nav className="pz-nav">
-      <div className="max-w-2xl mx-auto grid grid-cols-4">
-        {TABS.map((t) => {
+      <div className={"max-w-2xl mx-auto grid " + (tabs.length === 3 ? "grid-cols-3" : "grid-cols-4")}>
+        {tabs.map((t) => {
           const active = t.href === "/academy" ? path === "/academy" : path.startsWith(t.href);
           return (
             <Link key={t.href} href={t.href} className="flex flex-col items-center gap-1 py-3">

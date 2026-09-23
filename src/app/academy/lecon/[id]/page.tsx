@@ -4,6 +4,7 @@ import { revalidatePath } from "next/cache";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 
+import LessonReader from "@/components/LessonReader";
 import LessonQuiz from "@/components/LessonQuiz";
 import {
   loadLatestDiagnosticReport,
@@ -14,6 +15,10 @@ import {
 } from "@/lib/academy-lesson-store";
 import { completeLesson, findLesson } from "@/lib/academy";
 import { primaryLessonForSection } from "@/lib/academy-recommendations";
+import {
+  isConfidenceValue,
+  type ConfidenceValue,
+} from "@/lib/academy-confidence";
 import { requireUser } from "@/lib/auth";
 
 export default async function LessonPage({
@@ -55,8 +60,17 @@ export default async function LessonPage({
 
   async function complete(
     answers: number[],
+    confidences?: ConfidenceValue[],
   ) {
     "use server";
+
+    // Niveaux d'assurance : transmis seulement s'ils sont complets et valides.
+    const validConfidences =
+      Array.isArray(confidences) &&
+      confidences.length === lesson.quiz.length &&
+      confidences.every(isConfidenceValue)
+        ? confidences
+        : undefined;
 
     const user = await requireUser();
 
@@ -70,6 +84,7 @@ export default async function LessonPage({
       result = await completeSecureLesson(
         lesson.id,
         answers,
+        validConfidences,
       );
     } else {
       // Démo / dev sans Supabase : correction contre le contenu + persistance dual-mode (SQLite).
@@ -218,19 +233,7 @@ export default async function LessonPage({
         </section>
       ) : null}
 
-      <section className="pz-card p-6 flex flex-col gap-4 pz-rise pz-d1">
-        {lesson.blocks.map(
-          (block, blockIndex) => (
-            <p
-              key={blockIndex}
-              className="text-[14.5px] leading-relaxed"
-              style={{ color: "#D8DADF" }}
-            >
-              {block}
-            </p>
-          ),
-        )}
-      </section>
+      <LessonReader blocks={lesson.blocks} />
 
       <section className="pz-rise pz-d2">
         <div className="text-[11px] font-bold tracking-wider pz-red mb-3">

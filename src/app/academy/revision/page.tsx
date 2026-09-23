@@ -197,7 +197,16 @@ export default async function AcademyRevisionPage() {
 
       {openErrors.length > 0 ? (
         <section className="flex flex-col gap-3 pz-rise pz-d3">
-          <h2 className="text-[18px] font-black">Carnet d&apos;erreurs</h2>
+          <div className="flex items-center justify-between gap-3">
+            <h2 className="text-[18px] font-black">Carnet d&apos;erreurs</h2>
+            <Link
+              href="/academy/revision/rejouer"
+              className="pz-btn shrink-0"
+              style={{ padding: "8px 14px", fontSize: 12.5 }}
+            >
+              ▶ Rejouer mes erreurs ({openErrors.length})
+            </Link>
+          </div>
           {openErrors.map((e: LearningError) => (
             <article key={e.errorId} className="pz-card p-4">
               <div className="flex items-start justify-between gap-3">

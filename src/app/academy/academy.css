@@ -11,6 +11,10 @@
   --gris: #8A8F98;
   --or: #C9A45C;
   --ligne: rgba(255,255,255,0.08);
+  /* Vert « validé / maîtrisé » — utilisé par var(--vert) dans tout le module
+     (jauge d'assurance, scores réussis, liens de plan) mais jamais défini. */
+  --vert: #25C26E;
+  --rouge-clair: #FF5A73; /* utilisé par .pzc-attr.hi, jamais défini non plus */
 
   position: fixed; inset: 0; z-index: 60; overflow-y: auto;
   background:
