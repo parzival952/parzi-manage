@@ -1,10 +1,13 @@
 export const dynamic = "force-dynamic";
 
 import Link from "next/link";
+import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 
+import ConfirmationNotice from "@/components/ConfirmationNotice";
+import { ACADEMY_ORIGIN, isAcademyHost } from "@/lib/academy-host";
 import { getUser, signIn, signUp } from "@/lib/auth";
-import { setPath, upsertProfile } from "@/lib/queries";
+import { getProfile, setPath, upsertProfile } from "@/lib/queries";
 
 export const metadata = { title: "Connexion" };
 
@@ -32,13 +35,27 @@ export default async function AcademyConnexionPage({
     const res = await signIn(String(formData.get("email")), String(formData.get("password")));
     if (!res.ok) redirect(`/academy/connexion?erreur=${encodeURIComponent(res.error)}`);
     const u = await getUser();
-    if (u) await upsertProfile(u.id, u.email);
+    if (u) {
+      await upsertProfile(u.id, u.email);
+      // Compte confirmé par e-mail : le parcours n'a pas pu être posé à
+      // l'inscription → on le pose à la première connexion Academy
+      // (sans jamais écraser un compte agent).
+      const profile = await getProfile(u.id);
+      if (!profile?.path) await setPath(u.id, "aspirant");
+    }
     redirect("/academy");
   }
 
   async function register(formData: FormData) {
     "use server";
-    const res = await signUp(String(formData.get("email")), String(formData.get("password")));
+    // Le lien de confirmation ramène sur parziacademy.fr (adresse fixe, jamais
+    // tirée de l'en-tête Host) ; ailleurs (preview, local) → réglage Supabase.
+    const onAcademy = isAcademyHost((await headers()).get("host"));
+    const res = await signUp(
+      String(formData.get("email")),
+      String(formData.get("password")),
+      onAcademy ? `${ACADEMY_ORIGIN}/academy/connexion` : undefined,
+    );
     if (!res.ok) {
       // « Compte créé — confirme ton adresse e-mail… » n'est pas une erreur.
       const key = res.error.startsWith("Compte créé") ? "info" : "erreur";
@@ -113,6 +130,7 @@ export default async function AcademyConnexionPage({
                 : "Reprends ta formation là où tu l'as laissée."}
             </p>
 
+            <ConfirmationNotice />
             {erreur ? (
               <div
                 className="text-[13px] rounded-xl px-3.5 py-2.5 mb-4"
