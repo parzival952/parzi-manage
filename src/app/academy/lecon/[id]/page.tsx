@@ -4,7 +4,7 @@ import { revalidatePath } from "next/cache";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 
-import LessonAudio from "@/components/LessonAudio";
+import LessonReader from "@/components/LessonReader";
 import LessonQuiz from "@/components/LessonQuiz";
 import {
   loadLatestDiagnosticReport,
@@ -219,25 +219,11 @@ export default async function LessonPage({
         </section>
       ) : null}
 
-      <LessonAudio
+      <LessonReader
         title={lesson.title}
         intro={lesson.intro}
         blocks={lesson.blocks}
       />
-
-      <section className="pz-card p-6 flex flex-col gap-4 pz-rise pz-d1">
-        {lesson.blocks.map(
-          (block, blockIndex) => (
-            <p
-              key={blockIndex}
-              className="text-[14.5px] leading-relaxed"
-              style={{ color: "#D8DADF" }}
-            >
-              {block}
-            </p>
-          ),
-        )}
-      </section>
 
       <section className="pz-rise pz-d2">
         <div className="text-[11px] font-bold tracking-wider pz-red mb-3">
