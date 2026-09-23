@@ -12,6 +12,7 @@ import {
 } from "@/lib/academy";
 import { requireUser } from "@/lib/auth";
 import { evaluateTrophies, sortTrophies, RARITY_TONE, RARITY_LABEL, type TrophyStats } from "@/lib/trophies";
+import AcademyIcon from "@/components/AcademyIcon";
 
 export const metadata = { title: "Trophées" };
 
@@ -61,10 +62,10 @@ export default async function TropheesPage() {
                     background: t.earned ? "linear-gradient(180deg,#26262f,#141419)" : "#17171b",
                     border: `1px solid ${t.earned ? tone + "aa" : "rgba(255,255,255,.06)"}`,
                     filter: t.earned ? "none" : "grayscale(1)",
-                    boxShadow: t.earned ? `0 0 16px ${tone}44` : "none",
+                    boxShadow: t.earned ? "inset 0 1px 0 rgba(255,255,255,.10)" : "none",
                   }}
                 >
-                  <span style={{ opacity: t.earned ? 1 : 0.4 }}>{hidden ? "❓" : t.icon}</span>
+                  {hidden ? <AcademyIcon name="help" size={20} style={{ color: "var(--gris)", opacity: 0.6 }} /> : <span style={{ opacity: t.earned ? 1 : 0.4 }}>{t.icon}</span>}
                 </div>
                 <div className="min-w-0">
                   <div className="font-bold text-[13.5px] leading-tight" style={{ color: t.earned ? "var(--blanc)" : "var(--gris)" }}>

@@ -55,7 +55,7 @@ export default async function BadgesPage() {
                     background: b.earned ? "linear-gradient(180deg,#26262f,#141419)" : "#17171b",
                     border: `1px solid ${b.earned ? tone + "88" : "rgba(255,255,255,.06)"}`,
                     filter: b.earned ? "none" : "grayscale(1)",
-                    boxShadow: b.earned ? `0 0 14px ${tone}33` : "none",
+                    boxShadow: b.earned ? "inset 0 1px 0 rgba(255,255,255,.10)" : "none",
                   }}
                 >
                   <span style={{ opacity: b.earned ? 1 : 0.4 }}>{b.icon}</span>

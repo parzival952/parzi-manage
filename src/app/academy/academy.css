@@ -1,29 +1,50 @@
-@import url('https://fonts.googleapis.com/css2?family=Oswald:wght@500;600;700&display=swap');
-/* PARZI Academy — thème dark premium (noir / rouge PARZI / anthracite / argent).
+/* PARZI Academy — thème dark premium, aligné sur le design system Academy
+   (fiche « système de progression » §12) : noir profond, blanc cassé, rouge
+   rubis, bordeaux, argent métallisé, graphite. Aplats mats, reflets argent en
+   biseau fin — jamais de glow néon.
+   Polices auto-hébergées (src/app/academy/fonts, licence OFL) chargées par
+   academy/layout.tsx : --font-ui (Manrope), --font-titre (Playfair Display),
+   --font-chiffres (DM Mono).
    Scopé sous .parzi pour ne jamais affecter l'app Manage (thème clair). */
 .parzi {
   --noir: #0A0A0C;
   --anthracite: #17171B;
   --anthracite-2: #212127;
-  --rouge: #E4002B;
-  --rouge-profond: #A30020;
-  --blanc: #F5F6F8;
+  --rouge: #C21833;          /* rubis */
+  --rouge-profond: #7A1024;  /* bordeaux */
+  --rouge-vif: #D92E48;      /* survol / texte rouge sur fond sombre */
+  --blanc: #F5F2EC;          /* blanc cassé */
+  --argent: #C9CCD1;
   --gris: #8A8F98;
   --or: #C9A45C;
   --ligne: rgba(255,255,255,0.08);
   /* Vert « validé / maîtrisé » — utilisé par var(--vert) dans tout le module
      (jauge d'assurance, scores réussis, liens de plan) mais jamais défini. */
-  --vert: #25C26E;
-  --rouge-clair: #FF5A73; /* utilisé par .pzc-attr.hi, jamais défini non plus */
+  --vert: #3BAF72;          /* succès (bonne réponse, acquis) — sobre, jamais décoratif */
+  --rouge-clair: #E8566B; /* utilisé par .pzc-attr.hi */
 
   position: fixed; inset: 0; z-index: 60; overflow-y: auto;
   background:
-    radial-gradient(1200px 500px at 50% -10%, rgba(228,0,43,0.10), transparent 60%),
+    radial-gradient(1200px 500px at 50% -10%, rgba(194,24,51,0.08), transparent 60%),
     var(--noir);
   color: var(--blanc);
-  font-family: var(--font-geist-sans), system-ui, sans-serif;
+  font-family: var(--font-ui), system-ui, -apple-system, sans-serif;
+  font-variant-numeric: tabular-nums;
   -webkit-font-smoothing: antialiased;
 }
+/* Titres : serif d'autorité (héritage charte Empire Parzi). */
+.parzi h1, .parzi h2, .pz-titre {
+  font-family: var(--font-titre), Georgia, "Times New Roman", serif;
+  font-weight: 600; letter-spacing: -0.005em;
+}
+/* Métriques, identifiants, repères (« CHAPITRE 1 », XP, 12/45…). */
+.pz-mono { font-family: var(--font-chiffres), ui-monospace, "SF Mono", Menlo, monospace; letter-spacing: 0; }
+.pz-eyebrow {
+  font-family: var(--font-chiffres), ui-monospace, "SF Mono", Menlo, monospace;
+  font-size: 10.5px; font-weight: 500; letter-spacing: 0.14em; text-transform: uppercase;
+}
+/* Icônes (AcademyIcon) : trait fin, couleur héritée. */
+.pz-ico { display: inline-block; flex-shrink: 0; vertical-align: -0.18em; }
 .parzi *, .parzi *::before, .parzi *::after { box-sizing: border-box; }
 
 .pz-card {
@@ -32,14 +53,13 @@
   border-radius: 18px;
 }
 .pz-muted { color: var(--gris); }
-.pz-red { color: var(--rouge); }
+.pz-red { color: var(--rouge-vif); }
 
 /* Barre d'XP */
 .pz-xpbar { height: 8px; background: rgba(255,255,255,0.07); border-radius: 99px; overflow: hidden; }
 .pz-xpfill {
   height: 100%; border-radius: 99px;
   background: linear-gradient(90deg, var(--rouge-profond), var(--rouge));
-  box-shadow: 0 0 12px rgba(228,0,43,0.5);
   position: relative; transition: width 700ms cubic-bezier(0.22,1,0.36,1);
 }
 .pz-xpfill::after {
@@ -63,22 +83,23 @@
   transition: transform 200ms cubic-bezier(0.22,1,0.36,1);
 }
 .pz-node:hover { transform: translateY(-3px); }
-.pz-node.done { background: linear-gradient(180deg, #1c1c22, #141418); color: var(--rouge); border-color: rgba(228,0,43,0.4); }
-.pz-node.current { background: linear-gradient(180deg, var(--rouge), var(--rouge-profond)); color: #fff; box-shadow: 0 8px 26px rgba(228,0,43,0.45); }
+.pz-node.done { background: linear-gradient(180deg, #1c1c22, #141418); color: var(--rouge-vif); border-color: rgba(194,24,51,0.4); }
+.pz-node.current { background: linear-gradient(180deg, var(--rouge), var(--rouge-profond)); color: #fff; box-shadow: inset 0 1px 0 rgba(255,255,255,0.18), 0 8px 20px rgba(0,0,0,0.45); }
 .pz-node.locked { background: var(--anthracite); color: #3a3a42; }
 
 .pz-connector { width: 3px; height: 26px; background: var(--ligne); border-radius: 2px; }
-.pz-connector.done { background: rgba(228,0,43,0.45); }
+.pz-connector.done { background: rgba(194,24,51,0.5); }
 
 /* Boutons */
 .pz-btn {
   display: inline-flex; align-items: center; justify-content: center; gap: 8px;
   border-radius: 14px; font-weight: 700; font-size: 15px; padding: 13px 22px;
   background: var(--rouge); color: #fff; border: none; cursor: pointer;
-  box-shadow: 0 8px 22px rgba(228,0,43,0.32);
-  transition: filter 180ms, transform 180ms;
+  /* biseau argent fin + ombre neutre : mat, sans halo coloré */
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.16), 0 1px 2px rgba(0,0,0,0.45);
+  transition: background 200ms cubic-bezier(0.22,1,0.36,1), transform 200ms cubic-bezier(0.22,1,0.36,1);
 }
-.pz-btn:hover { filter: brightness(1.08); }
+.pz-btn:hover { background: #CE1F3B; }
 .pz-btn:active { transform: translateY(1px); }
 .pz-btn.ghost { background: transparent; border: 1px solid var(--ligne); box-shadow: none; color: var(--blanc); }
 
@@ -89,9 +110,9 @@
   color: var(--blanc); font-size: 14.5px; cursor: pointer;
   transition: border-color 160ms, background 160ms;
 }
-.pz-opt:hover { border-color: rgba(228,0,43,0.5); }
-.pz-opt.correct { border-color: #1db954; background: rgba(29,185,84,0.12); }
-.pz-opt.wrong { border-color: var(--rouge); background: rgba(228,0,43,0.10); }
+.pz-opt:hover { border-color: rgba(201,204,209,0.35); }
+.pz-opt.correct { border-color: var(--vert); background: rgba(59,175,114,0.10); }
+.pz-opt.wrong { border-color: var(--rouge); background: rgba(194,24,51,0.10); }
 
 /* Barre de navigation basse */
 .pz-nav {
@@ -100,13 +121,13 @@
   border-top: 1px solid var(--ligne);
 }
 
-@keyframes pz-rise { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: none; } }
-.pz-rise { animation: pz-rise 420ms cubic-bezier(0.22,1,0.36,1) both; }
+@keyframes pz-rise { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+.pz-rise { animation: pz-rise 320ms cubic-bezier(0.22,1,0.36,1) both; }
 .pz-d1 { animation-delay: 60ms; } .pz-d2 { animation-delay: 120ms; } .pz-d3 { animation-delay: 180ms; }
 .pz-d4 { animation-delay: 240ms; } .pz-d5 { animation-delay: 300ms; }
 
 @media (prefers-reduced-motion: reduce) {
-  .parzi *, .pz-rise, .pz-xpfill, .pzc-sheen { animation: none !important; transition: none !important; }
+  .parzi *, .pz-rise, .pz-xpfill { animation: none !important; transition: none !important; }
 }
 
 @media print {
@@ -120,40 +141,39 @@
 /* ---------- Carte agent collector (profil) ---------- */
 .pzc-wrap { position: relative; width: 100%; max-width: 360px; margin: 0 auto; }
 .pzc-sheen { position: absolute; inset: -34px; border-radius: 40px; z-index: 0;
-  background: conic-gradient(from 0deg, transparent, rgba(228,0,43,.22), transparent 30%, transparent 70%, rgba(231,195,106,.12), transparent);
-  filter: blur(22px); animation: pzc-spin 9s linear infinite; }
-@keyframes pzc-spin { to { transform: rotate(360deg); } }
+  background: radial-gradient(closest-side, rgba(122,16,36,.28), transparent 70%);
+  filter: blur(18px); }
 .pzc { position: relative; z-index: 1; border-radius: 26px; padding: 2px;
   background: linear-gradient(150deg, #3a3a44, #0e0e12 30%, #0e0e12 70%, var(--rouge-profond));
   box-shadow: 0 30px 70px rgba(0,0,0,.7), 0 0 0 1px rgba(255,255,255,.04); }
 .pzc-in { position: relative; border-radius: 24px; overflow: hidden; padding: 22px 20px 20px;
-  background: radial-gradient(120% 80% at 50% -10%, rgba(228,0,43,.28), transparent 55%), linear-gradient(180deg, #20202a, #101014 60%, #0b0b0f); }
+  background: radial-gradient(120% 80% at 50% -10%, rgba(194,24,51,.20), transparent 55%), linear-gradient(180deg, #20202a, #101014 60%, #0b0b0f); }
 .pzc-in::before { content:""; position:absolute; inset:0; pointer-events:none;
   background: linear-gradient(115deg, transparent 30%, rgba(255,255,255,.06) 45%, transparent 55%); }
-.pzc-in::after { content:"PARZI"; position:absolute; right:-6px; bottom:-14px; font-family:Oswald;
-  font-weight:700; font-size:96px; letter-spacing:2px; color:rgba(255,255,255,.03); pointer-events:none; }
+.pzc-in::after { content:"PARZI"; position:absolute; right:-6px; bottom:-14px; font-family:var(--font-titre), Georgia, serif;
+  font-weight:700; font-size:92px; letter-spacing:2px; color:rgba(255,255,255,.03); pointer-events:none; }
 .pzc-top { display:flex; justify-content:space-between; align-items:flex-start; position:relative; }
 .pzc-ovr { text-align:center; line-height:.9; }
-.pzc-ovr .n { font-family:Oswald; font-weight:700; font-size:52px; background:linear-gradient(180deg,#fff,#c9ccd1); -webkit-background-clip:text; background-clip:text; color:transparent; }
-.pzc-ovr .l { font-family:Oswald; font-weight:600; font-size:14px; letter-spacing:3px; color:var(--rouge); }
+.pzc-ovr .n { font-family:var(--font-titre), Georgia, serif; font-weight:700; font-size:52px; background:linear-gradient(180deg,#fff,#c9ccd1); -webkit-background-clip:text; background-clip:text; color:transparent; }
+.pzc-ovr .l { font-family:var(--font-chiffres), ui-monospace, monospace; font-weight:500; font-size:13px; letter-spacing:3px; color:var(--rouge-vif); }
 .pzc-ovr .r { font-size:9px; letter-spacing:.2em; color:var(--gris); margin-top:2px; text-transform:uppercase; }
 .pzc-crest { width:58px; height:66px; position:relative; display:grid; place-items:center;
   background:linear-gradient(180deg,#26262f,#15151a); clip-path:polygon(50% 0,100% 22%,100% 78%,50% 100%,0 78%,0 22%); border:1px solid rgba(231,195,106,.35); }
 .pzc-crest span { font-size:24px; }
-.pzc-crest small { position:absolute; bottom:6px; font-family:Oswald; font-size:7.5px; letter-spacing:1px; color:var(--or); }
+.pzc-crest small { position:absolute; bottom:6px; font-family:var(--font-chiffres), ui-monospace, monospace; font-size:7px; letter-spacing:1px; color:var(--or); }
 .pzc-portrait { height:132px; display:grid; place-items:center; margin:4px 0 2px; }
-.pzc-mono { width:100px; height:100px; border-radius:50%; display:grid; place-items:center; font-family:Oswald; font-weight:700; font-size:44px; color:#fff;
-  background:radial-gradient(circle at 50% 30%,#2a2a33,#111116); border:2px solid rgba(255,255,255,.08); box-shadow:0 12px 40px rgba(228,0,43,.35), inset 0 2px 10px rgba(255,255,255,.06); }
-.pzc-name { text-align:center; font-family:Oswald; font-weight:700; font-size:26px; letter-spacing:1.5px; text-transform:uppercase; margin-top:2px; }
+.pzc-mono { width:100px; height:100px; border-radius:50%; display:grid; place-items:center; font-family:var(--font-titre), Georgia, serif; font-weight:700; font-size:44px; color:#fff;
+  background:radial-gradient(circle at 50% 30%,#2a2a33,#111116); border:2px solid rgba(201,204,209,.18); box-shadow:0 12px 32px rgba(0,0,0,.55), inset 0 1px 0 rgba(255,255,255,.12); }
+.pzc-name { text-align:center; font-family:var(--font-titre), Georgia, serif; font-weight:700; font-size:26px; letter-spacing:1px; text-transform:uppercase; margin-top:2px; }
 .pzc-sub { text-align:center; font-size:11px; color:var(--gris); letter-spacing:.12em; text-transform:uppercase; margin-top:1px; }
 .pzc-div { height:1px; margin:15px 2px 13px; background:linear-gradient(90deg,transparent,rgba(255,255,255,.14),transparent); }
 .pzc-attrs { display:grid; grid-template-columns:1fr 1fr 1fr; gap:10px 6px; }
 .pzc-attr { display:flex; align-items:baseline; gap:7px; justify-content:center; }
-.pzc-attr b { font-family:Oswald; font-weight:700; font-size:20px; color:#fff; min-width:26px; text-align:right; }
-.pzc-attr span { font-size:11px; font-weight:700; letter-spacing:.1em; color:var(--gris); }
+.pzc-attr b { font-family:var(--font-chiffres), ui-monospace, monospace; font-weight:500; font-size:19px; color:#fff; min-width:26px; text-align:right; }
+.pzc-attr span { font-family:var(--font-chiffres), ui-monospace, monospace; font-size:10.5px; letter-spacing:.1em; color:var(--gris); }
 .pzc-attr.hi b { color:var(--rouge-clair); }
 .pzc-badge { width:52px; height:58px; display:grid; place-items:center; font-size:22px;
   clip-path:polygon(50% 0,100% 25%,100% 75%,50% 100%,0 75%,0 25%); background:linear-gradient(180deg,#26262f,#141419); border:1px solid rgba(255,255,255,.07); }
-.pzc-badge.gold { border-color:rgba(231,195,106,.5); box-shadow:0 0 14px rgba(231,195,106,.2); }
-.pzc-badge.red { border-color:rgba(228,0,43,.5); box-shadow:0 0 14px rgba(228,0,43,.25); }
+.pzc-badge.gold { border-color:rgba(231,195,106,.5); }
+.pzc-badge.red { border-color:rgba(194,24,51,.55); }
 .pzc-badge.lock { opacity:.35; }

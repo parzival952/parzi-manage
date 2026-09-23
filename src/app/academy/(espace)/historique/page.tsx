@@ -9,6 +9,7 @@ import {
 } from "@/lib/academy-history";
 import { findLesson } from "@/lib/academy";
 import { requireUser } from "@/lib/auth";
+import AcademyIcon, { IconTile, type AcademyIconName } from "@/components/AcademyIcon";
 
 function formatEventDate(value: string): string {
   const date = new Date(value);
@@ -45,20 +46,20 @@ function getEventTitle(
 
 function getEventIcon(
   event: AcademyHistoryEvent,
-): string {
+): AcademyIconName {
   if (event.type === "diagnostic") {
-    return "🧭";
+    return "compass";
   }
 
   if (event.score >= 100) {
-    return "🎯";
+    return "target";
   }
 
   if (event.score >= 70) {
-    return "✅";
+    return "check";
   }
 
-  return "📝";
+  return "notes";
 }
 
 function getScoreTone(score: number): string {
@@ -94,8 +95,8 @@ export default async function AcademyHistoryPage() {
 
         <div className="mt-5">
           <div
-            className="text-[10px] font-extrabold uppercase tracking-[0.16em]"
-            style={{ color: "var(--vert)" }}
+            className="pz-eyebrow"
+            style={{ color: "var(--argent)" }}
           >
             ACTIVITÉ PERSONNELLE
           </div>
@@ -114,7 +115,7 @@ export default async function AcademyHistoryPage() {
 
       <section className="grid grid-cols-2 gap-3 pz-rise pz-d1 md:grid-cols-4">
         <article className="pz-card p-4">
-          <div className="text-[9px] font-bold uppercase tracking-[0.13em] pz-muted">
+          <div className="pz-eyebrow pz-muted">
             XP TOTAL
           </div>
 
@@ -131,7 +132,7 @@ export default async function AcademyHistoryPage() {
         </article>
 
         <article className="pz-card p-4">
-          <div className="text-[9px] font-bold uppercase tracking-[0.13em] pz-muted">
+          <div className="pz-eyebrow pz-muted">
             LEÇONS VALIDÉES
           </div>
 
@@ -145,7 +146,7 @@ export default async function AcademyHistoryPage() {
         </article>
 
         <article className="pz-card p-4">
-          <div className="text-[9px] font-bold uppercase tracking-[0.13em] pz-muted">
+          <div className="pz-eyebrow pz-muted">
             JOURS DU PLAN
           </div>
 
@@ -162,12 +163,12 @@ export default async function AcademyHistoryPage() {
         </article>
 
         <article className="pz-card p-4">
-          <div className="text-[9px] font-bold uppercase tracking-[0.13em] pz-muted">
+          <div className="pz-eyebrow pz-muted">
             SÉRIE ACTUELLE
           </div>
 
-          <strong className="block text-[24px] mt-2">
-            🔥 {history.streak}
+          <strong className="flex items-center gap-2 text-[24px] mt-2 pz-mono">
+            <AcademyIcon name="flame" size={20} style={{ color: "var(--rouge-vif)" }} /> {history.streak}
           </strong>
 
           <span className="text-[10px] pz-muted">
@@ -181,12 +182,12 @@ export default async function AcademyHistoryPage() {
         className="pz-card p-5 pz-rise pz-d2"
         style={{
           background:
-            "radial-gradient(circle at 100% 0%, rgba(228,0,43,.13), transparent 45%), rgba(255,255,255,.02)",
+            "radial-gradient(circle at 100% 0%, rgba(194,24,51,.13), transparent 45%), rgba(255,255,255,.02)",
         }}
       >
         <div className="flex items-center justify-between gap-4">
           <div>
-            <div className="text-[10px] font-bold uppercase tracking-[0.13em] pz-red">
+            <div className="pz-eyebrow pz-red">
               BILAN DES QUIZ
             </div>
 
@@ -277,7 +278,7 @@ export default async function AcademyHistoryPage() {
 
         {history.events.length === 0 ? (
           <div className="pz-card p-7 text-center">
-            <div className="text-[40px]">📚</div>
+            <div className="flex justify-center"><IconTile name="bookOpen" size={52} /></div>
 
             <h3 className="text-[18px] font-black mt-3">
               Aucun historique pour le moment
@@ -325,14 +326,14 @@ export default async function AcademyHistoryPage() {
                           "1px solid var(--ligne)",
                       }}
                     >
-                      {icon}
+                      <AcademyIcon name={icon} size={20} style={{ color: "var(--argent)" }} />
                     </div>
 
                     <div className="flex-1 min-w-0">
                       <div className="flex items-start justify-between gap-3">
                         <div>
                           <div className="flex flex-wrap items-center gap-2">
-                            <span className="text-[9px] font-bold uppercase tracking-[0.13em] pz-muted">
+                            <span className="pz-eyebrow pz-muted">
                               {event.type === "diagnostic"
                                 ? "DIAGNOSTIC"
                                 : event.isRetry
@@ -383,8 +384,8 @@ export default async function AcademyHistoryPage() {
                       </div>
 
                       <div className="flex flex-wrap items-center gap-4 mt-4 text-[10px] pz-muted">
-                        <span>
-                          🕒 {formatEventDate(event.createdAt)}
+                        <span className="inline-flex items-center gap-1 pz-mono">
+                          <AcademyIcon name="clock" size={12} /> {formatEventDate(event.createdAt)}
                         </span>
 
                         <span

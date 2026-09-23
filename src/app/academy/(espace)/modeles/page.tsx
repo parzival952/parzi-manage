@@ -4,6 +4,7 @@ import Link from "next/link";
 
 import { requireUser } from "@/lib/auth";
 import { MODELES } from "@/lib/academy-modeles";
+import AcademyIcon from "@/components/AcademyIcon";
 
 export const metadata = { title: "Fiches & modèles" };
 
@@ -19,8 +20,8 @@ export default async function AcademyModelesPage() {
 
         <div className="mt-5">
           <div
-            className="text-[10px] font-extrabold uppercase tracking-[0.16em]"
-            style={{ color: "var(--vert)" }}
+            className="pz-eyebrow"
+            style={{ color: "var(--argent)" }}
           >
             RESSOURCES
           </div>
@@ -40,7 +41,7 @@ export default async function AcademyModelesPage() {
         style={{ borderColor: "rgba(240,179,92,.30)" }}
       >
         <p className="text-[12px] leading-6 pz-muted">
-          <b className="text-white">⚠️ Cadre :</b> ces fiches sont{" "}
+          <b className="text-white inline-flex items-center gap-1"><AcademyIcon name="alert" size={13} style={{ color: "var(--or)" }} /> Cadre :</b> ces fiches sont{" "}
           <b className="text-white">pédagogiques</b> — elles expliquent la logique,
           ce ne sont pas des documents juridiques prêts à l&apos;emploi. Adapte-les
           au droit applicable et aux règlements en vigueur, et fais valider un

@@ -8,6 +8,7 @@ import {
 import { findLesson } from "@/lib/academy";
 import { lessonsForSection } from "@/lib/academy-recommendations";
 import styles from "./resultats.module.css";
+import AcademyIcon from "@/components/AcademyIcon";
 
 export const metadata: Metadata = {
   title: "Résultats du diagnostic",
@@ -235,7 +236,7 @@ export default async function DiagnosticResultsPage() {
           </article>
 
           <article className={styles.trophyCard}>
-            <div className={styles.trophyIcon}>🏆</div>
+            <div className={styles.trophyIcon}><AcademyIcon name="trophy" size={28} /></div>
 
             <p className={styles.cardLabel}>
               TROPHÉES DÉBLOQUÉS
@@ -364,7 +365,7 @@ export default async function DiagnosticResultsPage() {
         <section className={styles.twoColumns}>
           <article className={styles.panel}>
             <div className={styles.panelHeading}>
-              <span className={styles.panelIcon}>⚡</span>
+              <span className={styles.panelIcon}><AcademyIcon name="bolt" size={20} /></span>
 
               <div>
                 <p className={styles.cardLabel}>
@@ -403,7 +404,7 @@ export default async function DiagnosticResultsPage() {
 
           <article className={styles.panel}>
             <div className={styles.panelHeading}>
-              <span className={styles.panelIcon}>🎯</span>
+              <span className={styles.panelIcon}><AcademyIcon name="target" size={20} /></span>
 
               <div>
                 <p className={styles.cardLabel}>
@@ -470,10 +471,10 @@ export default async function DiagnosticResultsPage() {
                                 padding: "6px 11px",
                                 borderRadius: 999,
                                 border:
-                                  "1px solid rgba(228,0,43,.35)",
+                                  "1px solid rgba(194,24,51,.35)",
                                 color: "#fff",
                                 background:
-                                  "rgba(228,0,43,.10)",
+                                  "rgba(194,24,51,.10)",
                                 textDecoration: "none",
                               }}
                             >
@@ -497,7 +498,7 @@ export default async function DiagnosticResultsPage() {
         <section className={styles.twoColumns}>
           <article className={styles.panel}>
             <div className={styles.panelHeading}>
-              <span className={styles.panelIcon}>⚠️</span>
+              <span className={styles.panelIcon}><AcademyIcon name="alert" size={20} /></span>
 
               <div>
                 <p className={styles.cardLabel}>
@@ -556,7 +557,7 @@ export default async function DiagnosticResultsPage() {
 
           <article className={styles.panel}>
             <div className={styles.panelHeading}>
-              <span className={styles.panelIcon}>🧠</span>
+              <span className={styles.panelIcon}><AcademyIcon name="revision" size={20} /></span>
 
               <div>
                 <p className={styles.cardLabel}>
@@ -613,7 +614,7 @@ export default async function DiagnosticResultsPage() {
                   key={trophy.id}
                   className={styles.fullTrophyCard}
                 >
-                  <div className={styles.fullTrophyIcon}>🏅</div>
+                  <div className={styles.fullTrophyIcon}><AcademyIcon name="medal" size={26} /></div>
 
                   <div>
                     <span className={styles.rarity}>

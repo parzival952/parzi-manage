@@ -8,7 +8,7 @@ export type BadgeTier = "bronze" | "argent" | "or" | "platine" | "diamant" | "ob
 
 export const TIER_TONE: Record<BadgeTier, string> = {
   bronze: "#b08d57", argent: "#c9ccd1", or: "#e9c36a",
-  platine: "#dfe4ea", diamant: "#7fd4ff", obsidienne: "#9a6bff", legende: "#E4002B",
+  platine: "#dfe4ea", diamant: "#7fd4ff", obsidienne: "#9a6bff", legende: "#C21833",
 };
 
 export type BadgeStats = {

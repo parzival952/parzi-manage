@@ -3,6 +3,7 @@ import Link from "next/link";
 import { requireUser } from "@/lib/auth";
 import { chaptersCompleted, getProgress } from "@/lib/academy";
 import { CERTS, getMyCerts } from "@/lib/certifications";
+import AcademyIcon from "@/components/AcademyIcon";
 
 export const metadata = { title: "Certifications" };
 
@@ -31,16 +32,16 @@ export default async function CertificationsPage() {
               {earned ? (
                 <span className="text-[10px] font-bold px-2.5 py-1 rounded-full" style={{ background: "rgba(233,195,106,.15)", color: "var(--or)" }}>✓ OBTENUE</span>
               ) : unlocked ? (
-                <span className="text-[10px] font-bold px-2.5 py-1 rounded-full" style={{ background: "rgba(228,0,43,.15)", color: "var(--rougeclair)" }}>DISPONIBLE</span>
+                <span className="text-[10px] font-bold px-2.5 py-1 rounded-full" style={{ background: "rgba(194,24,51,.15)", color: "var(--rouge-clair)" }}>DISPONIBLE</span>
               ) : (
-                <span className="text-[10px] font-bold px-2.5 py-1 rounded-full pz-muted" style={{ border: "1px solid var(--ligne)" }}>🔒 VERROUILLÉE</span>
+                <span className="text-[10px] font-bold px-2.5 py-1 rounded-full pz-muted" style={{ border: "1px solid var(--ligne)" }}><AcademyIcon name="lock" size={11} style={{ marginRight: 4 }} />VERROUILLÉE</span>
               )}
             </div>
             <p className="text-[13px] pz-muted mt-3 leading-relaxed">{c.desc}</p>
-            <div className="text-[12px] pz-muted mt-2">Examen : {c.exam.length} questions · seuil {c.passScore}% · +{c.bonusXp} XP</div>
+            <div className="text-[11.5px] pz-muted mt-2 pz-mono">Examen : {c.exam.length} questions · seuil {c.passScore}% · +{c.bonusXp} XP</div>
 
             {earned ? (
-              <Link href={`/academy/certifications/${c.id}/diplome`} className="pz-btn w-full mt-4" style={{ background: "linear-gradient(90deg,#b8902f,var(--or))", color: "#1a1a1a" }}>🎓 Voir mon diplôme</Link>
+              <Link href={`/academy/certifications/${c.id}/diplome`} className="pz-btn w-full mt-4" style={{ background: "linear-gradient(90deg,#b8902f,var(--or))", color: "#1a1a1a" }}><AcademyIcon name="cap" size={16} /> Voir mon diplôme</Link>
             ) : unlocked ? (
               <Link href={`/academy/certifications/${c.id}`} className="pz-btn w-full mt-4">Passer l&apos;examen</Link>
             ) : (

@@ -70,15 +70,15 @@
   height: 7px;
   flex-shrink: 0;
   border-radius: 50%;
-  background: #edc65f;
-  box-shadow: 0 0 12px rgba(237, 198, 95, 0.75);
+  background: #c9a45c;
 }
 
 .eyebrow,
 .cardLabel {
   margin: 0 0 10px;
-  color: #56d992;
-  font-size: 0.73rem;
+  color: #c9ccd1;
+  font-family: var(--font-chiffres), ui-monospace, monospace;
+  font-size: 0.7rem;
   font-weight: 800;
   letter-spacing: 0.15em;
   text-transform: uppercase;
@@ -128,9 +128,9 @@
 }
 
 .primaryButton {
-  background: linear-gradient(135deg, #39d681, #1ead62);
-  color: #03140a;
-  box-shadow: 0 15px 35px rgba(43, 204, 119, 0.2);
+  background: linear-gradient(180deg, #c21833, #a3142d);
+  color: #fff;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.16), 0 1px 2px rgba(0, 0, 0, 0.45);
 }
 
 .secondaryButton {
@@ -185,7 +185,6 @@
   place-items: center;
   border-radius: 50%;
   padding: 10px;
-  box-shadow: 0 0 55px rgba(53, 208, 127, 0.15);
 }
 
 .scoreRingInner {
@@ -328,6 +327,7 @@
   place-items: center;
   border-radius: 20px;
   background: rgba(217, 172, 73, 0.11);
+  color: #c9a45c;
   font-size: 1.8rem;
 }
 
@@ -503,6 +503,7 @@
   place-items: center;
   border-radius: 14px;
   background: rgba(255, 255, 255, 0.055);
+  color: #c9ccd1;
   font-size: 1.25rem;
 }
 

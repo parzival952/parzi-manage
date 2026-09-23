@@ -23,6 +23,7 @@ import {
 import { requireUser } from "@/lib/auth";
 import { levelInfo } from "@/lib/progression";
 import { lessonForSectionByDay, primaryLessonForSection } from "@/lib/academy-recommendations";
+import AcademyIcon, { IconTile } from "@/components/AcademyIcon";
 
 function getScoreTone(score: number): string {
   if (score < 25) {
@@ -142,17 +143,17 @@ export default async function AcademyHome() {
     {
       label: "Valide une leçon aujourd’hui",
       done: today.lessons >= 1,
-      icon: "📘",
+      icon: "book" as const,
     },
     {
       label: "Enchaîne 2 leçons",
       done: today.lessons >= 2,
-      icon: "⚡",
+      icon: "bolt" as const,
     },
     {
       label: "Décroche un quiz à 100 %",
       done: today.perfect >= 1,
-      icon: "🎯",
+      icon: "target" as const,
     },
   ];
 
@@ -174,16 +175,16 @@ export default async function AcademyHome() {
           className="pz-card p-5 pz-rise pz-d1"
           style={{
             background:
-              "radial-gradient(circle at 100% 0%, rgba(37,194,110,.13), transparent 42%), linear-gradient(145deg, rgba(255,255,255,.035), rgba(255,255,255,.015))",
+              "radial-gradient(circle at 100% 0%, rgba(201,204,209,.13), transparent 42%), linear-gradient(145deg, rgba(255,255,255,.035), rgba(255,255,255,.015))",
             borderColor:
-              "rgba(37,194,110,.24)",
+              "rgba(201,204,209,.18)",
           }}
         >
           <div className="flex items-start justify-between gap-4">
             <div>
               <div
-                className="text-[10px] font-extrabold uppercase tracking-[0.16em]"
-                style={{ color: "var(--vert)" }}
+                className="pz-eyebrow"
+                style={{ color: "var(--argent)" }}
               >
                 ✓ DIAGNOSTIC TERMINÉ
               </div>
@@ -206,7 +207,7 @@ export default async function AcademyHome() {
                 background:
                   "rgba(255,255,255,.035)",
                 border: `2px solid ${scoreTone}`,
-                boxShadow: `0 0 26px ${scoreTone}22`,
+                boxShadow: "inset 0 1px 0 rgba(255,255,255,.10)",
               }}
             >
               <div className="text-center">
@@ -319,14 +320,14 @@ export default async function AcademyHome() {
           className="pz-card p-5 pz-rise pz-d1"
           style={{
             borderColor:
-              "rgba(37,194,110,.25)",
+              "rgba(201,204,209,.16)",
           }}
         >
           <div
-            className="text-[10px] font-extrabold uppercase tracking-[0.16em]"
-            style={{ color: "var(--vert)" }}
+            className="pz-eyebrow"
+            style={{ color: "var(--argent)" }}
           >
-            MODULE 0
+            Module 0
           </div>
 
           <h1 className="text-[20px] font-black mt-2">
@@ -343,9 +344,11 @@ export default async function AcademyHome() {
             href="/academy/diagnostic"
             className="min-h-[52px] rounded-2xl mt-5 flex items-center justify-center text-[13px] font-black"
             style={{
-              color: "#06130c",
+              color: "#fff",
               background:
-                "linear-gradient(135deg, #44dc8c, #20b968)",
+                "linear-gradient(180deg, #C21833, #A3142D)",
+              boxShadow:
+                "inset 0 1px 0 rgba(255,255,255,.16), 0 1px 2px rgba(0,0,0,.45)",
             }}
           >
             Commencer mon diagnostic
@@ -360,15 +363,15 @@ export default async function AcademyHome() {
           className="pz-card p-5 pz-rise pz-d2"
           style={{
             background:
-              "linear-gradient(145deg, rgba(228,0,43,.09), rgba(255,255,255,.018))",
+              "linear-gradient(145deg, rgba(194,24,51,.09), rgba(255,255,255,.018))",
             borderColor:
-              "rgba(228,0,43,.25)",
+              "rgba(194,24,51,.25)",
           }}
         >
           <div className="flex items-start justify-between gap-4">
             <div>
-              <div className="text-[10px] font-extrabold uppercase tracking-[0.16em] pz-red">
-                🎯 MISSION ACTUELLE
+              <div className="pz-eyebrow pz-red inline-flex items-center gap-1.5">
+                <AcademyIcon name="target" size={12} /> Mission actuelle
               </div>
 
               <h2 className="text-[19px] font-black mt-2">
@@ -408,7 +411,7 @@ export default async function AcademyHome() {
               border: "1px solid var(--ligne)",
             }}
           >
-            <div className="text-[9px] font-bold uppercase tracking-[0.13em] pz-muted">
+            <div className="pz-eyebrow pz-muted">
               MISSION À VALIDER
             </div>
 
@@ -421,13 +424,13 @@ export default async function AcademyHome() {
                 recommendedLesson.lesson.intro}
             </p>
 
-            <div className="flex items-center gap-3 mt-3 text-[10px] pz-muted">
-              <span>
-                ⏱ {recommendedLesson.lesson.minutes} min
+            <div className="flex items-center gap-3 mt-3 text-[10.5px] pz-muted pz-mono">
+              <span className="inline-flex items-center gap-1">
+                <AcademyIcon name="clock" size={12} /> {recommendedLesson.lesson.minutes} min
               </span>
 
-              <span>
-                📝 {recommendedLesson.lesson.quiz.length} quiz
+              <span className="inline-flex items-center gap-1">
+                <AcademyIcon name="notes" size={12} /> {recommendedLesson.lesson.quiz.length} quiz
               </span>
 
               <span>
@@ -444,7 +447,7 @@ export default async function AcademyHome() {
               background:
                 "linear-gradient(135deg, var(--rouge), var(--rouge-profond))",
               boxShadow:
-                "0 14px 35px rgba(228,0,43,.2)",
+                "inset 0 1px 0 rgba(255,255,255,.16), 0 1px 2px rgba(0,0,0,.45)",
             }}
           >
             Continuer ma mission du jour →
@@ -458,16 +461,16 @@ export default async function AcademyHome() {
           borderColor:
             completedChallenges ===
             challenges.length
-              ? "rgba(37,194,110,.35)"
+              ? "rgba(201,204,209,.28)"
               : undefined,
         }}
       >
         <div className="flex items-center justify-between mb-3">
-          <div className="text-[11px] font-bold tracking-wider pz-red">
-            ✦ DÉFIS DU JOUR
+          <div className="pz-eyebrow pz-red">
+            ✦ Défis du jour
           </div>
 
-          <span className="text-[12px] pz-muted">
+          <span className="text-[12px] pz-muted pz-mono">
             {completedChallenges}/
             {challenges.length}
           </span>
@@ -507,7 +510,8 @@ export default async function AcademyHome() {
                     : "none",
                 }}
               >
-                {challenge.icon} {challenge.label}
+                <AcademyIcon name={challenge.icon} size={14} style={{ color: "var(--argent)", marginRight: 6 }} />
+                {challenge.label}
               </span>
             </div>
           ))}
@@ -516,11 +520,10 @@ export default async function AcademyHome() {
         {completedChallenges ===
         challenges.length ? (
           <p
-            className="text-[12px] mt-3"
-            style={{ color: "var(--vert)" }}
+            className="text-[12px] mt-3 pz-muted"
           >
-            🔥 Tous les défis du jour relevés — reviens
-            demain pour la suite !
+            Tous les défis du jour sont relevés. Reviens
+            demain pour la suite.
           </p>
         ) : null}
       </section>
@@ -687,7 +690,7 @@ export default async function AcademyHome() {
             "rgba(233,195,106,.35)",
         }}
       >
-        <div className="text-[26px]">🎓</div>
+        <IconTile name="cap" tone="var(--or)" />
 
         <div className="flex-1">
           <div className="font-bold text-[15px]">
@@ -709,10 +712,10 @@ export default async function AcademyHome() {
         href="/academy/revision"
         className="pz-card p-5 pz-rise pz-d5 flex items-center gap-4"
         style={{
-          borderColor: "rgba(37,194,110,.30)",
+          borderColor: "rgba(201,204,209,.2)",
         }}
       >
-        <div className="text-[26px]">🧠</div>
+        <IconTile name="revision" />
 
         <div className="flex-1">
           <div className="font-bold text-[15px]">
@@ -739,7 +742,7 @@ export default async function AcademyHome() {
         href="/academy/glossaire"
         className="pz-card p-5 pz-rise pz-d5 flex items-center gap-4"
       >
-        <div className="text-[26px]">📖</div>
+        <IconTile name="bookOpen" />
 
         <div className="flex-1">
           <div className="font-bold text-[15px]">
@@ -760,7 +763,7 @@ export default async function AcademyHome() {
         href="/academy/modeles"
         className="pz-card p-5 pz-rise pz-d5 flex items-center gap-4"
       >
-        <div className="text-[26px]">🗂️</div>
+        <IconTile name="folder" />
 
         <div className="flex-1">
           <div className="font-bold text-[15px]">
@@ -781,7 +784,7 @@ export default async function AcademyHome() {
         href="/academy/aide-memoire"
         className="pz-card p-5 pz-rise pz-d5 flex items-center gap-4"
       >
-        <div className="text-[26px]">🎯</div>
+        <IconTile name="target" />
 
         <div className="flex-1">
           <div className="font-bold text-[15px]">
@@ -803,7 +806,7 @@ export default async function AcademyHome() {
           href="/academy/classement"
           className="pz-card p-4 text-center card-hover"
         >
-          <div className="text-[20px]">🏆</div>
+          <AcademyIcon name="trophy" size={22} style={{ color: "var(--argent)" }} />
           <div className="text-[12px] font-semibold mt-1">
             Classement
           </div>
@@ -813,7 +816,7 @@ export default async function AcademyHome() {
           href="/academy/badges"
           className="pz-card p-4 text-center card-hover"
         >
-          <div className="text-[20px]">🎖️</div>
+          <AcademyIcon name="shield" size={22} style={{ color: "var(--argent)" }} />
           <div className="text-[12px] font-semibold mt-1">
             Badges
           </div>
@@ -823,7 +826,7 @@ export default async function AcademyHome() {
           href="/academy/trophees"
           className="pz-card p-4 text-center card-hover"
         >
-          <div className="text-[20px]">🏅</div>
+          <AcademyIcon name="medal" size={22} style={{ color: "var(--argent)" }} />
           <div className="text-[12px] font-semibold mt-1">
             Trophées
           </div>

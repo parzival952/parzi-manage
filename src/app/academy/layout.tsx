@@ -1,6 +1,31 @@
 import type { Metadata } from "next";
+import localFont from "next/font/local";
 
 import "./academy.css";
+
+// Polices du design system Academy, auto-hébergées (licence SIL OFL 1.1,
+// fichiers issus de Fontsource) : aucune requête vers Google Fonts.
+const ui = localFont({
+  src: "./fonts/manrope-latin-wght-normal.woff2",
+  weight: "200 800",
+  variable: "--font-ui",
+  display: "swap",
+});
+const titre = localFont({
+  src: "./fonts/playfair-display-latin-wght-normal.woff2",
+  weight: "400 900",
+  variable: "--font-titre",
+  display: "swap",
+  adjustFontFallback: "Times New Roman",
+});
+const chiffres = localFont({
+  src: [
+    { path: "./fonts/dm-mono-latin-400-normal.woff2", weight: "400", style: "normal" },
+    { path: "./fonts/dm-mono-latin-500-normal.woff2", weight: "500", style: "normal" },
+  ],
+  variable: "--font-chiffres",
+  display: "swap",
+});
 
 // PARZI Academy — produit autonome. Cette mise en page n'hérite de rien de
 // Parzi Manage (seulement de la racine commune minimale). Les pages protégées
@@ -27,5 +52,6 @@ export const metadata: Metadata = {
 };
 
 export default function AcademyRootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
-  return <>{children}</>;
+  // display:contents — le conteneur ne porte que les variables de police.
+  return <div className={`${ui.variable} ${titre.variable} ${chiffres.variable} contents`}>{children}</div>;
 }

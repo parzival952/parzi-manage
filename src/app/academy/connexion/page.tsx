@@ -8,13 +8,14 @@ import ConfirmationNotice from "@/components/ConfirmationNotice";
 import { ACADEMY_ORIGIN, isAcademyHost } from "@/lib/academy-host";
 import { getUser, signIn, signUp } from "@/lib/auth";
 import { getProfile, setPath, upsertProfile } from "@/lib/queries";
+import AcademyIcon, { type AcademyIconName } from "@/components/AcademyIcon";
 
 export const metadata = { title: "Connexion" };
 
-const POINTS = [
-  ["🎓", "45 leçons pour devenir agent de joueur, du cadre juridique à la négociation"],
-  ["🧠", "Révision intelligente : ton carnet d'erreurs et tes points faibles"],
-  ["🏅", "Certifications et examen blanc de la licence d'agent"],
+const POINTS: [AcademyIconName, string][] = [
+  ["cap", "45 leçons pour devenir agent de joueur, du cadre juridique à la négociation"],
+  ["revision", "Révision intelligente : ton carnet d'erreurs et tes points faibles"],
+  ["medal", "Certifications et examen blanc de la licence d'agent"],
 ];
 
 // Connexion / inscription propres à PARZI Academy : aucune donnée de
@@ -111,7 +112,7 @@ export default async function AcademyConnexionPage({
                     className="w-8 h-8 rounded-lg grid place-items-center text-[14px] shrink-0"
                     style={{ background: "rgba(255,255,255,.04)", border: "1px solid var(--ligne)" }}
                   >
-                    {icon}
+                    <AcademyIcon name={icon} size={15} style={{ color: "var(--argent)" }} />
                   </span>
                   {txt}
                 </div>
@@ -122,7 +123,7 @@ export default async function AcademyConnexionPage({
           {/* ---- Formulaire ---- */}
           <section className="pz-card p-6 sm:p-8 pz-rise pz-d1">
             <h2 className="text-[22px] font-black tracking-tight">
-              {isSignup ? "Crée ton compte" : "Bon retour 👋"}
+              {isSignup ? "Crée ton compte" : "Bon retour"}
             </h2>
             <p className="text-[13px] pz-muted mt-1 mb-6">
               {isSignup
@@ -134,7 +135,7 @@ export default async function AcademyConnexionPage({
             {erreur ? (
               <div
                 className="text-[13px] rounded-xl px-3.5 py-2.5 mb-4"
-                style={{ color: "#ff8b95", background: "rgba(228,0,43,.10)", border: "1px solid rgba(228,0,43,.3)" }}
+                style={{ color: "#ff8b95", background: "rgba(194,24,51,.10)", border: "1px solid rgba(194,24,51,.3)" }}
               >
                 {erreur}
               </div>

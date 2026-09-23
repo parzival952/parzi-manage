@@ -9,6 +9,7 @@ import {
 import type {
   DiagnosticPublicQuestion,
 } from "@/lib/academy-diagnostic";
+import AcademyIcon from "@/components/AcademyIcon";
 
 type QuestionAttempt = {
   selectedAnswerIds: string[];
@@ -493,7 +494,7 @@ export default function DiagnosticSessionClient({
           className="pz-card p-6 pz-rise text-center"
           style={{
             background:
-              "radial-gradient(circle at 50% 0%, rgba(37,194,110,.18), transparent 45%), var(--carte)",
+              "radial-gradient(circle at 50% 0%, rgba(201,204,209,.18), transparent 45%), var(--carte)",
           }}
         >
           <div
@@ -509,8 +510,8 @@ export default function DiagnosticSessionClient({
           </div>
 
           <div
-            className="text-[10px] font-extrabold uppercase tracking-[0.15em] mt-5"
-            style={{ color: "var(--vert)" }}
+            className="pz-eyebrow mt-5"
+            style={{ color: "var(--argent)" }}
           >
             Diagnostic terminé
           </div>
@@ -530,10 +531,10 @@ export default function DiagnosticSessionClient({
           className="pz-card p-5"
           style={{
             background:
-              "linear-gradient(135deg, rgba(213,172,73,.11), rgba(37,194,110,.07)), var(--carte)",
+              "linear-gradient(135deg, rgba(213,172,73,.11), rgba(201,204,209,.07)), var(--carte)",
           }}
         >
-          <div className="text-[10px] font-extrabold uppercase tracking-[0.15em]"
+          <div className="pz-eyebrow"
             style={{ color: "#e4c264" }}
           >
             RÉCOMPENSE DU DIAGNOSTIC
@@ -584,9 +585,7 @@ export default function DiagnosticSessionClient({
                     "1px solid var(--ligne)",
                 }}
               >
-                <span className="text-[24px]">
-                  🏆
-                </span>
+                <AcademyIcon name="trophy" size={24} style={{ color: "var(--or)" }} />
 
                 <div>
                   <strong className="text-[13px]">
@@ -769,9 +768,11 @@ export default function DiagnosticSessionClient({
           href="/academy/diagnostic/resultats"
           className="min-h-[56px] rounded-2xl flex items-center justify-center text-[14px] font-black"
           style={{
-            color: "#06130c",
+            color: "#fff",
             background:
-              "linear-gradient(135deg, #44dc8c, #20b968)",
+              "linear-gradient(180deg, #C21833, #A3142D)",
+            boxShadow:
+              "inset 0 1px 0 rgba(255,255,255,.16), 0 1px 2px rgba(0,0,0,.45)",
           }}
         >
           Voir le modèle du rapport détaillé
@@ -815,8 +816,8 @@ export default function DiagnosticSessionClient({
         <div className="flex items-center justify-between gap-3">
           <div>
             <div
-              className="text-[10px] font-extrabold uppercase tracking-[0.14em]"
-              style={{ color: "var(--vert)" }}
+              className="pz-eyebrow"
+              style={{ color: "var(--argent)" }}
             >
               {currentQuestion.sectionLabel}
             </div>
@@ -906,10 +907,10 @@ export default function DiagnosticSessionClient({
                   className="w-full flex items-start gap-3 rounded-2xl p-4 text-left transition-transform active:scale-[.99]"
                   style={{
                     background: selected
-                      ? "rgba(37,194,110,.1)"
+                      ? "rgba(201,204,209,.08)"
                       : "rgba(255,255,255,.035)",
                     border: selected
-                      ? "1px solid rgba(37,194,110,.45)"
+                      ? "1px solid rgba(201,204,209,.45)"
                       : "1px solid var(--ligne)",
                   }}
                 >
@@ -917,10 +918,10 @@ export default function DiagnosticSessionClient({
                     className="w-8 h-8 rounded-xl grid place-items-center shrink-0 text-[11px] font-black"
                     style={{
                       color: selected
-                        ? "#06130c"
+                        ? "#0A0A0C"
                         : "var(--gris)",
                       background: selected
-                        ? "var(--vert)"
+                        ? "var(--argent)"
                         : "rgba(255,255,255,.05)",
                     }}
                   >
@@ -974,13 +975,13 @@ export default function DiagnosticSessionClient({
                 className="rounded-xl py-3 text-center"
                 style={{
                   color: selected
-                    ? "#06130c"
+                    ? "#0A0A0C"
                     : "var(--blanc)",
                   background: selected
-                    ? "var(--vert)"
+                    ? "var(--argent)"
                     : "rgba(255,255,255,.04)",
                   border: selected
-                    ? "1px solid var(--vert)"
+                    ? "1px solid var(--argent)"
                     : "1px solid var(--ligne)",
                 }}
                 title={level.label}
@@ -1013,7 +1014,8 @@ export default function DiagnosticSessionClient({
               "1px dashed rgba(213,172,73,.28)",
           }}
         >
-          ⚙️ Remplir automatiquement les 40 questions
+          <AcademyIcon name="settings" size={14} style={{ marginRight: 6 }} />
+          Remplir automatiquement les 40 questions
         </button>
       ) : null}
 
@@ -1027,7 +1029,8 @@ export default function DiagnosticSessionClient({
               "1px solid rgba(240,179,92,.24)",
           }}
         >
-          ⚠️ {errorMessage}
+          <AcademyIcon name="alert" size={14} style={{ marginRight: 6 }} />
+          {errorMessage}
         </div>
       ) : null}
 
@@ -1056,10 +1059,10 @@ export default function DiagnosticSessionClient({
           }
           className="min-h-[54px] rounded-2xl text-[13px] font-black disabled:opacity-50"
           style={{
-            color: "#06130c",
+            color: canContinue ? "#fff" : "rgba(245,242,236,.55)",
             background: canContinue
-              ? "linear-gradient(135deg, #44dc8c, #20b968)"
-              : "rgba(120,140,129,.7)",
+              ? "linear-gradient(180deg, #C21833, #A3142D)"
+              : "rgba(255,255,255,.06)",
           }}
         >
           {isSubmitting

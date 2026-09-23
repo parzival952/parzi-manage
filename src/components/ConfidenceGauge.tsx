@@ -52,9 +52,9 @@ export default function ConfidenceGauge({
               onClick={() => onChange(level.value)}
               className="rounded-xl py-3 text-center"
               style={{
-                color: selected ? "#06130c" : "var(--blanc)",
-                background: selected ? "var(--vert)" : "rgba(255,255,255,.04)",
-                border: selected ? "1px solid var(--vert)" : "1px solid var(--ligne)",
+                color: selected ? "#0A0A0C" : "var(--blanc)",
+                background: selected ? "var(--argent)" : "rgba(255,255,255,.04)",
+                border: selected ? "1px solid var(--argent)" : "1px solid var(--ligne)",
                 cursor: disabled ? "default" : "pointer",
               }}
               title={level.label}

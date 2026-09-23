@@ -19,8 +19,8 @@ export default async function AcademyGlossairePage() {
 
         <div className="mt-5">
           <div
-            className="text-[10px] font-extrabold uppercase tracking-[0.16em]"
-            style={{ color: "var(--vert)" }}
+            className="pz-eyebrow"
+            style={{ color: "var(--argent)" }}
           >
             RÉFÉRENCE
           </div>

@@ -28,8 +28,8 @@ export default async function AcademyAideMemoirePage() {
         <div className="mt-5 flex items-start justify-between gap-4">
           <div>
             <div
-              className="text-[10px] font-extrabold uppercase tracking-[0.16em]"
-              style={{ color: "var(--rouge)" }}
+              className="pz-eyebrow"
+              style={{ color: "var(--rouge-vif)" }}
             >
               RÉVISION EXPRESS
             </div>

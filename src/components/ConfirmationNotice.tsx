@@ -31,7 +31,7 @@ function parse(hash: string): { ok: boolean; text: string } | null {
     };
   }
   if (p.get("access_token") || p.get("type") === "signup") {
-    return { ok: true, text: "Adresse e-mail confirmée ✅ Connecte-toi pour commencer ta formation." };
+    return { ok: true, text: "Adresse e-mail confirmée. Connecte-toi pour commencer ta formation." };
   }
   return null;
 }
@@ -54,7 +54,7 @@ export default function ConfirmationNotice() {
       style={
         notice.ok
           ? { color: "#8CF3AD", background: "rgba(29,185,84,.10)", border: "1px solid rgba(29,185,84,.3)" }
-          : { color: "#ff8b95", background: "rgba(228,0,43,.10)", border: "1px solid rgba(228,0,43,.3)" }
+          : { color: "#ff8b95", background: "rgba(194,24,51,.10)", border: "1px solid rgba(194,24,51,.3)" }
       }
     >
       {notice.text}
