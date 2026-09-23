@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
 
+import { LESSON_COUNT } from "@/lib/academy-course";
+
 import "./academy.css";
 
 // Polices du design system Academy, auto-hébergées (licence SIL OFL 1.1,
@@ -37,12 +39,12 @@ export const metadata: Metadata = {
     template: "%s · PARZI Academy",
   },
   description:
-    "La formation pour devenir agent de joueur : 45 leçons du cadre juridique à la négociation, révision intelligente, certifications et examen blanc de la licence d'agent.",
+    `La formation pour devenir agent de joueur : ${LESSON_COUNT} leçons du cadre juridique à la négociation et à la fiscalité, révision intelligente, certifications et examen blanc de la licence d'agent.`,
   applicationName: "PARZI Academy",
   openGraph: {
     title: "PARZI Academy — Deviens agent de joueur",
     description:
-      "45 leçons, révision intelligente, certifications et examen blanc de la licence d'agent.",
+      `${LESSON_COUNT} leçons, révision intelligente, certifications et examen blanc de la licence d'agent.`,
     url: "https://www.parziacademy.fr",
     siteName: "PARZI Academy",
     locale: "fr_FR",

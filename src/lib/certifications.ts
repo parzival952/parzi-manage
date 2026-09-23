@@ -88,7 +88,7 @@ export const CERTS: Cert[] = [
     subtitle: "Maîtrise complète du métier",
     desc: "Business, réseau, finances, méthode : tu couvres tout le spectre du métier, cas complexes et pièges déontologiques inclus. Le sommet du parcours PARZI.",
     passScore: 85, bonusXp: 1200, durationMin: 14,
-    prereqLabel: "Obtenir « Agent Confirmé » et terminer les 8 chapitres",
+    prereqLabel: "Obtenir « Agent Confirmé » et terminer tous les chapitres du programme",
     prereq: (p) => p.chapters >= ALL_CHAPTERS && p.earned.has("agent-confirme"),
     exam: [
       { q: "Les revenus d'un agent sont par nature :", options: ["Fixes et réguliers", "Variables et irréguliers — à provisionner", "Garantis par la fédération"], answer: 1, domain: "BUS" },
@@ -113,7 +113,7 @@ export const CERTS: Cert[] = [
     subtitle: "Simulation de l'examen officiel",
     desc: "Un examen complet qui balaie tout le programme, dans l'esprit de l'examen officiel d'agent (FFF/FIFA). Entraîne-toi en conditions avant le vrai jour. Rappel : PARZI certifie des compétences, pas la licence officielle.",
     passScore: 70, bonusXp: 1500, durationMin: 20,
-    prereqLabel: "Terminer les 8 chapitres du programme",
+    prereqLabel: "Terminer tous les chapitres du programme",
     prereq: (p) => p.chapters >= ALL_CHAPTERS,
     exam: [
       { q: "Le cœur du métier d'agent, c'est :", options: ["Encaisser un maximum de commissions", "Gérer et défendre la carrière d'un client dans la durée", "Être proche des présidents de clubs"], answer: 1, domain: "MGT" },
