@@ -4,14 +4,16 @@ import Link from "next/link";
 
 import PrintButton from "@/components/PrintButton";
 import { buildAideMemoire } from "@/lib/academy-aide-memoire";
+import { getAllLessonNotes } from "@/lib/academy-notes";
 import { requireUser } from "@/lib/auth";
 
 export const metadata = { title: "Aide-mémoire" };
 
 export default async function AcademyAideMemoirePage() {
-  await requireUser();
+  const user = await requireUser();
 
   const chapters = buildAideMemoire();
+  const notes = await getAllLessonNotes(user.id);
   const totalLessons = chapters.reduce((n, c) => n + c.lessons.length, 0);
   const totalPoints = chapters.reduce(
     (n, c) => n + c.lessons.reduce((m, l) => m + l.points.length, 0),
@@ -44,6 +46,9 @@ export default async function AcademyAideMemoirePage() {
             <p className="text-[11px] pz-muted mt-2">
               {totalPoints} points clés · {totalLessons} leçons ·{" "}
               {chapters.length} chapitres
+              {notes.size > 0
+                ? ` · ${notes.size} leçon${notes.size > 1 ? "s" : ""} avec tes notes`
+                : ""}
             </p>
           </div>
 
@@ -72,7 +77,7 @@ export default async function AcademyAideMemoirePage() {
                 <Link
                   href={"/academy/lecon/" + lesson.id}
                   className="text-[13.5px] font-extrabold hover:underline"
-                  style={{ color: "var(--rouge)" }}
+                  style={{ color: "var(--rouge-vif)" }}
                 >
                   {lesson.title}
                 </Link>
@@ -91,6 +96,26 @@ export default async function AcademyAideMemoirePage() {
                     </li>
                   ))}
                 </ul>
+
+                {notes.get(lesson.id) ? (
+                  <div
+                    className="mt-3 rounded-xl px-3 py-2.5"
+                    style={{
+                      background: "rgba(var(--ink-rgb),.035)",
+                      borderLeft: "2px solid var(--argent)",
+                    }}
+                  >
+                    <div className="pz-eyebrow" style={{ color: "var(--argent)" }}>
+                      Mes notes
+                    </div>
+                    <p
+                      className="text-[12.5px] leading-6 mt-1 whitespace-pre-line"
+                      style={{ color: "var(--texte-2)" }}
+                    >
+                      {notes.get(lesson.id)?.body}
+                    </p>
+                  </div>
+                ) : null}
               </div>
             ))}
           </div>

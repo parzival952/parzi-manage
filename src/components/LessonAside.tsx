@@ -1,4 +1,5 @@
 import Link from "next/link";
+import type { ReactNode } from "react";
 
 import AcademyIcon from "@/components/AcademyIcon";
 import type { Chapter, Lesson } from "@/lib/academy";
@@ -18,6 +19,7 @@ export default function LessonAside({
   keyPoints,
   previous,
   next,
+  notes,
 }: {
   chapter: Chapter;
   chapterNumber: number;
@@ -26,6 +28,7 @@ export default function LessonAside({
   keyPoints: string[];
   previous: Neighbour;
   next: Neighbour;
+  notes?: ReactNode;
 }) {
   const doneInChapter = chapter.lessons.filter((l) => done.has(l.id)).length;
 
@@ -89,6 +92,8 @@ export default function LessonAside({
           </ul>
         </section>
       ) : null}
+
+      {notes}
 
       <a href="#quiz" className="pz-btn w-full" style={{ padding: "11px 16px", fontSize: 13.5 }}>
         <AcademyIcon name="notes" size={15} /> Aller au quiz ({lesson.quiz.length} questions)
