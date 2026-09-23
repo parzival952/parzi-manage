@@ -1,18 +1,9 @@
 import Link from "next/link";
-import { headers } from "next/headers";
 import { redirect } from "next/navigation";
-
-import { isAcademyHost } from "@/lib/academy-host";
 import { getUser, signIn, signUp } from "@/lib/auth";
 import { ensureSeeded, upsertProfile } from "@/lib/queries";
 
 export const dynamic = "force-dynamic";
-
-const ACADEMY_POINTS = [
-  ["🎓", "45 leçons pour devenir agent de joueur, du cadre juridique à la négociation"],
-  ["🧠", "Révision intelligente : ton carnet d'erreurs et tes points faibles"],
-  ["🏅", "Certifications et examen blanc de la licence d'agent"],
-];
 
 const POINTS = [
   ["✦", "Ton copilote IA lit tes données et prépare ta journée"],
@@ -22,11 +13,8 @@ const POINTS = [
 
 export default async function ConnexionPage({ searchParams }: { searchParams: Promise<{ erreur?: string; mode?: string }> }) {
   const { erreur, mode } = await searchParams;
-  // Sur parziacademy.fr, la connexion est celle de PARZI Academy et ramène à l'Academy.
-  const academyOnly = isAcademyHost((await headers()).get("host"));
-  const home = academyOnly ? "/academy" : "/";
   const user = await getUser();
-  if (user) redirect(academyOnly ? "/academy" : "/dashboard");
+  if (user) redirect("/dashboard");
   const isSignup = mode === "inscription";
 
   async function login(formData: FormData) {
@@ -35,7 +23,7 @@ export default async function ConnexionPage({ searchParams }: { searchParams: Pr
     if (!res.ok) redirect(`/connexion?erreur=${encodeURIComponent(res.error)}`);
     const u = await getUser();
     if (u) { await ensureSeeded(u.id); await upsertProfile(u.id, u.email); } // portefeuille démo aussi pour les comptes confirmés par e-mail
-    redirect(home);
+    redirect("/");
   }
 
   async function register(formData: FormData) {
@@ -44,7 +32,7 @@ export default async function ConnexionPage({ searchParams }: { searchParams: Pr
     if (!res.ok) redirect(`/connexion?mode=inscription&erreur=${encodeURIComponent(res.error)}`);
     const u = await getUser();
     if (u) { await ensureSeeded(u.id); await upsertProfile(u.id, u.email); }
-    redirect(home);
+    redirect("/");
   }
 
   const input =
@@ -65,7 +53,7 @@ export default async function ConnexionPage({ searchParams }: { searchParams: Pr
           Global Football Intelligence
         </p>
         <div className="relative mt-8 hidden lg:flex flex-col gap-3 text-left">
-          {(academyOnly ? ACADEMY_POINTS : POINTS).map(([icon, txt]) => (
+          {POINTS.map(([icon, txt]) => (
             <div key={txt} className="flex items-center gap-3 text-[13.5px] text-[#d8d3c8]">
               <span className="w-7 h-7 rounded-lg bg-white/5 border border-[#c9a45c]/25 grid place-items-center text-[13px]">{icon}</span>
               {txt}
@@ -80,26 +68,18 @@ export default async function ConnexionPage({ searchParams }: { searchParams: Pr
           <div className="flex items-center gap-2.5 mb-6">
             <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-[#2563eb] to-[#4a3aa7] grid place-items-center font-bold text-white">P</div>
             <div>
-              <div className="font-bold text-[16px] leading-tight text-[#0f172a]">
-                {academyOnly ? "PARZI Academy" : "Parzi Manage"}
-              </div>
-              <div className="text-[10px] uppercase tracking-widest text-[#94a3b8]">
-                {academyOnly ? "Construis ta carrière" : "Command Center"}
-              </div>
+              <div className="font-bold text-[16px] leading-tight text-[#0f172a]">Parzi Manage</div>
+              <div className="text-[10px] uppercase tracking-widest text-[#94a3b8]">Command Center</div>
             </div>
           </div>
 
           <h1 className="font-bold text-[22px] tracking-tight text-[#0f172a] mb-1">
-            {isSignup ? (academyOnly ? "Crée ton compte Academy" : "Crée ton espace agent") : "Bon retour 👋"}
+            {isSignup ? "Crée ton espace agent" : "Bon retour 👋"}
           </h1>
           <p className="text-[13.5px] text-[#64748b] mb-6">
-            {academyOnly
-              ? isSignup
-                ? "Crée ton compte pour suivre la formation et garder ta progression."
-                : "Reprends ta formation là où tu l'as laissée."
-              : isSignup
-                ? "Gratuit en bêta — ton espace démarre avec un portefeuille de démonstration."
-                : "Retrouve ton portefeuille, tes alertes et ta mission du jour."}
+            {isSignup
+              ? "Gratuit en bêta — ton espace démarre avec un portefeuille de démonstration."
+              : "Retrouve ton portefeuille, tes alertes et ta mission du jour."}
           </p>
 
           {erreur && (
@@ -124,15 +104,13 @@ export default async function ConnexionPage({ searchParams }: { searchParams: Pr
             {isSignup ? (
               <>Déjà un compte ? <Link href="/connexion" className="text-[#2563eb] font-semibold hover:underline">Se connecter</Link></>
             ) : (
-              <>{academyOnly ? "Nouveau sur PARZI Academy ?" : "Nouveau sur Parzi Manage ?"} <Link href="/connexion?mode=inscription" className="text-[#2563eb] font-semibold hover:underline">Créer un compte gratuit</Link></>
+              <>Nouveau sur Parzi Manage ? <Link href="/connexion?mode=inscription" className="text-[#2563eb] font-semibold hover:underline">Créer un compte gratuit</Link></>
             )}
           </p>
 
-          {academyOnly ? null : (
-            <p className="text-[11.5px] text-[#94a3b8] mt-8">
-              <Link href="/?apercu=1" className="hover:text-[#64748b]">← Découvrir Parzi Manage</Link>
-            </p>
-          )}
+          <p className="text-[11.5px] text-[#94a3b8] mt-8">
+            <Link href="/?apercu=1" className="hover:text-[#64748b]">← Découvrir Parzi Manage</Link>
+          </p>
         </div>
       </div>
     </div>

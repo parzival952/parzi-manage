@@ -1,31 +1,47 @@
 import { NextResponse, type NextRequest } from "next/server";
 
-import { isAcademyHost } from "@/lib/academy-host";
+import { isAcademyHost, SURFACE_HEADER } from "@/lib/academy-host";
 
 // Sur parziacademy.fr : uniquement PARZI Academy.
-// Autorisé : l'Academy, la connexion (nécessaire pour y accéder), les API de
+// Autorisé : l'Academy (dont sa connexion /academy/connexion), les API de
 // l'Academy et les crons Vercel (protégés par leur propre secret).
 const ACADEMY_ALLOWED = [
   /^\/academy(\/|$)/,
-  /^\/connexion(\/|$)/,
   /^\/api\/academy\//,
   /^\/api\/cron\//,
 ];
 
+/** Laisse passer la requête en marquant (ou non) la surface Academy. */
+function pass(request: NextRequest, academy: boolean) {
+  const headers = new Headers(request.headers);
+  headers.delete(SURFACE_HEADER); // jamais la valeur envoyée par le client
+  if (academy) headers.set(SURFACE_HEADER, "academy");
+  return NextResponse.next({ request: { headers } });
+}
+
 export function proxy(request: NextRequest) {
+  const { pathname } = request.nextUrl;
+  const isAcademyPath = /^\/academy(\/|$)/.test(pathname);
+
   if (!isAcademyHost(request.headers.get("host"))) {
-    return NextResponse.next();
+    return pass(request, isAcademyPath);
   }
 
-  const { pathname } = request.nextUrl;
-
+  // Domaine Academy.
   if (ACADEMY_ALLOWED.some((rule) => rule.test(pathname))) {
-    return NextResponse.next();
+    return pass(request, isAcademyPath);
   }
 
   // Les autres API de Parzi Manage n'existent pas sur ce domaine.
   if (pathname.startsWith("/api/")) {
     return new NextResponse(null, { status: 404 });
+  }
+
+  // L'ancienne connexion commune → la connexion Academy (on garde la query).
+  if (pathname === "/connexion") {
+    const url = request.nextUrl.clone();
+    url.pathname = "/academy/connexion";
+    return NextResponse.redirect(url, 307);
   }
 
   // Toute autre page (dashboard, CRM, joueurs, admin, accueil…) → l'Academy.

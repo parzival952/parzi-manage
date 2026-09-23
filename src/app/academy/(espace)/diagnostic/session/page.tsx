@@ -6,7 +6,7 @@ import DiagnosticSessionClient from "./DiagnosticSessionClient";
 export const dynamic = "force-dynamic";
 
 export const metadata = {
-  title: "Diagnostic en cours | PARZI Academy",
+  title: "Diagnostic en cours",
   description:
     "Session interactive du diagnostic initial PARZI Academy.",
 };

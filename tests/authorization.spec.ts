@@ -21,8 +21,8 @@ test.describe("R-007 — règles d’autorisation serveur", () => {
     expect(canUseVerifiedAgentFeatures("rejected")).toBe(false);
 
     const [clubs, crm] = await Promise.all([
-      source("src/app/clubs/page.tsx"),
-      source("src/app/crm/page.tsx"),
+      source("src/app/(manage)/clubs/page.tsx"),
+      source("src/app/(manage)/crm/page.tsx"),
     ]);
     expect(clubs).toContain("const u = await requireVerifiedAgent()");
     expect(crm).toContain("const u = await requireVerifiedAgent()");
@@ -32,16 +32,16 @@ test.describe("R-007 — règles d’autorisation serveur", () => {
     expect(changedOwnedResource(true)).toBe(true);
     expect(changedOwnedResource(false)).toBe(false);
 
-    const playerActions = await source("src/app/joueurs/[id]/modifier/page.tsx");
+    const playerActions = await source("src/app/(manage)/joueurs/[id]/modifier/page.tsx");
     expect(playerActions).toContain("requireOwnedMutation(await updatePlayer");
   });
 
   test("suppression : les mutations sensibles contrôlent la ligne affectée", async () => {
     const files = await Promise.all([
-      source("src/app/joueurs/[id]/modifier/page.tsx"),
-      source("src/app/clubs/page.tsx"),
-      source("src/app/scouting/page.tsx"),
-      source("src/app/calendrier/page.tsx"),
+      source("src/app/(manage)/joueurs/[id]/modifier/page.tsx"),
+      source("src/app/(manage)/clubs/page.tsx"),
+      source("src/app/(manage)/scouting/page.tsx"),
+      source("src/app/(manage)/calendrier/page.tsx"),
     ]);
 
     for (const contents of files) {

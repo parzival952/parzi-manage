@@ -19,3 +19,11 @@ export function isAcademyHost(host: string | null | undefined): boolean {
     .filter(Boolean);
   return [...DEFAULT_ACADEMY_HOSTS, ...extra].includes(stripPort(host));
 }
+
+/**
+ * En-tête interne posé par src/proxy.ts sur toute requête /academy (quel que
+ * soit le domaine). Le proxy supprime toujours la valeur fournie par le client
+ * avant de le poser : il ne peut pas être falsifié depuis le navigateur.
+ * Sert à envoyer un visiteur non connecté vers la connexion Academy.
+ */
+export const SURFACE_HEADER = "x-parzi-surface";

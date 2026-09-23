@@ -10,7 +10,7 @@ import { lessonsForSection } from "@/lib/academy-recommendations";
 import styles from "./resultats.module.css";
 
 export const metadata: Metadata = {
-  title: "Résultats du diagnostic | PARZI Academy",
+  title: "Résultats du diagnostic",
   description:
     "Rapport personnalisé du diagnostic initial PARZI Academy.",
 };
