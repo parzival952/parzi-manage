@@ -11,14 +11,15 @@ import {
 /**
  * Lecteur de leçon avec narration synchronisée (Web Speech API).
  *
- * - Lit à voix haute le titre + l'intro puis chaque bloc (voix fr-FR).
+ * - Lit à voix haute chaque bloc de la leçon (voix fr-FR), dans l'ordre.
  * - Le bloc lu est surligné et défile automatiquement (transcription qui suit).
  * - À l'intérieur du bloc lu, chaque MOT s'illumine en fondu au moment où il
- *   est prononcé (événements « boundary »). Repli propre : si le navigateur ne
- *   fournit pas ces événements, on garde la surbrillance du paragraphe.
+ *   est prononcé (événements « boundary »). Repli propre : sans ces
+ *   événements, on garde la surbrillance du paragraphe.
+ * - « Écouter » démarre sur le 1er paragraphe (fondu immédiat) ; un clic sur un
+ *   paragraphe démarre la lecture à partir de là.
  * - Lecture séquentielle (un segment puis le suivant via onend) + relance
  *   périodique pour contourner la coupure de Chrome au bout de ~15 s.
- * - Clic sur un paragraphe = démarrer la lecture à partir de là.
  * - Aucune dépendance ni coût serveur. Sans support de la synthèse vocale, le
  *   contenu s'affiche normalement, sans les commandes.
  */
@@ -34,7 +35,7 @@ function getServerSnapshot() {
   return false;
 }
 
-type Segment = { text: string; block: number | null; isBlockText: boolean };
+type Segment = { text: string; block: number };
 
 function cleanForSpeech(text: string): string {
   return text
@@ -46,8 +47,8 @@ function cleanForSpeech(text: string): string {
     .trim();
 }
 
-// Rendu mot par mot avec fondu progressif : les mots déjà lus sont clairs, le
-// mot courant s'illumine en vert, les suivants restent atténués.
+// Rendu mot par mot avec fondu progressif : mots lus clairs, mot courant en
+// vert illuminé, mots suivants atténués.
 function renderWords(text: string, progress: number) {
   const parts = text.split(" ");
   const readCount = Math.round(progress * parts.length);
@@ -75,15 +76,7 @@ function renderWords(text: string, progress: number) {
   });
 }
 
-export default function LessonReader({
-  title,
-  intro,
-  blocks,
-}: {
-  title: string;
-  intro: string;
-  blocks: string[];
-}) {
+export default function LessonReader({ blocks }: { blocks: string[] }) {
   const supported = useSyncExternalStore(
     subscribe,
     getSupportedSnapshot,
@@ -93,7 +86,6 @@ export default function LessonReader({
   const [rate, setRate] = useState(1);
   const [activeBlock, setActiveBlock] = useState<number>(-1);
   const [activeSeg, setActiveSeg] = useState(0);
-  const [syncBlock, setSyncBlock] = useState<number>(-1);
   const [wordProgress, setWordProgress] = useState(0);
   const [boundaryOk, setBoundaryOk] = useState(false);
 
@@ -104,22 +96,12 @@ export default function LessonReader({
 
   const segments = useMemo<Segment[]>(() => {
     const segs: Segment[] = [];
-    const lead = [cleanForSpeech(title), cleanForSpeech(intro)]
-      .filter(Boolean)
-      .join(". ");
-    // L'intro surligne déjà le 1er bloc (container), sans fondu mot par mot.
-    if (lead)
-      segs.push({
-        text: lead,
-        block: blocks.length > 0 ? 0 : null,
-        isBlockText: false,
-      });
     blocks.forEach((b, i) => {
       const t = cleanForSpeech(b);
-      if (t) segs.push({ text: t, block: i, isBlockText: true });
+      if (t) segs.push({ text: t, block: i });
     });
     return segs;
-  }, [title, intro, blocks]);
+  }, [blocks]);
 
   useEffect(() => {
     rateRef.current = rate;
@@ -177,7 +159,6 @@ export default function LessonReader({
       setStatus("idle");
       setActiveBlock(-1);
       setActiveSeg(0);
-      setSyncBlock(-1);
       setWordProgress(0);
       curSegRef.current = 0;
       return;
@@ -194,12 +175,11 @@ export default function LessonReader({
       if (gen !== genRef.current) return;
       curSegRef.current = i;
       setActiveSeg(i);
-      setActiveBlock(seg.block ?? -1);
+      setActiveBlock(seg.block);
       setWordProgress(0);
-      setSyncBlock(seg.isBlockText ? (seg.block ?? -1) : -1);
     };
     utter.onboundary = (event: SpeechSynthesisEvent) => {
-      if (gen !== genRef.current || !seg.isBlockText) return;
+      if (gen !== genRef.current) return;
       if (typeof event.charIndex !== "number") return;
       const frac = Math.min(
         1,
@@ -226,9 +206,6 @@ export default function LessonReader({
     setStatus("playing");
     setActiveSeg(startSeg);
     setActiveBlock(segments[startSeg]?.block ?? -1);
-    setSyncBlock(
-      segments[startSeg]?.isBlockText ? (segments[startSeg]?.block ?? -1) : -1,
-    );
     setWordProgress(0);
     // Laisse cancel() se propager avant de relancer (course connue de Chrome).
     window.setTimeout(() => speakSegment(startSeg, gen), 80);
@@ -257,7 +234,6 @@ export default function LessonReader({
     setStatus("idle");
     setActiveBlock(-1);
     setActiveSeg(0);
-    setSyncBlock(-1);
     setWordProgress(0);
     curSegRef.current = 0;
   }
@@ -274,7 +250,7 @@ export default function LessonReader({
 
   function startFromBlock(blockIndex: number) {
     if (!supported) return;
-    const seg = segments.findIndex((s) => s.block === blockIndex && s.isBlockText);
+    const seg = segments.findIndex((s) => s.block === blockIndex);
     speakFrom(seg >= 0 ? seg : 0);
   }
 
@@ -365,7 +341,7 @@ export default function LessonReader({
 
       {blocks.map((block, blockIndex) => {
         const active = activeBlock === blockIndex;
-        const sweeping = boundaryOk && syncBlock === blockIndex;
+        const sweeping = boundaryOk && active;
         return (
           <p
             key={blockIndex}

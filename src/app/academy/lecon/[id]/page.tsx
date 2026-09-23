@@ -219,11 +219,7 @@ export default async function LessonPage({
         </section>
       ) : null}
 
-      <LessonReader
-        title={lesson.title}
-        intro={lesson.intro}
-        blocks={lesson.blocks}
-      />
+      <LessonReader blocks={lesson.blocks} />
 
       <section className="pz-rise pz-d2">
         <div className="text-[11px] font-bold tracking-wider pz-red mb-3">
