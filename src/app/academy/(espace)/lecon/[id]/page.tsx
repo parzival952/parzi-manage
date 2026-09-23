@@ -5,6 +5,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 
 import LessonAside from "@/components/LessonAside";
+import LessonNotes from "@/components/LessonNotes";
 import LessonReader from "@/components/LessonReader";
 import LessonQuiz from "@/components/LessonQuiz";
 import {
@@ -16,6 +17,7 @@ import {
 } from "@/lib/academy-lesson-store";
 import { ALL_LESSONS, COURSE, completeLesson, findLesson } from "@/lib/academy";
 import { extractPoints } from "@/lib/academy-aide-memoire";
+import { getLessonNote, saveLessonNote } from "@/lib/academy-notes";
 import { academyStateToProgress, loadAcademyState } from "@/lib/academy-state";
 import { primaryLessonForSection } from "@/lib/academy-recommendations";
 import {
@@ -32,7 +34,7 @@ export default async function LessonPage({
 }) {
   const { id } = await params;
 
-  await requireUser();
+  const viewer = await requireUser();
 
   const found = findLesson(id);
 
@@ -42,10 +44,23 @@ export default async function LessonPage({
 
   const { chapter, lesson, index } = found;
 
-  const [report, academyState] = await Promise.all([
+  const [report, academyState, note] = await Promise.all([
     loadLatestDiagnosticReport(),
     loadAcademyState(),
+    getLessonNote(viewer.id, id),
   ]);
+
+  async function saveNote(body: string) {
+    "use server";
+    const user = await requireUser();
+    try {
+      const kept = await saveLessonNote(user.id, lesson.id, String(body ?? ""));
+      revalidatePath("/academy/aide-memoire");
+      return { ok: true as const, body: kept };
+    } catch {
+      return { ok: false as const, error: "Enregistrement impossible. Réessaie." };
+    }
+  }
 
   // Panneau latéral (ordinateur) : progression du chapitre, points clés,
   // leçons voisines.
@@ -260,6 +275,11 @@ export default async function LessonPage({
 
       <LessonReader blocks={lesson.blocks} />
 
+      {/* Téléphone / tablette : notes sous la leçon (sur ordinateur, dans le panneau). */}
+      <div className="lg:hidden">
+        <LessonNotes initial={note?.body ?? ""} onSave={saveNote} />
+      </div>
+
       <section id="quiz" className="pz-rise pz-d2 scroll-mt-24">
         <div className="pz-eyebrow pz-red mb-3">
           QUIZ — VALIDE TA LEÇON
@@ -299,6 +319,7 @@ export default async function LessonPage({
       keyPoints={keyPoints}
       previous={previous}
       next={next}
+      notes={<LessonNotes initial={note?.body ?? ""} onSave={saveNote} compact />}
     />
     </div>
   );

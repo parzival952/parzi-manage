@@ -149,6 +149,13 @@ function migrate(d: DatabaseSync) {
     created_at TEXT NOT NULL DEFAULT (datetime('now')),
     PRIMARY KEY (user_id, lesson_id)
   );
+  CREATE TABLE IF NOT EXISTS academy_lesson_notes (
+    user_id TEXT NOT NULL,
+    lesson_id TEXT NOT NULL,
+    body TEXT NOT NULL,
+    updated_at TEXT NOT NULL DEFAULT (datetime('now')),
+    PRIMARY KEY (user_id, lesson_id)
+  );
   CREATE TABLE IF NOT EXISTS certifications (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     user_id TEXT NOT NULL,
