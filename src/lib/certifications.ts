@@ -150,6 +150,51 @@ export function findCert(id: string): Cert | undefined {
   return CERTS.find((c) => c.id === id);
 }
 
+/**
+ * Ordre d'affichage des réponses d'une question.
+ *
+ * Dans la banque de questions, la bonne réponse est très souvent la 2e : sans
+ * mélange, cocher toujours la 2e réponse suffisait à réussir certains examens.
+ * On mélange donc les réponses à l'affichage, de façon déterministe (même ordre
+ * pour une question donnée à chaque affichage), et la correction serveur
+ * remet les réponses dans l'ordre d'origine avant de noter.
+ */
+export function optionOrder(certId: string, questionIndex: number, count: number): number[] {
+  // Graine FNV-1a sur « examen:question », puis mélange de Fisher-Yates (xorshift32).
+  let h = 2166136261;
+  for (const ch of `${certId}:${questionIndex}`) {
+    h ^= ch.charCodeAt(0);
+    h = Math.imul(h, 16777619);
+  }
+  const order = Array.from({ length: count }, (_, i) => i);
+  for (let i = count - 1; i > 0; i--) {
+    h ^= h << 13;
+    h ^= h >>> 17;
+    h ^= h << 5;
+    const j = (h >>> 0) % (i + 1);
+    [order[i], order[j]] = [order[j], order[i]];
+  }
+  return order;
+}
+
+/** Questions telles qu'envoyées au navigateur : réponses mélangées, sans la clé. */
+export function examForDisplay(cert: Cert): { q: string; options: string[] }[] {
+  return cert.exam.map((question, i) => ({
+    q: question.q,
+    options: optionOrder(cert.id, i, question.options.length).map((o) => question.options[o]),
+  }));
+}
+
+/** Convertit les réponses cochées (ordre affiché) en indices d'origine. -1 = sans réponse. */
+export function toOriginalAnswers(cert: Cert, displayed: unknown): number[] {
+  const list = Array.isArray(displayed) ? displayed : [];
+  return cert.exam.map((question, i) => {
+    const d = list[i];
+    if (!Number.isInteger(d) || d < 0 || d >= question.options.length) return -1;
+    return optionOrder(cert.id, i, question.options.length)[d as number];
+  });
+}
+
 /** Corrige un examen côté serveur : score global + bilan par compétence. */
 export function gradeExam(cert: Cert, answers: number[]): { score: number; correct: number; breakdown: DomainScore[] } {
   let correct = 0;
