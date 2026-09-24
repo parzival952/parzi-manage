@@ -3,7 +3,7 @@ import Link from "next/link";
 import { notFound, redirect } from "next/navigation";
 import { revalidatePath } from "next/cache";
 import { requireUser } from "@/lib/auth";
-import { canTakeCert, findCert, getMyCerts, gradeExam, submitExam } from "@/lib/certifications";
+import { canTakeCert, examForDisplay, findCert, getMyCerts, gradeExam, submitExam, toOriginalAnswers } from "@/lib/certifications";
 import CertExam from "@/components/CertExam";
 import { IconTile } from "@/components/AcademyIcon";
 
@@ -21,7 +21,12 @@ export default async function CertExamPage({ params }: { params: Promise<{ id: s
   async function submit(answers: number[]) {
     "use server";
     const u = await requireUser();
-    const { score, breakdown } = gradeExam(cert!, answers);
+    // Prérequis revérifiés à l'envoi : l'action serveur peut être appelée
+    // sans passer par l'affichage de la page.
+    if (!(await canTakeCert(u.id, cert!))) {
+      return { pass: false, already: false, score: 0 };
+    }
+    const { score, breakdown } = gradeExam(cert!, toOriginalAnswers(cert!, answers));
     const res = await submitExam(u.id, id, score);
     revalidatePath("/academy/certifications");
     revalidatePath("/academy/profil");
@@ -41,7 +46,7 @@ export default async function CertExamPage({ params }: { params: Promise<{ id: s
       {unlocked ? (
         <CertExam
           certId={id}
-          questions={cert.exam.map((q) => ({ q: q.q, options: q.options }))}
+          questions={examForDisplay(cert)}
           durationMin={cert.durationMin}
           onSubmit={submit}
         />
