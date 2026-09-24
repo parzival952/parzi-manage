@@ -7,6 +7,7 @@ import { notFound } from "next/navigation";
 import LessonAside from "@/components/LessonAside";
 import LessonNotes from "@/components/LessonNotes";
 import LessonReader from "@/components/LessonReader";
+import SimulationCallout from "@/components/SimulationCallout";
 import LessonQuiz from "@/components/LessonQuiz";
 import { quizAnswersToOriginal, quizForDisplay } from "@/lib/academy-quiz-order";
 import {
@@ -296,6 +297,8 @@ export default async function LessonPage({
           isMission={isMission}
         />
       </section>
+
+      {chapter.id === "art-negociation" ? <SimulationCallout /> : null}
 
       {/* Téléphone / tablette : leçons voisines sous le quiz. */}
       <nav className="lg:hidden grid grid-cols-2 gap-2" aria-label="Leçons voisines">

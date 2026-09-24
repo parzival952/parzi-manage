@@ -3,12 +3,14 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import AcademyIcon, { type AcademyIconName } from "@/components/AcademyIcon";
 
-type Tab = { href: string; label: string; icon: AcademyIconName; desktopOnly?: boolean };
+type Tab = { href: string; label: string; icon: AcademyIconName; desktopOnly?: boolean; wideOnly?: boolean };
 
 const TABS: Tab[] = [
   { href: "/academy", label: "Parcours", icon: "bookOpen" },
   { href: "/academy/revision", label: "Révision", icon: "revision", desktopOnly: true },
   { href: "/academy/certifications", label: "Certifications", icon: "cap", desktopOnly: true },
+  // Entre 1024 et 1280 px, l'en-tête n'a pas la place : l'onglet n'apparaît qu'en grand écran.
+  { href: "/academy/simulation", label: "Simulation", icon: "bolt", desktopOnly: true, wideOnly: true },
   { href: "/academy/classement", label: "Classement", icon: "trophy" },
   { href: "/academy/profil", label: "Profil", icon: "medal" },
   { href: "/dashboard", label: "Manage", icon: "folder" },
@@ -43,7 +45,7 @@ export default function AcademyNav({
             <Link
               key={t.href}
               href={t.href}
-              className="inline-flex items-center gap-2 rounded-xl px-3 py-2 text-[13px] font-semibold transition-colors"
+              className={`${t.wideOnly ? "hidden xl:inline-flex" : "inline-flex"} items-center gap-2 rounded-xl px-3 py-2 text-[13px] font-semibold transition-colors`}
               style={{
                 color: active ? "var(--blanc)" : "var(--gris)",
                 background: active ? "rgba(var(--ink-rgb),.06)" : "transparent",
