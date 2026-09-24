@@ -20,8 +20,8 @@ function isActive(path: string, href: string) {
 
 /**
  * Navigation Academy.
- * - variant="bottom" : barre basse (téléphone / tablette), masquée sur ordinateur.
- * - variant="top" : liens dans l'en-tête, visibles sur ordinateur uniquement.
+ * - variant="bottom" : barre basse (téléphone / tablette, < 1024 px).
+ * - variant="top" : liens dans l'en-tête, sur ordinateur (≥ 1024 px).
  */
 export default function AcademyNav({
   academyOnly = false,
@@ -36,7 +36,7 @@ export default function AcademyNav({
 
   if (variant === "top") {
     return (
-      <nav className="hidden md:flex items-center gap-1" aria-label="Navigation Academy">
+      <nav className="hidden lg:flex items-center gap-1" aria-label="Navigation Academy">
         {base.map((t) => {
           const active = isActive(path, t.href);
           return (
@@ -60,7 +60,7 @@ export default function AcademyNav({
 
   const tabs = base.filter((t) => !t.desktopOnly);
   return (
-    <nav className="pz-nav md:hidden">
+    <nav className="pz-nav lg:hidden">
       <div className={"max-w-2xl mx-auto grid " + (tabs.length === 3 ? "grid-cols-3" : "grid-cols-4")}>
         {tabs.map((t) => {
           const active = isActive(path, t.href);

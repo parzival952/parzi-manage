@@ -5,7 +5,9 @@ import { redirect } from "next/navigation";
 import { isAcademyHost } from "@/lib/academy-host";
 import { getAcademyTheme } from "@/lib/academy-theme";
 import { requireUser, signOut } from "@/lib/auth";
+import AcademyIcon from "@/components/AcademyIcon";
 import AcademyNav from "@/components/AcademyNav";
+import HashFocus from "@/components/HashFocus";
 import ThemeToggle from "@/components/ThemeToggle";
 
 export default async function AcademyLayout({ children }: { children: React.ReactNode }) {
@@ -37,6 +39,15 @@ export default async function AcademyLayout({ children }: { children: React.Reac
               <AcademyNav academyOnly={academyOnly} variant="top" />
             </div>
 
+            <Link
+              href="/academy/recherche"
+              className="w-9 h-9 rounded-xl grid place-items-center pz-muted hover:text-white transition-colors"
+              style={{ border: "1px solid var(--ligne)", background: "rgba(var(--ink-rgb),.03)" }}
+              aria-label="Rechercher dans l'Academy"
+              title="Rechercher"
+            >
+              <AcademyIcon name="search" size={16} />
+            </Link>
             <ThemeToggle />
             {academyOnly ? (
               <form action={logout}>
@@ -51,6 +62,7 @@ export default async function AcademyLayout({ children }: { children: React.Reac
         <main className="pz-main flex-1 w-full max-w-6xl mx-auto px-4 md:px-8 py-6 md:py-10">{children}</main>
 
         <AcademyNav academyOnly={academyOnly} />
+        <HashFocus />
       </div>
     </div>
   );

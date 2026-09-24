@@ -90,6 +90,11 @@
   font-family: var(--font-chiffres), ui-monospace, "SF Mono", Menlo, monospace;
   font-size: 10.5px; font-weight: 500; letter-spacing: 0.14em; text-transform: uppercase;
 }
+/* Cible d'un lien de recherche (#bloc-3, #clause-liberatoire…) : visible sous
+   l'en-tête collant, repérée par un filet rubis. */
+.pz-cible { scroll-margin-top: 150px; }
+.pz-cible:target, .pz-cible-active { outline: 1px solid rgba(194,24,51,0.55); outline-offset: 4px; border-radius: 10px; }
+
 /* Icônes (AcademyIcon) : trait fin, couleur héritée. */
 .pz-ico { display: inline-block; flex-shrink: 0; vertical-align: -0.18em; }
 .parzi *, .parzi *::before, .parzi *::after { box-sizing: border-box; }
