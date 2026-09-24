@@ -182,6 +182,14 @@ export default async function AcademyConnexionPage({
               </button>
             </form>
 
+            {!isSignup ? (
+              <p className="text-[12.5px] mt-3 text-right">
+                <Link href="/academy/mot-de-passe-oublie" className="pz-muted hover:underline">
+                  Mot de passe oublié ?
+                </Link>
+              </p>
+            ) : null}
+
             <p className="text-[13px] pz-muted mt-5">
               {isSignup ? (
                 <>
