@@ -42,25 +42,32 @@ type OrderedQuestion = { options: unknown[]; answer: number };
  */
 export function balancedOrders(seed: string, questions: OrderedQuestion[]): number[][] {
   const random = seededRandom(seed);
-  const maxOptions = Math.max(1, ...questions.map((q) => q.options.length));
-  const targets = shuffleInPlace(
-    questions.map((_, i) => i % maxOptions),
-    random,
-  );
+  // Pour chaque nombre de propositions, on distribue les positions cibles par
+  // « tours » : chaque tour est une permutation de toutes les positions, donc
+  // aucune position n'est servie deux fois avant que les autres l'aient été.
+  const queues = new Map<number, number[]>();
+  const nextTarget = (count: number): number => {
+    let queue = queues.get(count);
+    if (!queue || queue.length === 0) {
+      queue = shuffleInPlace(Array.from({ length: count }, (_, k) => k), random);
+      queues.set(count, queue);
+    }
+    return queue.shift() as number;
+  };
 
-  return questions.map((question, i) => {
+  return questions.map((question) => {
     const count = question.options.length;
     const original = Array.from({ length: count }, (_, k) => k);
     const answer = question.answer;
     if (!Number.isInteger(answer) || answer < 0 || answer >= count) {
+      // Pas de bonne réponse unique (choix multiples) : mélange simple.
       return shuffleInPlace(original, random);
     }
     const others = shuffleInPlace(
       original.filter((k) => k !== answer),
       random,
     );
-    const target = targets[i] % count;
-    others.splice(target, 0, answer);
+    others.splice(nextTarget(count), 0, answer);
     return others;
   });
 }
