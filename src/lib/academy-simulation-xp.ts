@@ -4,7 +4,8 @@
 // s'attribuer un score. L'XP s'ajoute à academy_progress.xp (XP du compte).
 import { db } from "./db";
 import { pg, usePostgres } from "./pg";
-import { replay, result, SCENARIO_ID, xpForScore } from "./academy-simulation";
+import { replay, xpForScore } from "./simulation/engine";
+import { getScenario, SCENARIOS } from "./simulation";
 
 export type SimulationRecord = {
   score: number;
@@ -16,10 +17,18 @@ export type SimulationRecord = {
 export class InvalidRunError extends Error {}
 
 /** Rejoue la partie, met à jour le meilleur score et crédite l'XP du palier. */
-export async function recordSimulationRun(uid: string, prep: unknown, choices: unknown): Promise<SimulationRecord> {
-  const state = replay(prep, choices);
+export async function recordSimulationRun(
+  uid: string,
+  scenarioId: string,
+  prep: unknown,
+  choices: unknown,
+): Promise<SimulationRecord> {
+  const scenario = getScenario(scenarioId);
+  if (!scenario) throw new InvalidRunError("Scénario inconnu");
+  const SCENARIO_ID = scenario.id;
+  const state = replay(scenario, prep, choices);
   if (!state) throw new InvalidRunError("Partie invalide");
-  const score = result(state).score;
+  const score = scenario.result(state).score;
   const tierXp = xpForScore(score);
 
   if (usePostgres()) {
@@ -71,21 +80,25 @@ export async function recordSimulationRun(uid: string, prep: unknown, choices: u
   }
 }
 
-/** Meilleur score et XP déjà gagnée (affichage de l'intro). */
-export async function getSimulationBest(uid: string): Promise<{ bestScore: number; xpTotal: number } | null> {
+export type SimulationBest = { bestScore: number; xpTotal: number };
+
+/** Meilleur score et XP déjà gagnée, pour chaque scénario joué. */
+export async function getSimulationBests(uid: string): Promise<Record<string, SimulationBest>> {
+  type Row = { scenario_id: string; best_score: number; xp_awarded: number };
   try {
-    if (usePostgres()) {
-      const rows = (await pg()`SELECT best_score, xp_awarded FROM academy_simulation_runs
-        WHERE user_id = ${uid} AND scenario_id = ${SCENARIO_ID}`) as unknown as { best_score: number; xp_awarded: number }[];
-      return rows[0] ? { bestScore: rows[0].best_score, xpTotal: rows[0].xp_awarded } : null;
-    }
-    const r = db()
-      .prepare("SELECT best_score, xp_awarded FROM academy_simulation_runs WHERE user_id = ? AND scenario_id = ?")
-      .get(uid, SCENARIO_ID) as { best_score: number; xp_awarded: number } | undefined;
-    return r ? { bestScore: r.best_score, xpTotal: r.xp_awarded } : null;
+    const rows: Row[] = usePostgres()
+      ? ((await pg()`SELECT scenario_id, best_score, xp_awarded FROM academy_simulation_runs
+          WHERE user_id = ${uid}`) as unknown as Row[])
+      : (db()
+          .prepare("SELECT scenario_id, best_score, xp_awarded FROM academy_simulation_runs WHERE user_id = ?")
+          .all(uid) as Row[]);
+    const known = new Set(SCENARIOS.map((sc) => sc.id));
+    return Object.fromEntries(
+      rows.filter((r) => known.has(r.scenario_id)).map((r) => [r.scenario_id, { bestScore: r.best_score, xpTotal: r.xp_awarded }]),
+    );
   } catch (err) {
-    // Bonus d'affichage : si la lecture échoue, la simulation reste jouable.
-    console.error("[academy-simulation] lecture du meilleur score impossible", err);
-    return null;
+    // Bonus d'affichage : si la lecture échoue, les simulations restent jouables.
+    console.error("[academy-simulation] lecture des meilleurs scores impossible", err);
+    return {};
   }
 }

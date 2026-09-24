@@ -1,60 +1,78 @@
 export const dynamic = "force-dynamic";
 
 import Link from "next/link";
-import { revalidatePath } from "next/cache";
 
-import NegotiationSim, { type FinishResult } from "@/components/NegotiationSim";
-import { COURSE } from "@/lib/academy";
-import { getSimulationBest, InvalidRunError, recordSimulationRun } from "@/lib/academy-simulation-xp";
+import AcademyIcon from "@/components/AcademyIcon";
+import { getSimulationBests } from "@/lib/academy-simulation-xp";
 import { requireUser } from "@/lib/auth";
+import { SCENARIOS } from "@/lib/simulation";
+import { XP_MAX } from "@/lib/simulation/engine";
 
-export const metadata = { title: "Simulation de négociation" };
+export const metadata = { title: "Mises en situation" };
 
-export default async function SimulationPage() {
+export default async function SimulationsPage() {
   const user = await requireUser();
-  const initialBest = await getSimulationBest(user.id);
-
-  // Fin de partie : le serveur rejoue les choix, recalcule le score et crédite
-  // l'XP du palier atteint (une seule fois par palier) sur le compte.
-  async function finish(prep: string[], choices: string[]): Promise<FinishResult> {
-    "use server";
-    const me = await requireUser();
-    try {
-      const record = await recordSimulationRun(me.id, prep, choices);
-      if (record.xpGained > 0) revalidatePath("/academy", "layout");
-      return record;
-    } catch (err) {
-      if (err instanceof InvalidRunError) return { error: "Partie invalide" };
-      console.error("[academy-simulation] enregistrement impossible", err);
-      return { error: "Enregistrement impossible" };
-    }
-  }
-
-  // Titres des leçons citées dans le débrief (liens « Relire »).
-  const lessonTitles: Record<string, string> = {};
-  for (const chapter of COURSE.chapters) {
-    if (chapter.id !== "art-negociation") continue;
-    for (const lesson of chapter.lessons) lessonTitles[lesson.id] = lesson.title;
-  }
+  const bests = await getSimulationBests(user.id);
+  const earned = Object.values(bests).reduce((sum, b) => sum + b.xpTotal, 0);
 
   return (
     <main className="pz-wide flex flex-col gap-6 max-w-[1100px] mx-auto w-full">
       <header className="pz-rise">
-        <Link href="/academy/chapitre/art-negociation" className="text-[12.5px] pz-muted hover:text-white">
-          ← L&apos;art de la négociation
+        <Link href="/academy" className="text-[12.5px] pz-muted hover:text-white">
+          ← Ta route vers la licence
         </Link>
         <div className="pz-eyebrow mt-4" style={{ color: "var(--argent)" }}>
-          Mise en situation
+          Mises en situation
         </div>
-        <h1 className="text-[26px] font-black tracking-tight mt-2">Simulation de négociation</h1>
+        <h1 className="text-[26px] font-black tracking-tight mt-2">Simulations</h1>
         <p className="text-[13.5px] leading-6 pz-muted mt-2 max-w-[640px]">
-          Tu es l&apos;agent. En face, un directeur sportif qui connaît son métier. Mets en pratique la préparation,
-          l&apos;ancrage, l&apos;écoute et la concession réciproque, puis découvre ce que chaque décision t&apos;a
-          rapporté.
+          Mets les leçons en pratique face à des interlocuteurs qui connaissent leur métier. Chaque décision est
+          débriefée, et chaque simulation rapporte jusqu&apos;à {XP_MAX} XP à ton compte.
+        </p>
+        <p className="text-[12px] pz-muted pz-mono mt-2">
+          XP gagnée : {earned}/{XP_MAX * SCENARIOS.length}
         </p>
       </header>
 
-      <NegotiationSim lessonTitles={lessonTitles} initialBest={initialBest} onFinish={finish} />
+      <ul className="grid gap-4 md:grid-cols-2 pz-rise pz-d1">
+        {SCENARIOS.map((sc) => {
+          const best = bests[sc.id];
+          return (
+            <li key={sc.id}>
+              <Link
+                href={`/academy/simulation/${sc.id}`}
+                className="pz-card p-5 flex flex-col gap-3 h-full transition-transform hover:-translate-y-0.5"
+                aria-label={`Jouer : ${sc.title}`}
+              >
+                <div className="flex items-center justify-between gap-3">
+                  <span className="pz-eyebrow pz-red">{sc.theme}</span>
+                  <span
+                    className="w-9 h-9 rounded-[12px] grid place-items-center pz-red shrink-0"
+                    style={{ background: "rgba(194,24,51,.12)", border: "1px solid rgba(194,24,51,.3)" }}
+                  >
+                    <AcademyIcon name="bolt" size={17} />
+                  </span>
+                </div>
+                <span className="block font-extrabold text-[18px] tracking-tight">{sc.title}</span>
+                <span className="block text-[13px] leading-5 pz-muted">{sc.pitch}</span>
+                <span className="flex flex-wrap gap-x-4 gap-y-1 text-[11.5px] pz-muted pz-mono mt-auto pt-2">
+                  <span>{sc.order.length} moments clés</span>
+                  {best ? (
+                    <>
+                      <span>Meilleur score {best.bestScore}/100</span>
+                      <span style={{ color: best.xpTotal >= XP_MAX ? "var(--vert)" : undefined }}>
+                        XP {best.xpTotal}/{XP_MAX}
+                      </span>
+                    </>
+                  ) : (
+                    <span className="pz-red">à jouer</span>
+                  )}
+                </span>
+              </Link>
+            </li>
+          );
+        })}
+      </ul>
     </main>
   );
 }

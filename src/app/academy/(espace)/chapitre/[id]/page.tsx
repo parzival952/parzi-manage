@@ -11,6 +11,7 @@ import { extractPoints } from "@/lib/academy-aide-memoire";
 import { chapterView, phaseOfChapter } from "@/lib/academy-roadmap";
 import { academyStateToProgress, loadAcademyState } from "@/lib/academy-state";
 import { requireUser } from "@/lib/auth";
+import { scenariosForChapter } from "@/lib/simulation";
 
 export async function generateMetadata({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
@@ -107,7 +108,9 @@ export default async function ChapterPage({ params }: { params: Promise<{ id: st
           })}
         </ol>
 
-        {chapter.id === "art-negociation" ? <SimulationCallout className="pz-rise pz-d2" /> : null}
+        {scenariosForChapter(chapter.id).map((sc) => (
+          <SimulationCallout key={sc.id} scenario={sc} className="pz-rise pz-d2" />
+        ))}
 
         <nav className="grid grid-cols-2 gap-2 pz-rise pz-d2" aria-label="Chapitres voisins">
           {prev ? (
