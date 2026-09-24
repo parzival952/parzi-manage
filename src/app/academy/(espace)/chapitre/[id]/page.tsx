@@ -5,6 +5,7 @@ import { notFound } from "next/navigation";
 
 import AcademyIcon from "@/components/AcademyIcon";
 import ProgressRing from "@/components/ProgressRing";
+import SimulationCallout from "@/components/SimulationCallout";
 import { COURSE } from "@/lib/academy";
 import { extractPoints } from "@/lib/academy-aide-memoire";
 import { chapterView, phaseOfChapter } from "@/lib/academy-roadmap";
@@ -105,6 +106,8 @@ export default async function ChapterPage({ params }: { params: Promise<{ id: st
             );
           })}
         </ol>
+
+        {chapter.id === "art-negociation" ? <SimulationCallout className="pz-rise pz-d2" /> : null}
 
         <nav className="grid grid-cols-2 gap-2 pz-rise pz-d2" aria-label="Chapitres voisins">
           {prev ? (
