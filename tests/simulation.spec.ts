@@ -17,6 +17,7 @@ import {
 import { BENALI } from "../src/lib/simulation/scenarios/benali";
 import { FOURNIER } from "../src/lib/simulation/scenarios/fournier";
 import { LEMAIRE } from "../src/lib/simulation/scenarios/lemaire";
+import { MARCHAND } from "../src/lib/simulation/scenarios/marchand";
 import { MBAYE } from "../src/lib/simulation/scenarios/mbaye";
 import { MOREL } from "../src/lib/simulation/scenarios/morel";
 import { RIVIERE } from "../src/lib/simulation/scenarios/riviere";
@@ -346,6 +347,49 @@ test.describe("Le dossier Benali — transfert à l'étranger", () => {
   });
 });
 
+test.describe("Le dossier Marchand — sponsor & droits d'image", () => {
+  test("périmètre, club informé, clauses cadrées, réseaux, aucun argent caché : « Gardien de l'image »", () => {
+    for (const [prep, choices] of [
+      [["contrat", "marche"], ["perimetre", "transparence", "cadrer", "conseil", "transparent"]],
+      [["contrat", "reseaux"], ["perimetre", "transparence", "duree", "charte", "transparent"]],
+      [["marche", "reseaux"], ["ecrit", "prevenir", "cadrer", "charte", "transparent"]],
+    ] as [string[], string[]][]) {
+      const r = MARCHAND.result(play(MARCHAND, prep, choices));
+      expect(r.outcome, prep.join("+")).toBe("accord");
+      expect(r.score, prep.join("+")).toBeGreaterThanOrEqual(85);
+      expect(r.grade).toBe("Gardien de l'image");
+    }
+  });
+
+  test("encaisser l'argent caché de la marque = faute grave, fin immédiate", () => {
+    const s = play(MARCHAND, ["contrat", "marche"], ["perimetre", "transparence", "cadrer", "conseil", "encaisser"]);
+    expect(s.outcome).toBe("faute");
+    expect(MARCHAND.result(s).headline).toContain("conflit d'intérêts");
+  });
+
+  test("pousser Théo à répondre à chaud fait perdre le contrat", () => {
+    const s = play(MARCHAND, ["contrat", "reseaux"], ["perimetre", "transparence", "duree", "repondre"]);
+    expect(s.outcome).toBe("rupture");
+    expect(s.history).toHaveLength(4);
+    expect(MARCHAND.result(s).grade).toBe("Contrat perdu");
+  });
+
+  test("signer vite, cacher au club, tout accepter et laisser faire coûtent la posture", () => {
+    const r = MARCHAND.result(play(MARCHAND, ["marche", "reseaux"], ["signer", "cacher", "tout-accepter", "libre", "non-merci"]));
+    expect(r.outcome).toBe("accord");
+    expect(r.tiles.find((t) => t.label === "Posture")?.value).toBe("0/25");
+    expect(r.headline).toContain("presse");
+    expect(r.score).toBeLessThan(50);
+  });
+
+  test("les réponses préparées n'existent qu'avec la bonne préparation", () => {
+    const ids = (s: SimState) => currentNode(MARCHAND, s)!.choices.map((c) => c.id);
+    expect(ids(initialState(MARCHAND, ["marche", "reseaux"]))).not.toContain("perimetre");
+    expect(ids(play(MARCHAND, ["contrat", "reseaux"], ["perimetre", "transparence"]))).not.toContain("cadrer");
+    expect(ids(play(MARCHAND, ["contrat", "marche"], ["perimetre", "transparence", "cadrer"]))).not.toContain("charte");
+  });
+});
+
 test.describe("Simulations — XP", () => {
   test("paliers : 0 / 30 / 60 / 100 XP selon le meilleur score", () => {
     expect(xpForScore(49)).toBe(0);
@@ -532,6 +576,26 @@ test("PARZI Academy : simulation Benali jouable de bout en bout", async ({ page 
   await expect(page.getByRole("link", { name: /Relire : La mécanique d'un transfert international/ }).first()).toBeVisible();
 });
 
+test("PARZI Academy : simulation Marchand jouable de bout en bout", async ({ page }) => {
+  await page.goto("/academy/simulation/dossier-marchand");
+  await expect(page.getByRole("heading", { name: "Le dossier Marchand" })).toBeVisible();
+  await page.getByRole("button", { name: "Préparer le rendez-vous →" }).click();
+  await page.getByRole("button", { name: /Sonder le marché des sponsors/ }).click();
+  await page.getByRole("button", { name: /Analyser ses réseaux sociaux/ }).click();
+  await page.getByRole("button", { name: "Commencer l'échange →" }).click();
+  for (const answer of [
+    /je le relis avec Théo et un avocat/,
+    /je reviens vers vous avant toute signature/,
+    /on vise 200 000 € par an/,
+    /collaboration commerciale/,
+    /ils vont à Théo, dans son contrat/,
+  ]) {
+    await page.getByRole("button", { name: answer }).click();
+  }
+  await expect(page.getByRole("heading", { name: "Gardien de l'image" })).toBeVisible();
+  await expect(page.getByRole("link", { name: /Relire : Image, marque personnelle & sponsors/ }).first()).toBeVisible();
+});
+
 test("PARZI Academy : les simulations sont proposées dans les bons chapitres et leçons", async ({ page }) => {
   await page.goto("/academy/chapitre/art-negociation");
   await expect(page.getByRole("link", { name: /Simulation : Le dossier Mbaye/ })).toBeVisible();
@@ -549,6 +613,8 @@ test("PARZI Academy : les simulations sont proposées dans les bons chapitres et
   await expect(page.getByRole("link", { name: /Simulation : Le dossier Rivière/ })).toBeVisible();
   await page.goto("/academy/lecon/formation-solidarite");
   await expect(page.getByRole("link", { name: /Simulation : Le dossier Benali/ })).toBeVisible();
+  await page.goto("/academy/lecon/image-sponsors");
+  await expect(page.getByRole("link", { name: /Simulation : Le dossier Marchand/ })).toBeVisible();
   await page.goto("/academy/chapitre/scouting-evaluation");
   await expect(page.getByRole("link", { name: /Simulation :/ })).toHaveCount(0);
 });

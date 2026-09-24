@@ -3,12 +3,13 @@ import type { Scenario } from "./engine";
 import { BENALI } from "./scenarios/benali";
 import { FOURNIER } from "./scenarios/fournier";
 import { LEMAIRE } from "./scenarios/lemaire";
+import { MARCHAND } from "./scenarios/marchand";
 import { MBAYE } from "./scenarios/mbaye";
 import { MOREL } from "./scenarios/morel";
 import { RIVIERE } from "./scenarios/riviere";
 import { TRAORE } from "./scenarios/traore";
 
-export const SCENARIOS: Scenario[] = [MBAYE, TRAORE, LEMAIRE, MOREL, FOURNIER, RIVIERE, BENALI];
+export const SCENARIOS: Scenario[] = [MBAYE, TRAORE, LEMAIRE, MOREL, FOURNIER, RIVIERE, BENALI, MARCHAND];
 
 export function getScenario(id: string): Scenario | null {
   return SCENARIOS.find((s) => s.id === id) ?? null;
