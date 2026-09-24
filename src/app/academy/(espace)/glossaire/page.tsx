@@ -4,6 +4,7 @@ import Link from "next/link";
 
 import { requireUser } from "@/lib/auth";
 import { GLOSSAIRE, GLOSSAIRE_COUNT } from "@/lib/academy-glossaire";
+import { slugify } from "@/lib/academy-search";
 
 export const metadata = { title: "Glossaire du métier" };
 
@@ -44,7 +45,7 @@ export default async function AcademyGlossairePage() {
           <h2 className="text-[16px] font-black">{cat.titre}</h2>
           <dl className="mt-4 flex flex-col gap-3.5">
             {cat.termes.map((t) => (
-              <div key={t.terme}>
+              <div key={t.terme} id={slugify(t.terme)} className="pz-cible rounded-lg">
                 <dt className="text-[13.5px] font-extrabold">{t.terme}</dt>
                 <dd className="text-[12.5px] leading-6 pz-muted mt-0.5">
                   {t.def}

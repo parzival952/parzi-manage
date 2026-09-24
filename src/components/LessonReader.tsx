@@ -348,12 +348,13 @@ export default function LessonReader({ blocks }: { blocks: string[] }) {
         return (
           <p
             key={blockIndex}
+            id={`bloc-${blockIndex}`}
             ref={(el) => {
               blockRefs.current[blockIndex] = el;
             }}
             onClick={supported ? () => startFromBlock(blockIndex) : undefined}
             title={supported ? "Lire à partir d'ici" : undefined}
-            className="text-[14.5px] leading-relaxed transition-colors"
+            className="pz-cible text-[14.5px] leading-relaxed transition-colors"
             style={{
               color: active ? "var(--blanc)" : "var(--texte-2)",
               cursor: supported ? "pointer" : "default",

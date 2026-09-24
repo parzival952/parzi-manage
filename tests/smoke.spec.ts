@@ -79,6 +79,19 @@ test("PARZI Academy : parcours et flux de leçon", async ({ page }) => {
   await expect(page.getByText(/Score vérifié par PARZI Academy/)).toBeVisible({ timeout: 15000 });
 });
 
+test("PARZI Academy : recherche (leçons, glossaire, ancrage)", async ({ page }) => {
+  await page.goto("/academy/recherche?q=clause%20lib%C3%A9ratoire");
+  const results = page.locator('section[aria-label="Résultats"] a');
+  await expect(results.first()).toBeVisible();
+  await expect(page.getByText(/Aucun résultat/)).toHaveCount(0);
+  await results.first().click();
+  await page.waitForURL("**/academy/glossaire#clause-liberatoire");
+  await expect(page.locator("#clause-liberatoire")).toBeVisible();
+
+  await page.goto("/academy/recherche?q=xyzzy");
+  await expect(page.getByText(/Aucun résultat/)).toBeVisible();
+});
+
 test("PARZI Academy : profil et rangs", async ({ page }) => {
   await page.goto("/academy/profil");
   await expect(page.getByText("LES 12 RANGS PARZI")).toBeVisible();
