@@ -3,15 +3,28 @@ import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 
 import { isAcademyHost } from "@/lib/academy-host";
+import { getMemberProfile, onboardingDone } from "@/lib/academy-onboarding";
 import { getAcademyTheme } from "@/lib/academy-theme";
-import { requireUser, signOut } from "@/lib/auth";
+import { authEnabled, requireUser, signOut } from "@/lib/auth";
 import AcademyIcon from "@/components/AcademyIcon";
 import AcademyNav from "@/components/AcademyNav";
 import HashFocus from "@/components/HashFocus";
 import ThemeToggle from "@/components/ThemeToggle";
 
 export default async function AcademyLayout({ children }: { children: React.ReactNode }) {
-  await requireUser();
+  const user = await requireUser();
+  // Inscription progressive : tant que « Faisons connaissance » n'est pas
+  // terminé, on y ramène l'élève (comptes réels uniquement, pas en démo).
+  let needsOnboarding = false;
+  if (authEnabled()) {
+    try {
+      needsOnboarding = !onboardingDone(await getMemberProfile(user.id));
+    } catch (e) {
+      // Table absente ou base indisponible : on ne bloque jamais l'accès aux cours.
+      console.error("[academy] lecture de l'inscription impossible", e);
+    }
+  }
+  if (needsOnboarding) redirect("/academy/bienvenue");
   // Sur parziacademy.fr : aucun lien vers Parzi Manage.
   const academyOnly = isAcademyHost((await headers()).get("host"));
   const theme = await getAcademyTheme();

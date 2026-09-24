@@ -230,3 +230,17 @@
 .pzc-badge.gold { border-color:rgba(231,195,106,.5); }
 .pzc-badge.red { border-color:rgba(194,24,51,.55); }
 .pzc-badge.lock { opacity:.35; }
+
+/* Choix à cocher en carte (inscription « Faisons connaissance ») */
+.pz-choice {
+  display: flex; gap: 10px; align-items: flex-start;
+  padding: 11px 13px; border-radius: 12px; cursor: pointer;
+  border: 1px solid var(--ligne); background: rgba(var(--ink-rgb),0.03);
+  transition: border-color 150ms, background 150ms;
+}
+.pz-choice:hover { border-color: rgba(var(--ink-rgb),0.22); }
+.pz-choice:has(input:checked) { border-color: var(--rouge); background: rgba(194,24,51,0.10); }
+.pz-choice:has(input:focus-visible) { outline: 2px solid var(--rouge-vif); outline-offset: 2px; }
+.pz-choice input { accent-color: var(--rouge); margin-top: 3px; flex-shrink: 0; }
+.pz-select { appearance: none; background-image: none; }
+.pz-select option { color: #111; background: #fff; }
