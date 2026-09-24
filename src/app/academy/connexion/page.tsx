@@ -1,12 +1,12 @@
 export const dynamic = "force-dynamic";
 
 import Link from "next/link";
-import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 
 import ConfirmationNotice from "@/components/ConfirmationNotice";
-import { ACADEMY_ORIGIN, isAcademyHost } from "@/lib/academy-host";
+import SubmitButton from "@/components/SubmitButton";
 import { LESSON_COUNT } from "@/lib/academy-course";
+import { CONFIRMATION_PATH, academyEmailRedirect, rememberPendingEmail } from "@/lib/academy-signup";
 import { getAcademyTheme } from "@/lib/academy-theme";
 import { getUser, signIn, signUp } from "@/lib/auth";
 import { PASSWORD_HINT, PASSWORD_MIN_LENGTH, passwordProblem } from "@/lib/password-policy";
@@ -37,8 +37,16 @@ export default async function AcademyConnexionPage({
 
   async function login(formData: FormData) {
     "use server";
-    const res = await signIn(String(formData.get("email")), String(formData.get("password")));
-    if (!res.ok) redirect(`/academy/connexion?erreur=${encodeURIComponent(res.error)}`);
+    const email = String(formData.get("email") ?? "").trim();
+    const res = await signIn(email, String(formData.get("password")));
+    if (!res.ok) {
+      // Adresse pas encore confirmée : on propose de renvoyer l'e-mail.
+      if (res.unconfirmed) {
+        await rememberPendingEmail(email);
+        redirect("/academy/verifie-ton-email?non-confirme=1");
+      }
+      redirect(`/academy/connexion?erreur=${encodeURIComponent(res.error)}`);
+    }
     const u = await getUser();
     if (u) {
       await upsertProfile(u.id, u.email);
@@ -53,20 +61,19 @@ export default async function AcademyConnexionPage({
 
   async function register(formData: FormData) {
     "use server";
-    // Le lien de confirmation ramène sur parziacademy.fr (adresse fixe, jamais
-    // tirée de l'en-tête Host) ; ailleurs (preview, local) → réglage Supabase.
+    const email = String(formData.get("email") ?? "").trim();
     const problem = passwordProblem(String(formData.get("password") ?? ""));
     if (problem) redirect(`/academy/connexion?mode=inscription&erreur=${encodeURIComponent(problem)}`);
-    const onAcademy = isAcademyHost((await headers()).get("host"));
-    const res = await signUp(
-      String(formData.get("email")),
-      String(formData.get("password")),
-      onAcademy ? `${ACADEMY_ORIGIN}/academy/connexion` : undefined,
-    );
-    if (!res.ok) {
-      // « Compte créé — confirme ton adresse e-mail… » n'est pas une erreur.
-      const key = res.error.startsWith("Compte créé") ? "info" : "erreur";
-      redirect(`/academy/connexion?mode=${key === "info" ? "" : "inscription"}&${key}=${encodeURIComponent(res.error)}`);
+    // Le lien de confirmation ramène sur parziacademy.fr/academy/confirmation,
+    // qui connecte l'élève directement.
+    const res = await signUp(email, String(formData.get("password")), await academyEmailRedirect(CONFIRMATION_PATH));
+    if (res.status === "erreur") {
+      redirect(`/academy/connexion?mode=inscription&erreur=${encodeURIComponent(res.error)}`);
+    }
+    if (res.status === "a-confirmer") {
+      // Compte créé, e-mail de confirmation parti : ce n'est pas une erreur.
+      await rememberPendingEmail(email);
+      redirect("/academy/verifie-ton-email");
     }
     const u = await getUser();
     if (u) {
@@ -180,9 +187,12 @@ export default async function AcademyConnexionPage({
                 className={input}
                 style={inputStyle}
               />
-              <button type="submit" className="pz-btn w-full mt-1" style={{ padding: "13px 16px" }}>
-                {isSignup ? "Créer mon compte →" : "Se connecter →"}
-              </button>
+              <SubmitButton
+                label={isSignup ? "Créer mon compte →" : "Se connecter →"}
+                pendingLabel={isSignup ? "Création du compte…" : "Connexion…"}
+                className="pz-btn w-full mt-1"
+                style={{ padding: "13px 16px" }}
+              />
             </form>
 
             {!isSignup ? (

@@ -5,6 +5,7 @@ import { cookies, headers as requestHeaders } from "next/headers";
 import { redirect } from "next/navigation";
 
 import { SURFACE_HEADER } from "@/lib/academy-host";
+import { friendlyAuthError as friendlyError, isEmailCooldown, isEmailNotConfirmed } from "@/lib/auth-errors";
 
 const SUPABASE_URL = process.env.SUPABASE_URL;
 const ANON_KEY = process.env.SUPABASE_ANON_KEY;
@@ -26,34 +27,84 @@ const headers = () => ({ apikey: ANON_KEY as string, "Content-Type": "applicatio
  * (si la confirmation est activée côté Supabase). Supabase ne l'utilise que si
  * l'adresse figure dans Authentication → URL Configuration → Redirect URLs ;
  * sinon il retombe sur la « Site URL ».
+ *
+ * Résultat :
+ * - « connecte » : session ouverte tout de suite (confirmation désactivée) ;
+ * - « a-confirmer » : compte créé, e-mail de confirmation envoyé. C'est aussi
+ *   le cas quand Supabase répond « patiente N secondes » : un e-mail vient de
+ *   partir vers cette adresse (double clic, ou nouvel essai trop rapide) ;
+ * - « erreur » : message à afficher.
  */
-export async function signUp(
-  email: string,
-  password: string,
-  redirectTo?: string,
-): Promise<{ ok: true } | { ok: false; error: string }> {
+export type SignUpResult = { status: "connecte" } | { status: "a-confirmer" } | { status: "erreur"; error: string };
+
+export async function signUp(email: string, password: string, redirectTo?: string): Promise<SignUpResult> {
   const query = redirectTo ? `?redirect_to=${encodeURIComponent(redirectTo)}` : "";
   const r = await fetch(`${AUTH()}/signup${query}`, {
     method: "POST", headers: headers(),
     body: JSON.stringify({ email, password }),
   });
-  const j = await r.json();
-  if (!r.ok) return { ok: false, error: friendlyError(j) };
+  const j = await r.json().catch(() => ({}));
+  if (!r.ok) {
+    if (isEmailCooldown(j)) return { status: "a-confirmer" };
+    return { status: "erreur", error: friendlyError(j) };
+  }
   if (j.access_token) {
     await storeSession(j as AuthTokens);
-    return { ok: true };
+    return { status: "connecte" };
   }
-  // Confirmation e-mail activée côté Supabase : pas de session immédiate
-  return { ok: false, error: "Compte créé — confirme ton adresse e-mail puis connecte-toi." };
+  return { status: "a-confirmer" };
 }
 
-export async function signIn(email: string, password: string): Promise<{ ok: true } | { ok: false; error: string }> {
+/**
+ * Renvoie l'e-mail de confirmation d'inscription. Supabase impose un délai
+ * minimum entre deux e-mails pour une même adresse : `cooldown` le signale.
+ */
+export async function resendSignupEmail(
+  email: string,
+  redirectTo?: string,
+): Promise<{ ok: true } | { ok: false; cooldown: boolean; error: string }> {
+  const query = redirectTo ? `?redirect_to=${encodeURIComponent(redirectTo)}` : "";
+  const r = await fetch(`${AUTH()}/resend${query}`, {
+    method: "POST", headers: headers(),
+    body: JSON.stringify({ type: "signup", email }),
+  });
+  if (r.ok) return { ok: true };
+  const j = await r.json().catch(() => ({}));
+  return { ok: false, cooldown: isEmailCooldown(j), error: friendlyError(j) };
+}
+
+/**
+ * Lien de confirmation cliqué : Supabase a confirmé l'adresse et renvoie une
+ * session dans le fragment d'URL. On vérifie le jeton auprès de Supabase avant
+ * de l'enregistrer : l'élève est connecté sans ressaisir son mot de passe.
+ */
+export async function openSessionFromEmailLink(
+  accessToken: string,
+  refreshToken: string,
+): Promise<{ ok: true } | { ok: false }> {
+  if (!authEnabled() || !accessToken || !refreshToken) return { ok: false };
+  try {
+    const r = await fetch(`${AUTH()}/user`, { headers: { ...headers(), Authorization: `Bearer ${accessToken}` } });
+    if (!r.ok) return { ok: false };
+    const u = (await r.json()) as { email_confirmed_at?: string | null };
+    if (!u.email_confirmed_at) return { ok: false };
+  } catch {
+    return { ok: false };
+  }
+  await storeSession({ access_token: accessToken, refresh_token: refreshToken });
+  return { ok: true };
+}
+
+export async function signIn(
+  email: string,
+  password: string,
+): Promise<{ ok: true } | { ok: false; error: string; unconfirmed?: boolean }> {
   const r = await fetch(`${AUTH()}/token?grant_type=password`, {
     method: "POST", headers: headers(),
     body: JSON.stringify({ email, password }),
   });
-  const j = await r.json();
-  if (!r.ok) return { ok: false, error: friendlyError(j) };
+  const j = await r.json().catch(() => ({}));
+  if (!r.ok) return { ok: false, error: friendlyError(j), unconfirmed: isEmailNotConfirmed(j) };
   await storeSession(j as AuthTokens);
   return { ok: true };
 }
@@ -161,21 +212,4 @@ export async function requireUser(): Promise<SessionUser> {
     redirect(surface === "academy" ? "/academy/connexion" : "/connexion");
   }
   return u;
-}
-
-function friendlyError(j: unknown): string {
-  const raw = typeof j === "object" && j !== null
-    ? ((j as Record<string, unknown>).error_description || (j as Record<string, unknown>).msg || (j as Record<string, unknown>).message || "")
-    : "";
-  const s = String(raw);
-  if (/invalid login credentials/i.test(s)) return "E-mail ou mot de passe incorrect.";
-  if (/already registered/i.test(s)) return "Un compte existe déjà avec cet e-mail — connecte-toi.";
-  if (/password should be at least/i.test(s)) return "Le mot de passe doit faire au moins 8 caractères.";
-  if (/should contain at least one character of each/i.test(s)) return "Le mot de passe doit contenir au moins une lettre et un chiffre.";
-  if (/weak.*password|password.*weak/i.test(s)) return "Ce mot de passe est trop faible : 8 caractères min., lettres et chiffres.";
-  if (/email.*confirm/i.test(s)) return "Confirme ton adresse e-mail avant de te connecter.";
-  if (/different from the old password/i.test(s)) return "Choisis un mot de passe différent de l'ancien.";
-  if (/only request this after|security purposes/i.test(s)) return "Patiente une minute avant de redemander un e-mail.";
-  if (/rate limit/i.test(s)) return "Trop d'e-mails envoyés pour le moment. Réessaie dans une heure.";
-  return s || "Une erreur est survenue. Réessaie.";
 }

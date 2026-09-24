@@ -2,9 +2,13 @@
 
 import { useEffect, useSyncExternalStore } from "react";
 
+import { parseAuthFragment } from "@/lib/auth-errors";
+
 // Retour du lien de l'e-mail de confirmation Supabase : le résultat arrive dans
 // le fragment d'URL (#access_token=… ou #error=…), invisible côté serveur.
 // On l'affiche une fois, puis on efface le fragment (il peut contenir un jeton).
+// Un lien envoyé avant la page /academy/confirmation (qui connecte directement)
+// arrive encore ici avec une session : on le fait suivre là-bas.
 
 // Dernier fragment non vide vu : le message reste affiché après l'effacement
 // du fragment dans la barre d'adresse.
@@ -19,21 +23,17 @@ const readHash = () => {
 };
 
 function parse(hash: string): { ok: boolean; text: string } | null {
-  if (!hash || hash.length < 2) return null;
-  const p = new URLSearchParams(hash.slice(1));
-  if (p.get("error") || p.get("error_code")) {
-    const expired = p.get("error_code") === "otp_expired";
+  const f = parseAuthFragment(hash);
+  if (!f) return null;
+  if (f.kind === "erreur") {
     return {
       ok: false,
-      text: expired
+      text: f.expired
         ? "Ce lien de confirmation a expiré ou a déjà été utilisé. Essaie de te connecter : si ton adresse est déjà confirmée, ça fonctionnera."
         : "La confirmation de ton adresse n'a pas abouti. Réessaie de te connecter, ou recrée ton compte.",
     };
   }
-  if (p.get("access_token") || p.get("type") === "signup") {
-    return { ok: true, text: "Adresse e-mail confirmée. Connecte-toi pour commencer ta formation." };
-  }
-  return null;
+  return { ok: true, text: "Adresse e-mail confirmée. Ouverture de ton espace…" };
 }
 
 export default function ConfirmationNotice() {
@@ -41,9 +41,12 @@ export default function ConfirmationNotice() {
   const notice = parse(hash);
 
   useEffect(() => {
-    if (notice && window.location.hash) {
-      window.history.replaceState(null, "", window.location.pathname + window.location.search);
+    if (!notice || !window.location.hash) return;
+    if (parseAuthFragment(window.location.hash)?.kind === "session") {
+      window.location.replace(`/academy/confirmation${window.location.hash}`);
+      return;
     }
+    window.history.replaceState(null, "", window.location.pathname + window.location.search);
   }, [notice]);
 
   if (!notice) return null;
