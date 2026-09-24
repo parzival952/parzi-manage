@@ -8,6 +8,7 @@ import LessonAside from "@/components/LessonAside";
 import LessonNotes from "@/components/LessonNotes";
 import LessonReader from "@/components/LessonReader";
 import LessonQuiz from "@/components/LessonQuiz";
+import { quizAnswersToOriginal, quizForDisplay } from "@/lib/academy-quiz-order";
 import {
   loadLatestDiagnosticReport,
 } from "@/lib/academy-diagnostic-report";
@@ -98,10 +99,14 @@ export default async function LessonPage({
     null;
 
   async function complete(
-    answers: number[],
+    displayedAnswers: number[],
     confidences?: ConfidenceValue[],
   ) {
     "use server";
+
+    // Les réponses arrivent dans l'ordre mélangé affiché : on les remet dans
+    // l'ordre d'origine (celui des clés de correction) avant de corriger.
+    const answers = quizAnswersToOriginal(lesson, displayedAnswers);
 
     // Niveaux d'assurance : transmis seulement s'ils sont complets et valides.
     const validConfidences =
@@ -286,7 +291,7 @@ export default async function LessonPage({
         </div>
 
         <LessonQuiz
-          questions={lesson.quiz}
+          questions={quizForDisplay(lesson)}
           onComplete={complete}
           isMission={isMission}
         />
