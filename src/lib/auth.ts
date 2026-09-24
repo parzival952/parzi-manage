@@ -170,7 +170,9 @@ function friendlyError(j: unknown): string {
   const s = String(raw);
   if (/invalid login credentials/i.test(s)) return "E-mail ou mot de passe incorrect.";
   if (/already registered/i.test(s)) return "Un compte existe déjà avec cet e-mail — connecte-toi.";
-  if (/password should be at least/i.test(s)) return "Le mot de passe doit faire au moins 6 caractères.";
+  if (/password should be at least/i.test(s)) return "Le mot de passe doit faire au moins 8 caractères.";
+  if (/should contain at least one character of each/i.test(s)) return "Le mot de passe doit contenir au moins une lettre et un chiffre.";
+  if (/weak.*password|password.*weak/i.test(s)) return "Ce mot de passe est trop faible : 8 caractères min., lettres et chiffres.";
   if (/email.*confirm/i.test(s)) return "Confirme ton adresse e-mail avant de te connecter.";
   if (/different from the old password/i.test(s)) return "Choisis un mot de passe différent de l'ancien.";
   if (/only request this after|security purposes/i.test(s)) return "Patiente une minute avant de redemander un e-mail.";

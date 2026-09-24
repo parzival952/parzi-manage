@@ -39,3 +39,22 @@ test.describe("Mot de passe oublié", () => {
     await expect(page.getByText("Les deux mots de passe ne sont pas identiques.")).toBeVisible();
   });
 });
+
+test.describe("Règles des mots de passe", () => {
+  test("8 caractères minimum, avec au moins une lettre et un chiffre", async () => {
+    const { passwordProblem } = await import("../src/lib/password-policy");
+    expect(passwordProblem("abc12")).toMatch(/au moins 8 caractères/);
+    expect(passwordProblem("abcdefgh")).toMatch(/une lettre et un chiffre/);
+    expect(passwordProblem("12345678")).toMatch(/une lettre et un chiffre/);
+    expect(passwordProblem("élève2026")).toBeNull();
+    expect(passwordProblem("secret123")).toBeNull();
+  });
+
+  test("le nouveau mot de passe trop faible est refusé", async ({ page }) => {
+    await page.goto("/academy/nouveau-mot-de-passe#access_token=faux&refresh_token=faux&type=recovery");
+    await page.getByLabel("Nouveau mot de passe").fill("motdepasse");
+    await page.getByLabel("Confirme le mot de passe").fill("motdepasse");
+    await page.getByRole("button", { name: /Enregistrer et me connecter/ }).click();
+    await expect(page.getByText("Le mot de passe doit contenir au moins une lettre et un chiffre.")).toBeVisible();
+  });
+});
