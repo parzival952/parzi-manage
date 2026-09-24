@@ -9,12 +9,19 @@ import {
 } from "@/lib/academy-state";
 import { chaptersCompleted } from "@/lib/academy";
 import { requireUser } from "@/lib/auth";
+import AdminPreviewBanner from "@/components/AdminPreviewBanner";
+import { adminPreviewState, maxedStats } from "@/lib/academy-admin-preview";
 import { evaluateBadges, sortBadges, TIER_TONE, type BadgeStats } from "@/lib/badges";
 
 export const metadata = { title: "Badges" };
 
-export default async function BadgesPage() {
-  await requireUser();
+export default async function BadgesPage({
+  searchParams,
+}: {
+  searchParams: Promise<Record<string, string | string[] | undefined>>;
+}) {
+  const user = await requireUser();
+  const { admin, preview } = adminPreviewState(user.email, await searchParams);
 
   const academyState = await loadAcademyState();
 
@@ -25,15 +32,19 @@ export default async function BadgesPage() {
   const p = academyStateToProgress(
     academyState,
   );
-  const stats: BadgeStats = {
-    level: p.info.level, xp: p.xp, streak: p.streak, best: p.best_streak,
-    lessons: p.done.size, chapters: chaptersCompleted(p.done), perfect: p.perfect,
-  };
+  // Aperçu admin : statistiques « tout débloqué » pour l'affichage seulement.
+  const stats: BadgeStats = preview
+    ? maxedStats()
+    : {
+        level: p.info.level, xp: p.xp, streak: p.streak, best: p.best_streak,
+        lessons: p.done.size, chapters: chaptersCompleted(p.done), perfect: p.perfect,
+      };
   const badges = sortBadges(evaluateBadges(stats));
   const earned = badges.filter((b) => b.earned).length;
 
   return (
     <div className="flex flex-col gap-5">
+      <AdminPreviewBanner admin={admin} preview={preview} path="/academy/badges" />
       <div className="pz-rise">
         <Link href="/academy/profil" className="text-[12.5px] pz-muted hover:text-white">← Profil</Link>
         <h1 className="text-[22px] font-extrabold tracking-tight mt-2">Badges &amp; trophées</h1>
