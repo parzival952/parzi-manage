@@ -1,9 +1,10 @@
 // Registre des mises en situation PARZI Academy.
 import type { Scenario } from "./engine";
+import { LEMAIRE } from "./scenarios/lemaire";
 import { MBAYE } from "./scenarios/mbaye";
 import { TRAORE } from "./scenarios/traore";
 
-export const SCENARIOS: Scenario[] = [MBAYE, TRAORE];
+export const SCENARIOS: Scenario[] = [MBAYE, TRAORE, LEMAIRE];
 
 export function getScenario(id: string): Scenario | null {
   return SCENARIOS.find((s) => s.id === id) ?? null;

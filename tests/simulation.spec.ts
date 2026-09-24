@@ -14,6 +14,7 @@ import {
   type Scenario,
   type SimState,
 } from "../src/lib/simulation/engine";
+import { LEMAIRE } from "../src/lib/simulation/scenarios/lemaire";
 import { MBAYE } from "../src/lib/simulation/scenarios/mbaye";
 import { TRAORE } from "../src/lib/simulation/scenarios/traore";
 import { COURSE } from "../src/lib/academy-course";
@@ -151,6 +152,38 @@ test.describe("Le dossier Traoré — mandat d'un mineur", () => {
   });
 });
 
+test.describe("Le dossier Lemaire — crise médiatique", () => {
+  test("une gestion exemplaire donne « Gestionnaire de crise » et garde le sponsor", () => {
+    const r = LEMAIRE.result(play(LEMAIRE, ["faits", "plan"], ["stop", "verite", "aligner", "transparence", "preparer"]));
+    expect(r.outcome).toBe("accord");
+    expect(r.score).toBeGreaterThanOrEqual(85);
+    expect(r.grade).toBe("Gestionnaire de crise");
+    expect(r.tiles.find((t) => t.label === "Sponsor")?.value).toBe("maintenu");
+    expect(r.missed).toEqual([]);
+  });
+
+  test("laisser poster à chaud puis mentir à la presse fait perdre le contrôle", () => {
+    const s = play(LEMAIRE, ["faits", "club"], ["laisser", "mensonge"]);
+    expect(s.outcome).toBe("rupture");
+    expect(LEMAIRE.result(s).grade).toBe("Crise hors de contrôle");
+    expect(LEMAIRE.result(s).score).toBeLessThanOrEqual(30);
+  });
+
+  test("le démenti prouvé n'existe que si les faits ont été vérifiés", () => {
+    const sans = play(LEMAIRE, ["club", "plan"], ["stop"]);
+    expect(currentNode(LEMAIRE, sans)!.choices.map((c) => c.id)).not.toContain("verite");
+    const avec = play(LEMAIRE, ["faits", "plan"], ["stop"]);
+    expect(currentNode(LEMAIRE, avec)!.choices.map((c) => c.id)).toContain("verite");
+  });
+
+  test("off, deux communiqués et improvisation coûtent des points de maîtrise", () => {
+    const r = LEMAIRE.result(play(LEMAIRE, ["faits", "plan"], ["stop", "off", "separe", "transparence", "naturel"]));
+    expect(r.tiles.find((t) => t.label === "Maîtrise")?.value).toBe("0/25");
+    expect(r.notes.join(" ")).toContain("en off");
+    expect(r.score).toBeLessThan(50);
+  });
+});
+
 test.describe("Simulations — XP", () => {
   test("paliers : 0 / 30 / 60 / 100 XP selon le meilleur score", () => {
     expect(xpForScore(49)).toBe(0);
@@ -241,6 +274,27 @@ test("PARZI Academy : simulation Traoré, une faute grave arrête la partie", as
   await expect(page.getByRole("link", { name: /Relire : La protection des joueurs mineurs/ })).toBeVisible();
 });
 
+test("PARZI Academy : simulation Lemaire jouable de bout en bout", async ({ page }) => {
+  await page.goto("/academy/simulation/dossier-lemaire");
+  await expect(page.getByRole("heading", { name: "Le dossier Lemaire" })).toBeVisible();
+  await page.getByRole("button", { name: "Préparer le rendez-vous →" }).click();
+  await page.getByRole("button", { name: /Vérifier les faits/ }).click();
+  await page.getByRole("button", { name: /Ressortir ton plan de crise/ }).click();
+  await page.getByRole("button", { name: "Commencer l'échange →" }).click();
+  for (const answer of [
+    /Ne poste rien/,
+    /je peux le prouver/,
+    /une seule voix/,
+    /Je vous appelle d'abord vous/,
+    /On prépare trois messages/,
+  ]) {
+    await page.getByRole("button", { name: answer }).click();
+  }
+  await expect(page.getByRole("heading", { name: "Gestionnaire de crise" })).toBeVisible();
+  await expect(page.getByText(/\+100 XP ajoutés à ton compte|ce palier est déjà obtenu/)).toBeVisible();
+  await expect(page.getByRole("link", { name: /Relire : Communication de crise/ }).first()).toBeVisible();
+});
+
 test("PARZI Academy : les simulations sont proposées dans les bons chapitres et leçons", async ({ page }) => {
   await page.goto("/academy/chapitre/art-negociation");
   await expect(page.getByRole("link", { name: /Simulation : Le dossier Mbaye/ })).toBeVisible();
@@ -248,6 +302,8 @@ test("PARZI Academy : les simulations sont proposées dans les bons chapitres et
   await expect(page.getByRole("link", { name: /Simulation : Le dossier Mbaye/ })).toBeVisible();
   await page.goto("/academy/lecon/mandat");
   await expect(page.getByRole("link", { name: /Simulation : Le dossier Traoré/ })).toBeVisible();
+  await page.goto("/academy/chapitre/medias-communication");
+  await expect(page.getByRole("link", { name: /Simulation : Le dossier Lemaire/ })).toBeVisible();
   await page.goto("/academy/chapitre/fondamentaux");
   await expect(page.getByRole("link", { name: /Simulation :/ })).toHaveCount(0);
 });
