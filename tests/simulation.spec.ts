@@ -14,6 +14,7 @@ import {
   type Scenario,
   type SimState,
 } from "../src/lib/simulation/engine";
+import { BENALI } from "../src/lib/simulation/scenarios/benali";
 import { FOURNIER } from "../src/lib/simulation/scenarios/fournier";
 import { LEMAIRE } from "../src/lib/simulation/scenarios/lemaire";
 import { MBAYE } from "../src/lib/simulation/scenarios/mbaye";
@@ -300,6 +301,51 @@ test.describe("Le dossier Rivière — le joueur d'un confrère", () => {
   });
 });
 
+test.describe("Le dossier Benali — transfert à l'étranger", () => {
+  test("net garanti, quota vérifié, montage refusé, solidarité, dossier bouclé : « Agent international »", () => {
+    for (const [prep, choices] of [
+      [["fiscal", "admin"], ["net", "quota", "refus-montage", "bonus", "dossier"]],
+      [["fiscal", "formation"], ["net", "verifier", "refus-montage", "solidarite", "relance"]],
+      [["admin", "formation"], ["ecrit", "quota", "avocat", "solidarite", "dossier"]],
+    ] as [string[], string[]][]) {
+      const r = BENALI.result(play(BENALI, prep, choices));
+      expect(r.outcome, prep.join("+")).toBe("accord");
+      expect(r.score, prep.join("+")).toBeGreaterThanOrEqual(85);
+      expect(r.grade).toBe("Agent international");
+    }
+  });
+
+  test("accepter le montage offshore = faute grave, fin immédiate", () => {
+    const s = play(BENALI, ["fiscal", "admin"], ["net", "quota", "accepter-montage"]);
+    expect(s.outcome).toBe("faute");
+    expect(s.history).toHaveLength(3);
+    expect(BENALI.result(s).headline).toContain("licence");
+  });
+
+  test("bluffer sans offre ou annoncer avant la validation fait rater le transfert", () => {
+    const bluff = play(BENALI, ["fiscal", "admin"], ["bluff"]);
+    expect(bluff.outcome).toBe("rupture");
+    expect(BENALI.result(bluff).headline).toContain("bluff");
+    const annonce = play(BENALI, ["fiscal", "admin"], ["net", "quota", "refus-montage", "bonus", "annoncer"]);
+    expect(annonce.outcome).toBe("rupture");
+    expect(BENALI.result(annonce).grade).toBe("Transfert raté");
+  });
+
+  test("brut accepté, éligibilité promise et solidarité oubliée coûtent la rigueur", () => {
+    const r = BENALI.result(play(BENALI, ["fiscal", "admin"], ["accepter", "promettre", "avocat", "ignorer", "relance"]));
+    expect(r.outcome).toBe("accord");
+    expect(r.tiles.find((t) => t.label === "Rigueur")?.value).toBe("0/25");
+    expect(r.headline).toContain("brut");
+  });
+
+  test("les réponses préparées n'existent qu'avec la bonne préparation", () => {
+    const ids = (s: SimState) => currentNode(BENALI, s)!.choices.map((c) => c.id);
+    expect(ids(initialState(BENALI, ["admin", "formation"]))).not.toContain("net");
+    expect(ids(play(BENALI, ["fiscal", "formation"], ["net"]))).not.toContain("quota");
+    expect(ids(play(BENALI, ["fiscal", "admin"], ["net", "quota", "refus-montage"]))).not.toContain("solidarite");
+  });
+});
+
 test.describe("Simulations — XP", () => {
   test("paliers : 0 / 30 / 60 / 100 XP selon le meilleur score", () => {
     expect(xpForScore(49)).toBe(0);
@@ -466,6 +512,26 @@ test("PARZI Academy : simulation Rivière jouable de bout en bout", async ({ pag
   await expect(page.getByRole("link", { name: /Relire : Prospecter et développer son portefeuille/ }).first()).toBeVisible();
 });
 
+test("PARZI Academy : simulation Benali jouable de bout en bout", async ({ page }) => {
+  await page.goto("/academy/simulation/dossier-benali");
+  await expect(page.getByRole("heading", { name: "Le dossier Benali" })).toBeVisible();
+  await page.getByRole("button", { name: "Préparer le rendez-vous →" }).click();
+  await page.getByRole("button", { name: /Faire le point fiscal/ }).click();
+  await page.getByRole("button", { name: /Préparer le dossier administratif/ }).click();
+  await page.getByRole("button", { name: "Commencer l'échange →" }).click();
+  for (const answer of [
+    /2 millions brut ou net/,
+    /Kaya en a déjà 13 sur 14/,
+    /c'est un salaire déguisé/,
+    /combler l'écart avec des bonus/,
+    /On boucle aujourd'hui/,
+  ]) {
+    await page.getByRole("button", { name: answer }).click();
+  }
+  await expect(page.getByRole("heading", { name: "Agent international" })).toBeVisible();
+  await expect(page.getByRole("link", { name: /Relire : La mécanique d'un transfert international/ }).first()).toBeVisible();
+});
+
 test("PARZI Academy : les simulations sont proposées dans les bons chapitres et leçons", async ({ page }) => {
   await page.goto("/academy/chapitre/art-negociation");
   await expect(page.getByRole("link", { name: /Simulation : Le dossier Mbaye/ })).toBeVisible();
@@ -481,6 +547,8 @@ test("PARZI Academy : les simulations sont proposées dans les bons chapitres et
   await expect(page.getByRole("link", { name: /Simulation : Le dossier Fournier/ })).toBeVisible();
   await page.goto("/academy/lecon/prospection");
   await expect(page.getByRole("link", { name: /Simulation : Le dossier Rivière/ })).toBeVisible();
+  await page.goto("/academy/lecon/formation-solidarite");
+  await expect(page.getByRole("link", { name: /Simulation : Le dossier Benali/ })).toBeVisible();
   await page.goto("/academy/chapitre/scouting-evaluation");
   await expect(page.getByRole("link", { name: /Simulation :/ })).toHaveCount(0);
 });
