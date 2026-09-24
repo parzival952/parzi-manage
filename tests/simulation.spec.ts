@@ -18,6 +18,7 @@ import { FOURNIER } from "../src/lib/simulation/scenarios/fournier";
 import { LEMAIRE } from "../src/lib/simulation/scenarios/lemaire";
 import { MBAYE } from "../src/lib/simulation/scenarios/mbaye";
 import { MOREL } from "../src/lib/simulation/scenarios/morel";
+import { RIVIERE } from "../src/lib/simulation/scenarios/riviere";
 import { TRAORE } from "../src/lib/simulation/scenarios/traore";
 import { COURSE } from "../src/lib/academy-course";
 
@@ -252,6 +253,53 @@ test.describe("Le dossier Fournier — le joueur qui veut partir", () => {
   });
 });
 
+test.describe("Le dossier Rivière — le joueur d'un confrère", () => {
+  test("cadre, faits, loyauté, ligne rouge et suivi daté : « Agent loyal et redoutable »", () => {
+    for (const [prep, choices] of [
+      [["mandat", "reseau"], ["cadre", "faits", "droit-info", "non", "echeance"]],
+      [["mandat", "famille"], ["cadre", "reserve", "droit-info", "ligne", "echeance"]],
+      [["reseau", "famille"], ["question", "faits", "droit-info", "ligne", "echeance"]],
+    ] as [string[], string[]][]) {
+      const r = RIVIERE.result(play(RIVIERE, prep, choices));
+      expect(r.outcome, prep.join("+")).toBe("accord");
+      expect(r.score, prep.join("+")).toBeGreaterThanOrEqual(85);
+      expect(r.grade).toBe("Agent loyal et redoutable");
+    }
+  });
+
+  test("signer un mandat par-dessus celui d'un confrère ou payer la famille = faute grave", () => {
+    const signer = play(RIVIERE, ["mandat", "reseau"], ["signer"]);
+    expect(signer.outcome).toBe("faute");
+    expect(signer.history).toHaveLength(1);
+    expect(RIVIERE.result(signer).headline).toContain("deux agents");
+    const payer = play(RIVIERE, ["reseau", "famille"], ["question", "faits", "refus", "payer"]);
+    expect(payer.outcome).toBe("faute");
+    expect(RIVIERE.result(payer).headline).toContain("licence");
+  });
+
+  test("claquer la porte au père fait perdre le prospect", () => {
+    const s = play(RIVIERE, ["mandat", "famille"], ["sec"]);
+    expect(s.outcome).toBe("rupture");
+    expect(RIVIERE.result(s).grade).toBe("Prospect perdu");
+  });
+
+  test("dénigrer, appeler le club et pousser à résilier plaisent au père mais coûtent la posture", () => {
+    const r = RIVIERE.result(play(RIVIERE, ["mandat", "reseau"], ["cadre", "denigrer", "appeler", "flou", "resilier"]));
+    expect(r.outcome).toBe("accord");
+    expect(r.tiles.find((t) => t.label === "Posture")?.value).toBe("0/25");
+    expect(r.score).toBeLessThan(50);
+    expect(r.headline).toContain("réputation");
+  });
+
+  test("les réponses préparées n'existent qu'avec la bonne préparation", () => {
+    const ids = (s: SimState) => currentNode(RIVIERE, s)!.choices.map((c) => c.id);
+    expect(ids(initialState(RIVIERE, ["reseau", "famille"]))).not.toContain("cadre");
+    expect(ids(initialState(RIVIERE, ["mandat", "famille"]))).toContain("cadre");
+    expect(ids(play(RIVIERE, ["mandat", "famille"], ["cadre"]))).not.toContain("faits");
+    expect(ids(play(RIVIERE, ["mandat", "reseau"], ["cadre", "faits", "droit-info"]))).not.toContain("ligne");
+  });
+});
+
 test.describe("Simulations — XP", () => {
   test("paliers : 0 / 30 / 60 / 100 XP selon le meilleur score", () => {
     expect(xpForScore(49)).toBe(0);
@@ -397,6 +445,27 @@ test("PARZI Academy : simulation Fournier jouable de bout en bout", async ({ pag
   await expect(page.getByRole("link", { name: /Relire : Les conversations difficiles/ }).first()).toBeVisible();
 });
 
+test("PARZI Academy : simulation Rivière jouable de bout en bout", async ({ page }) => {
+  await page.goto("/academy/simulation/dossier-riviere");
+  await expect(page.getByRole("heading", { name: "Le dossier Rivière" })).toBeVisible();
+  await page.getByRole("button", { name: "Préparer le rendez-vous →" }).click();
+  await page.getByRole("button", { name: /Vérifier la situation contractuelle/ }).click();
+  await page.getByRole("button", { name: /Te renseigner sur la famille/ }).click();
+  await page.getByRole("button", { name: "Commencer l'échange →" }).click();
+  await expect(page.getByText("Patrick Rivière · père de Nolan").first()).toBeVisible();
+  for (const answer of [
+    /un deuxième mandat par-dessus le premier/,
+    /Je ne commenterai pas le travail d'un confrère/,
+    /demander un point écrit sur ses discussions/,
+    /Je ne paie personne pour obtenir un mandat/,
+    /Trois choses/,
+  ]) {
+    await page.getByRole("button", { name: answer }).click();
+  }
+  await expect(page.getByRole("heading", { name: "Agent loyal et redoutable" })).toBeVisible();
+  await expect(page.getByRole("link", { name: /Relire : Prospecter et développer son portefeuille/ }).first()).toBeVisible();
+});
+
 test("PARZI Academy : les simulations sont proposées dans les bons chapitres et leçons", async ({ page }) => {
   await page.goto("/academy/chapitre/art-negociation");
   await expect(page.getByRole("link", { name: /Simulation : Le dossier Mbaye/ })).toBeVisible();
@@ -410,6 +479,8 @@ test("PARZI Academy : les simulations sont proposées dans les bons chapitres et
   await expect(page.getByRole("link", { name: /Simulation : Le dossier Morel/ })).toBeVisible();
   await page.goto("/academy/lecon/conversations-difficiles");
   await expect(page.getByRole("link", { name: /Simulation : Le dossier Fournier/ })).toBeVisible();
+  await page.goto("/academy/lecon/prospection");
+  await expect(page.getByRole("link", { name: /Simulation : Le dossier Rivière/ })).toBeVisible();
   await page.goto("/academy/chapitre/scouting-evaluation");
   await expect(page.getByRole("link", { name: /Simulation :/ })).toHaveCount(0);
 });
