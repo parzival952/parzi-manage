@@ -16,6 +16,7 @@ import {
 } from "../src/lib/simulation/engine";
 import { LEMAIRE } from "../src/lib/simulation/scenarios/lemaire";
 import { MBAYE } from "../src/lib/simulation/scenarios/mbaye";
+import { MOREL } from "../src/lib/simulation/scenarios/morel";
 import { TRAORE } from "../src/lib/simulation/scenarios/traore";
 import { COURSE } from "../src/lib/academy-course";
 
@@ -184,6 +185,42 @@ test.describe("Le dossier Lemaire — crise médiatique", () => {
   });
 });
 
+test.describe("Le dossier Morel — commission & éthique", () => {
+  test("une conduite irréprochable donne « Agent irréprochable »", () => {
+    const r = MOREL.result(play(MOREL, ["mandat", "texte"], ["clair", "encadrer", "refus-net", "refus-tpo", "tout-montrer"]));
+    expect(r.outcome).toBe("accord");
+    expect(r.score).toBeGreaterThanOrEqual(85);
+    expect(r.grade).toBe("Agent irréprochable");
+    expect(r.tiles.find((t) => t.label === "Intégrité")?.value).toBe("25/25");
+  });
+
+  test("extra discret, fausse facture et TPO = faute grave, fin immédiate", () => {
+    for (const bad of ["extra-discret", "fausse-facture"]) {
+      const s = play(MOREL, ["mandat", "texte"], ["clair", "refuser", bad]);
+      expect(s.outcome, bad).toBe("faute");
+      expect(MOREL.result(s).grade).toBe("Faute grave");
+    }
+    const tpo = play(MOREL, ["mandat", "texte"], ["clair", "refuser", "refus-net", "accepter-tpo"]);
+    expect(tpo.outcome).toBe("faute");
+    expect(MOREL.result(tpo).score).toBeLessThanOrEqual(15);
+  });
+
+  test("cacher la commission du club au joueur : il le découvre et met fin au mandat", () => {
+    for (const last of ["tout-montrer", "priorites"]) {
+      const s = play(MOREL, ["mandat", "joueur"], ["clair", "cacher", "refus-net", "refus-tpo", last]);
+      expect(s.outcome, last).toBe("rupture");
+      expect(MOREL.result(s).grade).toBe("Mandat perdu");
+      expect(MOREL.result(s).headline).toContain("caché");
+    }
+  });
+
+  test("commission au-dessus du plafond et réponses floues coûtent des points d'intégrité", () => {
+    const r = MOREL.result(play(MOREL, ["texte", "joueur"], ["gonfle", "refuser", "refus-net", "hesiter", "esquiver"]));
+    expect(r.notes.join(" ")).toContain("plafond");
+    expect(r.tiles.find((t) => t.label === "Intégrité")?.value).toBe("0/25");
+  });
+});
+
 test.describe("Simulations — XP", () => {
   test("paliers : 0 / 30 / 60 / 100 XP selon le meilleur score", () => {
     expect(xpForScore(49)).toBe(0);
@@ -295,6 +332,20 @@ test("PARZI Academy : simulation Lemaire jouable de bout en bout", async ({ page
   await expect(page.getByRole("link", { name: /Relire : Communication de crise/ }).first()).toBeVisible();
 });
 
+test("PARZI Academy : simulation Morel, un « extra discret » est une faute grave", async ({ page }) => {
+  await page.goto("/academy/simulation/dossier-morel");
+  await expect(page.getByRole("heading", { name: "Le dossier Morel" })).toBeVisible();
+  await page.getByRole("button", { name: "Préparer le rendez-vous →" }).click();
+  await page.getByRole("button", { name: /Relire ton mandat/ }).click();
+  await page.getByRole("button", { name: /Vérifier le règlement/ }).click();
+  await page.getByRole("button", { name: "Commencer l'échange →" }).click();
+  await page.getByRole("button", { name: /comme prévu dans son mandat/ }).click();
+  await page.getByRole("button", { name: /accord écrit de toutes les parties/ }).click();
+  await page.getByRole("button", { name: /Discret, ça me va/ }).click();
+  await expect(page.getByRole("heading", { name: "Faute grave" })).toBeVisible();
+  await expect(page.getByRole("link", { name: /Relire : Éthique, déontologie/ }).first()).toBeVisible();
+});
+
 test("PARZI Academy : les simulations sont proposées dans les bons chapitres et leçons", async ({ page }) => {
   await page.goto("/academy/chapitre/art-negociation");
   await expect(page.getByRole("link", { name: /Simulation : Le dossier Mbaye/ })).toBeVisible();
@@ -304,6 +355,8 @@ test("PARZI Academy : les simulations sont proposées dans les bons chapitres et
   await expect(page.getByRole("link", { name: /Simulation : Le dossier Traoré/ })).toBeVisible();
   await page.goto("/academy/chapitre/medias-communication");
   await expect(page.getByRole("link", { name: /Simulation : Le dossier Lemaire/ })).toBeVisible();
-  await page.goto("/academy/chapitre/fondamentaux");
+  await page.goto("/academy/lecon/deontologie");
+  await expect(page.getByRole("link", { name: /Simulation : Le dossier Morel/ })).toBeVisible();
+  await page.goto("/academy/chapitre/scouting-evaluation");
   await expect(page.getByRole("link", { name: /Simulation :/ })).toHaveCount(0);
 });
