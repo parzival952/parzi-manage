@@ -165,6 +165,22 @@ function migrate(d: DatabaseSync) {
     updated_at TEXT NOT NULL DEFAULT (datetime('now')),
     PRIMARY KEY (user_id, scenario_id)
   );
+  CREATE TABLE IF NOT EXISTS academy_member_profiles (
+    user_id TEXT PRIMARY KEY,
+    first_name TEXT,
+    last_name TEXT,
+    age_range TEXT,
+    country TEXT,
+    region TEXT,
+    phone TEXT,
+    goal TEXT,
+    exam_horizon TEXT,
+    referral_source TEXT,
+    step INTEGER NOT NULL DEFAULT 1,
+    completed_at TEXT,
+    created_at TEXT NOT NULL DEFAULT (datetime('now')),
+    updated_at TEXT NOT NULL DEFAULT (datetime('now'))
+  );
   CREATE TABLE IF NOT EXISTS certifications (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     user_id TEXT NOT NULL,

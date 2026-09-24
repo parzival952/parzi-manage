@@ -9,11 +9,17 @@ export default function AcademyAuthShell({
   title,
   subtitle,
   children,
+  backLink = true,
+  wide = false,
 }: {
   theme: string;
   title: string;
   subtitle: string;
   children: ReactNode;
+  /** Lien « Retour à la connexion » (inutile une fois connecté). */
+  backLink?: boolean;
+  /** Carte plus large (formulaires à plusieurs colonnes). */
+  wide?: boolean;
 }) {
   return (
     <div className="parzi" data-theme={theme}>
@@ -21,7 +27,7 @@ export default function AcademyAuthShell({
         <ThemeToggle />
       </div>
       <div className="min-h-full flex items-center justify-center px-5 py-10">
-        <div className="w-full max-w-[440px]">
+        <div className={`w-full ${wide ? "max-w-[560px]" : "max-w-[440px]"}`}>
           <Link href="/academy/connexion" className="flex items-center gap-3 mb-6 pz-rise">
             <div
               className="w-10 h-10 rounded-[11px] grid place-items-center font-black text-white pz-sur-rouge text-[17px]"
@@ -38,11 +44,13 @@ export default function AcademyAuthShell({
             <p className="text-[13px] pz-muted mt-1 mb-6">{subtitle}</p>
             {children}
           </section>
-          <p className="text-[13px] pz-muted mt-5 text-center">
-            <Link href="/academy/connexion" className="font-bold pz-red hover:underline">
-              ← Retour à la connexion
-            </Link>
-          </p>
+          {backLink ? (
+            <p className="text-[13px] pz-muted mt-5 text-center">
+              <Link href="/academy/connexion" className="font-bold pz-red hover:underline">
+                ← Retour à la connexion
+              </Link>
+            </p>
+          ) : null}
         </div>
       </div>
     </div>
