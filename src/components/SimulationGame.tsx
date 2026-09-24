@@ -341,7 +341,7 @@ function Dossier({ sc, sim }: { sc: Scenario; sim: SimState }) {
             style={{ width: `${sim.trust}%`, background: trustColor }}
           />
         </div>
-        <p className="text-[11px] leading-4 pz-muted mt-2">Si elle tombe à {sc.ruptureAt}, la discussion s&apos;arrête.</p>
+        <p className="text-[11px] leading-4 pz-muted mt-2">Si elle tombe à {sc.ruptureAt}, la partie s&apos;arrête.</p>
       </section>
 
       <section className="pz-card p-4">
