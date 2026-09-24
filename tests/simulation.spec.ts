@@ -14,6 +14,7 @@ import {
   type Scenario,
   type SimState,
 } from "../src/lib/simulation/engine";
+import { FOURNIER } from "../src/lib/simulation/scenarios/fournier";
 import { LEMAIRE } from "../src/lib/simulation/scenarios/lemaire";
 import { MBAYE } from "../src/lib/simulation/scenarios/mbaye";
 import { MOREL } from "../src/lib/simulation/scenarios/morel";
@@ -221,6 +222,36 @@ test.describe("Le dossier Morel — commission & éthique", () => {
   });
 });
 
+test.describe("Le dossier Fournier — le joueur qui veut partir", () => {
+  test("écouter, assumer, apaiser, un plan, une sortie propre : Hugo reste", () => {
+    const r = FOURNIER.result(play(FOURNIER, ["bilan", "mandat"], ["ecouter", "assumer", "apaiser", "point-lundi", "amiable"]));
+    expect(r.outcome).toBe("accord");
+    expect(r.score).toBeGreaterThanOrEqual(85);
+    expect(r.grade).toBe("Agent de confiance");
+    expect(r.tiles.find((t) => t.label === "Hugo")?.value).toBe("reste");
+  });
+
+  test("menacer d'un procès dès l'annonce fait perdre le joueur tout de suite", () => {
+    const s = play(FOURNIER, ["bilan", "marche"], ["menacer"]);
+    expect(s.outcome).toBe("rupture");
+    expect(s.history).toHaveLength(1);
+    expect(FOURNIER.result(s).grade).toBe("Joueur perdu");
+    expect(FOURNIER.result(s).headline).toContain("avocat");
+  });
+
+  test("se défendre, surenchérir et « fais-moi confiance » font aussi partir Hugo", () => {
+    const s = play(FOURNIER, ["bilan", "marche"], ["defendre", "surencherir"]);
+    expect(s.outcome).toBe("rupture");
+  });
+
+  test("la piste Brémont n'existe que si le marché a été sondé", () => {
+    const sans = play(FOURNIER, ["bilan", "mandat"], ["ecouter", "assumer", "apaiser"]);
+    expect(currentNode(FOURNIER, sans)!.choices.map((c) => c.id)).not.toContain("bremont");
+    const avec = play(FOURNIER, ["bilan", "marche"], ["ecouter", "assumer", "apaiser"]);
+    expect(currentNode(FOURNIER, avec)!.choices.map((c) => c.id)).toContain("bremont");
+  });
+});
+
 test.describe("Simulations — XP", () => {
   test("paliers : 0 / 30 / 60 / 100 XP selon le meilleur score", () => {
     expect(xpForScore(49)).toBe(0);
@@ -346,6 +377,26 @@ test("PARZI Academy : simulation Morel, un « extra discret » est une faute gra
   await expect(page.getByRole("link", { name: /Relire : Éthique, déontologie/ }).first()).toBeVisible();
 });
 
+test("PARZI Academy : simulation Fournier jouable de bout en bout", async ({ page }) => {
+  await page.goto("/academy/simulation/dossier-fournier");
+  await expect(page.getByRole("heading", { name: "Le dossier Fournier" })).toBeVisible();
+  await page.getByRole("button", { name: "Préparer le rendez-vous →" }).click();
+  await page.getByRole("button", { name: /Faire le bilan honnête/ }).click();
+  await page.getByRole("button", { name: /Relire ton mandat/ }).click();
+  await page.getByRole("button", { name: "Commencer l'échange →" }).click();
+  for (const answer of [
+    /Merci de me le dire en face/,
+    /je t'ai proposé à onze clubs/,
+    /C'est normal d'être à bout/,
+    /je te fais un point chaque lundi/,
+    /on se sépare proprement/,
+  ]) {
+    await page.getByRole("button", { name: answer }).click();
+  }
+  await expect(page.getByRole("heading", { name: "Agent de confiance" })).toBeVisible();
+  await expect(page.getByRole("link", { name: /Relire : Les conversations difficiles/ }).first()).toBeVisible();
+});
+
 test("PARZI Academy : les simulations sont proposées dans les bons chapitres et leçons", async ({ page }) => {
   await page.goto("/academy/chapitre/art-negociation");
   await expect(page.getByRole("link", { name: /Simulation : Le dossier Mbaye/ })).toBeVisible();
@@ -357,6 +408,8 @@ test("PARZI Academy : les simulations sont proposées dans les bons chapitres et
   await expect(page.getByRole("link", { name: /Simulation : Le dossier Lemaire/ })).toBeVisible();
   await page.goto("/academy/lecon/deontologie");
   await expect(page.getByRole("link", { name: /Simulation : Le dossier Morel/ })).toBeVisible();
+  await page.goto("/academy/lecon/conversations-difficiles");
+  await expect(page.getByRole("link", { name: /Simulation : Le dossier Fournier/ })).toBeVisible();
   await page.goto("/academy/chapitre/scouting-evaluation");
   await expect(page.getByRole("link", { name: /Simulation :/ })).toHaveCount(0);
 });
