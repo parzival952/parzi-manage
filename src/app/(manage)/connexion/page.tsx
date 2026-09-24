@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { redirect } from "next/navigation";
 import { getUser, signIn, signUp } from "@/lib/auth";
+import { PASSWORD_HINT, PASSWORD_MIN_LENGTH, passwordProblem } from "@/lib/password-policy";
 import { ensureSeeded, upsertProfile } from "@/lib/queries";
 
 export const dynamic = "force-dynamic";
@@ -28,6 +29,8 @@ export default async function ConnexionPage({ searchParams }: { searchParams: Pr
 
   async function register(formData: FormData) {
     "use server";
+    const problem = passwordProblem(String(formData.get("password") ?? ""));
+    if (problem) redirect(`/connexion?mode=inscription&erreur=${encodeURIComponent(problem)}`);
     const res = await signUp(String(formData.get("email")), String(formData.get("password")));
     if (!res.ok) redirect(`/connexion?mode=inscription&erreur=${encodeURIComponent(res.error)}`);
     const u = await getUser();
@@ -89,8 +92,8 @@ export default async function ConnexionPage({ searchParams }: { searchParams: Pr
           <form action={isSignup ? register : login} className="flex flex-col gap-3">
             <input name="email" type="email" required placeholder="ton@email.com" autoComplete="email" className={input} />
             <input
-              name="password" type="password" required minLength={6} autoComplete={isSignup ? "new-password" : "current-password"}
-              placeholder="Mot de passe (6 caractères min.)" className={input}
+              name="password" type="password" required minLength={isSignup ? PASSWORD_MIN_LENGTH : 6} autoComplete={isSignup ? "new-password" : "current-password"}
+              placeholder={isSignup ? `Mot de passe (${PASSWORD_HINT})` : "Mot de passe"} className={input}
             />
             <button
               type="submit"

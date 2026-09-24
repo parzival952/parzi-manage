@@ -9,6 +9,7 @@ import { ACADEMY_ORIGIN, isAcademyHost } from "@/lib/academy-host";
 import { LESSON_COUNT } from "@/lib/academy-course";
 import { getAcademyTheme } from "@/lib/academy-theme";
 import { getUser, signIn, signUp } from "@/lib/auth";
+import { PASSWORD_HINT, PASSWORD_MIN_LENGTH, passwordProblem } from "@/lib/password-policy";
 import ThemeToggle from "@/components/ThemeToggle";
 import { getProfile, setPath, upsertProfile } from "@/lib/queries";
 import AcademyIcon, { type AcademyIconName } from "@/components/AcademyIcon";
@@ -54,6 +55,8 @@ export default async function AcademyConnexionPage({
     "use server";
     // Le lien de confirmation ramène sur parziacademy.fr (adresse fixe, jamais
     // tirée de l'en-tête Host) ; ailleurs (preview, local) → réglage Supabase.
+    const problem = passwordProblem(String(formData.get("password") ?? ""));
+    if (problem) redirect(`/academy/connexion?mode=inscription&erreur=${encodeURIComponent(problem)}`);
     const onAcademy = isAcademyHost((await headers()).get("host"));
     const res = await signUp(
       String(formData.get("email")),
@@ -171,9 +174,9 @@ export default async function AcademyConnexionPage({
                 name="password"
                 type="password"
                 required
-                minLength={6}
+                minLength={isSignup ? PASSWORD_MIN_LENGTH : 6}
                 autoComplete={isSignup ? "new-password" : "current-password"}
-                placeholder="Mot de passe (6 caractères min.)"
+                placeholder={isSignup ? `Mot de passe (${PASSWORD_HINT})` : "Mot de passe"}
                 className={input}
                 style={inputStyle}
               />

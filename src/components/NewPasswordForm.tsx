@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useActionState, useEffect, useState } from "react";
 
 import { AuthMessage, authInputClass, authInputStyle } from "@/components/AcademyAuthShell";
+import { PASSWORD_HINT, PASSWORD_MIN_LENGTH } from "@/lib/password-policy";
 
 type Recovery =
   | { state: "lecture" }
@@ -82,9 +83,9 @@ export default function NewPasswordForm({
           name="password"
           type="password"
           required
-          minLength={6}
+          minLength={PASSWORD_MIN_LENGTH}
           autoComplete="new-password"
-          placeholder="Nouveau mot de passe (6 caractères min.)"
+          placeholder={`Nouveau mot de passe (${PASSWORD_HINT})`}
           aria-label="Nouveau mot de passe"
           className={authInputClass}
           style={authInputStyle}
@@ -93,7 +94,7 @@ export default function NewPasswordForm({
           name="confirmation"
           type="password"
           required
-          minLength={6}
+          minLength={PASSWORD_MIN_LENGTH}
           autoComplete="new-password"
           placeholder="Confirme le mot de passe"
           aria-label="Confirme le mot de passe"

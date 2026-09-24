@@ -6,6 +6,7 @@ import AcademyAuthShell from "@/components/AcademyAuthShell";
 import NewPasswordForm from "@/components/NewPasswordForm";
 import { getAcademyTheme } from "@/lib/academy-theme";
 import { getUser, setPasswordWithRecovery } from "@/lib/auth";
+import { passwordProblem } from "@/lib/password-policy";
 import { getProfile, setPath, upsertProfile } from "@/lib/queries";
 
 export const metadata = { title: "Nouveau mot de passe" };
@@ -25,7 +26,8 @@ export default async function NouveauMotDePassePage() {
     if (!accessToken || !refreshToken) {
       return { error: "Ce lien n'est pas valide. Redemande un e-mail « mot de passe oublié »." };
     }
-    if (password.length < 6) return { error: "Le mot de passe doit faire au moins 6 caractères." };
+    const problem = passwordProblem(password);
+    if (problem) return { error: problem };
     if (password !== confirmation) return { error: "Les deux mots de passe ne sont pas identiques." };
 
     const res = await setPasswordWithRecovery(accessToken, refreshToken, password);
