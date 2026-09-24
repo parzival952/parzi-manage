@@ -4,10 +4,14 @@ import {
   choose,
   currentNode,
   initialState,
+  nextTier,
   NODE_ORDER,
   PREPS,
+  replay,
   result,
   validPrep,
+  xpForScore,
+  XP_MAX,
   type PrepId,
 } from "../src/lib/academy-simulation";
 
@@ -89,6 +93,32 @@ test.describe("Simulation de négociation — moteur", () => {
   });
 });
 
+test.describe("Simulation de négociation — XP", () => {
+  test("paliers : 0 / 30 / 60 / 100 XP selon le meilleur score", () => {
+    expect(xpForScore(49)).toBe(0);
+    expect(xpForScore(50)).toBe(30);
+    expect(xpForScore(70)).toBe(60);
+    expect(xpForScore(85)).toBe(100);
+    expect(xpForScore(100)).toBe(XP_MAX);
+    expect(nextTier(0)).toEqual({ min: 50, xp: 30 });
+    expect(nextTier(72)).toEqual({ min: 85, xp: 40 });
+    expect(nextTier(90)).toBeNull();
+  });
+
+  test("le serveur rejoue la partie et refuse les parties truquées", () => {
+    const ok = replay(["club", "planb"], BEST);
+    expect(ok?.node).toBe("fin");
+    expect(result(ok!).score).toBeGreaterThanOrEqual(85);
+    // préparation invalide, choix verrouillé, choix inconnu, partie inachevée, types faux
+    expect(replay(["club", "club"], BEST)).toBeNull();
+    expect(replay(["club", "joueur"], ["ancre", "silence", "camper", "montage", "temps"])).toBeNull();
+    expect(replay(["club", "planb"], ["ancre", "triche", "ecouter", "montage", "temps"])).toBeNull();
+    expect(replay(["club", "planb"], ["ancre", "silence"])).toBeNull();
+    expect(replay("club", BEST)).toBeNull();
+    expect(replay(["club", "planb"], [...BEST, "temps"])).toBeNull();
+  });
+});
+
 test("PARZI Academy : simulation jouable de bout en bout", async ({ page }) => {
   await page.goto("/academy/simulation");
   await expect(page.getByRole("heading", { name: "Simulation de négociation" })).toBeVisible();
@@ -116,9 +146,21 @@ test("PARZI Academy : simulation jouable de bout en bout", async ({ page }) => {
   await expect(page.getByText("Débrief, décision par décision")).toBeVisible();
   await expect(page.getByRole("link", { name: /Relire : Techniques & tactiques/ }).first()).toBeVisible();
   await expect(page.getByText(/Meilleur score : 9\d\/100/)).toBeVisible();
+  // Première partie : +100 XP (ou palier déjà obtenu si le test est rejoué).
+  await expect(page.getByText(/\+100 XP ajoutés à ton compte|ce palier est déjà obtenu/)).toBeVisible();
+  await expect(page.getByText(/toute l'XP de cette simulation/)).toBeVisible();
 
+  // Rejouer le même résultat ne rapporte plus d'XP.
   await page.getByRole("button", { name: "Rejouer avec la même préparation" }).click();
   await expect(page.getByText("Étape 1/5")).toBeVisible();
+  for (const answer of answers) {
+    await page.getByRole("button", { name: answer }).click();
+  }
+  await expect(page.getByText("Pas de nouvelle XP : ce palier est déjà obtenu.")).toBeVisible();
+
+  // Le meilleur score et l'XP gagnée sont gardés côté serveur.
+  await page.reload();
+  await expect(page.getByText(/XP gagnée : 100\/100/)).toBeVisible();
 });
 
 test("PARZI Academy : la simulation est proposée dans le chapitre Négociation", async ({ page }) => {

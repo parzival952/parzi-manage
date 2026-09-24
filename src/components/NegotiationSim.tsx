@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useRef, useState, useSyncExternalStore } from "react";
+import { useEffect, useRef, useState } from "react";
 
 import AcademyIcon from "@/components/AcademyIcon";
 import {
@@ -10,49 +10,40 @@ import {
   DOSSIER,
   initialState,
   monthlyValue,
+  nextTier,
   NODE_ORDER,
   PREP_COUNT,
   PREPS,
   result,
+  XP_MAX,
+  XP_TIERS,
   type PrepId,
   type SimState,
 } from "@/lib/academy-simulation";
+import type { SimulationRecord } from "@/lib/academy-simulation-xp";
 
 type Phase = "intro" | "prep" | "jeu" | "bilan";
 
-const BEST_KEY = "pz-simulation-mbaye-best";
-
-function readBest(): number | null {
-  try {
-    const v = window.localStorage.getItem(BEST_KEY);
-    return v === null ? null : Number(v);
-  } catch {
-    return null;
-  }
-}
-
-function saveBest(score: number) {
-  try {
-    const prev = readBest();
-    if (prev === null || score > prev) window.localStorage.setItem(BEST_KEY, String(score));
-  } catch {
-    /* navigation privée : on ignore */
-  }
-  window.dispatchEvent(new Event(BEST_KEY));
-}
-
-function subscribeBest(onChange: () => void) {
-  window.addEventListener(BEST_KEY, onChange);
-  return () => window.removeEventListener(BEST_KEY, onChange);
-}
+export type Best = { bestScore: number; xpTotal: number } | null;
+export type FinishResult = SimulationRecord | { error: string };
+type Saved = { status: "saving" } | { status: "ok"; record: SimulationRecord } | { status: "error" };
 
 const eur = (k: number) => `${k.toLocaleString("fr-FR")} 000 €`;
 
-export default function NegotiationSim({ lessonTitles }: { lessonTitles: Record<string, string> }) {
+export default function NegotiationSim({
+  lessonTitles,
+  initialBest,
+  onFinish,
+}: {
+  lessonTitles: Record<string, string>;
+  initialBest: Best;
+  onFinish: (prep: string[], choices: string[]) => Promise<FinishResult>;
+}) {
   const [phase, setPhase] = useState<Phase>("intro");
   const [prep, setPrep] = useState<PrepId[]>([]);
   const [sim, setSim] = useState<SimState | null>(null);
-  const best = useSyncExternalStore(subscribeBest, readBest, () => null);
+  const [best, setBest] = useState<Best>(initialBest);
+  const [saved, setSaved] = useState<Saved>({ status: "saving" });
   const endRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -73,8 +64,15 @@ export default function NegotiationSim({ lessonTitles }: { lessonTitles: Record<
     const next = choose(sim, choiceId);
     setSim(next);
     if (next.node === "fin") {
-      const r = result(next);
-      saveBest(r.score);
+      // Le serveur rejoue la partie, recalcule le score et crédite l'XP.
+      setSaved({ status: "saving" });
+      onFinish(next.prep, next.history.map((t) => t.choiceId))
+        .then((res) => {
+          if ("error" in res) return setSaved({ status: "error" });
+          setSaved({ status: "ok", record: res });
+          setBest({ bestScore: res.bestScore, xpTotal: res.xpTotal });
+        })
+        .catch(() => setSaved({ status: "error" }));
       window.setTimeout(() => setPhase("bilan"), 900);
     }
   }
@@ -139,6 +137,7 @@ export default function NegotiationSim({ lessonTitles }: { lessonTitles: Record<
       <Bilan
         sim={sim}
         best={best}
+        saved={saved}
         lessonTitles={lessonTitles}
         onReplay={() => start(sim.prep)}
         onNewPrep={() => {
@@ -214,7 +213,7 @@ export default function NegotiationSim({ lessonTitles }: { lessonTitles: Record<
   );
 }
 
-function Intro({ best, onStart }: { best: number | null; onStart: () => void }) {
+function Intro({ best, onStart }: { best: Best; onStart: () => void }) {
   return (
     <section
       className="pz-card p-5 md:p-7 pz-rise"
@@ -235,11 +234,27 @@ function Intro({ best, onStart }: { best: number | null; onStart: () => void }) 
         5 moments clés, 3 réponses possibles à chaque fois, aucune bonne réponse évidente. À la fin : ta note sur 100
         et le débrief de chaque décision. Personnages et montants fictifs.
       </p>
+      <p className="text-[12.5px] leading-5 mt-2">
+        <span className="font-semibold">Jusqu&apos;à {XP_MAX} XP</span>
+        <span className="pz-muted">
+          {" "}
+          ajoutés à ton compte :{" "}
+          {[...XP_TIERS]
+            .reverse()
+            .map((t) => `${t.xp} XP dès ${t.min}/100`)
+            .join(", ")}
+          . Chaque palier ne se gagne qu&apos;une fois.
+        </span>
+      </p>
       <div className="flex flex-wrap items-center gap-4 mt-5">
         <button type="button" className="pz-btn" onClick={onStart}>
           Préparer le rendez-vous →
         </button>
-        {best !== null ? <span className="text-[12px] pz-muted pz-mono">Ton meilleur score : {best}/100</span> : null}
+        {best ? (
+          <span className="text-[12px] pz-muted pz-mono">
+            Meilleur score : {best.bestScore}/100 · XP gagnée : {best.xpTotal}/{XP_MAX}
+          </span>
+        ) : null}
       </div>
     </section>
   );
@@ -338,12 +353,14 @@ function Dossier({ sim }: { sim: SimState }) {
 function Bilan({
   sim,
   best,
+  saved,
   lessonTitles,
   onReplay,
   onNewPrep,
 }: {
   sim: SimState;
-  best: number | null;
+  best: Best;
+  saved: Saved;
   lessonTitles: Record<string, string>;
   onReplay: () => void;
   onNewPrep: () => void;
@@ -383,6 +400,8 @@ function Bilan({
         ) : null}
         {r.belowFloor ? <p className="text-[12px] pz-muted mt-1">Accord sous ton point de rupture : -10 points.</p> : null}
 
+        <XpLine saved={saved} />
+
         {r.missed.length ? (
           <div className="rounded-2xl p-4 mt-4" style={{ background: "rgba(var(--ink-rgb),.035)", border: "1px solid var(--ligne)" }}>
             <div className="pz-eyebrow" style={{ color: "var(--ambre)" }}>
@@ -405,7 +424,7 @@ function Bilan({
           <button type="button" className="pz-btn ghost" onClick={onNewPrep}>
             Changer de préparation
           </button>
-          {best !== null ? <span className="text-[12px] pz-muted pz-mono">Meilleur score : {best}/100</span> : null}
+          {best ? <span className="text-[12px] pz-muted pz-mono">Meilleur score : {best.bestScore}/100</span> : null}
         </div>
       </section>
 
@@ -439,6 +458,51 @@ function Bilan({
           </article>
         ))}
       </section>
+    </div>
+  );
+}
+
+function XpLine({ saved }: { saved: Saved }) {
+  const box = "rounded-2xl px-4 py-3 mt-4 text-[13px] leading-6 flex items-center gap-3";
+  if (saved.status === "saving") {
+    return (
+      <div className={`${box} pz-muted`} style={{ border: "1px solid var(--ligne)" }} role="status">
+        Calcul de ton XP…
+      </div>
+    );
+  }
+  if (saved.status === "error") {
+    return (
+      <div className={box} style={{ border: "1px solid var(--ligne)" }} role="status">
+        <span className="pz-muted">L&apos;XP n&apos;a pas pu être enregistrée cette fois. Rejoue pour réessayer.</span>
+      </div>
+    );
+  }
+  const { record } = saved;
+  const next = nextTier(record.bestScore);
+  return (
+    <div
+      className={box}
+      style={
+        record.xpGained > 0
+          ? { background: "rgba(59,175,114,.10)", border: "1px solid rgba(59,175,114,.35)" }
+          : { border: "1px solid var(--ligne)" }
+      }
+      role="status"
+    >
+      <AcademyIcon name="bolt" size={16} style={{ color: record.xpGained > 0 ? "var(--vert)" : "var(--gris)" }} />
+      <span>
+        {record.xpGained > 0 ? (
+          <strong style={{ color: "var(--vert)" }}>+{record.xpGained} XP ajoutés à ton compte.</strong>
+        ) : (
+          <span className="pz-muted">Pas de nouvelle XP : ce palier est déjà obtenu.</span>
+        )}{" "}
+        <span className="pz-muted">
+          {next
+            ? `Atteins ${next.min}/100 pour gagner ${next.xp} XP de plus.`
+            : `Tu as gagné toute l'XP de cette simulation (${XP_MAX} XP).`}
+        </span>
+      </span>
     </div>
   );
 }

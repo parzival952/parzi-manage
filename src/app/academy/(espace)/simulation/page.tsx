@@ -1,15 +1,34 @@
 export const dynamic = "force-dynamic";
 
 import Link from "next/link";
+import { revalidatePath } from "next/cache";
 
-import NegotiationSim from "@/components/NegotiationSim";
+import NegotiationSim, { type FinishResult } from "@/components/NegotiationSim";
 import { COURSE } from "@/lib/academy";
+import { getSimulationBest, InvalidRunError, recordSimulationRun } from "@/lib/academy-simulation-xp";
 import { requireUser } from "@/lib/auth";
 
 export const metadata = { title: "Simulation de négociation" };
 
 export default async function SimulationPage() {
-  await requireUser();
+  const user = await requireUser();
+  const initialBest = await getSimulationBest(user.id);
+
+  // Fin de partie : le serveur rejoue les choix, recalcule le score et crédite
+  // l'XP du palier atteint (une seule fois par palier) sur le compte.
+  async function finish(prep: string[], choices: string[]): Promise<FinishResult> {
+    "use server";
+    const me = await requireUser();
+    try {
+      const record = await recordSimulationRun(me.id, prep, choices);
+      if (record.xpGained > 0) revalidatePath("/academy", "layout");
+      return record;
+    } catch (err) {
+      if (err instanceof InvalidRunError) return { error: "Partie invalide" };
+      console.error("[academy-simulation] enregistrement impossible", err);
+      return { error: "Enregistrement impossible" };
+    }
+  }
 
   // Titres des leçons citées dans le débrief (liens « Relire »).
   const lessonTitles: Record<string, string> = {};
@@ -35,7 +54,7 @@ export default async function SimulationPage() {
         </p>
       </header>
 
-      <NegotiationSim lessonTitles={lessonTitles} />
+      <NegotiationSim lessonTitles={lessonTitles} initialBest={initialBest} onFinish={finish} />
     </main>
   );
 }
