@@ -1,5 +1,6 @@
 import fs from "node:fs";
 import path from "node:path";
+import { balancedOrders } from "./answer-order";
 
 const DIAGNOSTIC_DIRECTORY = path.join(
   process.cwd(),
@@ -318,15 +319,48 @@ export function loadPrivateDiagnosticQuestions(): DiagnosticPrivateQuestion[] {
     .slice(0, 40);
 }
 
+/**
+ * Ordre d'affichage des propositions (voir answer-order.ts) : dans la banque,
+ * la bonne réponse est très souvent la 2e. Les réponses sont corrigées par
+ * identifiant, donc seul l'affichage change. Questions à choix unique : la
+ * position de la bonne réponse est répartie ; choix multiples : mélange simple.
+ */
+function diagnosticOptionOrders(
+  questions: DiagnosticPrivateQuestion[],
+): number[][] {
+  return balancedOrders(
+    "diagnostic",
+    questions.map((question) => ({
+      options: question.options,
+      answer: question.isMultiple
+        ? -1
+        : question.options.findIndex(
+            (option) => option.id === question.correctAnswerIds[0],
+          ),
+    })),
+  );
+}
+
 export function loadPublicDiagnosticQuestions(): DiagnosticPublicQuestion[] {
-  return loadPrivateDiagnosticQuestions().map(
-    ({
-      correctAnswerIds: _correctAnswerIds,
-      explanation: _explanation,
-      trap: _trap,
-      errorTypeIfWrong: _errorTypeIfWrong,
-      points: _points,
-      ...publicQuestion
-    }) => publicQuestion,
+  const questions = loadPrivateDiagnosticQuestions();
+  const orders = diagnosticOptionOrders(questions);
+
+  return questions.map(
+    (
+      {
+        correctAnswerIds: _correctAnswerIds,
+        explanation: _explanation,
+        trap: _trap,
+        errorTypeIfWrong: _errorTypeIfWrong,
+        points: _points,
+        ...publicQuestion
+      },
+      index,
+    ) => ({
+      ...publicQuestion,
+      options: orders[index].map(
+        (optionIndex) => publicQuestion.options[optionIndex],
+      ),
+    }),
   );
 }
