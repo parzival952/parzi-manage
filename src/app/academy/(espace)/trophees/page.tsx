@@ -12,13 +12,20 @@ import {
   LESSON_COUNT,
 } from "@/lib/academy";
 import { requireUser } from "@/lib/auth";
+import AdminPreviewBanner from "@/components/AdminPreviewBanner";
+import { adminPreviewState, maxedStats } from "@/lib/academy-admin-preview";
 import { evaluateTrophies, sortTrophies, RARITY_TONE, RARITY_LABEL, type TrophyStats } from "@/lib/trophies";
 import AcademyIcon from "@/components/AcademyIcon";
 
 export const metadata = { title: "Trophées" };
 
-export default async function TropheesPage() {
-  await requireUser();
+export default async function TropheesPage({
+  searchParams,
+}: {
+  searchParams: Promise<Record<string, string | string[] | undefined>>;
+}) {
+  const user = await requireUser();
+  const { admin, preview } = adminPreviewState(user.email, await searchParams);
 
   const academyState = await loadAcademyState();
 
@@ -29,17 +36,21 @@ export default async function TropheesPage() {
   const p = academyStateToProgress(
     academyState,
   );
-  const stats: TrophyStats = {
-    level: p.info.level, xp: p.xp, streak: p.streak, best: p.best_streak,
-    lessons: p.done.size, chapters: chaptersCompleted(p.done), perfect: p.perfect,
-    totalLessons: LESSON_COUNT,
-  };
+  // Aperçu admin : statistiques « tout débloqué » pour l'affichage seulement.
+  const stats: TrophyStats = preview
+    ? maxedStats()
+    : {
+        level: p.info.level, xp: p.xp, streak: p.streak, best: p.best_streak,
+        lessons: p.done.size, chapters: chaptersCompleted(p.done), perfect: p.perfect,
+        totalLessons: LESSON_COUNT,
+      };
   const trophies = sortTrophies(evaluateTrophies(stats));
   const earned = trophies.filter((t) => t.earned).length;
   const secretsLocked = trophies.filter((t) => t.secret && !t.earned).length;
 
   return (
     <div className="flex flex-col gap-5">
+      <AdminPreviewBanner admin={admin} preview={preview} path="/academy/trophees" />
       <div className="pz-rise">
         <Link href="/academy/profil" className="text-[12.5px] pz-muted hover:text-white">← Profil</Link>
         <h1 className="text-[22px] font-extrabold tracking-tight mt-2">Trophées</h1>

@@ -19,9 +19,16 @@ import { evaluateTrophies, RARITY_TONE, type TrophyStats } from "@/lib/trophies"
 import { RANKS } from "@/lib/progression";
 import AcademyProgressHeader from "@/components/AcademyProgressHeader";
 import AcademyIcon from "@/components/AcademyIcon";
+import AdminPreviewBanner from "@/components/AdminPreviewBanner";
+import { adminPreviewState, maxedLevelInfo, maxedStats } from "@/lib/academy-admin-preview";
 
-export default async function AcademyProfil() {
+export default async function AcademyProfil({
+  searchParams,
+}: {
+  searchParams: Promise<Record<string, string | string[] | undefined>>;
+}) {
   const user = await requireUser();
+  const { admin, preview } = adminPreviewState(user.email, await searchParams);
   const academyState = await loadAcademyState();
 
   if (!academyState) {
@@ -43,10 +50,14 @@ export default async function AcademyProfil() {
   const topTwo = [...attrs].sort((a, b) => b.score - a.score).slice(0, 2).map((a) => a.key);
 
   // Badges réels
-  const stats: BadgeStats = {
-    level: info.level, xp: info.xp, streak: progress.streak, best: progress.best_streak,
-    lessons: progress.done.size, chapters: chaptersCompleted(progress.done), perfect: progress.perfect,
-  };
+  // Aperçu admin : statistiques « tout débloqué » pour l'affichage seulement.
+  const stats: BadgeStats = preview
+    ? maxedStats()
+    : {
+        level: info.level, xp: info.xp, streak: progress.streak, best: progress.best_streak,
+        lessons: progress.done.size, chapters: chaptersCompleted(progress.done), perfect: progress.perfect,
+      };
+  const shownInfo = preview ? maxedLevelInfo() : info;
   const badges = sortBadges(evaluateBadges(stats));
   const earnedCount = badges.filter((b) => b.earned).length;
   const showcase = badges.slice(0, 6);
@@ -58,6 +69,11 @@ export default async function AcademyProfil() {
 
   return (
     <div className="pz-wide flex flex-col gap-6 lg:grid lg:grid-cols-[400px_minmax(0,1fr)] lg:gap-10 lg:items-start">
+      {admin ? (
+        <div className="lg:col-span-2">
+          <AdminPreviewBanner admin={admin} preview={preview} path="/academy/profil" />
+        </div>
+      ) : null}
       <div className="flex flex-col gap-6 lg:sticky lg:top-24">
       {/* Carte agent collector */}
       <div className="pzc-wrap pz-rise">
@@ -70,13 +86,13 @@ export default async function AcademyProfil() {
                 <div className="l">OVR</div>
                 <div className="r">Agent</div>
               </div>
-              <div className="pzc-crest" style={{ borderColor: `${info.rank.tone}66` }} title={info.rank.name}>
-                <span style={{ color: info.rank.tone }}>◆</span><small>RANG</small>
+              <div className="pzc-crest" style={{ borderColor: `${shownInfo.rank.tone}66` }} title={shownInfo.rank.name}>
+                <span style={{ color: shownInfo.rank.tone }}>◆</span><small>RANG</small>
               </div>
             </div>
             <div className="pzc-portrait"><div className="pzc-mono">{initial}</div></div>
             <div className="pzc-name">{displayName}</div>
-            <div className="pzc-sub">{info.rank.name} · Niveau {info.level}</div>
+            <div className="pzc-sub">{shownInfo.rank.name} · Niveau {shownInfo.level}</div>
             <div className="pzc-div" />
             <div className="pzc-attrs">
               {attrs.map((a) => (
@@ -115,7 +131,7 @@ export default async function AcademyProfil() {
       <div className="pz-rise pz-d2">
         <div className="flex items-center justify-between mb-3">
           <div className="pz-eyebrow pz-red">BADGES · {earnedCount}/{badges.length}</div>
-          <Link href="/academy/badges" className="text-[11.5px] pz-muted hover:text-white">Tout voir →</Link>
+          <Link href={preview ? "/academy/badges?apercu=1" : "/academy/badges"} className="text-[11.5px] pz-muted hover:text-white">Tout voir →</Link>
         </div>
         <div className="flex gap-2.5 flex-wrap">
           {showcase.map((b) => (
@@ -145,7 +161,7 @@ export default async function AcademyProfil() {
       <div className="pz-rise pz-d2">
         <div className="flex items-center justify-between mb-3">
           <div className="pz-eyebrow pz-red">TROPHÉES · {trophyEarned.length}/{trophies.length}</div>
-          <Link href="/academy/trophees" className="text-[11.5px] pz-muted hover:text-white">Tout voir →</Link>
+          <Link href={preview ? "/academy/trophees?apercu=1" : "/academy/trophees"} className="text-[11.5px] pz-muted hover:text-white">Tout voir →</Link>
         </div>
         {trophyShowcase.length > 0 ? (
           <div className="flex gap-2.5 flex-wrap">
@@ -166,13 +182,13 @@ export default async function AcademyProfil() {
         <div className="pz-eyebrow pz-red mb-3">LES 12 RANGS PARZI</div>
         <div className="pz-card p-4 flex flex-col gap-1.5">
           {RANKS.map((r) => {
-            const reached = info.level >= r.min;
+            const reached = shownInfo.level >= r.min;
             return (
               <div key={r.name} className="flex items-center gap-3 py-1">
                 <span className="text-[13px]" style={{ color: reached ? r.tone : "rgba(var(--ink-rgb),.2)" }}>◆</span>
                 <span className="text-[13.5px] font-semibold" style={{ color: reached ? "var(--blanc)" : "rgba(var(--ink-rgb),.32)" }}>{r.name}</span>
                 <span className="text-[11px] pz-muted ml-auto">Niv. {r.min}{r.max > r.min ? `–${r.max}` : ""}</span>
-                {info.rank.name === r.name && <span className="text-[10px] font-bold pz-red">ACTUEL</span>}
+                {shownInfo.rank.name === r.name && <span className="text-[10px] font-bold pz-red">ACTUEL</span>}
               </div>
             );
           })}
