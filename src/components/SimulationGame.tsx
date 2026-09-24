@@ -4,23 +4,18 @@ import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 
 import AcademyIcon from "@/components/AcademyIcon";
+import type { SimulationRecord } from "@/lib/academy-simulation-xp";
+import { getScenario } from "@/lib/simulation";
 import {
   choose,
   currentNode,
-  DOSSIER,
   initialState,
-  monthlyValue,
   nextTier,
-  NODE_ORDER,
-  PREP_COUNT,
-  PREPS,
-  result,
   XP_MAX,
   XP_TIERS,
-  type PrepId,
+  type Scenario,
   type SimState,
-} from "@/lib/academy-simulation";
-import type { SimulationRecord } from "@/lib/academy-simulation-xp";
+} from "@/lib/simulation/engine";
 
 type Phase = "intro" | "prep" | "jeu" | "bilan";
 
@@ -28,19 +23,20 @@ export type Best = { bestScore: number; xpTotal: number } | null;
 export type FinishResult = SimulationRecord | { error: string };
 type Saved = { status: "saving" } | { status: "ok"; record: SimulationRecord } | { status: "error" };
 
-const eur = (k: number) => `${k.toLocaleString("fr-FR")} 000 €`;
-
-export default function NegotiationSim({
+export default function SimulationGame({
+  scenarioId,
   lessonTitles,
   initialBest,
   onFinish,
 }: {
+  scenarioId: string;
   lessonTitles: Record<string, string>;
   initialBest: Best;
   onFinish: (prep: string[], choices: string[]) => Promise<FinishResult>;
 }) {
+  const sc = getScenario(scenarioId);
   const [phase, setPhase] = useState<Phase>("intro");
-  const [prep, setPrep] = useState<PrepId[]>([]);
+  const [prep, setPrep] = useState<string[]>([]);
   const [sim, setSim] = useState<SimState | null>(null);
   const [best, setBest] = useState<Best>(initialBest);
   const [saved, setSaved] = useState<Saved>({ status: "saving" });
@@ -50,18 +46,23 @@ export default function NegotiationSim({
     if (phase === "jeu") endRef.current?.scrollIntoView({ behavior: "smooth", block: "nearest" });
   }, [sim, phase]);
 
-  function togglePrep(id: PrepId) {
-    setPrep((cur) => (cur.includes(id) ? cur.filter((p) => p !== id) : cur.length < PREP_COUNT ? [...cur, id] : cur));
+  if (!sc) return null;
+  const scenario = sc;
+
+  function togglePrep(id: string) {
+    setPrep((cur) =>
+      cur.includes(id) ? cur.filter((p) => p !== id) : cur.length < scenario.prepCount ? [...cur, id] : cur,
+    );
   }
 
-  function start(p: PrepId[] = prep) {
-    setSim(initialState(p));
+  function start(p: string[] = prep) {
+    setSim(initialState(scenario, p));
     setPhase("jeu");
   }
 
   function play(choiceId: string) {
     if (!sim) return;
-    const next = choose(sim, choiceId);
+    const next = choose(scenario, sim, choiceId);
     setSim(next);
     if (next.node === "fin") {
       // Le serveur rejoue la partie, recalcule le score et crédite l'XP.
@@ -77,23 +78,23 @@ export default function NegotiationSim({
     }
   }
 
-  if (phase === "intro") return <Intro best={best} onStart={() => setPhase("prep")} />;
+  if (phase === "intro") return <Intro sc={scenario} best={best} onStart={() => setPhase("prep")} />;
 
   if (phase === "prep") {
     return (
       <section className="pz-card p-5 md:p-6 pz-rise" aria-labelledby="sim-prep">
         <div className="pz-eyebrow pz-red">Avant le rendez-vous</div>
         <h2 id="sim-prep" className="text-[20px] font-extrabold tracking-tight mt-2">
-          Tu as le temps de faire {PREP_COUNT} choses sur 3
+          Tu as le temps de faire {scenario.prepCount} choses sur {scenario.preps.length}
         </h2>
         <p className="text-[13px] leading-6 pz-muted mt-1.5">
-          80 % d&apos;une négociation se joue avant d&apos;entrer dans la pièce. Choisis ta préparation : elle
-          débloquera des arguments pendant l&apos;échange.
+          Tout se joue avant le premier mot. Choisis ta préparation : elle débloquera des réponses pendant
+          l&apos;échange.
         </p>
         <div className="grid gap-3 mt-5">
-          {PREPS.map((p) => {
+          {scenario.preps.map((p) => {
             const on = prep.includes(p.id);
-            const full = !on && prep.length >= PREP_COUNT;
+            const full = !on && prep.length >= scenario.prepCount;
             return (
               <button
                 key={p.id}
@@ -106,7 +107,11 @@ export default function NegotiationSim({
               >
                 <span
                   className="w-5 h-5 rounded-md grid place-items-center shrink-0 mt-0.5"
-                  style={{ border: "1px solid var(--ligne)", background: on ? "var(--argent)" : "transparent", color: "var(--sur-argent)" }}
+                  style={{
+                    border: "1px solid var(--ligne)",
+                    background: on ? "var(--argent)" : "transparent",
+                    color: "var(--sur-argent)",
+                  }}
                 >
                   {on ? <AcademyIcon name="check" size={13} /> : null}
                 </span>
@@ -119,11 +124,11 @@ export default function NegotiationSim({
           })}
         </div>
         <div className="flex flex-wrap items-center gap-3 mt-5">
-          <button type="button" className="pz-btn" disabled={prep.length !== PREP_COUNT} onClick={() => start()}>
-            Entrer dans le bureau →
+          <button type="button" className="pz-btn" disabled={prep.length !== scenario.prepCount} onClick={() => start()}>
+            Commencer l&apos;échange →
           </button>
           <span className="text-[12px] pz-muted pz-mono">
-            {prep.length}/{PREP_COUNT} choisis
+            {prep.length}/{scenario.prepCount} choisis
           </span>
         </div>
       </section>
@@ -135,6 +140,7 @@ export default function NegotiationSim({
   if (phase === "bilan") {
     return (
       <Bilan
+        sc={scenario}
         sim={sim}
         best={best}
         saved={saved}
@@ -149,19 +155,20 @@ export default function NegotiationSim({
     );
   }
 
-  const node = currentNode(sim);
-  const step = Math.min(sim.history.length + 1, NODE_ORDER.length);
+  const node = currentNode(scenario, sim);
+  const total = scenario.order.length;
+  const step = Math.min(sim.history.length + 1, total);
 
   return (
     <div className="grid gap-5 lg:grid-cols-[minmax(0,1fr)_300px] lg:items-start">
-      <section className="flex flex-col gap-4 min-w-0" aria-label="Échange avec le directeur sportif">
+      <section className="flex flex-col gap-4 min-w-0" aria-label="Échange">
         <div className="flex items-center justify-between gap-3">
           <div className="pz-eyebrow" style={{ color: "var(--argent)" }}>
-            Étape {step}/{NODE_ORDER.length}
+            Étape {step}/{total}
             {node ? ` · ${node.title}` : ""}
           </div>
           <div className="flex gap-1" aria-hidden>
-            {NODE_ORDER.map((n, i) => (
+            {scenario.order.map((n, i) => (
               <span
                 key={n}
                 className="h-1.5 w-6 rounded-full"
@@ -173,19 +180,24 @@ export default function NegotiationSim({
 
         {sim.history.map((t, i) => (
           <div key={i} className="flex flex-col gap-2.5">
-            <Bubble who="club">{t.line}</Bubble>
-            <Bubble who="toi">{t.label}</Bubble>
-            <Bubble who="club">{t.reply}</Bubble>
+            <Bubble speaker={t.speaker}>{t.line}</Bubble>
+            <Bubble>{t.label}</Bubble>
+            <Bubble speaker={t.replySpeaker}>{t.reply}</Bubble>
           </div>
         ))}
 
         {node ? (
           <div className="flex flex-col gap-2.5 pz-rise" key={node.id}>
-            <Bubble who="club">{node.line}</Bubble>
+            <Bubble speaker={node.speaker}>{node.line}</Bubble>
             <div className="pz-eyebrow pz-muted mt-2">Ta réponse</div>
             <div className="grid gap-2">
               {node.choices.map((c) => (
-                <button key={c.id} type="button" className="pz-opt text-left text-[13.5px] leading-6" onClick={() => play(c.id)}>
+                <button
+                  key={c.id}
+                  type="button"
+                  className="pz-opt text-left text-[13.5px] leading-6"
+                  onClick={() => play(c.id)}
+                >
                   {c.label}
                 </button>
               ))}
@@ -193,47 +205,41 @@ export default function NegotiationSim({
           </div>
         ) : (
           <div className="pz-card p-4 text-[13px] pz-rise" role="status">
-            {sim.outcome === "rupture" ? (
-              <>
-                <strong className="pz-red">« Je crois qu&apos;on va s&apos;arrêter là. »</strong> Marc Delorme se lève.
-                La confiance est rompue.
-              </>
+            {sim.outcome === "accord" ? (
+              scenario.endLines.accord
             ) : (
-              <>
-                <strong>Poignée de main.</strong> L&apos;accord est trouvé. Voyons ce qu&apos;il vaut…
-              </>
+              <strong className="pz-red">
+                {sim.outcome === "faute" ? scenario.endLines.faute : scenario.endLines.rupture}
+              </strong>
             )}
           </div>
         )}
         <div ref={endRef} />
       </section>
 
-      <Dossier sim={sim} />
+      <Dossier sc={scenario} sim={sim} />
     </div>
   );
 }
 
-function Intro({ best, onStart }: { best: Best; onStart: () => void }) {
+function Intro({ sc, best, onStart }: { sc: Scenario; best: Best; onStart: () => void }) {
   return (
     <section
       className="pz-card p-5 md:p-7 pz-rise"
-      style={{ background: "linear-gradient(145deg, rgba(194,24,51,.10), rgba(var(--ink-rgb),.02))", borderColor: "rgba(194,24,51,.30)" }}
+      style={{
+        background: "linear-gradient(145deg, rgba(194,24,51,.10), rgba(var(--ink-rgb),.02))",
+        borderColor: "rgba(194,24,51,.30)",
+      }}
     >
-      <div className="pz-eyebrow pz-red">Le dossier Mbaye</div>
-      <h2 className="text-[22px] font-extrabold tracking-tight mt-2">Place ton joueur en Ligue 1</h2>
-      <p className="text-[14px] leading-6 mt-3 max-w-[640px]">
-        Tu es l&apos;agent de <strong>{DOSSIER.joueur}</strong> ({DOSSIER.profil}). L&apos;{DOSSIER.club} le veut. Tu
-        as rendez-vous avec {DOSSIER.interlocuteur}, pour négocier le contrat de ton joueur.
-      </p>
+      <div className="pz-eyebrow pz-red">{sc.title}</div>
+      <h2 className="text-[22px] font-extrabold tracking-tight mt-2">{sc.intro.heading}</h2>
+      <p className="text-[14px] leading-6 mt-3 max-w-[640px]">{sc.intro.text}</p>
       <div className="grid sm:grid-cols-3 gap-2.5 mt-5">
-        <Stat label="Salaire actuel" value={`${eur(DOSSIER.salaireActuel)}/mois`} />
-        <Stat label="Ta cible" value={`${eur(DOSSIER.cible)}/mois`} />
-        <Stat label="Ton point de rupture" value={`${eur(DOSSIER.plancher)}/mois`} />
+        {sc.intro.stats.map((s) => (
+          <Stat key={s.label} label={s.label} value={s.value} />
+        ))}
       </div>
-      <p className="text-[12.5px] leading-5 pz-muted mt-4">
-        5 moments clés, 3 réponses possibles à chaque fois, aucune bonne réponse évidente. À la fin : ta note sur 100
-        et le débrief de chaque décision. Personnages et montants fictifs.
-      </p>
+      <p className="text-[12.5px] leading-5 pz-muted mt-4">{sc.intro.note}</p>
       <p className="text-[12.5px] leading-5 mt-2">
         <span className="font-semibold">Jusqu&apos;à {XP_MAX} XP</span>
         <span className="pz-muted">
@@ -262,75 +268,80 @@ function Intro({ best, onStart }: { best: Best; onStart: () => void }) {
 
 function Stat({ label, value }: { label: string; value: string }) {
   return (
-    <div className="rounded-2xl px-3.5 py-3" style={{ background: "rgba(var(--ink-rgb),.04)", border: "1px solid var(--ligne)" }}>
+    <div
+      className="rounded-2xl px-3.5 py-3"
+      style={{ background: "rgba(var(--ink-rgb),.04)", border: "1px solid var(--ligne)" }}
+    >
       <div className="text-[10.5px] uppercase tracking-[0.14em] pz-muted">{label}</div>
       <div className="text-[15px] font-bold pz-mono mt-1">{value}</div>
     </div>
   );
 }
 
-function Bubble({ who, children }: { who: "club" | "toi"; children: React.ReactNode }) {
-  const club = who === "club";
+/** Bulle de dialogue : `speaker` = interlocuteur ; sans speaker = toi. */
+function Bubble({ speaker, children }: { speaker?: string; children: React.ReactNode }) {
+  const other = Boolean(speaker);
   return (
-    <div className={`flex ${club ? "justify-start" : "justify-end"}`}>
+    <div className={`flex ${other ? "justify-start" : "justify-end"}`}>
       <div
         className="max-w-[88%] rounded-2xl px-4 py-3 text-[13.5px] leading-6"
         style={
-          club
+          other
             ? { background: "rgba(var(--ink-rgb),.05)", border: "1px solid var(--ligne)", borderTopLeftRadius: 6 }
             : { background: "rgba(194,24,51,.12)", border: "1px solid rgba(194,24,51,.32)", borderTopRightRadius: 6 }
         }
       >
-        <div className="text-[10px] uppercase tracking-[0.16em] pz-muted mb-1">{club ? "Marc Delorme · Valcourt" : "Toi · agent"}</div>
+        <div className="text-[10px] uppercase tracking-[0.16em] pz-muted mb-1">{speaker ?? "Toi · agent"}</div>
         {children}
       </div>
     </div>
   );
 }
 
-function Dossier({ sim }: { sim: SimState }) {
-  const intel = PREPS.filter((p) => sim.prep.includes(p.id));
+function Dossier({ sc, sim }: { sc: Scenario; sim: SimState }) {
+  const intel = sc.preps.filter((p) => sim.prep.includes(p.id));
+  const panel = sc.panel(sim);
   const trustColor = sim.trust >= 60 ? "var(--vert)" : sim.trust >= 35 ? "var(--ambre)" : "var(--rouge-clair)";
   return (
     <aside className="flex flex-col gap-3 lg:sticky lg:top-24" aria-label="Ton dossier">
       <section className="pz-card p-4">
         <div className="pz-eyebrow" style={{ color: "var(--argent)" }}>
-          Sur la table
+          {panel.title}
         </div>
-        <dl className="grid grid-cols-2 gap-x-3 gap-y-2 mt-3 text-[12.5px]">
-          <dt className="pz-muted">Fixe mensuel</dt>
-          <dd className="pz-mono font-semibold text-right">{sim.salary ? eur(sim.salary) : "—"}</dd>
-          <dt className="pz-muted">Prime à la signature</dt>
-          <dd className="pz-mono font-semibold text-right">{sim.signing ? eur(sim.signing) : "—"}</dd>
-          <dt className="pz-muted">Durée</dt>
-          <dd className="pz-mono font-semibold text-right">{sim.years} ans</dd>
-          <dt className="pz-muted">Primes d&apos;objectifs</dt>
-          <dd className="pz-mono font-semibold text-right">{sim.perfBonus ? "oui" : "non"}</dd>
+        <dl className="grid grid-cols-[1fr_auto] gap-x-3 gap-y-2 mt-3 text-[12.5px]">
+          {panel.rows.map((r) => (
+            <div key={r.label} className="contents">
+              <dt className="pz-muted">{r.label}</dt>
+              <dd className="pz-mono font-semibold text-right">{r.value}</dd>
+            </div>
+          ))}
         </dl>
-        {sim.salary ? (
-          <div className="mt-3 pt-3 text-[12px] flex justify-between gap-2" style={{ borderTop: "1px solid var(--ligne)" }}>
-            <span className="pz-muted">Valeur / mois pour Yanis</span>
-            <span className="pz-mono font-bold">{monthlyValue(sim).toLocaleString("fr-FR")} k€</span>
-          </div>
-        ) : null}
-        <div className="mt-2 text-[11px] pz-muted pz-mono">
-          Cible {DOSSIER.cible} k€ · rupture {DOSSIER.plancher} k€
-        </div>
+        {panel.footer ? <div className="mt-3 text-[11px] pz-muted pz-mono">{panel.footer}</div> : null}
       </section>
 
       <section className="pz-card p-4">
         <div className="flex items-center justify-between">
           <div className="pz-eyebrow" style={{ color: "var(--argent)" }}>
-            Relation avec le club
+            {sc.trustLabel}
           </div>
           <span className="pz-mono text-[12px] font-semibold" style={{ color: trustColor }}>
             {sim.trust}/100
           </span>
         </div>
-        <div className="pz-xpbar mt-2.5" role="meter" aria-valuemin={0} aria-valuemax={100} aria-valuenow={sim.trust} aria-label="Relation avec le club">
-          <div className="h-full rounded-full transition-all duration-500" style={{ width: `${sim.trust}%`, background: trustColor }} />
+        <div
+          className="pz-xpbar mt-2.5"
+          role="meter"
+          aria-valuemin={0}
+          aria-valuemax={100}
+          aria-valuenow={sim.trust}
+          aria-label={sc.trustLabel}
+        >
+          <div
+            className="h-full rounded-full transition-all duration-500"
+            style={{ width: `${sim.trust}%`, background: trustColor }}
+          />
         </div>
-        <p className="text-[11px] leading-4 pz-muted mt-2">Sous 20, le club met fin à la discussion.</p>
+        <p className="text-[11px] leading-4 pz-muted mt-2">Si elle tombe à {sc.ruptureAt}, la discussion s&apos;arrête.</p>
       </section>
 
       <section className="pz-card p-4">
@@ -351,6 +362,7 @@ function Dossier({ sim }: { sim: SimState }) {
 }
 
 function Bilan({
+  sc,
   sim,
   best,
   saved,
@@ -358,6 +370,7 @@ function Bilan({
   onReplay,
   onNewPrep,
 }: {
+  sc: Scenario;
   sim: SimState;
   best: Best;
   saved: Saved;
@@ -365,24 +378,28 @@ function Bilan({
   onReplay: () => void;
   onNewPrep: () => void;
 }) {
-  const r = result(sim);
+  const r = sc.result(sim);
   const good = r.score >= 70;
   const topRef = useRef<HTMLDivElement>(null);
   // Le bilan remplace la conversation : on remonte à son début.
   useEffect(() => topRef.current?.scrollIntoView({ behavior: "smooth", block: "start" }), []);
+  const eyebrow = r.outcome === "accord" ? "Accord signé" : r.outcome === "faute" ? "Faute grave" : "Pas d'accord";
   return (
     <div ref={topRef} className="flex flex-col gap-5 scroll-mt-24">
       <section className="pz-card p-5 md:p-6 pz-rise" aria-labelledby="sim-bilan">
         <div className="flex items-start justify-between gap-5">
           <div className="min-w-0">
-            <div className="pz-eyebrow pz-red">{r.outcome === "rupture" ? "Pas d'accord" : "Accord signé"}</div>
+            <div className="pz-eyebrow pz-red">{eyebrow}</div>
             <h2 id="sim-bilan" className="text-[22px] font-extrabold tracking-tight mt-2">
               {r.grade}
             </h2>
-            <p className="text-[13.5px] leading-6 mt-2">{r.playerLine}</p>
+            <p className="text-[13.5px] leading-6 mt-2">{r.headline}</p>
           </div>
           <div className="text-center shrink-0">
-            <div className="text-[40px] font-black leading-none pz-mono" style={{ color: good ? "var(--vert)" : "var(--rouge-vif)" }}>
+            <div
+              className="text-[40px] font-black leading-none pz-mono"
+              style={{ color: good ? "var(--vert)" : "var(--rouge-vif)" }}
+            >
               {r.score}
             </div>
             <div className="text-[11px] pz-muted mt-1">sur 100</div>
@@ -390,20 +407,23 @@ function Bilan({
         </div>
 
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 mt-5">
-          <Stat label="Valeur obtenue" value={`${r.parts.valeur}/40`} />
-          <Stat label="Relation club" value={`${r.parts.relation}/25`} />
-          <Stat label="Méthode" value={`${r.parts.methode}/35`} />
-          <Stat label="Contrat / mois" value={r.outcome === "accord" ? `${r.value.toLocaleString("fr-FR")} k€` : "—"} />
+          {r.tiles.map((t) => (
+            <Stat key={t.label} label={t.label} value={t.value} />
+          ))}
         </div>
-        {r.parts.joueur < 0 ? (
-          <p className="text-[12px] pz-muted mt-2">Joueur déçu : {r.parts.joueur} points.</p>
-        ) : null}
-        {r.belowFloor ? <p className="text-[12px] pz-muted mt-1">Accord sous ton point de rupture : -10 points.</p> : null}
+        {r.notes.map((n) => (
+          <p key={n} className="text-[12px] pz-muted mt-2">
+            {n}
+          </p>
+        ))}
 
         <XpLine saved={saved} />
 
         {r.missed.length ? (
-          <div className="rounded-2xl p-4 mt-4" style={{ background: "rgba(var(--ink-rgb),.035)", border: "1px solid var(--ligne)" }}>
+          <div
+            className="rounded-2xl p-4 mt-4"
+            style={{ background: "rgba(var(--ink-rgb),.035)", border: "1px solid var(--ligne)" }}
+          >
             <div className="pz-eyebrow" style={{ color: "var(--ambre)" }}>
               Ce qui t&apos;a échappé
             </div>
@@ -451,7 +471,11 @@ function Bilan({
             <p className="text-[12.5px] leading-5 pz-muted mt-2">Ta réponse : {t.label}</p>
             <p className="text-[13px] leading-6 mt-2">{t.feedback}</p>
             {lessonTitles[t.lesson] ? (
-              <Link href={`/academy/lecon/${t.lesson}`} className="inline-flex mt-2 text-[12px] font-bold" style={{ color: "var(--argent)" }}>
+              <Link
+                href={`/academy/lecon/${t.lesson}`}
+                className="inline-flex mt-2 text-[12px] font-bold"
+                style={{ color: "var(--argent)" }}
+              >
                 Relire : {lessonTitles[t.lesson]} →
               </Link>
             ) : null}

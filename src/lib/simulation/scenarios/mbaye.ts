@@ -1,47 +1,23 @@
-// Simulation de négociation PARZI Academy — « Le dossier Mbaye ».
+// Mise en situation « Le dossier Mbaye » — négocier le contrat de son joueur.
 //
 // L'élève joue l'agent de Yanis Mbaye face au directeur sportif d'un club
-// acheteur. Scénario à choix, déterministe (même choix → même résultat),
-// sans IA ni base de données : tout le moteur est ici, en fonctions pures,
-// et le composant client ne fait qu'afficher l'état.
-//
-// Personnages, clubs et montants sont FICTIFS et pédagogiques.
+// acheteur. Personnages, clubs et montants sont FICTIFS et pédagogiques.
 
-import { seededRandom } from "./answer-order";
-
-export type PrepId = "club" | "planb" | "joueur";
-export type Flag = PrepId | "besoin" | "bluff" | "a-chaud";
-
-export type Prep = { id: PrepId; title: string; detail: string; intel: string };
-
-export const PREPS: Prep[] = [
-  {
-    id: "club",
-    title: "Te renseigner sur la situation du club",
-    detail: "Appeler ton réseau pour savoir où en est l'Olympique de Valcourt.",
-    intel: "Leur milieu titulaire est blessé pour 4 mois et le mercato ferme dans 5 jours : ils sont pressés.",
-  },
-  {
-    id: "planb",
-    title: "Sécuriser un plan B",
-    detail: "Obtenir une offre écrite d'un autre club avant le rendez-vous.",
-    intel: "Le FC Brémont a envoyé une offre écrite à 35 000 € brut par mois. Ta solution de repli (MESORE) est solide.",
-  },
-  {
-    id: "joueur",
-    title: "Aligner les attentes de Yanis",
-    detail: "Faire le point avec ton joueur sur la réalité du marché.",
-    intel: "Yanis a compris le marché : il signe à partir de 38 000 € par mois si le projet sportif est bon.",
-  },
-];
-
-export const PREP_COUNT = 2;
+import {
+  gradeFor,
+  has,
+  methodPoints,
+  type Effect,
+  type NodeDef,
+  type Result,
+  type Scenario,
+  type SimState,
+} from "../engine";
 
 /** Repères du dossier (en milliers d'euros brut par mois). */
 export const DOSSIER = {
   joueur: "Yanis Mbaye",
   profil: "22 ans · milieu offensif · FC Rivemont (Ligue 2)",
-  stats: "11 passes décisives, 6 buts cette saison",
   salaireActuel: 20,
   cible: 45,
   plancher: 32,
@@ -51,69 +27,28 @@ export const DOSSIER = {
 
 /** Plafond secret du club sur le fixe mensuel (k€). */
 const CLUB_MAX_FIXE = 42;
-const RUPTURE_CONFIANCE = 20;
-
-export type SimState = {
-  prep: PrepId[];
-  node: NodeId | "fin";
-  salary: number; // fixe mensuel sur la table (k€), 0 = pas encore d'offre
-  signing: number; // prime à la signature (k€)
-  years: number;
-  perfBonus: boolean;
-  trust: number; // relation avec le club, 0-100
-  flags: Flag[];
-  history: Turn[];
-  outcome: "en-cours" | "accord" | "rupture";
-};
-
-export type Turn = {
-  node: NodeId;
-  title: string;
-  line: string; // ce que disait le directeur sportif avant ton choix
-  choiceId: string;
-  label: string;
-  reply: string;
-  feedback: string;
-  method: number; // points de méthode (0-7)
-  lesson: string; // id de la leçon à relire
-};
-
-type Effect = {
-  reply: string;
-  feedback: string;
-  method: number;
-  lesson: string;
-  salary?: number;
-  signing?: number;
-  years?: number;
-  perfBonus?: boolean;
-  trust?: number; // variation
-  flags?: Flag[];
-};
-
-type ChoiceDef = {
-  id: string;
-  label: string;
-  requires?: Flag;
-  effect: (s: SimState) => Effect;
-};
-
-type NodeDef = {
-  title: string;
-  line: (s: SimState) => string;
-  choices: ChoiceDef[];
-  next: NodeId | "fin";
-};
-
-export type NodeId = "ouverture" | "contre" | "besoin" | "structure" | "pression";
+const DS = "Marc Delorme · Valcourt";
 
 const k = (n: number) => `${n.toLocaleString("fr-FR")} 000 €`;
-const has = (s: SimState, f: Flag) => s.flags.includes(f) || s.prep.includes(f as PrepId);
 const capFixe = (n: number) => Math.min(n, CLUB_MAX_FIXE);
 
-const NODES: Record<NodeId, NodeDef> = {
+type MbayeEffect = Omit<Effect, "vars"> & { salary?: number; signing?: number; years?: number; perfBonus?: boolean };
+
+/** Traduit les champs du contrat en variables du moteur. */
+function fx(e: MbayeEffect): Effect {
+  const { salary, signing, years, perfBonus, ...rest } = e;
+  const vars: Record<string, number> = {};
+  if (salary !== undefined) vars.salary = salary;
+  if (signing !== undefined) vars.signing = signing;
+  if (years !== undefined) vars.years = years;
+  if (perfBonus !== undefined) vars.perfBonus = perfBonus ? 1 : 0;
+  return Object.keys(vars).length ? { ...rest, vars } : rest;
+}
+
+const NODES: Record<string, NodeDef> = {
   ouverture: {
     title: "L'ouverture",
+    speaker: DS,
     line: () =>
       "« On suit Yanis depuis un moment, il nous plaît. Avant d'aller plus loin : qu'attendez-vous pour lui ? »",
     next: "contre",
@@ -122,7 +57,7 @@ const NODES: Record<NodeId, NodeDef> = {
         id: "ancre",
         label:
           "« Avec 11 passes décisives et les salaires des milieux comparables en Ligue 1, nous visons 48 000 € brut par mois sur 4 ans. »",
-        effect: () => ({
+        effect: () => fx({
           salary: 32,
           method: 7,
           lesson: "techniques-nego",
@@ -134,7 +69,7 @@ const NODES: Record<NodeId, NodeDef> = {
       {
         id: "delirant",
         label: "« Pas moins de 80 000 € par mois. Il vaut ça, point. »",
-        effect: () => ({
+        effect: () => fx({
           salary: 25,
           trust: -20,
           method: 0,
@@ -147,7 +82,7 @@ const NODES: Record<NodeId, NodeDef> = {
       {
         id: "attendre",
         label: "« Faites-nous d'abord votre proposition. »",
-        effect: () => ({
+        effect: () => fx({
           salary: 25,
           method: 2,
           lesson: "techniques-nego",
@@ -161,22 +96,23 @@ const NODES: Record<NodeId, NodeDef> = {
 
   contre: {
     title: "La première offre",
-    line: (s) => `« Alors, ${k(s.salary)} brut par mois : qu'en dites-vous ? »`,
+    speaker: DS,
+    line: (s) => `« Alors, ${k(s.vars.salary)} brut par mois : qu'en dites-vous ? »`,
     next: "besoin",
     choices: [
       {
         id: "silence",
         label: "Tu ne réponds pas tout de suite. Tu laisses le silence s'installer.",
         effect: (s) => {
-          const salary = capFixe(s.salary + 4);
-          return {
+          const salary = capFixe(s.vars.salary + 4);
+          return fx({
             salary,
             method: 6,
             lesson: "techniques-nego",
             reply: `« … Bon. Je peux faire un effort : ${k(salary)}. »`,
             feedback:
               "Le silence met une pression saine : c'est l'autre qui comble le vide, en améliorant son offre sans que tu aies rien lâché.",
-          };
+          });
         },
       },
       {
@@ -184,8 +120,8 @@ const NODES: Record<NodeId, NodeDef> = {
         label: "« Nous avons une autre proposition écrite. Il faudra faire mieux. »",
         effect: (s) => {
           if (has(s, "planb")) {
-            const salary = capFixe(s.salary + 6);
-            return {
+            const salary = capFixe(s.vars.salary + 6);
+            return fx({
               salary,
               trust: -5,
               method: 6,
@@ -193,23 +129,23 @@ const NODES: Record<NodeId, NodeDef> = {
               reply: `« Je sais qu'il est suivi ailleurs… Montons à ${k(salary)}. »`,
               feedback:
                 "Ta solution de repli (MESORE) est réelle : l'argument pèse et le club monte. Plus ton plan B est solide, plus tu négocies fort.",
-            };
+            });
           }
-          return {
+          return fx({
             trust: -15,
             flags: ["bluff"],
             method: 0,
             lesson: "preparer-nego",
-            reply: `« Alors je ne vous retiens pas. Je reste à ${k(s.salary)}. »`,
+            reply: `« Alors je ne vous retiens pas. Je reste à ${k(s.vars.salary)}. »`,
             feedback:
               "Bluff : tu n'avais pas d'autre offre. Le club l'a senti, ta crédibilité en prend un coup. Un plan B se prépare AVANT d'entrer dans la pièce.",
-          };
+          });
         },
       },
       {
         id: "accepter",
         label: "« Ça nous va, avançons sur cette base. »",
-        effect: () => ({
+        effect: () => fx({
           method: 0,
           lesson: "techniques-nego",
           reply: "« Parfait, voilà qui est constructif. »",
@@ -222,13 +158,14 @@ const NODES: Record<NodeId, NodeDef> = {
 
   besoin: {
     title: "Le vrai blocage",
+    speaker: DS,
     line: () => "« Pour être franc, le fixe nous pose problème. Notre masse salariale est très tendue. »",
     next: "structure",
     choices: [
       {
         id: "ecouter",
         label: "« Qu'est-ce qui coince exactement : le montant sur toute la durée, ou cette saison en particulier ? »",
-        effect: () => ({
+        effect: () => fx({
           trust: 10,
           flags: ["besoin"],
           method: 7,
@@ -241,7 +178,7 @@ const NODES: Record<NodeId, NodeDef> = {
       {
         id: "camper",
         label: "« Ce n'est pas notre problème. Yanis vaut ce prix. »",
-        effect: () => ({
+        effect: () => fx({
           trust: -10,
           method: 1,
           lesson: "negociation",
@@ -253,8 +190,8 @@ const NODES: Record<NodeId, NodeDef> = {
       {
         id: "baisser",
         label: "« Je comprends. On peut baisser notre demande de 3 000 €. »",
-        effect: (s) => ({
-          salary: Math.max(s.salary - 3, 0),
+        effect: (s) => fx({
+          salary: Math.max(s.vars.salary - 3, 0),
           trust: 3,
           method: 0,
           lesson: "techniques-nego",
@@ -268,6 +205,7 @@ const NODES: Record<NodeId, NodeDef> = {
 
   structure: {
     title: "Le montage",
+    speaker: DS,
     line: () => "« Si on fait un effort sur le fixe, il nous faudrait Yanis sur 5 ans. »",
     next: "pression",
     choices: [
@@ -276,8 +214,8 @@ const NODES: Record<NodeId, NodeDef> = {
         requires: "besoin",
         label:
           "« 5 ans, d'accord : 40 000 € de fixe, et une prime à la signature de 400 000 € versée pour moitié l'été prochain. Ça soulage votre saison. »",
-        effect: (s) => ({
-          salary: Math.max(s.salary, 40),
+        effect: (s) => fx({
+          salary: Math.max(s.vars.salary, 40),
           signing: 400,
           years: 5,
           trust: 5,
@@ -291,8 +229,8 @@ const NODES: Record<NodeId, NodeDef> = {
       {
         id: "troc",
         label: "« 5 ans, si vous ajoutez des primes d'objectifs : matchs joués et passes décisives. »",
-        effect: (s) => ({
-          salary: capFixe(s.salary + 2),
+        effect: (s) => fx({
+          salary: capFixe(s.vars.salary + 2),
           years: 5,
           perfBonus: true,
           method: 6,
@@ -305,7 +243,7 @@ const NODES: Record<NodeId, NodeDef> = {
       {
         id: "cede",
         label: "« D'accord pour 5 ans. »",
-        effect: () => ({
+        effect: () => fx({
           years: 5,
           method: 1,
           lesson: "techniques-nego",
@@ -319,6 +257,7 @@ const NODES: Record<NodeId, NodeDef> = {
 
   pression: {
     title: "La pression du temps",
+    speaker: DS,
     line: () => "« Il me faut votre réponse ce soir. Sinon, on passe à un autre profil. »",
     next: "fin",
     choices: [
@@ -327,27 +266,27 @@ const NODES: Record<NodeId, NodeDef> = {
         label: "« Je dois en parler à Yanis. Je vous rappelle demain à 9 h. »",
         effect: (s) =>
           has(s, "club")
-            ? {
+            ? fx({
                 method: 7,
                 lesson: "techniques-nego",
                 reply:
                   "« …Entendu. Demain 9 h. » Tu sais que, sans titulaire et avec le mercato qui ferme, il ne partira pas ailleurs.",
                 feedback:
                   "Tu ne décides pas à chaud, et ta préparation te dit que l'ultimatum est un bluff : le club a besoin de ton joueur.",
-              }
-            : {
+              })
+            : fx({
                 trust: -5,
                 method: 5,
                 lesson: "techniques-nego",
                 reply: "« Demain 9 h. Pas plus tard. »",
                 feedback:
                   "Bon réflexe : jamais de décision à chaud. Sans savoir que le club était pressé, tu as pris un petit risque, qui passe cette fois.",
-              },
+              }),
       },
       {
         id: "signer",
         label: "« D'accord, on signe ce soir. »",
-        effect: () => ({
+        effect: () => fx({
           flags: ["a-chaud"],
           method: 0,
           lesson: "techniques-nego",
@@ -360,8 +299,8 @@ const NODES: Record<NodeId, NodeDef> = {
         id: "geste",
         requires: "planb",
         label: "« L'autre club attend aussi ma réponse. Un dernier geste et c'est fait. »",
-        effect: (s) => ({
-          signing: s.signing + 150,
+        effect: (s) => fx({
+          signing: s.vars.signing + 150,
           trust: -5,
           method: 5,
           lesson: "preparer-nego",
@@ -374,113 +313,12 @@ const NODES: Record<NodeId, NodeDef> = {
   },
 };
 
-export const NODE_ORDER: NodeId[] = ["ouverture", "contre", "besoin", "structure", "pression"];
-
-export function initialState(prep: PrepId[] = []): SimState {
-  return {
-    prep: [...prep],
-    node: "ouverture",
-    salary: 0,
-    signing: 0,
-    years: 4,
-    perfBonus: false,
-    trust: 60,
-    flags: [],
-    history: [],
-    outcome: "en-cours",
-  };
-}
-
-/** Valide la préparation : exactement PREP_COUNT éléments distincts et connus. */
-export function validPrep(prep: string[]): prep is PrepId[] {
-  const ids = new Set(PREPS.map((p) => p.id as string));
-  return prep.length === PREP_COUNT && new Set(prep).size === prep.length && prep.every((p) => ids.has(p));
-}
-
-export type ShownNode = { id: NodeId; title: string; line: string; choices: { id: string; label: string }[] };
-
-/** Étape en cours telle qu'affichée (choix verrouillés retirés). */
-export function currentNode(s: SimState): ShownNode | null {
-  if (s.node === "fin") return null;
-  const def = NODES[s.node];
-  return {
-    id: s.node,
-    title: def.title,
-    line: def.line(s),
-    choices: shuffled(
-      def.choices.filter((c) => !c.requires || has(s, c.requires)).map((c) => ({ id: c.id, label: c.label })),
-      `simulation:${s.node}:${s.prep.join("+")}`,
-    ),
-  };
-}
-
-// La meilleure réponse est écrite en premier dans le scénario : on mélange
-// l'ordre d'affichage (déterministe) pour qu'elle ne soit pas toujours en haut.
-function shuffled<T>(list: T[], seed: string): T[] {
-  const random = seededRandom(seed);
-  const out = [...list];
-  for (let i = out.length - 1; i > 0; i--) {
-    const j = Math.floor(random() * (i + 1));
-    [out[i], out[j]] = [out[j], out[i]];
-  }
-  return out;
-}
-
-/** Joue un choix. Choix inconnu ou verrouillé → état inchangé. */
-export function choose(s: SimState, choiceId: string): SimState {
-  if (s.node === "fin") return s;
-  const def = NODES[s.node];
-  const choice = def.choices.find((c) => c.id === choiceId);
-  if (!choice || (choice.requires && !has(s, choice.requires))) return s;
-
-  const e = choice.effect(s);
-  const trust = Math.max(0, Math.min(100, s.trust + (e.trust ?? 0)));
-  const turn: Turn = {
-    node: s.node,
-    title: def.title,
-    line: def.line(s),
-    choiceId,
-    label: choice.label,
-    reply: e.reply,
-    feedback: e.feedback,
-    method: e.method,
-    lesson: e.lesson,
-  };
-  const next: SimState = {
-    ...s,
-    salary: e.salary ?? s.salary,
-    signing: e.signing ?? s.signing,
-    years: e.years ?? s.years,
-    perfBonus: e.perfBonus ?? s.perfBonus,
-    trust,
-    flags: [...s.flags, ...(e.flags ?? []).filter((f) => !s.flags.includes(f))],
-    history: [...s.history, turn],
-  };
-
-  if (trust <= RUPTURE_CONFIANCE) {
-    return { ...next, node: "fin", outcome: "rupture" };
-  }
-  if (def.next === "fin") return { ...next, node: "fin", outcome: "accord" };
-  return { ...next, node: def.next };
-}
-
 /** Valeur mensuelle équivalente du contrat pour le joueur (k€). */
 export function monthlyValue(s: SimState): number {
-  const value = s.salary + s.signing / (s.years * 12) + (s.perfBonus ? 2 : 0);
+  const { salary, signing, years, perfBonus } = s.vars;
+  const value = salary + signing / (years * 12) + (perfBonus ? 2 : 0);
   return Math.round(value * 10) / 10;
 }
-
-export type Result = {
-  outcome: "accord" | "rupture";
-  score: number; // 0-100
-  grade: string;
-  value: number;
-  parts: { valeur: number; relation: number; methode: number; joueur: number };
-  playerHappy: boolean;
-  playerLine: string;
-  belowFloor: boolean;
-  missed: string[];
-};
 
 const GRADES: [number, string][] = [
   [85, "Négociateur confirmé"],
@@ -489,9 +327,8 @@ const GRADES: [number, string][] = [
   [0, "À revoir"],
 ];
 
-/** Bilan de fin de partie. */
-export function result(s: SimState): Result {
-  const methode = Math.min(35, s.history.reduce((sum, t) => sum + t.method, 0));
+function mbayeResult(s: SimState): Result {
+  const methode = methodPoints(s);
   const relation = Math.round((s.trust / 100) * 25);
   const missed: string[] = [];
   if (!s.history.some((t) => t.choiceId === "montage")) {
@@ -502,16 +339,20 @@ export function result(s: SimState): Result {
     );
   }
 
-  if (s.outcome === "rupture") {
+  if (s.outcome !== "accord") {
+    const score = Math.min(30, methode + relation);
     return {
-      outcome: "rupture",
-      score: Math.min(30, methode + relation),
+      outcome: s.outcome === "faute" ? "faute" : "rupture",
+      score,
       grade: "Rupture",
-      value: 0,
-      parts: { valeur: 0, relation, methode, joueur: 0 },
-      playerHappy: false,
-      playerLine: "« Il s'est passé quoi ? On avait un club en Ligue 1… » Yanis reste à Rivemont.",
-      belowFloor: false,
+      headline: "« Il s'est passé quoi ? On avait un club en Ligue 1… » Yanis reste à Rivemont.",
+      tiles: [
+        { label: "Valeur obtenue", value: "0/40" },
+        { label: "Relation club", value: `${relation}/25` },
+        { label: "Méthode", value: `${methode}/35` },
+        { label: "Contrat / mois", value: "—" },
+      ],
+      notes: [],
       missed,
     };
   }
@@ -519,99 +360,107 @@ export function result(s: SimState): Result {
   const value = monthlyValue(s);
   const valeur = Math.round(Math.max(0, Math.min(1, (value - 30) / 18)) * 40);
   const threshold = has(s, "joueur") ? 38 : DOSSIER.cible;
-  const playerHappy = value >= threshold;
+  const happy = value >= threshold;
   const belowFloor = value < DOSSIER.plancher;
+  const notes: string[] = [];
   let joueur = 0;
-  let playerLine: string;
-  if (playerHappy) {
-    playerLine = has(s, "joueur")
+  let headline: string;
+  if (happy) {
+    headline = has(s, "joueur")
       ? "« C'est exactement ce qu'on s'était dit. Merci ! » Yanis signe, serein."
       : "« Franchement, c'est au-dessus de ce que j'espérais. » Yanis signe.";
   } else if (has(s, "a-chaud")) {
     joueur = -10;
-    playerLine = "Yanis découvre le contrat une fois signé : « Tu aurais pu m'en parler avant… » La confiance est entamée.";
+    headline = "Yanis découvre le contrat une fois signé : « Tu aurais pu m'en parler avant… » La confiance est entamée.";
   } else {
     joueur = -5;
-    playerLine = has(s, "joueur")
+    headline = has(s, "joueur")
       ? "« C'est un peu moins que ce qu'on visait… » Yanis signe, mais sans enthousiasme."
       : "« Je pensais valoir plus que ça. » Yanis attendait plus : ses attentes n'avaient pas été alignées sur le marché.";
   }
+  if (joueur < 0) notes.push(`Joueur déçu : ${joueur} points.`);
   if (belowFloor) {
+    notes.push("Accord sous ton point de rupture : -10 points.");
     missed.push("L'accord est sous ton point de rupture (32 000 €) : tu aurais dû refuser plutôt que signer à ce prix.");
   }
 
   const score = Math.max(0, Math.min(100, valeur + relation + methode + joueur - (belowFloor ? 10 : 0)));
-  const grade = GRADES.find(([min]) => score >= min)?.[1] ?? "À revoir";
   return {
     outcome: "accord",
     score,
-    grade,
-    value,
-    parts: { valeur, relation, methode, joueur },
-    playerHappy,
-    playerLine,
-    belowFloor,
+    grade: gradeFor(score, GRADES),
+    headline,
+    tiles: [
+      { label: "Valeur obtenue", value: `${valeur}/40` },
+      { label: "Relation club", value: `${relation}/25` },
+      { label: "Méthode", value: `${methode}/35` },
+      { label: "Contrat / mois", value: `${value.toLocaleString("fr-FR")} k€` },
+    ],
+    notes,
     missed,
   };
 }
 
-/** Tous les enchaînements de choix possibles pour une préparation (tests). */
-export function allPaths(prep: PrepId[]): SimState[] {
-  const out: SimState[] = [];
-  const walk = (s: SimState) => {
-    const node = currentNode(s);
-    if (!node) {
-      out.push(s);
-      return;
-    }
-    for (const c of node.choices) walk(choose(s, c.id));
-  };
-  walk(initialState(prep));
-  return out;
-}
-
-// ── XP ──────────────────────────────────────────────────────────────────
-// L'XP de la simulation s'ajoute à l'XP du compte (academy_progress.xp).
-// Elle se gagne par PALIERS de meilleur score, une seule fois chacun :
-// rejouer pour le même résultat ne rapporte rien, progresser rapporte la
-// différence. Le score est toujours recalculé côté serveur (rejeu des choix).
-
-export const SCENARIO_ID = "dossier-mbaye";
-
-export const XP_TIERS: { min: number; xp: number; label: string }[] = [
-  { min: 85, xp: 100, label: "Négociateur confirmé" },
-  { min: 70, xp: 60, label: "Solide" },
-  { min: 50, xp: 30, label: "Accord correct" },
-];
-
-export const XP_MAX = XP_TIERS[0].xp;
-
-/** XP totale associée à un score (palier atteint). */
-export function xpForScore(score: number): number {
-  return XP_TIERS.find((t) => score >= t.min)?.xp ?? 0;
-}
-
-/** Prochain palier à viser après ce meilleur score (null si tout est obtenu). */
-export function nextTier(bestScore: number): { min: number; xp: number } | null {
-  const reached = xpForScore(bestScore);
-  const next = [...XP_TIERS].reverse().find((t) => t.xp > reached);
-  return next ? { min: next.min, xp: next.xp - reached } : null;
-}
-
-/**
- * Rejoue une partie à partir de la préparation et des choix envoyés par le
- * navigateur. Renvoie null si la préparation est invalide, si un choix est
- * inconnu ou verrouillé, ou si la partie n'est pas terminée.
- */
-export function replay(prep: unknown, choices: unknown): SimState | null {
-  if (!Array.isArray(prep) || !prep.every((p) => typeof p === "string") || !validPrep(prep)) return null;
-  if (!Array.isArray(choices) || choices.length > NODE_ORDER.length) return null;
-  let s = initialState(prep);
-  for (const c of choices) {
-    if (typeof c !== "string") return null;
-    const next = choose(s, c);
-    if (next === s) return null;
-    s = next;
-  }
-  return s.node === "fin" ? s : null;
-}
+export const MBAYE: Scenario = {
+  id: "dossier-mbaye",
+  title: "Le dossier Mbaye",
+  pitch: "Négocie le contrat de ton joueur face au directeur sportif d'un club de Ligue 1.",
+  theme: "Négociation",
+  chapterId: "art-negociation",
+  chapters: ["art-negociation"],
+  lessons: ["negociation", "preparer-nego", "techniques-nego", "negocier-transfert"],
+  intro: {
+    heading: "Place ton joueur en Ligue 1",
+    text: `Tu es l'agent de ${DOSSIER.joueur} (${DOSSIER.profil}). L'${DOSSIER.club} le veut. Tu as rendez-vous avec ${DOSSIER.interlocuteur}, pour négocier le contrat de ton joueur.`,
+    stats: [
+      { label: "Salaire actuel", value: `${k(DOSSIER.salaireActuel)}/mois` },
+      { label: "Ta cible", value: `${k(DOSSIER.cible)}/mois` },
+      { label: "Ton point de rupture", value: `${k(DOSSIER.plancher)}/mois` },
+    ],
+    note: "5 moments clés, 3 réponses possibles à chaque fois, aucune bonne réponse évidente. À la fin : ta note sur 100 et le débrief de chaque décision. Personnages et montants fictifs.",
+  },
+  preps: [
+    {
+      id: "club",
+      title: "Te renseigner sur la situation du club",
+      detail: "Appeler ton réseau pour savoir où en est l'Olympique de Valcourt.",
+      intel: "Leur milieu titulaire est blessé pour 4 mois et le mercato ferme dans 5 jours : ils sont pressés.",
+    },
+    {
+      id: "planb",
+      title: "Sécuriser un plan B",
+      detail: "Obtenir une offre écrite d'un autre club avant le rendez-vous.",
+      intel: "Le FC Brémont a envoyé une offre écrite à 35 000 € brut par mois. Ta solution de repli (MESORE) est solide.",
+    },
+    {
+      id: "joueur",
+      title: "Aligner les attentes de Yanis",
+      detail: "Faire le point avec ton joueur sur la réalité du marché.",
+      intel: "Yanis a compris le marché : il signe à partir de 38 000 € par mois si le projet sportif est bon.",
+    },
+  ],
+  prepCount: 2,
+  nodes: NODES,
+  order: ["ouverture", "contre", "besoin", "structure", "pression"],
+  initialVars: { salary: 0, signing: 0, years: 4, perfBonus: 0 },
+  initialTrust: 60,
+  ruptureAt: 20,
+  trustLabel: "Relation avec le club",
+  endLines: {
+    rupture: "« Je crois qu'on va s'arrêter là. » Marc Delorme se lève. La confiance est rompue.",
+    faute: "« Je crois qu'on va s'arrêter là. » Marc Delorme se lève.",
+    accord: "Poignée de main. L'accord est trouvé. Voyons ce qu'il vaut…",
+  },
+  panel: (s) => ({
+    title: "Sur la table",
+    rows: [
+      { label: "Fixe mensuel", value: s.vars.salary ? k(s.vars.salary) : "—" },
+      { label: "Prime à la signature", value: s.vars.signing ? k(s.vars.signing) : "—" },
+      { label: "Durée", value: `${s.vars.years} ans` },
+      { label: "Primes d'objectifs", value: s.vars.perfBonus ? "oui" : "non" },
+      ...(s.vars.salary ? [{ label: "Valeur / mois pour Yanis", value: `${monthlyValue(s).toLocaleString("fr-FR")} k€` }] : []),
+    ],
+    footer: `Cible ${DOSSIER.cible} k€ · rupture ${DOSSIER.plancher} k€`,
+  }),
+  result: mbayeResult,
+};

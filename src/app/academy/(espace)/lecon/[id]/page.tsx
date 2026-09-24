@@ -8,6 +8,7 @@ import LessonAside from "@/components/LessonAside";
 import LessonNotes from "@/components/LessonNotes";
 import LessonReader from "@/components/LessonReader";
 import SimulationCallout from "@/components/SimulationCallout";
+import { scenariosForLesson } from "@/lib/simulation";
 import LessonQuiz from "@/components/LessonQuiz";
 import { quizAnswersToOriginal, quizForDisplay } from "@/lib/academy-quiz-order";
 import {
@@ -298,7 +299,9 @@ export default async function LessonPage({
         />
       </section>
 
-      {chapter.id === "art-negociation" ? <SimulationCallout /> : null}
+      {scenariosForLesson(lesson.id).map((sc) => (
+        <SimulationCallout key={sc.id} scenario={sc} />
+      ))}
 
       {/* Téléphone / tablette : leçons voisines sous le quiz. */}
       <nav className="lg:hidden grid grid-cols-2 gap-2" aria-label="Leçons voisines">
