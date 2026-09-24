@@ -32,7 +32,10 @@ export default async function ConnexionPage({ searchParams }: { searchParams: Pr
     const problem = passwordProblem(String(formData.get("password") ?? ""));
     if (problem) redirect(`/connexion?mode=inscription&erreur=${encodeURIComponent(problem)}`);
     const res = await signUp(String(formData.get("email")), String(formData.get("password")));
-    if (!res.ok) redirect(`/connexion?mode=inscription&erreur=${encodeURIComponent(res.error)}`);
+    if (res.status === "erreur") redirect(`/connexion?mode=inscription&erreur=${encodeURIComponent(res.error)}`);
+    if (res.status === "a-confirmer") {
+      redirect(`/connexion?mode=inscription&erreur=${encodeURIComponent("Compte créé — confirme ton adresse e-mail puis connecte-toi.")}`);
+    }
     const u = await getUser();
     if (u) { await ensureSeeded(u.id); await upsertProfile(u.id, u.email); }
     redirect("/");
