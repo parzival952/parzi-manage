@@ -58,6 +58,54 @@ export async function signIn(email: string, password: string): Promise<{ ok: tru
   return { ok: true };
 }
 
+/**
+ * Demande d'e-mail « nouveau mot de passe ». Réponse volontairement neutre
+ * côté interface (on ne dit jamais si l'adresse a un compte) ; seules les
+ * erreurs de limite d'envoi sont remontées.
+ */
+export async function requestPasswordReset(
+  email: string,
+  redirectTo?: string,
+): Promise<{ ok: true } | { ok: false; error: string }> {
+  const query = redirectTo ? `?redirect_to=${encodeURIComponent(redirectTo)}` : "";
+  const r = await fetch(`${AUTH()}/recover${query}`, {
+    method: "POST", headers: headers(),
+    body: JSON.stringify({ email }),
+  });
+  if (r.ok) return { ok: true };
+  const j = await r.json().catch(() => ({}));
+  const error = friendlyError(j);
+  // Limite d'envoi : on prévient. Toute autre erreur reste neutre.
+  if (/patiente|trop d'e-mails/i.test(error)) return { ok: false, error };
+  return { ok: true };
+}
+
+/**
+ * Fin du parcours « mot de passe oublié » : le lien de l'e-mail ouvre une
+ * session de récupération (jetons dans le fragment d'URL). On fixe le nouveau
+ * mot de passe avec ce jeton, puis on garde la session : l'élève est connecté.
+ */
+export async function setPasswordWithRecovery(
+  accessToken: string,
+  refreshToken: string,
+  password: string,
+): Promise<{ ok: true } | { ok: false; error: string }> {
+  const r = await fetch(`${AUTH()}/user`, {
+    method: "PUT",
+    headers: { ...headers(), Authorization: `Bearer ${accessToken}` },
+    body: JSON.stringify({ password }),
+  });
+  const j = await r.json().catch(() => ({}));
+  if (!r.ok) {
+    if (r.status === 401 || r.status === 403) {
+      return { ok: false, error: "Ce lien a expiré. Redemande un e-mail « mot de passe oublié »." };
+    }
+    return { ok: false, error: friendlyError(j) };
+  }
+  await storeSession({ access_token: accessToken, refresh_token: refreshToken });
+  return { ok: true };
+}
+
 export async function signOut() {
   const jar = await cookies();
   jar.delete("pm_at");
@@ -124,5 +172,8 @@ function friendlyError(j: unknown): string {
   if (/already registered/i.test(s)) return "Un compte existe déjà avec cet e-mail — connecte-toi.";
   if (/password should be at least/i.test(s)) return "Le mot de passe doit faire au moins 6 caractères.";
   if (/email.*confirm/i.test(s)) return "Confirme ton adresse e-mail avant de te connecter.";
+  if (/different from the old password/i.test(s)) return "Choisis un mot de passe différent de l'ancien.";
+  if (/only request this after|security purposes/i.test(s)) return "Patiente une minute avant de redemander un e-mail.";
+  if (/rate limit/i.test(s)) return "Trop d'e-mails envoyés pour le moment. Réessaie dans une heure.";
   return s || "Une erreur est survenue. Réessaie.";
 }
