@@ -920,7 +920,95 @@ export const COURSE: { id: string; title: string; chapters: Chapter[] } = {
       ],
     },
 
-    // ================= CH.11 — MÉTHODE & PROFESSIONNALISATION =================
+    // ================= CH.11 — FISCALITÉ & STATUT DE L'AGENT =================
+    // Chiffres France 2026 (seuils micro 2026-2028, franchise TVA, taux URSSAF
+    // 2026, calendrier facture électronique) : ils changent — la leçon le dit
+    // et renvoie toujours vers l'expert-comptable et les sources officielles.
+    {
+      id: "fiscalite-statut",
+      title: "Fiscalité & statut de l'agent",
+      subtitle: "Choisir sa structure, comprendre la TVA et facturer proprement ses commissions.",
+      lessons: [
+        {
+          id: "choisir-statut",
+          title: "Choisir son statut",
+          minutes: 6,
+          intro: "Entreprise individuelle ou société : un choix qui décide de tes charges, de ton impôt et de ta protection.",
+          blocks: [
+            "Deux grandes familles. L'entreprise individuelle (dont la micro-entreprise) : simple à créer, peu de formalités, idéale pour démarrer quand les commissions sont encore rares. La société (SASU, EURL…) : plus lourde à gérer (statuts, comptabilité complète, frais d'expert-comptable), mais plus souple quand l'activité grossit — rémunération, dividendes, associés, image auprès des clubs.",
+            "Ce que le statut change vraiment : la façon dont tu es imposé (impôt sur le revenu ou impôt sur les sociétés), le montant et la nature de tes charges sociales, ta protection sociale, et ce que tu peux déduire (déplacements, téléphone, logiciels, formation). Depuis 2022, le patrimoine personnel de l'entrepreneur individuel est séparé par défaut du patrimoine professionnel ; la société reste toutefois la structure la plus lisible pour accueillir un associé ou un investisseur.",
+            "Le bon ordre : ta licence d'agent d'abord (sans elle, pas d'activité), puis le statut adapté à ton volume réel. Beaucoup d'agents démarrent en micro-entreprise, puis passent en société quand les commissions dépassent les seuils ou que les frais réels deviennent importants. Ce passage se prépare avec un expert-comptable, idéalement avant la grosse commission — pas après.",
+            "Cas concret — Un jeune agent crée directement une SASU « pour faire sérieux ». Première année : deux petites commissions, mais 2 500 € de frais comptables et une gestion lourde. Son confrère, en micro-entreprise, a encaissé autant avec presque aucun frais. Deux ans plus tard, avec un portefeuille qui tourne, c'est l'inverse : la société devient intéressante. Le bon statut n'est pas le plus prestigieux, c'est celui qui colle à ton volume.",
+            "⚠️ L'erreur classique — Choisir un statut sur un conseil entendu au vestiaire, sans chiffrer. Le pro fait une simulation (chiffre d'affaires prévu, frais, impôt, charges) avec un expert-comptable avant de créer.",
+            "🎯 À retenir — Licence d'abord, statut ensuite · Micro-entreprise pour démarrer, société quand le volume le justifie · Toujours chiffrer avec un expert-comptable.",
+          ],
+          quiz: [
+            { q: "Tu démarres avec quelques commissions attendues dans l'année. Le statut le plus adapté en général ?", options: ["Une holding avec plusieurs sociétés", "Une entreprise individuelle, souvent en micro-entreprise", "Aucun statut : on déclarera plus tard"], answer: 1, explain: "Simple et peu coûteuse, la micro-entreprise convient au démarrage ; on évolue quand le volume le justifie." },
+            { q: "Qu'est-ce qui doit venir en premier pour exercer comme agent ?", options: ["La licence d'agent", "La création d'une SASU", "Le logo et le site internet"], answer: 0, explain: "Sans licence, pas d'activité d'agent possible : le statut vient ensuite." },
+            { q: "Quand envisager le passage en société ?", options: ["Jamais, c'est toujours plus cher", "Quand le volume et les frais réels le justifient, après simulation avec un expert-comptable", "Dès le premier mandat, pour impressionner les clubs"], answer: 1 },
+          ],
+        },
+        {
+          id: "micro-entreprise-agent",
+          title: "La micro-entreprise en pratique",
+          minutes: 7,
+          intro: "Le régime le plus simple — à condition de connaître ses seuils, ses taux et ses échéances.",
+          blocks: [
+            "Le principe : tu déclares ton chiffre d'affaires encaissé (mensuellement ou trimestriellement) et tu paies des cotisations sociales en pourcentage de ce chiffre. Pas de comptabilité complète, mais un livre des recettes tenu à jour. Chiffres 2026 à vérifier chaque année : plafond de 83 600 € de chiffre d'affaires par an pour les prestations de services (seuils fixés pour 2026-2028) ; cotisations d'environ 25,6 % du chiffre d'affaires pour une activité libérale relevant de la Sécurité sociale des indépendants.",
+            "L'impôt : en micro-BNC, le fisc applique un abattement forfaitaire de 34 % pour frais, et le reste s'ajoute à tes autres revenus. Sous condition de revenus du foyer, tu peux opter pour le versement libératoire : 2,2 % du chiffre d'affaires payés en même temps que les cotisations, et l'impôt est réglé. Ta catégorie fiscale exacte (BNC le plus souvent pour une activité de représentation et de conseil) se valide avec un expert-comptable : elle change l'abattement et le taux.",
+            "Les autres échéances : la cotisation foncière des entreprises (CFE) arrive à partir de la deuxième année (exonération l'année de création), et un compte bancaire dédié est obligatoire dès que ton chiffre d'affaires dépasse 10 000 € deux années de suite — en pratique, ouvre-le dès le départ. Le vrai piège : les frais. En micro-entreprise, tu ne déduis pas tes frais réels ; si tu voyages beaucoup pour voir des joueurs, l'abattement forfaitaire peut devenir moins intéressant qu'une structure au réel.",
+            "Cas concret — Un agent encaisse une commission de 20 000 € en mars. Il la voit comme « 20 000 € pour moi ». En réalité, environ 5 100 € partent en cotisations (25,6 %), et l'impôt suivra. Il met aussitôt 30 % de côté sur un compte séparé : quand l'URSSAF et les impôts se présentent, l'argent est là. Son confrère qui a tout dépensé, lui, doit demander un échéancier — et négocie ensuite ses deals sous pression.",
+            "⚠️ L'erreur classique — Oublier de déclarer un mois « sans commission » ou déclarer en retard : pénalités assurées. Même à zéro, on déclare dans les temps.",
+            "🎯 À retenir — Plafond et taux changent : vérifie-les chaque année · Mets de côté environ 30 % de chaque commission · Déclare toujours dans les temps, même à zéro.",
+          ],
+          quiz: [
+            { q: "En micro-entreprise, sur quoi sont calculées tes cotisations sociales ?", options: ["Sur ton bénéfice après frais réels", "Sur ton chiffre d'affaires encaissé", "Sur un forfait fixe annuel"], answer: 1, explain: "En micro-entreprise, les cotisations sont un pourcentage du chiffre d'affaires encaissé." },
+            { q: "Tu viens d'encaisser une commission de 20 000 €. Le bon réflexe ?", options: ["Considérer les 20 000 € comme disponibles", "Mettre immédiatement de côté une part pour les cotisations et l'impôt", "Attendre la relance de l'URSSAF pour s'en occuper"], answer: 1 },
+            { q: "Aucun encaissement ce trimestre : dois-tu déclarer ?", options: ["Non, il n'y a rien à déclarer", "Oui, on déclare dans les temps même à zéro", "Seulement si l'URSSAF le demande"], answer: 1, explain: "Une déclaration manquante, même à zéro, entraîne des pénalités." },
+          ],
+        },
+        {
+          id: "tva-commissions",
+          title: "La TVA sur tes commissions",
+          minutes: 7,
+          intro: "Facturer avec ou sans TVA, en France ou à l'étranger : une erreur ici coûte cher et se voit tout de suite.",
+          blocks: [
+            "La franchise en base : tant que ton chiffre d'affaires reste sous un seuil (37 500 € pour les prestations de services en 2026, avec une tolérance à 41 250 €), tu ne factures pas de TVA et tu ne la récupères pas. Ta facture doit alors porter la mention « TVA non applicable, article 293 B du CGI ». Le projet d'abaisser ce seuil à 25 000 € a été abandonné : les seuils antérieurs restent en vigueur — mais on vérifie chaque année.",
+            "Au-delà du seuil (ou si tu optes pour la TVA), tu factures la TVA à 20 % sur tes commissions, tu la reverses à l'État et tu récupères celle payée sur tes achats professionnels. Attention au passage : dès que le seuil majoré est dépassé en cours d'année, la TVA s'applique immédiatement. Pour un club, payer la TVA n'est pas un problème (il la récupère) ; pour un joueur particulier, elle alourdit le coût — c'est un point à clarifier dans le mandat.",
+            "À l'international : pour une prestation rendue à un club étranger établi dans l'Union européenne et assujetti à la TVA, la règle générale est que la TVA française n'est pas facturée ; c'est le club qui l'autoliquide dans son pays. Ta facture porte alors les numéros de TVA intracommunautaire des deux parties — et tu en as besoin même en franchise. Hors UE, d'autres règles s'appliquent. Chaque opération internationale mérite une validation par ton expert-comptable.",
+            "Cas concret — Un agent en franchise facture « 10 000 € TTC » à un club, avec une TVA de 20 % qu'il n'a pas le droit de facturer. Le club la déduit, l'agent ne la reverse pas : au premier contrôle, redressement pour les deux. À l'inverse, un agent qui a dépassé le seuil en mai et continue à facturer sans TVA jusqu'en décembre devra la payer de sa poche sur tout ce qu'il a facturé depuis le dépassement. La TVA ne pardonne pas l'à-peu-près.",
+            "⚠️ L'erreur classique — Ne pas surveiller son chiffre d'affaires en cours d'année et découvrir trop tard qu'on a dépassé le seuil de franchise. Le pro suit son cumul après chaque encaissement.",
+            "🎯 À retenir — Sous le seuil : pas de TVA, mention article 293 B · Seuil dépassé : TVA immédiatement · Client UE assujetti : autoliquidation, numéros de TVA sur la facture.",
+          ],
+          quiz: [
+            { q: "Tu es en franchise en base de TVA. Que dois-tu indiquer sur ta facture ?", options: ["Une TVA à 20 % comme tout le monde", "La mention « TVA non applicable, article 293 B du CGI »", "Rien de particulier"], answer: 1, explain: "En franchise, on ne facture pas de TVA et on l'indique avec la mention légale." },
+            { q: "Ton chiffre d'affaires dépasse le seuil majoré en cours d'année. Que se passe-t-il ?", options: ["Rien avant l'année suivante", "La TVA s'applique immédiatement à tes facturations", "Tu dois fermer ton entreprise"], answer: 1 },
+            { q: "Tu factures une commission à un club espagnol assujetti à la TVA. La règle générale ?", options: ["Tu factures la TVA française à 20 %", "Pas de TVA française : le club autoliquide, les numéros de TVA intracommunautaire figurent sur la facture", "Tu factures la TVA espagnole toi-même"], answer: 1, explain: "Pour une prestation B2B dans l'UE, la TVA est en principe due par le preneur (autoliquidation)." },
+          ],
+        },
+        {
+          id: "facturer-commission",
+          title: "Facturer et encaisser une commission",
+          minutes: 6,
+          intro: "Une commission n'existe vraiment qu'une fois facturée correctement, encaissée et déclarée.",
+          blocks: [
+            "Qui reçoit la facture ? Celui qui te doit la commission d'après le mandat. En France, le Code du sport plafonne la rémunération de l'agent à 10 % du montant du contrat conclu par les parties qu'il a mises en rapport, et le club peut régler la commission à la place du joueur. Ce point se prépare dès le mandat : qui paie, combien, sur quelle base, à quelles échéances — et on vérifie le texte en vigueur au moment de l'opération.",
+            "Une facture propre comporte : un numéro unique et chronologique, la date, ton identité (nom, adresse, numéro SIREN), celle du client, la description précise (opération, joueur, contrat, échéance concernée), le montant hors taxe, la TVA ou la mention de franchise, les conditions et la date limite de paiement. Pour une commission étalée sur la durée d'un contrat, on facture chaque échéance quand elle devient exigible.",
+            "Le virage numérique : en France, toutes les entreprises doivent pouvoir recevoir des factures électroniques depuis le 1er septembre 2026, et les TPE, PME et micro-entreprises devront les émettre à partir du 1er septembre 2027 pour leurs clients professionnels (via une plateforme agréée). Les ventes à des particuliers et à l'étranger suivent un circuit de déclaration séparé. Choisis dès maintenant un outil de facturation compatible.",
+            "Cas concret — Un club doit à un agent 30 000 € payables en trois échéances annuelles. L'agent envoie une seule facture « 30 000 € » le jour de la signature. Le club la rejette : elle ne correspond pas à l'échéancier du contrat. Trois mois perdus. Refaite proprement — trois factures, chacune à son échéance, avec la référence du contrat et du joueur — chaque paiement arrive à l'heure.",
+            "⚠️ L'erreur classique — Facturer approximativement (mauvais client, montant flou, pas de référence au contrat) et s'étonner que le club ne paie pas. Une facture précise est payée ; une facture floue est mise de côté.",
+            "🎯 À retenir — Facturer celui qui doit la commission selon le mandat · Plafond légal et échéancier vérifiés · Facture complète et numérotée, bientôt électronique.",
+          ],
+          quiz: [
+            { q: "Ta commission est payable en trois échéances annuelles. Comment factures-tu ?", options: ["Une seule facture du total le jour de la signature", "Une facture à chaque échéance, avec la référence du contrat", "Aucune facture : le virement suffit"], answer: 1, explain: "On facture chaque échéance quand elle devient exigible, en référençant le contrat." },
+            { q: "En France, qui peut régler la commission de l'agent du joueur ?", options: ["Uniquement le joueur, jamais le club", "Le joueur, ou le club à sa place, dans le cadre prévu par le Code du sport", "N'importe quel tiers, sans règle"], answer: 1 },
+            { q: "À partir de quand une micro-entreprise devra-t-elle émettre des factures électroniques à ses clients professionnels ?", options: ["Elle n'est pas concernée", "Le 1er septembre 2027", "Le 1er janvier 2030"], answer: 1, explain: "Réception obligatoire dès le 1er septembre 2026 ; émission pour les TPE-PME et micro-entreprises au 1er septembre 2027." },
+          ],
+        },
+      ],
+    },
+
+    // ================= CH.12 — MÉTHODE & PROFESSIONNALISATION =================
     {
       id: "methode-pro",
       title: "Méthode, examen & outils",
@@ -1064,6 +1152,8 @@ const LESSON_ATTR: Record<string, AttrKey> = {
   "jouer-a-letranger": "JUR", "mecanique-transfert-int": "JUR", "formation-solidarite": "BUS", "montages-a-eviter": "JUR",
   // Médias, image & communication
   "relation-medias": "MGT", "reseaux-sociaux": "BUS", "communication-crise": "MGT", "prise-de-parole": "NEG",
+  // Fiscalité & statut
+  "choisir-statut": "BUS", "micro-entreprise-agent": "BUS", "tva-commissions": "BUS", "facturer-commission": "BUS",
   // Méthode & pro
   "methode-examen": "MGT", "cas-pratiques": "JUR", veille: "IA", "outils-parzi": "IA",
 };

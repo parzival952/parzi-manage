@@ -1,4 +1,5 @@
 import { ImageResponse } from "next/og";
+import { LESSON_COUNT } from "@/lib/academy-course";
 
 // Aperçu de partage (WhatsApp, LinkedIn, X…) de toutes les pages Academy.
 export const alt = "PARZI Academy — Deviens agent de joueur";
@@ -44,7 +45,7 @@ export default function Image() {
           Deviens agent de joueur.
         </div>
         <div style={{ display: "flex", fontSize: "32px", color: "var(--gris)", marginTop: "24px" }}>
-          45 leçons · révision intelligente · examen blanc de la licence d&apos;agent
+          {LESSON_COUNT} leçons · révision intelligente · examen blanc de la licence d&apos;agent
         </div>
       </div>
     ),

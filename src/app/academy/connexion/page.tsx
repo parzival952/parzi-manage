@@ -6,6 +6,7 @@ import { redirect } from "next/navigation";
 
 import ConfirmationNotice from "@/components/ConfirmationNotice";
 import { ACADEMY_ORIGIN, isAcademyHost } from "@/lib/academy-host";
+import { LESSON_COUNT } from "@/lib/academy-course";
 import { getAcademyTheme } from "@/lib/academy-theme";
 import { getUser, signIn, signUp } from "@/lib/auth";
 import ThemeToggle from "@/components/ThemeToggle";
@@ -15,7 +16,7 @@ import AcademyIcon, { type AcademyIconName } from "@/components/AcademyIcon";
 export const metadata = { title: "Connexion" };
 
 const POINTS: [AcademyIconName, string][] = [
-  ["cap", "45 leçons pour devenir agent de joueur, du cadre juridique à la négociation"],
+  ["cap", `${LESSON_COUNT} leçons pour devenir agent de joueur, du cadre juridique à la fiscalité`],
   ["revision", "Révision intelligente : ton carnet d'erreurs et tes points faibles"],
   ["medal", "Certifications et examen blanc de la licence d'agent"],
 ];
