@@ -2,9 +2,10 @@
 import type { Scenario } from "./engine";
 import { LEMAIRE } from "./scenarios/lemaire";
 import { MBAYE } from "./scenarios/mbaye";
+import { MOREL } from "./scenarios/morel";
 import { TRAORE } from "./scenarios/traore";
 
-export const SCENARIOS: Scenario[] = [MBAYE, TRAORE, LEMAIRE];
+export const SCENARIOS: Scenario[] = [MBAYE, TRAORE, LEMAIRE, MOREL];
 
 export function getScenario(id: string): Scenario | null {
   return SCENARIOS.find((s) => s.id === id) ?? null;
