@@ -8,6 +8,8 @@ import ErrorReplay, {
   type ReplayOutcome,
 } from "@/components/ErrorReplay";
 import { findLesson } from "@/lib/academy";
+import { questionOrder } from "@/lib/academy-quiz-order";
+import { displayedToOriginal } from "@/lib/answer-order";
 import { loadAcademyLearningState } from "@/lib/academy-learning";
 import {
   RETRY_CONFIDENCES,
@@ -32,13 +34,15 @@ export default async function RejouerErreursPage() {
       const found = findLesson(e.lessonId);
       const q = found?.lesson.quiz[e.questionIndex];
       if (!found || !q) return [];
+      // Même ordre mélangé que dans la leçon.
+      const order = questionOrder(found.lesson, e.questionIndex);
       return [
         {
           lessonId: e.lessonId,
           lessonTitle: found.lesson.title,
           questionIndex: e.questionIndex,
           question: q.q,
-          options: q.options,
+          options: order ? order.map((k) => q.options[k]) : q.options,
           recurrenceCount: e.recurrenceCount,
           competencyTitle: e.competencyTitle,
         },
@@ -60,9 +64,17 @@ export default async function RejouerErreursPage() {
     }
 
     try {
-      const r = await retryAcademyError(lessonId, questionIndex, answer, confidence);
-      const explain =
-        findLesson(lessonId)?.lesson.quiz[questionIndex]?.explain ?? null;
+      const found = findLesson(lessonId);
+      const order = found ? questionOrder(found.lesson, questionIndex) : null;
+      // Réponse affichée → indice d'origine pour la correction serveur…
+      const original = order ? displayedToOriginal(order, answer) : answer;
+      if (original < 0) {
+        return { ok: false, error: "Réponse invalide." };
+      }
+      const r = await retryAcademyError(lessonId, questionIndex, original, confidence);
+      const explain = found?.lesson.quiz[questionIndex]?.explain ?? null;
+      // … et bonne réponse renvoyée dans l'ordre affiché.
+      const shownCorrect = order ? order.indexOf(r.correctAnswer) : r.correctAnswer;
 
       revalidatePath("/academy");
       revalidatePath("/academy/revision");
@@ -70,7 +82,7 @@ export default async function RejouerErreursPage() {
       return {
         ok: true,
         correct: r.correct,
-        correctAnswer: r.correctAnswer,
+        correctAnswer: shownCorrect,
         remainingErrors: r.remainingErrors,
         explain,
       };
