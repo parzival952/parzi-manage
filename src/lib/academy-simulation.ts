@@ -569,3 +569,49 @@ export function allPaths(prep: PrepId[]): SimState[] {
   walk(initialState(prep));
   return out;
 }
+
+// ── XP ──────────────────────────────────────────────────────────────────
+// L'XP de la simulation s'ajoute à l'XP du compte (academy_progress.xp).
+// Elle se gagne par PALIERS de meilleur score, une seule fois chacun :
+// rejouer pour le même résultat ne rapporte rien, progresser rapporte la
+// différence. Le score est toujours recalculé côté serveur (rejeu des choix).
+
+export const SCENARIO_ID = "dossier-mbaye";
+
+export const XP_TIERS: { min: number; xp: number; label: string }[] = [
+  { min: 85, xp: 100, label: "Négociateur confirmé" },
+  { min: 70, xp: 60, label: "Solide" },
+  { min: 50, xp: 30, label: "Accord correct" },
+];
+
+export const XP_MAX = XP_TIERS[0].xp;
+
+/** XP totale associée à un score (palier atteint). */
+export function xpForScore(score: number): number {
+  return XP_TIERS.find((t) => score >= t.min)?.xp ?? 0;
+}
+
+/** Prochain palier à viser après ce meilleur score (null si tout est obtenu). */
+export function nextTier(bestScore: number): { min: number; xp: number } | null {
+  const reached = xpForScore(bestScore);
+  const next = [...XP_TIERS].reverse().find((t) => t.xp > reached);
+  return next ? { min: next.min, xp: next.xp - reached } : null;
+}
+
+/**
+ * Rejoue une partie à partir de la préparation et des choix envoyés par le
+ * navigateur. Renvoie null si la préparation est invalide, si un choix est
+ * inconnu ou verrouillé, ou si la partie n'est pas terminée.
+ */
+export function replay(prep: unknown, choices: unknown): SimState | null {
+  if (!Array.isArray(prep) || !prep.every((p) => typeof p === "string") || !validPrep(prep)) return null;
+  if (!Array.isArray(choices) || choices.length > NODE_ORDER.length) return null;
+  let s = initialState(prep);
+  for (const c of choices) {
+    if (typeof c !== "string") return null;
+    const next = choose(s, c);
+    if (next === s) return null;
+    s = next;
+  }
+  return s.node === "fin" ? s : null;
+}
