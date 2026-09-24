@@ -87,7 +87,7 @@ export const CERTS: Cert[] = [
     name: "Agent Expert",
     subtitle: "Maîtrise complète du métier",
     desc: "Business, réseau, finances, méthode : tu couvres tout le spectre du métier, cas complexes et pièges déontologiques inclus. Le sommet du parcours PARZI.",
-    passScore: 85, bonusXp: 1200, durationMin: 14,
+    passScore: 85, bonusXp: 1200, durationMin: 16,
     prereqLabel: "Obtenir « Agent Confirmé » et terminer tous les chapitres du programme",
     prereq: (p) => p.chapters >= ALL_CHAPTERS && p.earned.has("agent-confirme"),
     exam: [
@@ -105,6 +105,10 @@ export const CERTS: Cert[] = [
       { q: "Un club veut glisser une clause clairement défavorable à ton joueur. Que fais-tu ?", options: ["Tu la laisses passer pour conclure vite", "Tu la repères, tu l'expliques à ton joueur et tu la renégocies ou refuses", "Tu signes sans la lire"], answer: 1, domain: "JUR" },
       { q: "Les plafonds de commission et certaines règles « agents » :", options: ["Sont gravés dans le marbre", "Évoluent et font l'objet de contentieux — d'où la veille", "N'existent pas"], answer: 1, domain: "JUR" },
       { q: "Un confrère te propose une rétro-commission occulte pour lui « prêter » un joueur sous ton mandat. Ta réponse ?", options: ["Accepter, c'est courant", "Refuser : c'est contraire à la déontologie et à la loi", "Accepter si la somme est importante"], answer: 1, domain: "JUR" },
+      // Chapitre « Fiscalité & statut de l'agent »
+      { q: "En juin, ton chiffre d'affaires dépasse le seuil majoré de la franchise en base de TVA. Pour tes factures de juillet :", options: ["Tu restes sans TVA jusqu'au 1er janvier suivant", "Tu factures la TVA dès maintenant", "Tu décides au cas par cas selon le client"], answer: 1, domain: "BUS" },
+      { q: "Tu factures une commission à un club allemand assujetti à la TVA. La règle générale sur ta facture :", options: ["Pas de TVA française : le club autoliquide, et les deux numéros de TVA intracommunautaire figurent sur la facture", "TVA française à 20 %, comme pour un club français", "TVA allemande, que tu reverses toi-même en Allemagne"], answer: 0, domain: "BUS" },
+      { q: "Un confrère crée une SASU dès son premier mandat « pour faire sérieux », sans rien chiffrer. Ton analyse :", options: ["Il a raison : la société est toujours le meilleur choix", "Le statut n'a aucun effet sur les charges ni sur l'impôt", "Le statut se choisit selon le volume réel et les frais, après une simulation avec un expert-comptable"], answer: 2, domain: "BUS" },
     ],
   },
   {
@@ -112,7 +116,7 @@ export const CERTS: Cert[] = [
     name: "Examen blanc — Licence d'agent",
     subtitle: "Simulation de l'examen officiel",
     desc: "Un examen complet qui balaie tout le programme, dans l'esprit de l'examen officiel d'agent (FFF/FIFA). Entraîne-toi en conditions avant le vrai jour. Rappel : PARZI certifie des compétences, pas la licence officielle.",
-    passScore: 70, bonusXp: 1500, durationMin: 20,
+    passScore: 70, bonusXp: 1500, durationMin: 22,
     prereqLabel: "Terminer tous les chapitres du programme",
     prereq: (p) => p.chapters >= ALL_CHAPTERS,
     exam: [
@@ -134,6 +138,10 @@ export const CERTS: Cert[] = [
       { q: "La réputation d'un agent tient surtout à :", options: ["Ses coups médiatiques", "Sa parole tenue dans la durée", "Son nombre d'abonnés"], answer: 1, domain: "BUS" },
       { q: "Face à un règlement qui a changé depuis ta formation :", options: ["Tu continues comme avant", "Tu fais de la veille et te réfères au texte à jour", "Tu attends qu'un litige tranche la question"], answer: 1, domain: "JUR" },
       { q: "Un mandat exclusif signifie :", options: ["Le joueur peut cumuler plusieurs agents", "Toi seul le représentes sur la période convenue", "C'est le club qui choisit l'agent"], answer: 1, domain: "JUR" },
+      // Chapitre « Fiscalité & statut de l'agent »
+      { q: "En micro-entreprise, tes cotisations sociales sont calculées sur :", options: ["Ton bénéfice, après déduction de tes frais réels", "Ton chiffre d'affaires encaissé", "Un forfait fixe, quel que soit ton activité"], answer: 1, domain: "BUS" },
+      { q: "Une commission t'est due en trois échéances annuelles. Tu factures :", options: ["Chaque échéance quand elle devient exigible, avec la référence du contrat et du joueur", "Le total en une seule fois, le jour de la signature", "Rien : le virement du club suffit comme preuve"], answer: 0, domain: "BUS" },
+      { q: "Ton chiffre d'affaires reste sous le seuil de la franchise en base de TVA. Sur tes factures :", options: ["Tu ajoutes 20 % de TVA, comme tout le monde", "Tu factures la TVA mais tu la gardes", "Pas de TVA, avec la mention « TVA non applicable, article 293 B du CGI »"], answer: 2, domain: "BUS" },
     ],
   },
 ];
