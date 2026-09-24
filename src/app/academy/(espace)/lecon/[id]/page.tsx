@@ -164,7 +164,7 @@ export default async function LessonPage({
     <div className="flex flex-col gap-5 min-w-0 max-w-[780px] mx-auto lg:mx-0 w-full">
       <header className="pz-rise">
         <Link
-          href="/academy"
+          href={`/academy/chapitre/${chapter.id}`}
           className="text-[12.5px] pz-muted hover:text-white"
         >
           ← {chapter.title}

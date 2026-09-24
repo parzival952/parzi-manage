@@ -1176,6 +1176,11 @@ export function computeAttributes(
   return { ovr, attrs };
 }
 
+/** Domaine de compétence d'une leçon (carte agent), ou null. */
+export function attrForLesson(lessonId: string): AttrKey | null {
+  return LESSON_ATTR[lessonId] ?? null;
+}
+
 /** Leçons rattachées à un domaine de compétence (pour orienter les révisions). */
 export function lessonsForAttr(key: AttrKey): { id: string; title: string }[] {
   const out: { id: string; title: string }[] = [];

@@ -3,6 +3,7 @@ export const dynamic = "force-dynamic";
 import Link from "next/link";
 
 import AcademyProgressHeader from "@/components/AcademyProgressHeader";
+import CareerRoad from "@/components/CareerRoad";
 import {
   loadLatestDiagnosticReport,
 } from "@/lib/academy-diagnostic-report";
@@ -18,9 +19,12 @@ import {
   ALL_LESSONS,
   COURSE,
   LESSON_COUNT,
+  chaptersCompleted,
   findLesson,
 } from "@/lib/academy";
+import { buildRoadmap } from "@/lib/academy-roadmap";
 import { requireUser } from "@/lib/auth";
+import { CERTS, getMyCerts } from "@/lib/certifications";
 import { levelInfo } from "@/lib/progression";
 import { lessonForSectionByDay, primaryLessonForSection } from "@/lib/academy-recommendations";
 import AcademyIcon, { IconTile } from "@/components/AcademyIcon";
@@ -42,7 +46,7 @@ function getScoreTone(score: number): string {
 }
 
 export default async function AcademyHome() {
-  await requireUser();
+  const user = await requireUser();
 
   const [
     academyState,
@@ -113,6 +117,25 @@ export default async function AcademyHome() {
 
   const recommendedLesson =
     findLesson(recommendedLessonId);
+
+  // Route vers la licence : phases, chapitres et jalons de certification.
+  const myCerts = await getMyCerts(user.id);
+  const earnedCerts = new Set(myCerts.keys());
+  const certCtx = {
+    chapters: chaptersCompleted(progress.done),
+    lessons: progress.done.size,
+    level: progress.info.level,
+    earned: earnedCerts,
+  };
+  const unlockedCerts = new Set(
+    CERTS.filter((c) => c.prereq(certCtx)).map((c) => c.id),
+  );
+  const roadmap = buildRoadmap(
+    progress.done,
+    recommendedLesson?.lesson.id ?? currentId ?? null,
+    earnedCerts,
+    unlockedCerts,
+  );
 
   const firstMission =
     planCurrentDay ??
@@ -453,159 +476,14 @@ export default async function AcademyHome() {
           </section>
         ) : null}
 
-        <div className="order-5 lg:order-none pz-rise pz-d2">
-          <div className="flex items-baseline justify-between">
-            <h2 className="text-[20px] font-extrabold tracking-tight">
-              {COURSE.title}
-            </h2>
-
-            <span className="text-[12px] pz-muted">
-              {doneCount}/{LESSON_COUNT} leçons
-            </span>
-          </div>
-
-          <p className="text-[13.5px] pz-muted mt-1">
-            Des leçons courtes, un quiz et de l’XP. Reviens
-            chaque jour pour garder ta série.
-          </p>
-        </div>
-
-        {COURSE.chapters.map(
-          (chapter, chapterIndex) => (
-            <section
-              key={chapter.id}
-              className={`order-5 lg:order-none pz-rise pz-d${Math.min(
-                5,
-                chapterIndex + 3,
-              )}`}
-            >
-              <div className="flex items-center gap-3 mb-4">
-                <div className="pz-eyebrow pz-red">
-                  CHAPITRE {chapterIndex + 1}
-                </div>
-
-                <div
-                  className="h-px flex-1"
-                  style={{
-                    background: "var(--ligne)",
-                  }}
-                />
-              </div>
-
-              <h2 className="text-[16px] font-bold mb-0.5">
-                {chapter.title}
-              </h2>
-
-              <p className="text-[13px] pz-muted mb-5">
-                {chapter.subtitle}
-              </p>
-
-              <div className="flex flex-col items-start">
-                {chapter.lessons.map(
-                  (lesson, lessonIndex) => {
-                    const done =
-                      progress.done.has(lesson.id);
-
-                    const current =
-                      lesson.id === currentId;
-
-                    const recommended =
-                      lesson.id ===
-                      recommendedLesson?.lesson.id;
-
-                    const state = done
-                      ? "done"
-                      : current || recommended
-                        ? "current"
-                        : "locked";
-
-                    return (
-                      <div
-                        key={lesson.id}
-                        className="w-full"
-                      >
-                        {lessonIndex > 0 ? (
-                          <div
-                            className={`pz-connector ml-8 ${
-                              chapter.lessons[
-                                lessonIndex - 1
-                              ] &&
-                              progress.done.has(
-                                chapter.lessons[
-                                  lessonIndex - 1
-                                ].id,
-                              )
-                                ? "done"
-                                : ""
-                            }`}
-                          />
-                        ) : null}
-
-                        <Link
-                          href={`/academy/lecon/${lesson.id}`}
-                          className="flex items-center gap-4 group"
-                        >
-                          <div
-                            className={`pz-node ${state}`}
-                          >
-                            {done
-                              ? "✓"
-                              : lessonIndex + 1}
-                          </div>
-
-                          <div className="flex-1 min-w-0">
-                            <div
-                              className="font-semibold text-[14.5px] group-hover:text-white"
-                              style={{
-                                color:
-                                  state === "locked"
-                                    ? "var(--gris)"
-                                    : "var(--blanc)",
-                              }}
-                            >
-                              {lesson.title}
-                            </div>
-
-                            <div className="text-[12px] pz-muted">
-                              {lesson.minutes} min ·{" "}
-                              {lesson.quiz.length} question
-                              {lesson.quiz.length > 1
-                                ? "s"
-                                : ""}
-
-                              {done ? (
-                                <span className="pz-red">
-                                  {" "}
-                                  · validée
-                                </span>
-                              ) : null}
-
-                              {recommended && !done ? (
-                                <span
-                                  style={{
-                                    color: "var(--vert)",
-                                  }}
-                                >
-                                  {" "}
-                                  · recommandée
-                                </span>
-                              ) : current ? (
-                                <span className="pz-red">
-                                  {" "}
-                                  · à faire
-                                </span>
-                              ) : null}
-                            </div>
-                          </div>
-                        </Link>
-                      </div>
-                    );
-                  },
-                )}
-              </div>
-            </section>
-          ),
-        )}
+        <CareerRoad
+          className="order-5 lg:order-none"
+          phases={roadmap.phases}
+          lessonsDone={doneCount}
+          lessonCount={LESSON_COUNT}
+          chaptersDone={roadmap.chaptersDone}
+          chapterCount={COURSE.chapters.length}
+        />
       </div>
 
       <aside className="contents lg:flex lg:flex-col lg:gap-5">

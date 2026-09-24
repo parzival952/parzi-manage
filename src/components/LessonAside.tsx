@@ -41,7 +41,9 @@ export default function LessonAside({
             {doneInChapter}/{chapter.lessons.length}
           </span>
         </div>
-        <div className="pz-titre text-[15px] mt-1.5 leading-snug">{chapter.title}</div>
+        <Link href={`/academy/chapitre/${chapter.id}`} className="pz-titre text-[15px] mt-1.5 leading-snug block hover:underline">
+          {chapter.title}
+        </Link>
 
         <ol className="mt-3 flex flex-col gap-0.5">
           {chapter.lessons.map((l, i) => {

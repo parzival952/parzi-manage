@@ -59,8 +59,11 @@ test("PARZI Academy : parcours et flux de leçon", async ({ page }) => {
 
   await expect(page.locator(".pz-eyebrow", { hasText: /défis du jour/i })).toBeVisible();
 
-  // Ouvre la première leçon et déroule le quiz
-  await page.getByRole("link", { name: /Le rôle réel d'un agent/ }).click();
+  // Route vers la licence → chapitre 1 → première leçon, puis déroule le quiz
+  await expect(page.getByText("Ta route vers la licence")).toBeVisible();
+  await page.locator('a[href="/academy/chapitre/fondamentaux"]').first().click();
+  await page.waitForURL("**/academy/chapitre/fondamentaux");
+  await page.getByRole("list", { name: "Leçons du chapitre" }).getByRole("link", { name: /Le rôle réel d'un agent/ }).click();
   await page.waitForURL("**/academy/lecon/role");
   await expect(page.getByText(/QUIZ/)).toBeVisible();
   // Répond à chaque question jusqu'à terminer la mission (robuste au nombre de questions).
