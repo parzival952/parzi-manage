@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { useActionState, useEffect, useRef, useState } from "react";
 
-import { AuthMessage } from "@/components/AcademyAuthShell";
+import { AuthMessage } from "@/components/AcademyAuthUi";
 import { parseAuthFragment } from "@/lib/auth-errors";
 
 type Etat =

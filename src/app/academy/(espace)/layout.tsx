@@ -32,7 +32,8 @@ export default async function AcademyLayout({ children }: { children: React.Reac
   async function logout() {
     "use server";
     await signOut();
-    redirect("/academy/connexion");
+    // Sur parziacademy.fr : retour à la vitrine ; ailleurs : la connexion.
+    redirect(academyOnly ? "/" : "/academy/connexion");
   }
 
   return (

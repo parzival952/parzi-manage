@@ -1,11 +1,21 @@
 import { expect, test } from "@playwright/test";
 
 import { COURSE, LESSON_COUNT } from "../src/lib/academy-course";
-import { ACADEMY_LANDING_PATH, landingRewrite } from "../src/lib/academy-host";
+import { ACADEMY_LANDING_PATH, landingRewrite, vitrineHref } from "../src/lib/academy-host";
 import { FREE_CHAPTER_ID, OFFER, academyFigures, formatEur } from "../src/lib/academy-offer";
 import { SCENARIOS } from "../src/lib/simulation";
 
 test.describe("Accueil public — règles", () => {
+  test("la racine du site est toujours la vitrine, connecté ou non", () => {
+    expect(landingRewrite("/", false)).toBe(ACADEMY_LANDING_PATH);
+    expect(landingRewrite("/", true)).toBe(ACADEMY_LANDING_PATH);
+    expect(vitrineHref("www.parziacademy.fr")).toBe("/");
+    expect(vitrineHref("parziacademy.fr")).toBe("/");
+    // Ailleurs (préversions, local), la racine appartient à Parzi Manage.
+    expect(vitrineHref("localhost:3100")).toBe(ACADEMY_LANDING_PATH);
+    expect(vitrineHref(null)).toBe(ACADEMY_LANDING_PATH);
+  });
+
   test("sur /academy, un visiteur sans session voit l'accueil public, un élève connecté son espace", () => {
     expect(landingRewrite("/academy", false)).toBe(ACADEMY_LANDING_PATH);
     expect(landingRewrite("/academy/", false)).toBe(ACADEMY_LANDING_PATH);

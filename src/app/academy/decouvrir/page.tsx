@@ -27,7 +27,7 @@ export const metadata = {
   title: { absolute: "PARZI Academy — Deviens agent de joueur. Module 1 offert." },
   description:
     "Prépare la licence d'agent de joueur : leçons courtes, quiz, mises en situation réalistes et examens blancs. Le module 1 est offert, sans carte bancaire.",
-  alternates: { canonical: "/academy" },
+  alternates: { canonical: "/" },
 };
 
 export default async function DecouvrirPage() {

@@ -27,7 +27,7 @@ export function proxy(request: NextRequest) {
     return pass(request, isAcademyPath);
   }
 
-  // Domaine Academy. Visiteur sans session sur /academy : page d'accueil publique.
+  // Domaine Academy. La racine = la vitrine (pour tous) ; /academy sans session = la vitrine.
   const hasSession = request.cookies.has("pm_at") || request.cookies.has("pm_rt");
   const landing = landingRewrite(pathname, hasSession);
   if (landing) {
