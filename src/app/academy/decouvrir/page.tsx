@@ -75,7 +75,7 @@ export default async function DecouvrirPage() {
         <div className="max-w-6xl mx-auto grid grid-cols-2 md:grid-cols-5 gap-3">
           <Chiffre valeur={f.chapters} label="modules" />
           <Chiffre valeur={f.lessons} label="leçons" />
-          <Chiffre valeur={f.questions} label="questions de quiz" />
+          <Chiffre valeur={f.questions + f.quizLibre} label="questions d'entraînement" />
           <Chiffre valeur={f.simulations} label="mises en situation" />
           <Chiffre valeur={f.certifications} label="certifications" className="col-span-2 md:col-span-1" />
         </div>
@@ -183,6 +183,7 @@ export default async function DecouvrirPage() {
                 Le module 1, «&nbsp;{free.title}&nbsp;» : {free.lessons.length} leçons
               </Inclus>
               <Inclus>Les quiz de chaque leçon</Inclus>
+              <Inclus>Le quiz libre, niveau 1 « Débutant »</Inclus>
               <Inclus>Ton espace personnel et ta progression</Inclus>
             </ul>
             <Link href={SIGNUP_HREF} className="pz-btn w-full mt-6">
@@ -208,6 +209,7 @@ export default async function DecouvrirPage() {
                 Les {f.chapters} modules : {f.lessons} leçons, environ {heures} h de cours
               </Inclus>
               <Inclus>Les {f.simulations} mises en situation</Inclus>
+              <Inclus>Le quiz libre complet : {f.quizLibre} questions, 4 niveaux, 3 modes de jeu</Inclus>
               <Inclus>Révision intelligente et carnet d&apos;erreurs</Inclus>
               <Inclus>Certifications et examens blancs de la licence</Inclus>
             </ul>
