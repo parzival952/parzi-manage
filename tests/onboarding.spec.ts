@@ -225,3 +225,34 @@ test.describe("Admin — inscrits", () => {
     expect(await readFile("src/app/api/academy/admin/inscrits/route.ts", "utf8")).toContain("!isAdmin(user.email)");
   });
 });
+
+test.describe("Supprimer mon compte", () => {
+  test("la page explique, demande le mot de passe et une confirmation", async ({ page }) => {
+    await page.goto("/academy/compte/supprimer");
+    await expect(page.getByRole("heading", { name: "Supprimer mon compte" })).toBeVisible();
+    await expect(page.getByText(/ta progression : leçons, XP, badges/)).toBeVisible();
+    await expect(page.getByLabel("Ton mot de passe")).toHaveAttribute("required", "");
+    await expect(page.getByLabel(/Je comprends que la suppression/)).toHaveAttribute("required", "");
+    // Démo : rien n'est supprimé, message clair.
+    await page.getByLabel("Ton mot de passe").fill("secret123");
+    await page.getByLabel(/Je comprends que la suppression/).check();
+    await page.getByRole("button", { name: "Supprimer définitivement mon compte" }).click();
+    await expect(page.getByText("Mode démonstration : aucun compte à supprimer.")).toBeVisible();
+  });
+
+  test("accessible depuis le profil et la page Confidentialité", async ({ page }) => {
+    await page.goto("/academy/confidentialite");
+    await expect(page.getByRole("link", { name: "supprimer mon compte" })).toHaveAttribute("href", "/academy/compte/supprimer");
+    const { readFile } = await import("node:fs/promises");
+    expect(await readFile("src/app/academy/(espace)/profil/page.tsx", "utf8")).toContain('href="/academy/compte/supprimer"');
+  });
+
+  test("la base ne supprime que le compte connecté (auth.uid()), jamais un identifiant reçu", async () => {
+    const { readFile } = await import("node:fs/promises");
+    const sql = await readFile("supabase/migration-032-delete-my-account.sql", "utf8");
+    expect(sql).toContain("v_user_id uuid := auth.uid();");
+    expect(sql).toContain("delete from auth.users where id = v_user_id;");
+    expect(sql).toContain("revoke all on function public.delete_my_account() from public, anon;");
+    expect(sql).toMatch(/delete_my_account\(\)\s*\n\s*returns void/);
+  });
+});

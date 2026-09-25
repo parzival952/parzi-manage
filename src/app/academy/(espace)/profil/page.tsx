@@ -194,6 +194,19 @@ export default async function AcademyProfil({
           })}
         </div>
       </div>
+
+      {/* Mon compte : données personnelles */}
+      <div className="pz-card p-4 flex flex-wrap items-center justify-between gap-3 text-[13px]">
+        <div>
+          <div className="font-bold">Mon compte</div>
+          <div className="pz-muted text-[12.5px]">
+            Tes données : <Link href="/academy/confidentialite" className="hover:underline">confidentialité</Link>
+          </div>
+        </div>
+        <Link href="/academy/compte/supprimer" className="text-[12.5px] font-bold pz-muted hover:underline">
+          Supprimer mon compte
+        </Link>
+      </div>
       </div>
     </div>
   );

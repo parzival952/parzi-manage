@@ -119,8 +119,8 @@ export default async function ConfidentialitePage() {
           <ul className="flex flex-col gap-1.5">
             <li>· Tes données de compte, de profil et de progression : tant que ton compte existe.</li>
             <li>
-              · Si tu demandes la suppression de ton compte : tout est effacé dans un délai d&apos;un mois, sauf si la
-              loi nous oblige à garder quelque chose.
+              · Si tu supprimes ton compte depuis ton profil : tout est effacé immédiatement. Si tu nous le demandes par
+              écrit : dans un délai d&apos;un mois, sauf si la loi nous oblige à garder quelque chose.
             </li>
             <li>· Un compte sans aucune connexion pendant 3 ans est supprimé, après t&apos;avoir prévenu.</li>
             <li>· Les statistiques de fréquentation : 25 mois au maximum.</li>
@@ -154,6 +154,13 @@ export default async function ConfidentialitePage() {
             l&apos;utilisation, t&apos;opposer à certains usages, les récupérer dans un format lisible, et retirer ton
             consentement pour les informations facultatives. Pour cela, {ecrireNous} depuis l&apos;adresse de ton
             compte : on te répond sous un mois.
+          </p>
+          <p className="mt-2">
+            Tu peux aussi supprimer ton compte toi-même, tout de suite :{" "}
+            <Link href="/academy/compte/supprimer" className="font-bold pz-red hover:underline">
+              supprimer mon compte
+            </Link>
+            .
           </p>
           <p className="mt-2">
             Si tu estimes que tes droits ne sont pas respectés, tu peux adresser une réclamation à la CNIL (
