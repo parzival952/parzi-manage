@@ -64,15 +64,24 @@ export async function saveStep1(uid: string, d: Step1): Promise<void> {
     .run(uid, d.firstName, d.lastName, d.ageRange, d.country, region, nextStep(prev?.step, 1));
 }
 
+/**
+ * Étape 2. Si l'échéance de l'examen change après l'inscription, `completed_at`
+ * repart de maintenant : c'est le point de départ du compte à rebours
+ * (voir academy-goal-plan.ts).
+ */
 export async function saveStep2(uid: string, d: Step2): Promise<void> {
   if (usePostgres()) {
     await pg()`UPDATE academy_member_profiles SET goal = ${d.goal}, exam_horizon = ${d.examHorizon},
+      completed_at = CASE WHEN completed_at IS NOT NULL AND exam_horizon IS DISTINCT FROM ${d.examHorizon}
+        THEN now() ELSE completed_at END,
       step = GREATEST(step, 3), updated_at = now() WHERE user_id = ${uid}`;
     return;
   }
   const prev = await getMemberProfile(uid);
-  db().prepare(`UPDATE academy_member_profiles SET goal = ?, exam_horizon = ?, step = ?, updated_at = datetime('now')
-      WHERE user_id = ?`).run(d.goal, d.examHorizon, nextStep(prev?.step, 2), uid);
+  db().prepare(`UPDATE academy_member_profiles SET goal = ?, exam_horizon = ?,
+      completed_at = CASE WHEN completed_at IS NOT NULL AND exam_horizon IS NOT ? THEN datetime('now') ELSE completed_at END,
+      step = ?, updated_at = datetime('now') WHERE user_id = ?`)
+    .run(d.goal, d.examHorizon, d.examHorizon, nextStep(prev?.step, 2), uid);
 }
 
 /** Dernière étape (facultative) : `d` vide = « Passer cette étape ». */
