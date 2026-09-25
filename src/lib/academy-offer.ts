@@ -8,9 +8,12 @@
 // séparée : cette page annonce l'offre, elle ne bloque rien.
 import { ALL_LESSONS, COURSE, LESSON_COUNT } from "./academy-course";
 import { CERTS } from "./certifications";
+import { QUIZ_COUNT } from "./quiz-libre";
 import { SCENARIOS } from "./simulation";
 
 export const FREE_CHAPTER_ID = "fondamentaux";
+/** Quiz libre : niveaux gratuits (les autres font partie de l'accès complet). */
+export const FREE_QUIZ_LEVELS = [1];
 
 export const OFFER = {
   /** Accès complet, en une fois (€ TTC). */
@@ -38,6 +41,7 @@ export function academyFigures() {
     simulations: SCENARIOS.length,
     certifications: CERTS.length,
     minutes: ALL_LESSONS.reduce((n, { lesson }) => n + lesson.minutes, 0),
+    quizLibre: QUIZ_COUNT,
   };
 }
 

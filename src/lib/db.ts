@@ -165,6 +165,16 @@ function migrate(d: DatabaseSync) {
     updated_at TEXT NOT NULL DEFAULT (datetime('now')),
     PRIMARY KEY (user_id, scenario_id)
   );
+  CREATE TABLE IF NOT EXISTS academy_quiz_bests (
+    user_id TEXT NOT NULL,
+    level INTEGER NOT NULL,
+    mode TEXT NOT NULL,
+    best_score INTEGER NOT NULL DEFAULT 0,
+    xp_awarded INTEGER NOT NULL DEFAULT 0,
+    plays INTEGER NOT NULL DEFAULT 0,
+    updated_at TEXT NOT NULL DEFAULT (datetime('now')),
+    PRIMARY KEY (user_id, level, mode)
+  );
   CREATE TABLE IF NOT EXISTS academy_member_profiles (
     user_id TEXT PRIMARY KEY,
     first_name TEXT,

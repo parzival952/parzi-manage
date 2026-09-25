@@ -11,6 +11,7 @@ const TABS: Tab[] = [
   { href: "/academy/certifications", label: "Certifications", icon: "cap", desktopOnly: true },
   // Entre 1024 et 1280 px, l'en-tête n'a pas la place : l'onglet n'apparaît qu'en grand écran.
   { href: "/academy/simulation", label: "Simulation", icon: "bolt", desktopOnly: true, wideOnly: true },
+  { href: "/academy/quiz", label: "Quiz", icon: "target", wideOnly: true },
   { href: "/academy/classement", label: "Classement", icon: "trophy" },
   { href: "/academy/profil", label: "Profil", icon: "medal" },
   { href: "/dashboard", label: "Manage", icon: "folder" },
@@ -63,7 +64,7 @@ export default function AcademyNav({
   const tabs = base.filter((t) => !t.desktopOnly);
   return (
     <nav className="pz-nav lg:hidden">
-      <div className={"max-w-2xl mx-auto grid " + (tabs.length === 3 ? "grid-cols-3" : "grid-cols-4")}>
+      <div className={"max-w-2xl mx-auto grid " + (tabs.length === 3 ? "grid-cols-3" : tabs.length === 5 ? "grid-cols-5" : "grid-cols-4")}>
         {tabs.map((t) => {
           const active = isActive(path, t.href);
           return (
