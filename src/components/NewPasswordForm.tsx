@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { useActionState, useEffect, useState } from "react";
 
-import { AuthMessage, authInputClass, authInputStyle } from "@/components/AcademyAuthShell";
+import { AuthMessage, authInputClass, authInputStyle } from "@/components/AcademyAuthUi";
 import { PASSWORD_HINT, PASSWORD_MIN_LENGTH } from "@/lib/password-policy";
 
 type Recovery =

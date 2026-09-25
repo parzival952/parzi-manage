@@ -1,11 +1,13 @@
 export const dynamic = "force-dynamic";
 
 import Link from "next/link";
+import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 
 import ConfirmationNotice from "@/components/ConfirmationNotice";
 import SubmitButton from "@/components/SubmitButton";
 import { LESSON_COUNT } from "@/lib/academy-course";
+import { vitrineHref } from "@/lib/academy-host";
 import { CONFIRMATION_PATH, academyEmailRedirect, rememberPendingEmail } from "@/lib/academy-signup";
 import { getAcademyTheme } from "@/lib/academy-theme";
 import { getUser, signIn, signUp } from "@/lib/auth";
@@ -33,6 +35,7 @@ export default async function AcademyConnexionPage({
 }) {
   const { erreur, info, mode } = await searchParams;
   if (await getUser()) redirect("/academy");
+  const home = vitrineHref((await headers()).get("host"));
   const isSignup = mode === "inscription";
 
   async function login(formData: FormData) {
@@ -98,7 +101,7 @@ export default async function AcademyConnexionPage({
         <div className="w-full max-w-[920px] grid gap-8 lg:grid-cols-2 lg:items-center">
           {/* ---- Présentation ---- */}
           <section className="pz-rise">
-            <div className="flex items-center gap-3">
+            <Link href={home} className="flex items-center gap-3 w-fit" aria-label="PARZI Academy : accueil">
               <div
                 className="w-11 h-11 rounded-[12px] grid place-items-center font-black text-white pz-sur-rouge text-[18px]"
                 style={{ background: "linear-gradient(135deg, var(--rouge), var(--rouge-profond))" }}
@@ -111,7 +114,7 @@ export default async function AcademyConnexionPage({
                 </div>
                 <div className="text-[10px] uppercase tracking-[0.22em] pz-muted">Construis ta carrière</div>
               </div>
-            </div>
+            </Link>
 
             <h1 className="text-[28px] sm:text-[34px] font-black tracking-tight leading-tight mt-8">
               Deviens agent de joueur.
@@ -136,7 +139,7 @@ export default async function AcademyConnexionPage({
                 </div>
               ))}
             </div>
-            <Link href="/academy/decouvrir" className="inline-flex mt-6 text-[13px] font-bold pz-red hover:underline">
+            <Link href={home} className="inline-flex mt-6 text-[13px] font-bold pz-red hover:underline">
               Découvrir la formation · module 1 offert →
             </Link>
           </section>

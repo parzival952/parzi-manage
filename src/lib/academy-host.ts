@@ -35,13 +35,20 @@ export const SURFACE_HEADER = "x-parzi-surface";
 export const ACADEMY_LANDING_PATH = "/academy/decouvrir";
 
 /**
- * Sur le domaine Academy, un visiteur sans session qui arrive sur /academy
- * voit la page d'accueil publique (même adresse, réécriture) au lieu d'être
- * renvoyé vers la connexion. Un élève connecté arrive dans son espace.
- * « Session » = présence d'un cookie de session (pm_at ou pm_rt) : une session
- * expirée retombe sur la connexion, comme avant.
+ * Sur le domaine Academy :
+ * - la racine (parziacademy.fr/) EST la vitrine, pour tout le monde ;
+ * - /academy : vitrine pour un visiteur sans session, espace élève sinon.
+ * Réécriture (l'adresse ne change pas). « Session » = présence d'un cookie de
+ * session (pm_at ou pm_rt) : une session expirée sur /academy retombe sur la
+ * connexion.
  */
 export function landingRewrite(pathname: string, hasSession: boolean): string | null {
+  if (pathname === "/") return ACADEMY_LANDING_PATH;
   if (hasSession) return null;
   return pathname === "/academy" || pathname === "/academy/" ? ACADEMY_LANDING_PATH : null;
+}
+
+/** Lien vers la vitrine : la racine sur le domaine Academy, sa vraie adresse ailleurs. */
+export function vitrineHref(host: string | null | undefined): string {
+  return isAcademyHost(host) ? "/" : ACADEMY_LANDING_PATH;
 }
