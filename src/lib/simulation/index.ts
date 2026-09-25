@@ -8,8 +8,9 @@ import { MBAYE } from "./scenarios/mbaye";
 import { MOREL } from "./scenarios/morel";
 import { RIVIERE } from "./scenarios/riviere";
 import { TRAORE } from "./scenarios/traore";
+import { VARENNE } from "./scenarios/varenne";
 
-export const SCENARIOS: Scenario[] = [MBAYE, TRAORE, LEMAIRE, MOREL, FOURNIER, RIVIERE, BENALI, MARCHAND];
+export const SCENARIOS: Scenario[] = [MBAYE, TRAORE, LEMAIRE, MOREL, FOURNIER, RIVIERE, BENALI, MARCHAND, VARENNE];
 
 export function getScenario(id: string): Scenario | null {
   return SCENARIOS.find((s) => s.id === id) ?? null;

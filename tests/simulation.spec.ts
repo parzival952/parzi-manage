@@ -22,6 +22,7 @@ import { MBAYE } from "../src/lib/simulation/scenarios/mbaye";
 import { MOREL } from "../src/lib/simulation/scenarios/morel";
 import { RIVIERE } from "../src/lib/simulation/scenarios/riviere";
 import { TRAORE } from "../src/lib/simulation/scenarios/traore";
+import { VARENNE } from "../src/lib/simulation/scenarios/varenne";
 import { COURSE } from "../src/lib/academy-course";
 
 const LESSON_IDS = new Set(COURSE.chapters.flatMap((c) => c.lessons.map((l) => l.id)));
@@ -390,6 +391,51 @@ test.describe("Le dossier Marchand — sponsor & droits d'image", () => {
   });
 });
 
+test.describe("Le dossier Varenne — vendre un joueur inconnu", () => {
+  test("faits vus en vrai, chiffres honnêtes, limites, montage, invitation : « Dénicheur crédible »", () => {
+    for (const [prep, choices] of [
+      [["terrain", "data"], ["profil", "penalties", "lucide", "bonus", "invitation"]],
+      [["terrain", "contexte"], ["profil", "verifier", "lucide", "structure", "invitation"]],
+      [["data", "contexte"], ["chiffres", "penalties", "general", "structure", "invitation"]],
+    ] as [string[], string[]][]) {
+      const r = VARENNE.result(play(VARENNE, prep, choices));
+      expect(r.outcome, prep.join("+")).toBe("accord");
+      expect(r.score, prep.join("+")).toBeGreaterThanOrEqual(85);
+      expect(r.grade).toBe("Dénicheur crédible");
+    }
+    const r = VARENNE.result(play(VARENNE, ["terrain", "contexte"], ["profil", "verifier", "lucide", "structure", "invitation"]));
+    expect(r.tiles.find((t) => t.label === "Lucas")?.value).toBe("signé à Lorval");
+  });
+
+  test("inventer des clubs de Ligue 1 intéressés fait perdre le dossier", () => {
+    const s = play(VARENNE, ["terrain", "data"], ["profil", "penalties", "lucide", "bluff"]);
+    expect(s.outcome).toBe("rupture");
+    expect(s.history).toHaveLength(4);
+    const r = VARENNE.result(s);
+    expect(r.grade).toBe("Crédibilité perdue");
+    expect(r.headline).toContain("Personne en Ligue 1");
+  });
+
+  test("survendre et cacher les penalties coûtent la crédibilité", () => {
+    const r = VARENNE.result(play(VARENNE, ["data", "contexte"], ["highlights", "finisseur", "general", "bonus", "invitation"]));
+    expect(r.outcome).toBe("accord");
+    expect(r.tiles.find((t) => t.label === "Crédibilité")?.value).toBe("15/25");
+    expect(r.headline).toContain("survendais");
+    const s = play(VARENNE, ["data", "contexte"], ["crack", "finisseur", "aucun", "cher"]);
+    expect(s.outcome).toBe("rupture");
+    expect(VARENNE.result(s).grade).toBe("Crédibilité perdue");
+  });
+
+  test("les réponses préparées n'existent qu'avec la bonne préparation", () => {
+    const ids = (s: SimState) => currentNode(VARENNE, s)!.choices.map((c) => c.id);
+    expect(ids(initialState(VARENNE, ["data", "contexte"]))).not.toContain("profil");
+    expect(ids(initialState(VARENNE, ["terrain", "contexte"]))).not.toContain("chiffres");
+    expect(ids(play(VARENNE, ["terrain", "contexte"], ["profil"]))).not.toContain("penalties");
+    expect(ids(play(VARENNE, ["data", "contexte"], ["chiffres", "penalties"]))).not.toContain("lucide");
+    expect(ids(play(VARENNE, ["terrain", "data"], ["profil", "penalties", "lucide"]))).not.toContain("structure");
+  });
+});
+
 test.describe("Simulations — XP", () => {
   test("paliers : 0 / 30 / 60 / 100 XP selon le meilleur score", () => {
     expect(xpForScore(49)).toBe(0);
@@ -596,6 +642,26 @@ test("PARZI Academy : simulation Marchand jouable de bout en bout", async ({ pag
   await expect(page.getByRole("link", { name: /Relire : Image, marque personnelle & sponsors/ }).first()).toBeVisible();
 });
 
+test("PARZI Academy : simulation Varenne jouable de bout en bout", async ({ page }) => {
+  await page.goto("/academy/simulation/dossier-varenne");
+  await expect(page.getByRole("heading", { name: "Le dossier Varenne" })).toBeVisible();
+  await page.getByRole("button", { name: "Préparer le rendez-vous →" }).click();
+  await page.getByRole("button", { name: /Aller le voir jouer/ }).click();
+  await page.getByRole("button", { name: /Monter un dossier data et vidéo/ }).click();
+  await page.getByRole("button", { name: "Commencer l'échange →" }).click();
+  for (const answer of [
+    /Parce qu'il colle à votre jeu/,
+    /Honnêtement, 4 sont des penalties/,
+    /Jeu de tête faible/,
+    /On peut rapprocher les positions avec des bonus/,
+    /Bien sûr. Samedi, il joue à domicile/,
+  ]) {
+    await page.getByRole("button", { name: answer }).click();
+  }
+  await expect(page.getByRole("heading", { name: "Dénicheur crédible" })).toBeVisible();
+  await expect(page.getByRole("link", { name: /Relire : Évaluer un joueur et sa valeur/ }).first()).toBeVisible();
+});
+
 test("PARZI Academy : les simulations sont proposées dans les bons chapitres et leçons", async ({ page }) => {
   await page.goto("/academy/chapitre/art-negociation");
   await expect(page.getByRole("link", { name: /Simulation : Le dossier Mbaye/ })).toBeVisible();
@@ -616,5 +682,7 @@ test("PARZI Academy : les simulations sont proposées dans les bons chapitres et
   await page.goto("/academy/lecon/image-sponsors");
   await expect(page.getByRole("link", { name: /Simulation : Le dossier Marchand/ })).toBeVisible();
   await page.goto("/academy/chapitre/scouting-evaluation");
-  await expect(page.getByRole("link", { name: /Simulation :/ })).toHaveCount(0);
+  await expect(page.getByRole("link", { name: /Simulation : Le dossier Varenne/ })).toBeVisible();
+  await page.goto("/academy/lecon/data-video");
+  await expect(page.getByRole("link", { name: /Simulation : Le dossier Varenne/ })).toBeVisible();
 });
