@@ -11,7 +11,9 @@ import {
   TRIAL_LESSON_ID,
   TRIAL_SCENARIO_ID,
   academyFigures,
+  comparatif,
   formatEur,
+  type Cellule,
   freeChapter,
 } from "@/lib/academy-offer";
 import { getAcademyTheme } from "@/lib/academy-theme";
@@ -184,7 +186,8 @@ export default async function DecouvrirPage() {
               </Inclus>
               <Inclus>Les quiz de chaque leçon</Inclus>
               <Inclus>Le quiz libre, niveau 1 « Débutant »</Inclus>
-              <Inclus>Ton espace personnel et ta progression</Inclus>
+              <Inclus>Le diagnostic de départ et une mise en situation</Inclus>
+              <Inclus>XP, badges, classement : ta progression</Inclus>
             </ul>
             <Link href={SIGNUP_HREF} className="pz-btn w-full mt-6">
               Créer mon compte gratuit →
@@ -211,13 +214,15 @@ export default async function DecouvrirPage() {
               <Inclus>Les {f.simulations} mises en situation</Inclus>
               <Inclus>Le quiz libre complet : {f.quizLibre} questions, 4 niveaux, 3 modes de jeu</Inclus>
               <Inclus>Révision intelligente et carnet d&apos;erreurs</Inclus>
-              <Inclus>Certifications et examens blancs de la licence</Inclus>
+              <Inclus>Examen blanc de la licence et certifications</Inclus>
             </ul>
             <p className="text-[12.5px] pz-muted mt-6">
               Tu décides après le module 1. Rien à payer pour commencer.
             </p>
           </div>
         </div>
+
+        <Comparatif />
       </Bloc>
 
       {/* 8. Questions fréquentes */}
@@ -273,6 +278,115 @@ export default async function DecouvrirPage() {
       </section>
     </AcademyPublicShell>
   );
+}
+
+/** Tableau Gratuit / Accès complet, alimenté par comparatif() (academy-offer.ts). */
+function Comparatif() {
+  const groupes = comparatif();
+  const prix = OFFER.oneTimeEur !== null ? formatEur(OFFER.oneTimeEur) : null;
+  return (
+    <div className="mt-10 max-w-4xl" id="comparatif">
+      <h3 className="text-[22px] md:text-[26px] font-black tracking-tight">Gratuit ou accès complet : tout comparer</h3>
+      <p className="text-[14px] leading-6 pz-muted mt-2 max-w-[620px]">
+        Le gratuit te fait découvrir le métier. L&apos;accès complet te mène jusqu&apos;à l&apos;examen, avec tout ce
+        qu&apos;il faut pour arriver prêt le jour J.
+      </p>
+
+      <div className="pz-card mt-5 overflow-hidden" style={{ padding: 0 }}>
+        <table className="w-full text-left border-collapse">
+          <caption className="sr-only">Comparaison des fonctionnalités : gratuit et accès complet</caption>
+          <thead>
+            <tr style={{ borderBottom: "1px solid var(--ligne)" }}>
+              <th scope="col" className="p-3 md:p-4 text-[12px] pz-muted font-semibold align-bottom">
+                Fonctionnalité
+              </th>
+              <th scope="col" className="p-3 md:p-4 text-center align-bottom w-[27%] md:w-[24%]">
+                <div className="pz-eyebrow" style={{ color: "var(--vert)" }}>
+                  Gratuit
+                </div>
+                <div className="text-[15px] md:text-[17px] font-black mt-1">0 €</div>
+              </th>
+              <th
+                scope="col"
+                className="p-3 md:p-4 text-center align-bottom w-[31%] md:w-[28%]"
+                style={{ background: "rgba(194,24,51,.10)" }}
+              >
+                <div className="pz-eyebrow pz-red">Accès complet</div>
+                <div className="text-[15px] md:text-[17px] font-black mt-1">{prix ?? "Bientôt"}</div>
+              </th>
+            </tr>
+          </thead>
+          {groupes.map((g) => (
+            <tbody key={g.titre}>
+              <tr>
+                <th
+                  scope="colgroup"
+                  colSpan={3}
+                  className="px-3 md:px-4 pt-5 pb-2 text-left"
+                  style={{ borderBottom: "1px solid var(--ligne)" }}
+                >
+                  <span className="text-[14.5px] font-extrabold">{g.titre}</span>
+                  <span className="block text-[12px] pz-muted font-normal mt-0.5">{g.accroche}</span>
+                </th>
+              </tr>
+              {g.lignes.map((l) => (
+                <tr key={l.quoi} style={{ borderBottom: "1px solid var(--ligne)" }}>
+                  <th scope="row" className="p-3 md:px-4 font-semibold text-[13px] md:text-[13.5px] align-top">
+                    {l.quoi}
+                    {l.detail ? (
+                      <span className="hidden sm:block text-[12px] pz-muted font-normal mt-0.5 leading-5">{l.detail}</span>
+                    ) : null}
+                  </th>
+                  <td className="p-3 md:px-4 text-center align-top">
+                    <Case valeur={l.gratuit} />
+                  </td>
+                  <td className="p-3 md:px-4 text-center align-top" style={{ background: "rgba(194,24,51,.06)" }}>
+                    <Case valeur={l.complet} fort />
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          ))}
+          <tfoot>
+            <tr>
+              <td className="p-3 md:p-4" />
+              <td className="p-3 md:p-4 text-center align-top">
+                <Link href={SIGNUP_HREF} className="text-[12.5px] md:text-[13px] font-bold pz-red hover:underline">
+                  Commencer gratuitement →
+                </Link>
+              </td>
+              <td className="p-3 md:p-4 text-center align-top" style={{ background: "rgba(194,24,51,.10)" }}>
+                <span className="text-[12px] md:text-[12.5px] pz-muted">
+                  Débloque tout après le module 1{prix ? ` : ${prix}` : ""}
+                </span>
+              </td>
+            </tr>
+          </tfoot>
+        </table>
+      </div>
+      <p className="text-[12px] pz-muted mt-3">
+        Aucune carte bancaire pour commencer. Tu gardes ta progression quand tu passes à l&apos;accès complet.
+      </p>
+    </div>
+  );
+}
+
+function Case({ valeur, fort = false }: { valeur: Cellule; fort?: boolean }) {
+  if (valeur === true) {
+    return (
+      <span className="inline-flex" aria-label="Inclus" title="Inclus">
+        <AcademyIcon name="check" size={18} style={{ color: fort ? "var(--rouge-vif)" : "var(--vert)" }} />
+      </span>
+    );
+  }
+  if (valeur === false) {
+    return (
+      <span className="pz-muted text-[15px]" aria-label="Non inclus" title="Non inclus">
+        —
+      </span>
+    );
+  }
+  return <span className={`text-[12px] md:text-[12.5px] leading-5 ${fort ? "font-bold" : ""}`}>{valeur}</span>;
 }
 
 function Bloc({

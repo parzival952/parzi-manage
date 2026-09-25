@@ -2,7 +2,7 @@ import { expect, test } from "@playwright/test";
 
 import { COURSE, LESSON_COUNT } from "../src/lib/academy-course";
 import { ACADEMY_LANDING_PATH, landingRewrite, vitrineHref } from "../src/lib/academy-host";
-import { FREE_CHAPTER_ID, OFFER, academyFigures, formatEur } from "../src/lib/academy-offer";
+import { FREE_CHAPTER_ID, OFFER, academyFigures, comparatif, formatEur } from "../src/lib/academy-offer";
 import { SCENARIOS } from "../src/lib/simulation";
 
 test.describe("Accueil public — règles", () => {
@@ -37,6 +37,20 @@ test.describe("Accueil public — règles", () => {
   });
 });
 
+test("comparatif : chaque ligne est renseignée, l'accès complet inclut tout", () => {
+  const groupes = comparatif();
+  expect(groupes.length).toBeGreaterThanOrEqual(4);
+  const lignes = groupes.flatMap((g) => g.lignes);
+  expect(lignes.length).toBeGreaterThan(12);
+  for (const l of lignes) {
+    expect(l.complet, l.quoi).not.toBe(false); // rien d'exclu de l'accès complet
+    expect(new Set(lignes.map((x) => x.quoi)).size).toBe(lignes.length);
+  }
+  const quiz = lignes.find((l) => l.quoi === "Quiz libre")!;
+  expect(quiz.gratuit).toMatch(/^Niveau 1 · \d+ questions$/);
+  expect(quiz.complet).toContain(String(academyFigures().quizLibre));
+});
+
 test("PARZI Academy : l'accueil public présente l'offre et mène à l'inscription", async ({ page }) => {
   await page.goto("/academy/decouvrir");
   await expect(page.getByRole("heading", { level: 1 })).toContainText("Deviens agent de joueur.");
@@ -49,6 +63,12 @@ test("PARZI Academy : l'accueil public présente l'offre et mène à l'inscripti
   for (const s of SCENARIOS) await expect(page.getByText(s.title, { exact: true }).first()).toBeVisible();
   // Prix de l'accès complet.
   if (OFFER.oneTimeEur !== null) await expect(page.getByText(/99\s€/).first()).toBeVisible();
+
+  // Tableau comparatif.
+  const table = page.getByRole("table", { name: /Comparaison des fonctionnalités/ });
+  await expect(table).toBeVisible();
+  await expect(table.getByRole("rowheader", { name: /Examen blanc de la licence/ })).toBeVisible();
+  await expect(table.getByRole("rowheader", { name: /^Quiz libre/ })).toBeVisible();
 
   // Les appels à l'action mènent à l'inscription et à l'essai.
   const signup = page.getByRole("link", { name: "Créer mon compte gratuit →" }).first();
