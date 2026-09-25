@@ -218,7 +218,10 @@ export default async function BienvenuePage({
 
       <p className="text-[11.5px] pz-muted mt-6 leading-5">
         Ces informations servent uniquement à personnaliser ta formation et à suivre ta progression. Elles ne sont
-        ni revendues ni transmises. Tu peux demander à les modifier ou à les supprimer à tout moment.
+        ni revendues ni transmises. Tu peux demander à les modifier ou à les supprimer à tout moment.{" "}
+        <Link href="/academy/confidentialite" className="font-bold hover:underline">
+          En savoir plus
+        </Link>
       </p>
     </AcademyAuthShell>
   );
