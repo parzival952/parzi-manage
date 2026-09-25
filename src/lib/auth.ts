@@ -157,6 +157,38 @@ export async function setPasswordWithRecovery(
   return { ok: true };
 }
 
+/**
+ * « Supprimer mon compte » : l'élève redonne son mot de passe (vérifié par
+ * Supabase, pour le compte connecté uniquement), puis la fonction
+ * delete_my_account (migration 032) supprime SA ligne auth.users avec le jeton
+ * obtenu ; toutes ses données suivent (ON DELETE CASCADE). Session effacée.
+ */
+export async function deleteAccountWithPassword(
+  email: string,
+  password: string,
+): Promise<{ ok: true } | { ok: false; error: string }> {
+  if (!authEnabled()) return { ok: false, error: "Mode démonstration : aucun compte à supprimer." };
+  const r = await fetch(`${AUTH()}/token?grant_type=password`, {
+    method: "POST", headers: headers(),
+    body: JSON.stringify({ email, password }),
+  });
+  const j = await r.json().catch(() => ({}));
+  if (!r.ok || !j.access_token) {
+    const error = friendlyError(j);
+    return { ok: false, error: error === "E-mail ou mot de passe incorrect." ? "Mot de passe incorrect." : error };
+  }
+  const del = await fetch(`${SUPABASE_URL}/rest/v1/rpc/delete_my_account`, {
+    method: "POST",
+    headers: { ...headers(), Authorization: `Bearer ${j.access_token}` },
+    body: "{}",
+  });
+  if (!del.ok) {
+    return { ok: false, error: "La suppression n'a pas abouti. Réessaie dans un instant, ou écris-nous." };
+  }
+  await signOut();
+  return { ok: true };
+}
+
 export async function signOut() {
   const jar = await cookies();
   jar.delete("pm_at");
