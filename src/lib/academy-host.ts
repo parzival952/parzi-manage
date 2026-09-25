@@ -30,3 +30,18 @@ export function isAcademyHost(host: string | null | undefined): boolean {
  * Sert à envoyer un visiteur non connecté vers la connexion Academy.
  */
 export const SURFACE_HEADER = "x-parzi-surface";
+
+/** Page d'accueil publique (visiteurs sans session). */
+export const ACADEMY_LANDING_PATH = "/academy/decouvrir";
+
+/**
+ * Sur le domaine Academy, un visiteur sans session qui arrive sur /academy
+ * voit la page d'accueil publique (même adresse, réécriture) au lieu d'être
+ * renvoyé vers la connexion. Un élève connecté arrive dans son espace.
+ * « Session » = présence d'un cookie de session (pm_at ou pm_rt) : une session
+ * expirée retombe sur la connexion, comme avant.
+ */
+export function landingRewrite(pathname: string, hasSession: boolean): string | null {
+  if (hasSession) return null;
+  return pathname === "/academy" || pathname === "/academy/" ? ACADEMY_LANDING_PATH : null;
+}

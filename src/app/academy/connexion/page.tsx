@@ -136,6 +136,9 @@ export default async function AcademyConnexionPage({
                 </div>
               ))}
             </div>
+            <Link href="/academy/decouvrir" className="inline-flex mt-6 text-[13px] font-bold pz-red hover:underline">
+              Découvrir la formation · module 1 offert →
+            </Link>
           </section>
 
           {/* ---- Formulaire ---- */}
