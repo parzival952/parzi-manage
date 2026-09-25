@@ -175,7 +175,7 @@ export default async function DecouvrirPage() {
       <Bloc id="offre" eyebrow="L'offre" titre="Commence gratuitement, continue si ça te plaît">
         <div className="grid md:grid-cols-2 gap-4 max-w-4xl">
           <div className="pz-card p-6 flex flex-col">
-            <div className="pz-eyebrow" style={{ color: "var(--vert)" }}>
+            <div className="pz-eyebrow pz-red">
               Pour commencer
             </div>
             <div className="text-[30px] font-black mt-2">Gratuit</div>
@@ -194,8 +194,10 @@ export default async function DecouvrirPage() {
             </Link>
           </div>
 
-          <div className="pz-card p-6 flex flex-col" style={{ borderColor: "rgba(194,24,51,.45)" }}>
-            <div className="pz-eyebrow pz-red">Accès complet</div>
+          <div className="pz-card p-6 flex flex-col" style={{ borderColor: "rgba(59,175,114,.5)" }}>
+            <div className="pz-eyebrow" style={{ color: "var(--vert)" }}>
+              Accès complet
+            </div>
             <div className="text-[30px] font-black mt-2">
               {OFFER.oneTimeEur !== null ? formatEur(OFFER.oneTimeEur) : "Bientôt"}
               {OFFER.oneTimeEur !== null ? (
@@ -208,13 +210,13 @@ export default async function DecouvrirPage() {
                 : "Paiement en une fois ou au mois, au choix."}
             </p>
             <ul className="flex flex-col gap-2 mt-5 text-[13.5px] flex-1">
-              <Inclus>
+              <Inclus tone="complet">
                 Les {f.chapters} modules : {f.lessons} leçons, environ {heures} h de cours
               </Inclus>
-              <Inclus>Les {f.simulations} mises en situation</Inclus>
-              <Inclus>Le quiz libre complet : {f.quizLibre} questions, 4 niveaux, 3 modes de jeu</Inclus>
-              <Inclus>Révision intelligente et carnet d&apos;erreurs</Inclus>
-              <Inclus>Examen blanc de la licence et certifications</Inclus>
+              <Inclus tone="complet">Les {f.simulations} mises en situation</Inclus>
+              <Inclus tone="complet">Le quiz libre complet : {f.quizLibre} questions, 4 niveaux, 3 modes de jeu</Inclus>
+              <Inclus tone="complet">Révision intelligente et carnet d&apos;erreurs</Inclus>
+              <Inclus tone="complet">Examen blanc de la licence et certifications</Inclus>
             </ul>
             <p className="text-[12.5px] pz-muted mt-6">
               Tu décides après le module 1. Rien à payer pour commencer.
@@ -301,17 +303,17 @@ function Comparatif() {
                 Fonctionnalité
               </th>
               <th scope="col" className="p-3 md:p-4 text-center align-bottom w-[27%] md:w-[24%]">
-                <div className="pz-eyebrow" style={{ color: "var(--vert)" }}>
-                  Gratuit
-                </div>
+                <div className="pz-eyebrow pz-red">Gratuit</div>
                 <div className="text-[15px] md:text-[17px] font-black mt-1">0 €</div>
               </th>
               <th
                 scope="col"
                 className="p-3 md:p-4 text-center align-bottom w-[31%] md:w-[28%]"
-                style={{ background: "rgba(194,24,51,.10)" }}
+                style={{ background: "rgba(59,175,114,.12)" }}
               >
-                <div className="pz-eyebrow pz-red">Accès complet</div>
+                <div className="pz-eyebrow" style={{ color: "var(--vert)" }}>
+                  Accès complet
+                </div>
                 <div className="text-[15px] md:text-[17px] font-black mt-1">{prix ?? "Bientôt"}</div>
               </th>
             </tr>
@@ -340,7 +342,7 @@ function Comparatif() {
                   <td className="p-3 md:px-4 text-center align-top">
                     <Case valeur={l.gratuit} />
                   </td>
-                  <td className="p-3 md:px-4 text-center align-top" style={{ background: "rgba(194,24,51,.06)" }}>
+                  <td className="p-3 md:px-4 text-center align-top" style={{ background: "rgba(59,175,114,.07)" }}>
                     <Case valeur={l.complet} fort />
                   </td>
                 </tr>
@@ -355,7 +357,7 @@ function Comparatif() {
                   Commencer gratuitement →
                 </Link>
               </td>
-              <td className="p-3 md:p-4 text-center align-top" style={{ background: "rgba(194,24,51,.10)" }}>
+              <td className="p-3 md:p-4 text-center align-top" style={{ background: "rgba(59,175,114,.12)" }}>
                 <span className="text-[12px] md:text-[12.5px] pz-muted">
                   Débloque tout après le module 1{prix ? ` : ${prix}` : ""}
                 </span>
@@ -375,7 +377,7 @@ function Case({ valeur, fort = false }: { valeur: Cellule; fort?: boolean }) {
   if (valeur === true) {
     return (
       <span className="inline-flex" aria-label="Inclus" title="Inclus">
-        <AcademyIcon name="check" size={18} style={{ color: fort ? "var(--rouge-vif)" : "var(--vert)" }} />
+        <AcademyIcon name="check" size={18} style={{ color: fort ? "var(--vert)" : "var(--rouge-vif)" }} />
       </span>
     );
   }
@@ -386,7 +388,14 @@ function Case({ valeur, fort = false }: { valeur: Cellule; fort?: boolean }) {
       </span>
     );
   }
-  return <span className={`text-[12px] md:text-[12.5px] leading-5 ${fort ? "font-bold" : ""}`}>{valeur}</span>;
+  return (
+    <span
+      className={`text-[12px] md:text-[12.5px] leading-5 ${fort ? "font-bold" : ""}`}
+      style={fort ? { color: "var(--vert)" } : undefined}
+    >
+      {valeur}
+    </span>
+  );
 }
 
 function Bloc({
@@ -465,10 +474,14 @@ function Etape({ n, titre, texte }: { n: number; titre: string; texte: string })
   );
 }
 
-function Inclus({ children }: { children: ReactNode }) {
+function Inclus({ children, tone = "gratuit" }: { children: ReactNode; tone?: "gratuit" | "complet" }) {
   return (
     <li className="flex gap-2.5 items-start">
-      <AcademyIcon name="check" size={16} style={{ color: "var(--vert)", marginTop: 3 }} />
+      <AcademyIcon
+        name="check"
+        size={16}
+        style={{ color: tone === "complet" ? "var(--vert)" : "var(--rouge-vif)", marginTop: 3 }}
+      />
       <span>{children}</span>
     </li>
   );
