@@ -45,7 +45,10 @@ export default async function BienvenuePage({
   const { etape, erreur } = await searchParams;
   const user = await requireUser();
   const profile = await getMemberProfile(user.id);
-  if (onboardingDone(profile)) redirect("/academy");
+  // Inscription terminée : on peut encore revenir modifier une étape
+  // (lien « Modifier » de l'accueil), mais pas relancer tout le parcours.
+  const editing = onboardingDone(profile);
+  if (editing && !etape) redirect("/academy");
   const step = stepToShow(etape, profile?.step ?? 1);
 
   async function etape1(formData: FormData) {
@@ -54,6 +57,7 @@ export default async function BienvenuePage({
     const res = checkStep1(formData);
     if (!res.ok) redirect(url(1, res.error));
     await saveStep1(u.id, res.data);
+    if (onboardingDone(await getMemberProfile(u.id))) redirect("/academy");
     redirect(url(2));
   }
 
@@ -65,6 +69,7 @@ export default async function BienvenuePage({
     const res = checkStep2(formData);
     if (!res.ok) redirect(url(2, res.error));
     await saveStep2(u.id, res.data);
+    if (onboardingDone(p)) redirect("/academy");
     redirect(url(3));
   }
 
@@ -94,7 +99,16 @@ export default async function BienvenuePage({
 
   return (
     <AcademyAuthShell theme={theme} title={title} subtitle={subtitle} backLink={false} wide>
-      <Progress step={step} />
+      {editing ? (
+        <p className="text-[13px] pz-muted -mt-2 mb-5">
+          Modifie ce que tu veux, puis enregistre.{" "}
+          <Link href="/academy" className="font-bold hover:underline">
+            Annuler
+          </Link>
+        </p>
+      ) : (
+        <Progress step={step} />
+      )}
       {erreur ? <AuthMessage tone="erreur">{erreur}</AuthMessage> : null}
 
       {step === 1 ? (
@@ -155,7 +169,7 @@ export default async function BienvenuePage({
               />
             </Field>
           </div>
-          <SubmitButton label="Continuer →" pendingLabel="Enregistrement…" className="pz-btn w-full" style={{ padding: "13px 16px" }} />
+          <SubmitButton label={editing ? "Enregistrer" : "Continuer →"} pendingLabel="Enregistrement…" className="pz-btn w-full" style={{ padding: "13px 16px" }} />
         </form>
       ) : null}
 
@@ -169,8 +183,8 @@ export default async function BienvenuePage({
             value={profile?.exam_horizon}
             columns
           />
-          <SubmitButton label="Continuer →" pendingLabel="Enregistrement…" className="pz-btn w-full" style={{ padding: "13px 16px" }} />
-          <BackLink step={2} />
+          <SubmitButton label={editing ? "Enregistrer" : "Continuer →"} pendingLabel="Enregistrement…" className="pz-btn w-full" style={{ padding: "13px 16px" }} />
+          {editing ? null : <BackLink step={2} />}
         </form>
       ) : null}
 
@@ -208,11 +222,15 @@ export default async function BienvenuePage({
               ))}
             </select>
           </Field>
-          <SubmitButton label="Terminer →" pendingLabel="Enregistrement…" className="pz-btn w-full" style={{ padding: "13px 16px" }} />
-          <button type="submit" formAction={passer} formNoValidate className="text-[13px] font-bold pz-muted hover:underline">
-            Passer cette étape
-          </button>
-          <BackLink step={3} />
+          <SubmitButton label={editing ? "Enregistrer" : "Terminer →"} pendingLabel="Enregistrement…" className="pz-btn w-full" style={{ padding: "13px 16px" }} />
+          {editing ? null : (
+            <>
+              <button type="submit" formAction={passer} formNoValidate className="text-[13px] font-bold pz-muted hover:underline">
+                Passer cette étape
+              </button>
+              <BackLink step={3} />
+            </>
+          )}
         </form>
       ) : null}
 

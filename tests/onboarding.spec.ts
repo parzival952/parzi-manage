@@ -99,6 +99,52 @@ test("PARZI Academy : inscription progressive en 3 étapes, reprise et fin", asy
   // Terminé : la page renvoie vers l'Academy.
   await page.goto("/academy/bienvenue");
   await page.waitForURL(/\/academy$/);
+
+  // Accueil personnalisé : prénom, objectif, rythme conseillé.
+  await expect(page.getByText("Salut Yanis,")).toBeVisible();
+  await expect(page.getByRole("heading", { name: "Cap sur ta licence d'agent" })).toBeVisible();
+  await expect(page.getByText(/Examen visé dans environ 24 semaines : vise \d+ leçons? par semaine/)).toBeVisible();
+
+  // « Modifier » : on change l'objectif et l'échéance, retour direct à l'accueil.
+  await page.getByRole("link", { name: /Modifier mon objectif/ }).click();
+  await expect(page.getByRole("heading", { name: "Ton projet" })).toBeVisible();
+  await expect(page.getByText("Étape 2 sur 3")).toHaveCount(0);
+  await page.getByLabel(/Découvrir le métier/).check();
+  await page.getByLabel("Je ne sais pas encore").check();
+  await page.getByRole("button", { name: "Enregistrer" }).click();
+  await page.waitForURL(/\/academy$/);
+  await expect(page.getByRole("heading", { name: "Découvre le métier à ton rythme" })).toBeVisible();
+  await expect(page.getByText(/Pas encore de date d'examen/)).toBeVisible();
+});
+
+test.describe("Accueil personnalisé — rythme", () => {
+  test("rythme conseillé selon l'échéance et les leçons restantes", async () => {
+    const { examPace, paceSentence } = await import("../src/lib/academy-goal-plan");
+    const now = new Date("2026-09-25T12:00:00Z");
+    const weeksAgo = (n: number) => new Date(now.getTime() - n * 7 * 24 * 3600 * 1000);
+    expect(examPace({ horizon: "moins-3-mois", startedAt: now, now, remainingLessons: 48 })).toEqual({
+      kind: "rythme",
+      weeksLeft: 12,
+      perWeek: 4,
+    });
+    expect(examPace({ horizon: "3-6-mois", startedAt: weeksAgo(4), now, remainingLessons: 40 })).toEqual({
+      kind: "rythme",
+      weeksLeft: 20,
+      perWeek: 2,
+    });
+    // Échéance dépassée : on garde au moins 1 semaine.
+    expect(examPace({ horizon: "moins-3-mois", startedAt: weeksAgo(30), now, remainingLessons: 5 })).toEqual({
+      kind: "rythme",
+      weeksLeft: 1,
+      perWeek: 5,
+    });
+    expect(examPace({ horizon: "pas-prevu", startedAt: now, now, remainingLessons: 10 })).toEqual({ kind: "libre" });
+    expect(examPace({ horizon: null, startedAt: null, now, remainingLessons: 10 })).toEqual({ kind: "libre" });
+    expect(examPace({ horizon: "3-6-mois", startedAt: now, now, remainingLessons: 0 })).toEqual({ kind: "termine" });
+    expect(paceSentence({ kind: "rythme", weeksLeft: 1, perWeek: 1 })).toBe(
+      "Examen visé dans environ 1 semaine : vise 1 leçon par semaine pour tout couvrir à temps.",
+    );
+  });
 });
 
 test.describe("Confidentialité", () => {

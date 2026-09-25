@@ -3,6 +3,9 @@ export const dynamic = "force-dynamic";
 import Link from "next/link";
 
 import AcademyProgressHeader from "@/components/AcademyProgressHeader";
+import AcademyWelcome from "@/components/AcademyWelcome";
+import { examPace } from "@/lib/academy-goal-plan";
+import { getMemberProfile, type MemberProfile } from "@/lib/academy-onboarding";
 import CareerRoad from "@/components/CareerRoad";
 import {
   loadLatestDiagnosticReport,
@@ -83,6 +86,20 @@ export default async function AcademyHome() {
   };
 
   const doneCount = progress.done.size;
+
+  // Accueil personnalisé (réponses « Faisons connaissance ») : jamais bloquant.
+  let member: MemberProfile | null = null;
+  try {
+    member = await getMemberProfile(user.id);
+  } catch (e) {
+    console.error("[academy] profil d'inscription illisible", e);
+  }
+  const pace = examPace({
+    horizon: member?.exam_horizon,
+    startedAt: member?.completed_at,
+    now: new Date(),
+    remainingLessons: Math.max(0, LESSON_COUNT - doneCount),
+  });
 
   const currentId =
     ALL_LESSONS.find(
@@ -191,6 +208,14 @@ export default async function AcademyHome() {
     // display:contents et l'ordre est donné par les classes order-*.
     <div className="pz-wide flex flex-col gap-6 lg:grid lg:grid-cols-[minmax(0,1fr)_360px] lg:gap-8 lg:items-start">
       <div className="contents lg:flex lg:flex-col lg:gap-6 lg:min-w-0">
+        {member?.first_name ? (
+          <AcademyWelcome
+            className="order-0 lg:order-none"
+            firstName={member.first_name}
+            goal={member.goal}
+            pace={pace}
+          />
+        ) : null}
         {diagnosticReport ? (
           <section
             className="order-2 lg:order-none pz-card p-5 pz-rise pz-d1"
