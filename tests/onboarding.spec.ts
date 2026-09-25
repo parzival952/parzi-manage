@@ -100,3 +100,33 @@ test("PARZI Academy : inscription progressive en 3 étapes, reprise et fin", asy
   await page.goto("/academy/bienvenue");
   await page.waitForURL(/\/academy$/);
 });
+
+test.describe("Confidentialité", () => {
+  test("le classement affiche prénom + initiale, jamais l'e-mail", async () => {
+    const { publicName } = await import("../src/lib/academy");
+    expect(publicName("Yanis", "benali")).toBe("Yanis B.");
+    expect(publicName("Zoé", "")).toBe("Zoé");
+    expect(publicName(null, null)).toBe("Élève");
+    expect(publicName("  ", "Benali")).toBe("Élève");
+  });
+
+  test("la page Confidentialité répond aux questions essentielles", async ({ page }) => {
+    await page.goto("/academy/confidentialite");
+    await expect(page.getByRole("heading", { name: "Confidentialité", level: 1 })).toBeVisible();
+    for (const titre of ["Qui est responsable ?", "Ce qu'on collecte, et pourquoi", "Qui y a accès ?", "Combien de temps ?", "Cookies", "Tes droits"]) {
+      await expect(page.getByRole("heading", { name: titre })).toBeVisible();
+    }
+    await expect(page.getByText(/Base légale : Ton consentement/)).toBeVisible();
+    await expect(page.getByRole("link", { name: "cnil.fr" })).toHaveAttribute("href", "https://www.cnil.fr");
+  });
+
+  test("les statistiques sont anonymes et sans cookie", async () => {
+    const { readFile } = await import("node:fs/promises");
+    const src = await readFile("src/components/Analytics.tsx", "utf8");
+    expect(src).toContain('cookieless_mode: "always"');
+    expect(src).toContain('person_profiles: "never"');
+    expect(src).not.toContain("identify(");
+    const layout = await readFile("src/app/layout.tsx", "utf8");
+    expect(layout).toContain("<Analytics />");
+  });
+});

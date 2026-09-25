@@ -203,6 +203,15 @@ export default async function AcademyConnexionPage({
               </p>
             ) : null}
 
+            {isSignup ? (
+              <p className="text-[12px] pz-muted mt-3 leading-5">
+                Tes données servent uniquement à ta formation.{" "}
+                <Link href="/academy/confidentialite" className="font-bold hover:underline">
+                  Confidentialité
+                </Link>
+              </p>
+            ) : null}
+
             <p className="text-[13px] pz-muted mt-5">
               {isSignup ? (
                 <>

@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 
 import Analytics from "@/components/Analytics";
 import { I18nProvider } from "@/components/I18nProvider";
-import { getUser } from "@/lib/auth";
 import { dirFor } from "@/lib/i18n";
 import { getLocale } from "@/lib/i18n-server";
 import "./globals.css";
@@ -29,7 +28,6 @@ export const metadata: Metadata = {
 };
 
 export default async function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
-  const user = await getUser();
   const locale = await getLocale();
 
   return (
@@ -37,7 +35,7 @@ export default async function RootLayout({ children }: Readonly<{ children: Reac
       <body className="min-h-full">
         <I18nProvider locale={locale}>
           {children}
-          <Analytics email={user?.email} />
+          <Analytics />
         </I18nProvider>
       </body>
     </html>
