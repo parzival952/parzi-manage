@@ -28,11 +28,15 @@ export default function SimulationGame({
   lessonTitles,
   initialBest,
   onFinish,
+  trial = false,
 }: {
   scenarioId: string;
   lessonTitles: Record<string, string>;
   initialBest: Best;
-  onFinish: (prep: string[], choices: string[]) => Promise<FinishResult>;
+  /** Enregistrement de la partie (XP). Absent en mode essai. */
+  onFinish?: (prep: string[], choices: string[]) => Promise<FinishResult>;
+  /** Essai sans compte : aucune XP, invitation à créer un compte à la fin. */
+  trial?: boolean;
 }) {
   const sc = getScenario(scenarioId);
   const [phase, setPhase] = useState<Phase>("intro");
@@ -65,6 +69,12 @@ export default function SimulationGame({
     const next = choose(scenario, sim, choiceId);
     setSim(next);
     if (next.node === "fin") {
+      if (trial || !onFinish) {
+        const score = scenario.result(next).score;
+        setBest((b) => ({ bestScore: Math.max(score, b?.bestScore ?? 0), xpTotal: 0 }));
+        window.setTimeout(() => setPhase("bilan"), 900);
+        return;
+      }
       // Le serveur rejoue la partie, recalcule le score et crédite l'XP.
       setSaved({ status: "saving" });
       onFinish(next.prep, next.history.map((t) => t.choiceId))
@@ -78,7 +88,7 @@ export default function SimulationGame({
     }
   }
 
-  if (phase === "intro") return <Intro sc={scenario} best={best} onStart={() => setPhase("prep")} />;
+  if (phase === "intro") return <Intro sc={scenario} best={best} trial={trial || !onFinish} onStart={() => setPhase("prep")} />;
 
   if (phase === "prep") {
     return (
@@ -144,6 +154,7 @@ export default function SimulationGame({
         sim={sim}
         best={best}
         saved={saved}
+        trial={trial || !onFinish}
         lessonTitles={lessonTitles}
         onReplay={() => start(sim.prep)}
         onNewPrep={() => {
@@ -222,7 +233,7 @@ export default function SimulationGame({
   );
 }
 
-function Intro({ sc, best, onStart }: { sc: Scenario; best: Best; onStart: () => void }) {
+function Intro({ sc, best, trial, onStart }: { sc: Scenario; best: Best; trial: boolean; onStart: () => void }) {
   return (
     <section
       className="pz-card p-5 md:p-7 pz-rise"
@@ -240,25 +251,31 @@ function Intro({ sc, best, onStart }: { sc: Scenario; best: Best; onStart: () =>
         ))}
       </div>
       <p className="text-[12.5px] leading-5 pz-muted mt-4">{sc.intro.note}</p>
-      <p className="text-[12.5px] leading-5 mt-2">
-        <span className="font-semibold">Jusqu&apos;à {XP_MAX} XP</span>
-        <span className="pz-muted">
-          {" "}
-          ajoutés à ton compte :{" "}
-          {[...XP_TIERS]
-            .reverse()
-            .map((t) => `${t.xp} XP dès ${t.min}/100`)
-            .join(", ")}
-          . Chaque palier ne se gagne qu&apos;une fois.
-        </span>
-      </p>
+      {trial ? (
+        <p className="text-[12.5px] leading-5 mt-2 pz-muted">
+          Essai sans compte : ta note et le débrief s&apos;affichent à la fin, mais la partie n&apos;est pas enregistrée.
+        </p>
+      ) : (
+        <p className="text-[12.5px] leading-5 mt-2">
+          <span className="font-semibold">Jusqu&apos;à {XP_MAX} XP</span>
+          <span className="pz-muted">
+            {" "}
+            ajoutés à ton compte :{" "}
+            {[...XP_TIERS]
+              .reverse()
+              .map((t) => `${t.xp} XP dès ${t.min}/100`)
+              .join(", ")}
+            . Chaque palier ne se gagne qu&apos;une fois.
+          </span>
+        </p>
+      )}
       <div className="flex flex-wrap items-center gap-4 mt-5">
         <button type="button" className="pz-btn" onClick={onStart}>
           Préparer le rendez-vous →
         </button>
         {best ? (
           <span className="text-[12px] pz-muted pz-mono">
-            Meilleur score : {best.bestScore}/100 · XP gagnée : {best.xpTotal}/{XP_MAX}
+            Meilleur score : {best.bestScore}/100{trial ? "" : ` · XP gagnée : ${best.xpTotal}/${XP_MAX}`}
           </span>
         ) : null}
       </div>
@@ -366,6 +383,7 @@ function Bilan({
   sim,
   best,
   saved,
+  trial,
   lessonTitles,
   onReplay,
   onNewPrep,
@@ -374,6 +392,7 @@ function Bilan({
   sim: SimState;
   best: Best;
   saved: Saved;
+  trial: boolean;
   lessonTitles: Record<string, string>;
   onReplay: () => void;
   onNewPrep: () => void;
@@ -417,7 +436,7 @@ function Bilan({
           </p>
         ))}
 
-        <XpLine saved={saved} />
+        {trial ? <TrialSignup score={r.score} /> : <XpLine saved={saved} />}
 
         {r.missed.length ? (
           <div
@@ -470,7 +489,11 @@ function Bilan({
             </div>
             <p className="text-[12.5px] leading-5 pz-muted mt-2">Ta réponse : {t.label}</p>
             <p className="text-[13px] leading-6 mt-2">{t.feedback}</p>
-            {lessonTitles[t.lesson] ? (
+            {lessonTitles[t.lesson] && trial ? (
+              <p className="mt-2 text-[12px] font-bold" style={{ color: "var(--argent)" }}>
+                Leçon liée : {lessonTitles[t.lesson]}
+              </p>
+            ) : lessonTitles[t.lesson] ? (
               <Link
                 href={`/academy/lecon/${t.lesson}`}
                 className="inline-flex mt-2 text-[12px] font-bold"
@@ -482,6 +505,26 @@ function Bilan({
           </article>
         ))}
       </section>
+    </div>
+  );
+}
+
+function TrialSignup({ score }: { score: number }) {
+  return (
+    <div
+      className="rounded-2xl p-4 mt-4 flex flex-col sm:flex-row sm:items-center gap-3"
+      style={{ background: "rgba(194,24,51,.08)", border: "1px solid rgba(194,24,51,.35)" }}
+      role="status"
+    >
+      <p className="text-[13px] leading-6 flex-1">
+        <strong>{score >= 85 ? "Beau réflexe d'agent." : "Tu viens de vivre une vraie décision d'agent."}</strong>{" "}
+        <span className="pz-muted">
+          Crée ton compte pour garder ton score, gagner de l&apos;XP et commencer le module 1, offert.
+        </span>
+      </p>
+      <Link href="/academy/connexion?mode=inscription" className="pz-btn shrink-0" style={{ padding: "11px 18px" }}>
+        Créer mon compte gratuit →
+      </Link>
     </div>
   );
 }

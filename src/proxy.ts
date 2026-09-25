@@ -1,6 +1,6 @@
 import { NextResponse, type NextRequest } from "next/server";
 
-import { isAcademyHost, SURFACE_HEADER } from "@/lib/academy-host";
+import { isAcademyHost, landingRewrite, SURFACE_HEADER } from "@/lib/academy-host";
 
 // Sur parziacademy.fr : uniquement PARZI Academy.
 // Autorisé : l'Academy (dont sa connexion /academy/connexion), les API de
@@ -27,7 +27,17 @@ export function proxy(request: NextRequest) {
     return pass(request, isAcademyPath);
   }
 
-  // Domaine Academy.
+  // Domaine Academy. Visiteur sans session sur /academy : page d'accueil publique.
+  const hasSession = request.cookies.has("pm_at") || request.cookies.has("pm_rt");
+  const landing = landingRewrite(pathname, hasSession);
+  if (landing) {
+    const headers = new Headers(request.headers);
+    headers.set(SURFACE_HEADER, "academy");
+    const url = request.nextUrl.clone();
+    url.pathname = landing;
+    return NextResponse.rewrite(url, { request: { headers } });
+  }
+
   if (ACADEMY_ALLOWED.some((rule) => rule.test(pathname))) {
     return pass(request, isAcademyPath);
   }
