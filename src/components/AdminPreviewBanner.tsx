@@ -19,7 +19,13 @@ export default function AdminPreviewBanner({
 
   if (!preview) {
     return (
-      <div className="flex justify-end">
+      <div className="flex justify-end gap-4">
+        <Link
+          href="/academy/admin/inscrits"
+          className="inline-flex items-center gap-1.5 text-[11.5px] pz-muted hover:text-white"
+        >
+          <AcademyIcon name="settings" size={12} /> Admin : inscrits
+        </Link>
         <Link
           href={`${path}?apercu=1`}
           className="inline-flex items-center gap-1.5 text-[11.5px] pz-muted hover:text-white"

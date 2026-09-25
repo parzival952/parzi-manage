@@ -176,3 +176,52 @@ test.describe("Confidentialité", () => {
     expect(layout).toContain("<Analytics />");
   });
 });
+
+test.describe("Admin — inscrits", () => {
+  test("synthèse : parcours d'inscription et répartitions", async () => {
+    const { syntheseInscrits } = await import("../src/lib/academy-admin");
+    const base = {
+      email: "", created_at: null, last_name: null, age_range: null, country: null, region: null, phone: null,
+      exam_horizon: null, referral_source: null, step: null, completed_at: null, xp: 0, lessons: 0, last_active: null,
+    };
+    const now = new Date("2026-09-25T12:00:00Z");
+    const s = syntheseInscrits(
+      [
+        { ...base, user_id: "a", first_name: "A", goal: "licence", referral_source: "tiktok", completed_at: "2026-09-20", lessons: 3, last_active: "2026-09-24" },
+        { ...base, user_id: "b", first_name: "B", goal: "licence", lessons: 2, last_active: "2026-08-01" },
+        { ...base, user_id: "c", first_name: null, goal: null },
+      ],
+      now,
+    );
+    expect([s.total, s.profilCommence, s.projetRenseigne, s.termine, s.actifs7j, s.lecons]).toEqual([3, 2, 2, 1, 1, 5]);
+    expect(s.objectif[0]).toEqual({ label: "Obtenir la licence d'agent", count: 2 });
+    expect(s.objectif.at(-1)).toEqual({ label: "Non renseigné", count: 1 });
+    expect(s.source.find((r) => r.label === "TikTok")?.count).toBe(1);
+  });
+
+  test("export CSV : séparateur « ; », guillemets, formules neutralisées", async () => {
+    const { csvCell } = await import("../src/lib/academy-admin");
+    expect(csvCell("Lyon")).toBe("Lyon");
+    expect(csvCell('Dit "Zizou"; 10')).toBe('"Dit ""Zizou""; 10"');
+    expect(csvCell("=HYPERLINK(1)")).toBe("'=HYPERLINK(1)");
+    expect(csvCell("+33 6 12 34 56 78")).toBe("'+33 6 12 34 56 78");
+    expect(csvCell(null)).toBe("");
+  });
+
+  test("la page admin s'affiche (démo = accès admin ouvert)", async ({ page }) => {
+    await page.goto("/academy/admin/inscrits");
+    await expect(page.getByRole("heading", { name: "Inscrits PARZI Academy" })).toBeVisible();
+    await expect(page.getByRole("heading", { name: "Parcours d'inscription" })).toBeVisible();
+    await expect(page.getByRole("link", { name: "Exporter en CSV" })).toBeVisible();
+    const csv = await page.request.get("/api/academy/admin/inscrits");
+    expect(csv.status()).toBe(200);
+    expect(csv.headers()["content-type"]).toContain("text/csv");
+    expect(await csv.text()).toContain("Prénom;Nom;E-mail");
+  });
+
+  test("page et export réservés à l'admin (contrôle côté serveur)", async () => {
+    const { readFile } = await import("node:fs/promises");
+    expect(await readFile("src/app/academy/(espace)/admin/inscrits/page.tsx", "utf8")).toContain("await requireAdminRole();");
+    expect(await readFile("src/app/api/academy/admin/inscrits/route.ts", "utf8")).toContain("!isAdmin(user.email)");
+  });
+});
